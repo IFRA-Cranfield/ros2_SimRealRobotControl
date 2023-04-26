@@ -26,7 +26,7 @@
 
 # ======= CITE OUR WORK ======= #
 # You can cite our work with the following statement:
-# IFRA (2022) ROS2.0 ROBOT CONTROL. URL: --
+# IFRA (2022) ROS 2 ROBOT CONTROL. URL: --
 
 # irb120_bringup.launch.py:
 # Launch file for the ABB-IRB120 Robot CONTROL BRINGUP in ROS2 Humble:

@@ -3,7 +3,7 @@
 <package format="3">
   <name>ros2srrc_data</name>
   <version>0.0.0</version>
-  <description>IFRA-Cranfield (Cranfield University, UK). Package: ROS2.0 SimRealRobotControl - DATA</description>
+  <description>IFRA-Cranfield (Cranfield University, UK). Package: ROS 2 SimRealRobotControl - DATA</description>
 
   <author>Mikel Bueno Viso</author>
   <maintainer email="Mikel.Bueno-Viso@cranfield.ac.uk">Mikel Bueno Viso</maintainer>
