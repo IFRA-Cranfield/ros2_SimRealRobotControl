@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
+#           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: July, 2022.                                                                    #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  Some of the information used to build the ROS2 ABB-IRB120 .urdf files in this ROS2   #
+#  repository has been taken from the following resource:                               #
+#       - abb_experimental (https://github.com/ros-industrial/abb_experimental)         #
+#                                                                                       #
+#  AUTHORS:                                                                             #
+#       - ROS-Industrial - https://rosindustrial.org                                    #
+#       - Mark Culleton (Trinity College Dublin) - culletom@tcd.ie                      #
+#       - Kevin Kelly   (Trinity College Dublin)                                        #
+#                                                                                       #
+#  COPYRIGHT - ROS-Industrial                                                           #
+#  (ORIGINAL LICENSE) -> Licensed under the Apache-2.0 License.                         #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  The original files contain the .urdf information of the robot for ROS1, and these    #
+#  have been modified for ROS2.                                                         #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
+
+-->
+
+<robot name="irb120" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- PASS ARGUMENTS: -->
+  <xacro:arg name="cell_layout_1" default="false"/>
+  <xacro:property name="cell_layout_1" value="$(arg cell_layout_1)"/>
+  <xacro:arg name="cell_layout_2" default="false"/>
+  <xacro:property name="cell_layout_2" value="$(arg cell_layout_2)"/>
+
+  <xacro:property name="EE_no" value="$(arg EE_no)"/>
+  <xacro:arg name="EE_schunk" default="false"/>
+  <xacro:property name="EE_schunk" value="$(arg EE_schunk)"/>
+
+  <xacro:arg name="bringup" default="false"/>
+  <xacro:property name="bringup" value="$(arg bringup)"/>
+  <xacro:arg name="robot_ip" default="0.0.0.0"/>
+  <xacro:property name="robot_ip" value="$(arg robot_ip)"/>
+
+
+  <!-- Include XACRO-MACRO file of the IRB120: -->
+  <xacro:include filename="$(find ros2srrc_irb120_gazebo)/urdf/irb120_macro.urdf.xacro"/>	
+  <xacro:irb120 
+    prefix=""
+    EE_no="${EE_no}"
+    EE_schunk="${EE_schunk}"
+    bringup="${bringup}"
+    robot_ip="${robot_ip}"/>
+
+  <!-- World link -->
+  <link name="world"/>
+  
+  <!-- ===== ABB IRB-120 ROBOT ALONE ===== -->
+  <xacro:if value="${cell_layout_1}">
+    <joint name="world-base_link-fixed" type="fixed">
+      <parent link="world"/>
+      <child link="base_link"/>
+    </joint>  
+  </xacro:if>
+    
+  <!-- === IA Lab - IRB120 Enclosure === -->
+  <xacro:if value="${cell_layout_2}">
+    <link name="cell">
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_irb120_gazebo)/meshes/IALab/IRB120enclosure.dae" scale="1 1 1" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_irb120_gazebo)/meshes/IALab/IRB120enclosure.dae" scale="1 1 1" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1000.0"/>
+        <inertia ixx="500.0" ixy="500.0" ixz="500.0" iyy="500.0" iyz="500.0" izz="500.0" />
+      </inertial>
+    </link>
+    <joint name="world-cell-fixed" type="fixed">
+      <parent link="world"/>
+      <child link="cell"/>
+    </joint>
+    <joint name="cell-base_link-fixed" type="fixed">
+      <parent link="cell"/>
+      <child link="base_link"/>
+      <origin xyz="-0.7006 0.6489 0.8605" rpy="0.0 0.0 0.0" />
+    </joint>
+  </xacro:if>
+  <!-- === IA Lab - IRB120 Enclosure === -->
+
+</robot>
