@@ -95,7 +95,6 @@
 </details>
 
 <br />
-<br />
 
 <!-- ABOUT THE PROJECT -->
 ## About
@@ -110,7 +109,22 @@ The IFRA Group undertakes innovative research to design, create and improve Inte
 
 ### ros2_SimRealRobotControl Repository
 
-TBD.
+The ros2_SimRealRobotControl repository is a collection of ROS 2 packages that are designed to facilitate robot manipulation tasks. The packages include Gazebo Simulation, MoveIt!2, and Robot Bringup, all of which can be used to simulate and control robot manipulators.
+
+The Gazebo Simulation package provides a simulation environment for robot manipulators, allowing users to test and develop control algorithms in a virtual environment before deploying them on a physical robot. MoveIt!2 is a motion planning framework that allows users to plan and execute robot manipulator trajectories, while the Robot Bringup package provides the interface for controlling the physical robot.
+
+By combining these packages, the repository offers a comprehensive solution for developing and testing robot manipulator applications using ROS2. This can be particularly useful for researchers and engineers who are working on robotics projects, as it can significantly reduce the time and resources required for development and testing.
+
+<u>Improvements: ros2_RobotSimulation -> ros2_SimRealRobotControl</u>
+
+On October 2022, IFRA-Cranfield released [ros2_RobotSimulation](https://github.com/IFRA-Cranfield/ros2_RobotSimulation), a GitHub repository containing "ready-to-use" ROS2 Industrial Robot Simulation packages, that consist of Gazebo (simulation) + MoveIt!2 (control) package combinations for some supported Industrial/Collaborative Robots (or Robot + Gripper combinations), and follows a common standard for a better understanding and further development.
+
+This ros2_SimRealRobotControl repository is based on ros2_RobotSimulation, and contains some improvements and advanced features:
+- Robot Bringup packages, that enable the control of REAL ROBOTS through ROS 2.
+- The Pilz Industrial Motion Planner, which replaces the OMPL planner (MoveIt!2 default) used in ros2_RobotSimulation and allows for advanced motion control and features, such as cartesian speed control.
+- In ros2_RobotSimulation, Robot Movements are triggered as individual ROS 2 Actions, each of them contained in a ROS 2 node. When executing Robot Programs (sequences) using ros2_execution, Robot Movements (execution steps) are executed by calling ROS 2 actions one by one. This introduces a small delay between steps. For ros2_SimRealRobotControl, all Robot Movements are contained in a single ROS 2 Action (therefore, a single ROS 2 node), and sequences are executed by calling a single ROS 2 Action from a python script. Thus, the delay introduced by ROS 2 Action calls is avoided, and the delay between movements now only depends on MoveIt!2's processing (plan+execute) time. Quicker and smoother results are obtained, closing the performance gap between ROS2-controlled robots and Industrial Manipulators.
+
+In a nutshell, ros2_RobotSimulation is a great tool if you are new to ROS 2 and you wish to use it for Robot Simulation and Control, and ros2_SimRealRobotControl is appropriate for anyone willing to design, develop and test their own Robot applications using the ROS 2 packages (Gazebo+MoveIt!2+Bringup) provided.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -143,6 +157,12 @@ TBD.
 
 ### ros2srrc_execution
 TBD.
+
+### Robot Simulation and Control packages
+For the ROS 2-based Robot Simulation and Control to be successfully achieved, 3 different ROS 2 packages are necessary (for each Robot/Application):
+- <u>Gazebo package</u>: The Gazebo/Simulation package contains all the information related to the Gazebo Simulation of the Robot Cell/Environment. CAD and mesh files containing visual data and [.urdf]+[.xacro] files containing Robot (ROS-format) data are combined with ROS 2 control and simulation components, and a simple simulation of the Robot (without any motion control) is obtained in Gazebo.  
+- <u>MoveIt!2 package</u>: For the Robot to be moved and controlled, a ROS 2 MoveIt!2 package is required. This package contains all the information related to the ROS 2 - MoveGroup (moveit2) node that controls the robot and its movements.  
+- <u>Bringup package</u>: The Bringup package acts as the main connection point between ROS 2 and the Real Robot. It contains all the information about the robot controllers, and establishes the connection between moveit2 and the Real Robot. It requires
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
