@@ -1,0 +1,13 @@
+string action
+float64 speed
+Joints movej
+Joint mover
+Xyz movel
+Xyzypr movexyzw
+Xyz movexyz
+Ypr moveypr
+Ypr moverot
+Xyzypr moverp
+float64 moveg
+string attach
+string detach

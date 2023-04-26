@@ -1,0 +1,8 @@
+Action[] sequence
+string robot
+string endeffector
+string environment
+---
+string result
+---
+string feedback
