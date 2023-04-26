@@ -115,7 +115,7 @@ The Gazebo Simulation package provides a simulation environment for robot manipu
 
 By combining these packages, the repository offers a comprehensive solution for developing and testing robot manipulator applications using ROS2. This can be particularly useful for researchers and engineers who are working on robotics projects, as it can significantly reduce the time and resources required for development and testing.
 
-<u>Improvements: ros2_RobotSimulation -> ros2_SimRealRobotControl</u>
+__<u>Improvements: ros2_RobotSimulation -> ros2_SimRealRobotControl</u>__
 
 On October 2022, IFRA-Cranfield released [ros2_RobotSimulation](https://github.com/IFRA-Cranfield/ros2_RobotSimulation), a GitHub repository containing "ready-to-use" ROS2 Industrial Robot Simulation packages, that consist of Gazebo (simulation) + MoveIt!2 (control) package combinations for some supported Industrial/Collaborative Robots (or Robot + Gripper combinations), and follows a common standard for a better understanding and further development.
 
@@ -160,9 +160,9 @@ TBD.
 
 ### Robot Simulation and Control packages
 For the ROS 2-based Robot Simulation and Control to be successfully achieved, 3 different ROS 2 packages are necessary (for each Robot/Application):
-- <u>Gazebo package</u>: The Gazebo/Simulation package contains all the information related to the Gazebo Simulation of the Robot Cell/Environment. CAD and mesh files containing visual data and [.urdf]+[.xacro] files containing Robot (ROS-format) data are combined with ROS 2 control and simulation components, and a simple simulation of the Robot (without any motion control) is obtained in Gazebo.  
-- <u>MoveIt!2 package</u>: For the Robot to be moved and controlled, a ROS 2 MoveIt!2 package is required. This package contains all the information related to the ROS 2 - MoveGroup (moveit2) node that controls the robot and its movements.  
-- <u>Bringup package</u>: The Bringup package acts as the main connection point between ROS 2 and the Real Robot. It contains all the information about the robot controllers, and establishes the connection between moveit2 and the Real Robot. It requires
+- __<u>Gazebo package</u>__: The Gazebo/Simulation package contains all the information related to the Gazebo Simulation of the Robot Cell/Environment. CAD and mesh files containing visual data and [.urdf]+[.xacro] files containing Robot (ROS-format) data are combined with ROS 2 control and simulation components, and a simple simulation of the Robot (without any motion control) is obtained in Gazebo.  
+- __<u>MoveIt!2 package</u>__: For the Robot to be moved and controlled, a ROS 2 MoveIt!2 package is required. This package contains all the information related to the ROS 2 - MoveGroup (moveit2) node that controls the robot and its movements.  
+- __<u>Bringup package</u>__: The Bringup package acts as the main connection point between ROS 2 and the Real Robot. It contains all the information about the robot controllers, and establishes the connection between moveit2 and the Real Robot. It requires
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
