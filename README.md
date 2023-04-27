@@ -72,11 +72,7 @@
       </ul>
     </li>
     <li>
-      <a href="#installation-and-usage">Installation and Usage</a>
-      <ul>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#usage">Usage</a></li>
-      </ul>
+      <a href="#installation">Installation</a>
     </li>
     <li><a href="#supported-robots">Supported Robots</a></li>
     <li>
@@ -84,6 +80,7 @@
       <ul>
         <li><a href="#ros2srrc_data">ros2srrc_data</a></li>
         <li><a href="#ros2srrc_execution">ros2srrc_execution</a></li>
+        <li><a href="#robot-simulation-and-control-packages">Robot Simulation and Control packages</a></li>
       </ul>
     </li>
     <li><a href="#contributing">Contributing</a></li>
@@ -107,6 +104,20 @@ IFRA Group pushes technical boundaries. At IFRA we provide high tech automation 
 
 The IFRA Group undertakes innovative research to design, create and improve Intelligent, Responsive and Flexible automation & assembly solutions, and this series of GitHub repositories provide background information and resources of how these developments are supported.
 
+__SOCIAL MEDIA__:
+
+IFRA-Cranfield:
+- YouTube: https://www.youtube.com/@IFRACranfield
+- LinkedIn: https://www.linkedin.com/in/ifra-cranfield/
+
+Centre for Robotics and Assembly:
+- Instagram: https://www.instagram.com/cranfieldrobotics/
+- Facebook: https://www.facebook.com/cranfieldunirobotics/
+- YouTube: https://www.youtube.com/@CranfieldRobotics
+- LinkedIn: https://www.linkedin.com/company/cranfieldrobotics/
+- Website: https://www.cranfield.ac.uk/centres/centre-for-robotics-and-assembly 
+
+
 ### ros2_SimRealRobotControl Repository
 
 The ros2_SimRealRobotControl repository is a collection of ROS 2 packages that are designed to facilitate robot manipulation tasks. The packages include Gazebo Simulation, MoveIt!2, and Robot Bringup, all of which can be used to simulate and control robot manipulators.
@@ -126,18 +137,50 @@ This ros2_SimRealRobotControl repository is based on ros2_RobotSimulation, and c
 
 In a nutshell, ros2_RobotSimulation is a great tool if you are new to ROS 2 and you wish to use it for Robot Simulation and Control, and ros2_SimRealRobotControl is appropriate for anyone willing to design, develop and test their own Robot applications using the ROS 2 packages (Gazebo+MoveIt!2+Bringup) provided.
 
+__VIDEO: Simulation and Control of an ABB-IRB120 using ROS2__
+
+[![Alt text](https://img.youtube.com/vi/qaowbdYvG2M/0.jpg)](https://www.youtube.com/watch?v=qaowbdYvG2M)
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- INSTALLATION and USAGE -->
-## Installation and Usage
+<!-- INSTALLATION -->
+## Installation
 
 All packages in this repository have been developed, executed and tested in an Ubuntu 22.04 machine with ROS 2 Humble. Please find below all the required steps to set-up a ROS 2 Humble environment in Ubuntu and install the ROS 2-based Robot Simulation and Control packages.
 
-### Installation
-TBD.
+1. __Import and install ros2_RobotSimulation__: This repository is an advanced version of ros2_RobotSimulation. Thus, installing ros2_RobotSimulation and its resources is required. You can find the installation steps [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/humble). Please do make sure the following are properly installed:
+    - Ubuntu 22.04 machine.
+    - Git.
+    - ROS 2 Humble + ~/dev_ws workspace.
+    - MoveIt!2 (humble).
+    - ROS2 Control (humble) + ROS2 Controllers (humble).
+    - Gazebo + Gazebo ROS2 Control (humble) + Gazebo ROS Pkgs (humble).
+    - ros2_RobotSimulation (ros2_data, ros2_actions, ros2_execution and ros2_grasping are required).
 
-### Usage
-TBD.
+</br>
+
+2. __ABB DRIVER for ROS 2__: The installation of the [abb_ros2](https://github.com/PickNikRobotics/abb_ros2) driver is required for the control of any real ABB robot using ROS 2. 
+
+    ```sh
+    mkdir -p ~/dev_ws/src/ABBDriver
+    cd ~/dev_ws/src/ABBDriver
+    git clone https://github.com/PickNikRobotics/abb_ros2.git -b rolling
+    sudo rosdep init
+    rosdep update
+    vcs import < abb_ros2/abb.repos
+    rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
+    cd ~/dev_ws
+    colcon build
+    ```
+
+3. __Import and install ros2_SimRealRobotControl__:
+
+    ```sh
+    cd ~/dev_ws/src
+    git clone https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl
+    cd ~/dev_ws
+    colcon build
+    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -153,16 +196,26 @@ The Simulation & Control packages of the following Robots are currently availabl
 ## ROS2 Packages 
 
 ### ros2srrc_data
-TBD.
+This package contains the data structures for the ROS 2 Actions and Messages that are used for the robot movements and sequence executions:
+- __Move Action__: ROS 2 Action that executes the specific Robot Movement (MoveJ, MoveR, MoveL...).
+- __Sequence Action__: ROS 2 Action that contains the whole sequence of "Move.action" actions.
+- __MSG folder__: Custom ROS 2 Messages are kept in this folder. These are used to define specific ROS 2 Actions, which do have a different format according to the type of movement they refer to.
+
+For further detail about the data structures, please click [here](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/ros2srrc_data).
 
 ### ros2srrc_execution
-TBD.
+The ros2srrc_execution package contains the source code that executes both individual Robot movements and complete sequences or programs:
+- __move.cpp__: ROS 2 Action Server -> Executes an individual Robot Motion, requested by calling "move.action".
+- __sequence.cpp__: ROS 2 Action Server -> Executes a sequence, requested by calling "sequence.action".
+- __sequence.py__: Python script that reads the program (sequence) from a ".txt" file, transforms it into the "sequence.action" format and executes it by triggering the ROS 2 Action Server defined in sequence.cpp.
+
+For further detail about how Robot Movements and sequences are executed, please click [here](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/ros2srrc_execution).
 
 ### Robot Simulation and Control packages
 For the ROS 2-based Robot Simulation and Control to be successfully achieved, 3 different ROS 2 packages are necessary (for each Robot/Application):
 - __Gazebo package__: The Gazebo/Simulation package contains all the information related to the Gazebo Simulation of the Robot Cell/Environment. CAD and mesh files containing visual data and [.urdf]+[.xacro] files containing Robot (ROS-format) data are combined with ROS 2 control and simulation components, and a simple simulation of the Robot (without any motion control) is obtained in Gazebo.  
-- __MoveIt!2 package__: For the Robot to be moved and controlled, a ROS 2 MoveIt!2 package is required. This package contains all the information related to the ROS 2 - MoveGroup (moveit2) node that controls the robot and its movements.  
-- __Bringup package__: The Bringup package acts as the main connection point between ROS 2 and the Real Robot. It contains all the information about the robot controllers, and establishes the connection between moveit2 and the Real Robot. It requires
+- __MoveIt!2 package__: For the Robot to be moved and controlled, a ROS 2 MoveIt!2 package is required. This package contains all the information related to the ROS 2 - MoveGroup (moveit2) node that controls the robot and its behaviour.  
+- __Bringup package__: The Bringup package acts as the main connection point between ROS 2 and the Real Robot. It contains all the information about the robot controllers, and establishes the connection between moveit2 and the Real Robot. For the connection between ROS 2 and a Real Robot to be established, a ROS 2 Driver is required, which translates the ROS 2-based commands to the Robot Controller. This ROS 2 Driver is usually developed by the Robot vendor or a recognised ROS2-development company.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
