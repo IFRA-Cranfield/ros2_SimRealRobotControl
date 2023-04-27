@@ -20,7 +20,7 @@ __Launch RobotBringup + MoveIt!2 Environment__
 
 The following command launches the ROS2 Node that establishes the connection between the Robot's ROS2 Driver and the Robot Controller, and the MoveIt!2 Framework for the control of the robot:
 ```sh
-ros2 launch ros2srrc_irb120_moveit2 irb120_bringup.launch.py
+ros2 launch ros2srrc_irb120_bringup irb120_bringup.launch.py
 ```
 
 ### EXAMPLES
