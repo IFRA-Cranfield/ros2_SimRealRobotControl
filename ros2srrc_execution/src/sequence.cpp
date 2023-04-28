@@ -42,6 +42,9 @@
 #include "std_msgs/msg/string.hpp"
 #include "ros2_grasping/action/attacher.hpp"
 
+// Include for ABB I/O manipulation:
+#include <abb_robot_msgs/srv/set_io_signal.hpp>
+
 // Include standard libraries:
 #include <string>
 #include <vector>
@@ -82,9 +85,10 @@ const moveit::core::JointModelGroup* joint_model_group_EE;
 // Declaration of GLOBAL VARIABLE --> RES:
 std::string RES = "none";
 
-// Declaration of GLOBAL VARIABLES --> Attacher & Detacher nodes:
+// Declaration of GLOBAL VARIABLES --> Attacher & Detacher / ABBGripper nodes:
 std::shared_ptr<rclcpp::Node> AttacherNode;
 std::shared_ptr<rclcpp::Node> DetacherNode;
+std::shared_ptr<rclcpp::Node> ABBGripperNode;
 
 // ======================================================================================================================== //
 // ==================== PARAM: ROBOT + END-EFFECTOR ==================== //
@@ -211,6 +215,54 @@ void DETACH(){
 
 
 // ======================================================================================================================== //
+// ==================== ABB GRIPPER: Open/Close ==================== //
+
+void ABBGripper_NODE(){
+
+    ABBGripperNode = rclcpp::Node::make_shared("ABBGripper_SC_node");
+
+}
+
+void GripperOpenABB(){
+
+    auto GRIPPER_SC = ABBGripperNode->create_client<abb_robot_msgs::srv::SetIOSignal>("/rws_client/set_io_signal");
+    auto req_msg = std::make_shared<abb_robot_msgs::srv::SetIOSignal::Request>();
+    
+    // 1. GripperClose -> "0":
+    req_msg->signal = "GripperClose";
+    req_msg->value = "0";
+    auto REQUEST = GRIPPER_SC->async_send_request(req_msg);
+    rclcpp::spin_some(ABBGripperNode);
+
+    // 1. GripperOpen -> "1":
+    req_msg->signal = "GripperOpen";
+    req_msg->value = "1";
+    REQUEST = GRIPPER_SC->async_send_request(req_msg);
+    rclcpp::spin_some(ABBGripperNode);
+
+}
+
+void GripperCloseABB(){
+    
+    auto GRIPPER_SC = ABBGripperNode->create_client<abb_robot_msgs::srv::SetIOSignal>("/rws_client/set_io_signal");
+    auto req_msg = std::make_shared<abb_robot_msgs::srv::SetIOSignal::Request>();
+
+    // 1. GripperOpen -> "0":
+    req_msg->signal = "GripperOpen";
+    req_msg->value = "0";
+    auto REQUEST = GRIPPER_SC->async_send_request(req_msg);
+    rclcpp::spin_some(ABBGripperNode);
+
+    // 1. GripperClose -> "1":
+    req_msg->signal = "GripperClose";
+    req_msg->value = "1";
+    REQUEST = GRIPPER_SC->async_send_request(req_msg);
+    rclcpp::spin_some(ABBGripperNode);
+    
+}
+
+
+// ======================================================================================================================== //
 // ==================== ACTION SERVER CLASS ==================== //
 
 class ActionServer : public rclcpp::Node
@@ -241,7 +293,7 @@ private:
         std::shared_ptr<const Sequence::Goal> goal)
     {
         // Obtain ROBOT and END-EFFECTOR -> Check and accept/reject:
-        std::string ROB = goal->robot + "_arm";
+        std::string ROB = goal->robot;
         std::string EE = goal->endeffector;
         std::string ENV = goal->environment;
 
@@ -508,7 +560,10 @@ private:
                 
                 }
 
-                // SPECIFIC CASE -> ATTACH/DETACH:
+
+                // ========== EXTRA ACTIONS ========== //
+
+                // ATTACH/DETACH:
                 // This happens when an object needs to be attached to an end-effector in Gazebo Simulation (using ros2_grasping):
                 if (ACTION == "Attach"){
 
@@ -524,6 +579,21 @@ private:
                     feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Object detached successfully.";
                     goal_handle->publish_feedback(feedback);
                     
+                }
+
+                // ABB ROBOT: I/O -> Gripper OPEN/CLOSE:
+                if (ACTION == "ABB - GripperOpen"){
+
+                    GripperOpenABB();
+                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper opened successfully.";
+                    goal_handle->publish_feedback(feedback);
+
+                } else if (ACTION == "ABB - GripperClose"){
+
+                    GripperCloseABB();
+                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper closed successfully.";
+                    goal_handle->publish_feedback(feedback);
+
                 }
 
                 // RE-INITIALISE RES variable:
@@ -564,8 +634,15 @@ int main(int argc, char ** argv)
     // Declare ATTACH and DETACH nodes:
     if (param_EE != "none" && param_ENV == "gazebo"){
         AttachDetach_NODE();
+        RCLCPP_INFO(logger, "Attacher/Detacher NODES initialised.");
     }
-    
+
+    // Declare ABB Gripper node:
+    if (param_ROB == "irb120" && param_EE != "none" && param_ENV == "bringup"){
+        ABBGripper_NODE();
+        RCLCPP_INFO(logger, "ABB Gripper NODE initialised.");
+    }
+         
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
     auto name = "ros2srrc_sequence";
     auto const node2 = std::make_shared<rclcpp::Node>(
@@ -578,7 +655,9 @@ int main(int argc, char ** argv)
     using moveit::planning_interface::MoveGroupInterface;
     // 1. ROBOT:
     if (param_ROB != "none"){
-        move_group_interface_ROB = MoveGroupInterface(node2, param_ROB);
+        auto name = param_ROB + "_arm";
+        
+        move_group_interface_ROB = MoveGroupInterface(node2, name);
         move_group_interface_ROB.setPlanningPipelineId("move_group");
         move_group_interface_ROB.setMaxVelocityScalingFactor(1.0);
     
@@ -590,7 +669,7 @@ int main(int argc, char ** argv)
             move_group_interface_ROB.setMaxAccelerationScalingFactor(0.5); // Equaled in order to have same speed in IRB120 Real Robot = Gazebo.
         }
 
-        joint_model_group_ROB = move_group_interface_ROB.getCurrentState()->getJointModelGroup(param_ROB);
+        joint_model_group_ROB = move_group_interface_ROB.getCurrentState()->getJointModelGroup(name);
         RCLCPP_INFO(logger, "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
     }
     // 2. END-EFFECTOR:

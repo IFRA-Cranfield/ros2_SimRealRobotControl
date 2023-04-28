@@ -330,14 +330,14 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120_arm"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
         )
         SequenceInterface = Node(
             name="sequence",
             package="ros2srrc_execution",
             executable="sequence",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120_arm"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
         )
     
     elif (EE_schunk == "true"):
@@ -347,14 +347,14 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120_arm"}, {"EE_PARAM": "egp64"}, {"ENV_PARAM": "bringup"}],
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "egp64"}, {"ENV_PARAM": "bringup"}],
         )
         SequenceInterface = Node(
             name="sequence",
             package="ros2srrc_execution",
             executable="sequence",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120_arm"}, {"EE_PARAM": "egp64"}, {"ENV_PARAM": "bringup"}],
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "egp64"}, {"ENV_PARAM": "bringup"}],
         )
 
     # ========== ABB RWS CLIENT ========== #

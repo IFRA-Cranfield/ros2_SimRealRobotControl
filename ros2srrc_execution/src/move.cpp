@@ -491,7 +491,9 @@ int main(int argc, char ** argv)
     using moveit::planning_interface::MoveGroupInterface;
     // 1. ROBOT:
     if (param_ROB != "none"){
-        move_group_interface_ROB = MoveGroupInterface(node2, param_ROB);
+        auto name = param_ROB + "_arm";
+        
+        move_group_interface_ROB = MoveGroupInterface(node2, name);
         move_group_interface_ROB.setPlanningPipelineId("move_group");
         move_group_interface_ROB.setMaxVelocityScalingFactor(1.0);
 
@@ -503,7 +505,7 @@ int main(int argc, char ** argv)
             move_group_interface_ROB.setMaxAccelerationScalingFactor(0.5); // Equaled in order to have same speed in IRB120 Real Robot = Gazebo.
         }
 
-        joint_model_group_ROB = move_group_interface_ROB.getCurrentState()->getJointModelGroup(param_ROB);
+        joint_model_group_ROB = move_group_interface_ROB.getCurrentState()->getJointModelGroup(name);
         RCLCPP_INFO(logger, "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
     }
     // 2. END-EFFECTOR:

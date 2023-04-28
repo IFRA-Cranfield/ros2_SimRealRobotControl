@@ -40,6 +40,9 @@ find_package(ros2_grasping REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(std_msgs REQUIRED)
 
+# REQUIRED to -> ABB:
+find_package(abb_robot_msgs REQUIRED)
+
 # Add include directories:
 include_directories(include)
 
@@ -95,6 +98,7 @@ ament_target_dependencies(
   std_msgs
   rclcpp_action
   ros2srrc_data
+  abb_robot_msgs
 )
 ament_target_dependencies(
   sequence
@@ -104,6 +108,7 @@ ament_target_dependencies(
   rclcpp_action
   ros2srrc_data
   ros2_grasping
+  abb_robot_msgs
 )
 
 # =========================================================== #

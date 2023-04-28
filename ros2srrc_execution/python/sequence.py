@@ -312,9 +312,9 @@ def main(args=None):
 
         ACTION = Action()
         ACTION.action = readSEQ[str(i)]['action']
-        ACTION.speed = readSEQ[str(i)]['speed']
 
         if (ACTION.action == "MoveJ"):
+            ACTION.speed = readSEQ[str(i)]['speed']
             MoveJ_VAR = Joints()
             MoveJ_VAR.joint1 = readSEQ[str(i)]['value']['joint1']
             MoveJ_VAR.joint2 = readSEQ[str(i)]['value']['joint2']
@@ -325,12 +325,14 @@ def main(args=None):
             ACTION.movej = MoveJ_VAR
         
         elif (ACTION.action == "MoveR"):
+            ACTION.speed = readSEQ[str(i)]['speed']
             MoveR_VAR = Joint()
             MoveR_VAR.joint = readSEQ[str(i)]['value']['joint']
             MoveR_VAR.value = readSEQ[str(i)]['value']['value']
             ACTION.mover = MoveR_VAR
 
         elif (ACTION.action == "MoveL"):
+            ACTION.speed = readSEQ[str(i)]['speed']
             MoveL_VAR = Xyz()
             MoveL_VAR.x = readSEQ[str(i)]['value']['x']
             MoveL_VAR.y = readSEQ[str(i)]['value']['y']
@@ -338,6 +340,7 @@ def main(args=None):
             ACTION.movel = MoveL_VAR
 
         elif (ACTION.action == "MoveXYZW"):
+            ACTION.speed = readSEQ[str(i)]['speed']
             MoveXYZW_VAR = Xyzypr()
             MoveXYZW_VAR.x = readSEQ[str(i)]['value']['x']
             MoveXYZW_VAR.y = readSEQ[str(i)]['value']['y']
@@ -348,6 +351,7 @@ def main(args=None):
             ACTION.movexyzw = MoveXYZW_VAR
 
         elif (ACTION.action == "MoveXYZ"):
+            ACTION.speed = readSEQ[str(i)]['speed']
             MoveXYZ_VAR = Xyz()
             MoveXYZ_VAR.x = readSEQ[str(i)]['value']['x']
             MoveXYZ_VAR.y = readSEQ[str(i)]['value']['y']
@@ -355,6 +359,7 @@ def main(args=None):
             ACTION.movexyz = MoveXYZ_VAR
 
         elif (ACTION.action == "MoveYPR"):
+            ACTION.speed = readSEQ[str(i)]['speed']
             MoveYPR_VAR = Ypr()
             MoveYPR_VAR.yaw = readSEQ[str(i)]['value']['yaw']
             MoveYPR_VAR.pitch = readSEQ[str(i)]['value']['pitch']
@@ -362,6 +367,7 @@ def main(args=None):
             ACTION.moveypr = MoveYPR_VAR
 
         elif (ACTION.action == "MoveROT"):
+            ACTION.speed = readSEQ[str(i)]['speed']
             MoveROT_VAR = Ypr()
             MoveROT_VAR.yaw = readSEQ[str(i)]['value']['yaw']
             MoveROT_VAR.pitch = readSEQ[str(i)]['value']['pitch']
@@ -369,6 +375,7 @@ def main(args=None):
             ACTION.moverot = MoveROT_VAR
 
         elif (ACTION.action == "MoveRP"):
+            ACTION.speed = readSEQ[str(i)]['speed']
             MoveRP_VAR = Xyzypr()
             MoveRP_VAR.x = readSEQ[str(i)]['value']['x']
             MoveRP_VAR.y = readSEQ[str(i)]['value']['y']
@@ -379,12 +386,18 @@ def main(args=None):
             ACTION.moverp = MoveRP_VAR
 
         elif (ACTION.action == "MoveG"):
+            ACTION.speed = readSEQ[str(i)]['speed']
             ACTION.moveg = readSEQ[str(i)]['value']['value']
 
         elif (ACTION.action == "Attach"):
             ACTION.attach = readSEQ[str(i)]['value']['object']
         elif (ACTION.action == "Detach"):
             ACTION.detach = readSEQ[str(i)]['value']['object']
+
+        elif (ACTION.action == "ABB - GripperOpen"):
+            pass # No action required, since ACTION name is passed and enough.
+        elif (ACTION.action == "ABB - GripperClose"):
+            pass # No action required, since ACTION name is passed and enough.
         
         SEQUENCE.append(ACTION)
     

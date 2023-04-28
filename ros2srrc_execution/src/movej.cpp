@@ -75,7 +75,7 @@ MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> 
     //  - ABB IRB-120 industrial robot manipulator. NAME -> "irb120"
 
     // ***** JOINT VALUES (MAX/MIN) ***** //
-    if (param_ROB == "irb120_arm"){
+    if (param_ROB == "irb120"){
         j1UL = 165;
         j1LL = -165;
         j2UL = 110;
