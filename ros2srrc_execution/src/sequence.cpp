@@ -229,13 +229,13 @@ void GripperOpenABB(){
     auto req_msg = std::make_shared<abb_robot_msgs::srv::SetIOSignal::Request>();
     
     // 1. GripperClose -> "0":
-    req_msg->signal = "GripperClose";
+    req_msg->signal = "CloseGripper";
     req_msg->value = "0";
     auto REQUEST = GRIPPER_SC->async_send_request(req_msg);
     rclcpp::spin_some(ABBGripperNode);
 
     // 1. GripperOpen -> "1":
-    req_msg->signal = "GripperOpen";
+    req_msg->signal = "OpenGripper";
     req_msg->value = "1";
     REQUEST = GRIPPER_SC->async_send_request(req_msg);
     rclcpp::spin_some(ABBGripperNode);
@@ -248,13 +248,13 @@ void GripperCloseABB(){
     auto req_msg = std::make_shared<abb_robot_msgs::srv::SetIOSignal::Request>();
 
     // 1. GripperOpen -> "0":
-    req_msg->signal = "GripperOpen";
+    req_msg->signal = "OpenGripper";
     req_msg->value = "0";
     auto REQUEST = GRIPPER_SC->async_send_request(req_msg);
     rclcpp::spin_some(ABBGripperNode);
 
     // 1. GripperClose -> "1":
-    req_msg->signal = "GripperClose";
+    req_msg->signal = "CloseGripper";
     req_msg->value = "1";
     REQUEST = GRIPPER_SC->async_send_request(req_msg);
     rclcpp::spin_some(ABBGripperNode);

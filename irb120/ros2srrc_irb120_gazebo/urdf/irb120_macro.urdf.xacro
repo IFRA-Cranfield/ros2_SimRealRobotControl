@@ -348,7 +348,7 @@
           </geometry>
         </collision>
         <inertial>
-          <origin xyz="0 0 0" rpy="0 0 ${pi/4}" />
+          <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
           <mass value="0.001" />
           <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
@@ -356,7 +356,7 @@
 
       <!-- Schunk coupler (JOINT): -->
       <joint name="schunk_coupler_joint" type="fixed">
-        <origin xyz="0 0 0.001" rpy="0 0 ${pi/4}" />
+        <origin xyz="0 0 0.001" rpy="0 0 ${pi/2}" />
         <parent link="tool0"/>
         <child link="schunk_coupler"/>
       </joint>
