@@ -146,7 +146,7 @@ __VIDEO: Simulation and Control of an ABB-IRB120 using ROS2__
 <!-- INSTALLATION -->
 ## Installation
 
-All packages in this repository have been developed, executed and tested in an Ubuntu 22.04 machine with ROS 2 Humble. Please find below all the required steps to set-up a ROS 2 Humble environment in Ubuntu and install the ROS 2-based Robot Simulation and Control packages.
+All packages in this repository have been developed, executed and tested in a Ubuntu 22.04 machine with ROS 2 Humble. Please find below all the required steps to set-up a ROS 2 Humble environment in Ubuntu and install the ROS 2-based Robot Simulation and Control packages.
 
 1. __Import and install ros2_RobotSimulation__: This repository is an advanced version of ros2_RobotSimulation. Thus, installing ros2_RobotSimulation and its resources is required. You can find the installation steps [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/humble). Please do make sure the following are properly installed:
     - Ubuntu 22.04 machine.
