@@ -74,6 +74,7 @@ MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP,
 
     // ROBOTS in ros2_SimRealRobotControl repository:
     //  - ABB IRB-120 industrial robot manipulator. NAME -> "irb120"
+    //  - Universal Robots - UR3. NAME -> "ur3"
 
     // ***** JOINT VALUES (MAX/MIN) ***** //
     if (param_ROB == "irb120"){
@@ -89,6 +90,19 @@ MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP,
         j5LL = -120;
         j6UL = 400;
         j6LL = -400;
+    } else if (param_ROB == "ur3"){
+        j1UL = 360;
+        j1LL = -360;
+        j2UL = 360;
+        j2LL = -360;
+        j3UL = 180;
+        j3LL = -180;
+        j4UL = 360;
+        j4LL = -360;
+        j5UL = 360;
+        j5LL = -360;
+        j6UL = 360;
+        j6LL = -360;
     };
 
     // Check if INPUT JOINT VALUES are within the JOINT LIMIT VALUES:

@@ -173,7 +173,13 @@ All packages in this repository have been developed, executed and tested in a Ub
     colcon build
     ```
 
-3. __Import and install ros2_SimRealRobotControl__:
+3. __Universal Robots ROS2 Driver__: The installation of the [ur-robot-driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver) driver is required for the control of any real UR robot using ROS 2. Binary install, for ROS2 Humble:
+
+    ```sh
+    sudo apt-get install ros-humble-ur-robot-driver
+    ```
+
+4. __Import and install ros2_SimRealRobotControl__:
 
     ```sh
     cd ~/dev_ws/src
@@ -189,6 +195,7 @@ All packages in this repository have been developed, executed and tested in a Ub
 
 The Simulation & Control packages of the following Robots are currently available:
 - [ABB IRB-120 Robot](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/irb120)
+- [Universal Robots - UR3](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/ur3)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -314,5 +321,6 @@ Don't forget to give the project a star! Thanks you very much!
 * [PicNik Robotics - MoveIt!2 Documentation](https://moveit.picknik.ai/humble/index.html).
 * [ABB - ROS Repositories](http://wiki.ros.org/abb).
 * [ABB - ROS 2 Driver (PickNik Robotics)](https://github.com/PickNikRobotics/abb_ros2).
+* [Universal Robots - ROS 2 Driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver).
 
 <p align="right">(<a href="#top">back to top</a>)</p>

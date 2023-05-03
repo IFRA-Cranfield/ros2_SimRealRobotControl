@@ -1,0 +1,334 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: May, 2023.                                                                     #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  Some of the information used to build the ROS2 UR3-Robot .urdf files in this ROS2    #
+#  repository has been taken from the following resources:                              #
+#       - Universal Robots ROS2 Description:                                            #
+#         https://github.com/UniversalRobots/Universal_Robots_ROS2_Description          #
+#       - Universal Robots ROS2 Gazebo Simulation:                                      #
+#         https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation    #
+#                                                                                       #
+#  AUTHORS:                                                                             #
+#       - ROS-Industrial - https://rosindustrial.org                                    #
+#       - Universal Robots - https://github.com/UniversalRobots                         #
+#       - Nadia Hammoudeh Garcia, Kelsey Hawkins, G.A. vd. Hoorn, Lovro Ivanov, Mathias #
+#         Ludtke, Wim Meeussen, Felix Messmer, Miguel Prada Sarasola, Denis Stogl,      #
+#         Andy Zelenak, Marvin Grosse Besselmann.                                       #
+#       - Maintainers: Felix Exner (exner@fzi.de), Tristan Schnell (schnell@fzi.de),    #
+#         Lovro Ivanov (lovro.ivanov@gmail.com), Denis Stogl (denis@stoglrobotics.de).  #
+#                                                                                       #
+#  Copyright (c) 2021, Universal Robots A/S                                             #
+#  (ORIGINAL LICENSE) -> Licensed under the BSD 3-Clause License.                       #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  Robot information/specifications have been taken, and the code has been modified and #
+#  re-organised in accordance with the ros2_SimRealRobotControl standards.              #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+-->
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- UR_ROBOT_DRIVER PARAMETRES: -->
+  
+  <xacro:arg name="headless_mode" default="false"/>
+  <xacro:property name="headless_mode" value="$(arg headless_mode)"/>
+  
+  <xacro:arg name="reverse_port" default="50001"/>
+  <xacro:property name="reverse_port" value="$(arg reverse_port)"/>
+  
+  <xacro:arg name="script_sender_port" default="50002"/>
+  <xacro:property name="script_sender_port" value="$(arg script_sender_port)"/>
+  
+  <xacro:arg name="reverse_ip" default="0.0.0.0"/>
+  <xacro:property name="reverse_ip" value="$(arg reverse_ip)"/>
+  
+  <xacro:arg name="script_command_port" default="50004"/>
+  <xacro:property name="script_command_port" value="$(arg script_command_port)"/>
+  
+  <xacro:arg name="tf_prefix" default=""/>
+  <xacro:property name="tf_prefix" value="$(arg tf_prefix)"/>
+  
+  <xacro:arg name="non_blocking_read" default="0"/>
+  <xacro:property name="non_blocking_read" value="$(arg non_blocking_read)"/>
+  
+  <xacro:arg name="servoj_gain" default="2000"/>
+  <xacro:property name="servoj_gain" value="$(arg servoj_gain)"/>
+  
+  <xacro:arg name="servoj_lookahead_time" default="0.03"/>
+  <xacro:property name="servoj_lookahead_time" value="$(arg servoj_lookahead_time)"/>
+  
+  <xacro:arg name="use_tool_communication" default="false"/>
+  <xacro:property name="use_tool_communication" value="$(arg use_tool_communication)"/>
+  
+  <xacro:arg name="hash_kinematics" default="calib_9122066269688285636"/>
+  <xacro:property name="hash_kinematics" value="$(arg hash_kinematics)"/>
+  
+  <xacro:arg name="tool_voltage" default="24"/>
+  <xacro:property name="tool_voltage" value="$(arg tool_voltage)"/>
+  
+  <xacro:arg name="tool_parity" default="0"/>
+  <xacro:property name="tool_parity" value="$(arg tool_parity)"/>
+  
+  <xacro:arg name="tool_baud_rate" default="115200"/> 
+  <xacro:property name="tool_baud_rate" value="$(arg tool_baud_rate)"/>
+  
+  <xacro:arg name="tool_stop_bits" default="1"/>
+  <xacro:property name="tool_stop_bits" value="$(arg tool_stop_bits)"/>
+  
+  <xacro:arg name="tool_rx_idle_chars" default="1.5"/>
+  <xacro:property name="tool_rx_idle_chars" value="$(arg tool_rx_idle_chars)"/>
+  
+  <xacro:arg name="tool_tx_idle_chars" default="3.5"/>
+  <xacro:property name="tool_tx_idle_chars" value="$(arg tool_tx_idle_chars)"/>
+
+  <xacro:arg name="tool_device_name" default="/tmp/ttyUR"/>
+  <xacro:property name="tool_device_name" value="$(arg tool_device_name)"/>
+
+  <xacro:arg name="tool_tcp_port" default="54321"/>
+  <xacro:property name="tool_tcp_port" value="$(arg tool_tcp_port)"/>
+
+
+  <!-- UR3_CONTROL: -->
+  <xacro:macro name="ur3_ros2control" params="prefix EE_no bringup robot_ip script_filename input_recipe_filename output_recipe_filename" >
+
+    <!-- 1. ROS2_CONTROL tag name: -->
+    <!-- A. GAZEBO SIMULATION: -->
+    <xacro:unless value="${bringup}">
+      <xacro:property name="name" value="GazeboSystem"/>
+    </xacro:unless>
+    <!-- B. ROBOT BRINGUP: -->
+    <xacro:if value="${bringup}">
+      <xacro:property name="name" value="ur3"/>
+    </xacro:if>
+
+    <!-- 2. IF GAZEBO -> Load PLUGIN: -->
+    <xacro:unless value="${bringup}">
+      <!-- === UR3 Robot (ALONE) === -->
+      <xacro:if value="${EE_no}">
+        <gazebo>
+          <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+            <parameters>$(find ros2srrc_ur3_gazebo)/config/ur_controller.yaml</parameters>
+          </plugin>
+        </gazebo>
+      </xacro:if>
+
+      <!-- =================================== -->
+      <!-- ========== END-EFFECTORS ========== -->
+
+      <!-- ========== END-EFFECTORS ========== -->
+    
+    </xacro:unless>
+
+    <!-- 3. Load ROS2_CONTROL: -->
+    <ros2_control name="${name}" type="system">
+
+      <!-- A. GAZEBO SIMULATION: -->
+      <xacro:unless value="${bringup}">
+        <hardware>
+          <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+        </hardware>
+      </xacro:unless>
+
+      <!-- B. ROBOT BRINGUP: -->
+      <xacro:if value="${bringup}">
+        <hardware>
+          <plugin>ur_robot_driver/URPositionHardwareInterface</plugin>
+          <param name="robot_ip">${robot_ip}</param>
+          <param name="script_filename">${script_filename}</param>
+          <param name="output_recipe_filename">${output_recipe_filename}</param>
+          <param name="input_recipe_filename">${input_recipe_filename}</param>
+          <param name="headless_mode">false</param>
+          <param name="reverse_port">${reverse_port}</param>
+          <param name="script_sender_port">${script_sender_port}</param>
+          <param name="reverse_ip">${reverse_ip}</param>
+          <param name="script_command_port">${script_command_port}</param>
+          <param name="tf_prefix">"${tf_prefix}"</param>
+          <param name="non_blocking_read">${non_blocking_read}</param>
+          <param name="servoj_gain">${servoj_gain}</param>
+          <param name="servoj_lookahead_time">${servoj_lookahead_time}</param>
+          <param name="use_tool_communication">${use_tool_communication}</param>
+          <param name="kinematics/hash">${hash_kinematics}</param>
+          <param name="tool_voltage">${tool_voltage}</param>
+          <param name="tool_parity">${tool_parity}</param>
+          <param name="tool_baud_rate">${tool_baud_rate}</param>
+          <param name="tool_stop_bits">${tool_stop_bits}</param>
+          <param name="tool_rx_idle_chars">${tool_rx_idle_chars}</param>
+          <param name="tool_tx_idle_chars">${tool_tx_idle_chars}</param>
+          <param name="tool_device_name">${tool_device_name}</param>
+          <param name="tool_tcp_port">${tool_tcp_port}</param>
+        </hardware>
+      </xacro:if>
+
+      <joint name="${prefix}shoulder_pan_joint">
+        <command_interface name="position">
+          <param name="min">${-2*pi}</param>
+          <param name="max">${2*pi}</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-3.15</param>
+          <param name="max">3.15</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="${prefix}shoulder_lift_joint">
+        <command_interface name="position">
+          <param name="min">${-2*pi}</param>
+          <param name="max">${2*pi}</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-3.15</param>
+          <param name="max">3.15</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">${-pi/2}</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="${prefix}elbow_joint">
+        <command_interface name="position">
+          <param name="min">${-pi}</param>
+          <param name="max">${pi}</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-3.15</param>
+          <param name="max">3.15</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="${prefix}wrist_1_joint">
+        <command_interface name="position">
+          <param name="min">${-2*pi}</param>
+          <param name="max">${2*pi}</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-6.28</param>
+          <param name="max">6.28</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="${prefix}wrist_2_joint">
+        <command_interface name="position">
+          <param name="min">${-2*pi}</param>
+          <param name="max">${2*pi}</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-6.28</param>
+          <param name="max">6.28</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="${prefix}wrist_3_joint">
+        <command_interface name="position">
+          <param name="min">${-2*pi}</param>
+          <param name="max">${2*pi}</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-6.28</param>
+          <param name="max">6.28</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      
+      <!-- =================================== -->
+      <!-- ========== END-EFFECTORS ========== -->
+
+      <!-- ========== END-EFFECTORS ========== -->
+
+    </ros2_control>
+
+    <xacro:unless value="${bringup}">
+
+      <gazebo reference="${prefix}shoulder_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}upper_arm_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}forearm_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}wrist_1_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}wrist_3_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}wrist_2_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}ee_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+
+    <!-- =================================== -->
+    <!-- ========== END-EFFECTORS ========== -->
+
+    <!-- ========== END-EFFECTORS ========== -->
+    
+      <gazebo reference="end_effector_frame_fixed_joint">
+        <preserveFixedJoint>true</preserveFixedJoint>
+        <!-- For compatibility with SDFormat < 4.4 -->
+        <disableFixedJointLumping>true</disableFixedJointLumping>
+      </gazebo>
+
+    </xacro:unless>
+
+  </xacro:macro>
+
+</robot>

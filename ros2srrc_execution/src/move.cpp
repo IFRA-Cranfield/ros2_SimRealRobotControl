@@ -495,14 +495,20 @@ int main(int argc, char ** argv)
         
         move_group_interface_ROB = MoveGroupInterface(node2, name);
         move_group_interface_ROB.setPlanningPipelineId("move_group");
-        move_group_interface_ROB.setMaxVelocityScalingFactor(1.0);
 
-        // ACCELERATION SCALING FACTOR FOR ROBOT:
-        // This value needs to be tuned for the real ABB Robot, since joint speed/acceleration limits are exceeded otherwise.
+        move_group_interface_ROB.setMaxVelocityScalingFactor(1.0);
+    
+        // ACCELERATION SCALING FACTOR:
+        // This value needs to be tuned for the robots, since joint speed/acceleration limits are exceeded otherwise.
+        // IRB120:
         if (param_ROB == "irb120" && param_ENV == "bringup"){
             move_group_interface_ROB.setMaxAccelerationScalingFactor(0.5); // AFTER TUNING VALUES in ABB RobotStudio, 0.5 is a reasonable value for the IRB120.
-        } else {
+        } else if (param_ROB == "irb120" && param_ENV == "gazebo") {
             move_group_interface_ROB.setMaxAccelerationScalingFactor(0.5); // Equaled in order to have same speed in IRB120 Real Robot = Gazebo.
+        } 
+        // UR3:
+        else if (param_ROB == "ur3") {
+            move_group_interface_ROB.setMaxAccelerationScalingFactor(0.5);
         }
 
         joint_model_group_ROB = move_group_interface_ROB.getCurrentState()->getJointModelGroup(name);

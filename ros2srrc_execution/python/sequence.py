@@ -144,7 +144,8 @@ class RobotPARAM(Node):
             self.get_logger().info('ROBOT_MODEL ROS2 Parameter received: ' + PARAM_ROBOT)
 
             # Check value:
-            if (PARAM_ROBOT == "irb120"):
+            if (PARAM_ROBOT == "irb120"
+                or PARAM_ROBOT == "ur3"):
                 None # do nothing.
             else:
                 self.get_logger().info('ERROR: The Robot model defined is not in the system.')
