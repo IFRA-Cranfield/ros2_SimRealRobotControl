@@ -157,13 +157,13 @@
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/r3m_UR3cupboard.dae" scale="1 1 1" />
+          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/UR3cupboard.dae" scale="1 1 1" />
         </geometry>
       </visual>
       <collision>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/r3m_UR3cupboard.dae" scale="1 1 1" />
+          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/UR3cupboard.dae" scale="1 1 1" />
         </geometry>
       </collision>
       <inertial>
@@ -175,13 +175,13 @@
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/r3m_UR3wall.dae" scale="1 1 1" />
+          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/UR3wall.dae" scale="1 1 1" />
         </geometry>
       </visual>
       <collision>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/r3m_UR3wall.dae" scale="1 1 1" />
+          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/UR3wall.dae" scale="1 1 1" />
         </geometry>
       </collision>
       <inertial>
@@ -193,13 +193,13 @@
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/r3m_UR3emergencybutton.dae" scale="1 1 1" />
+          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/UR3emergencybutton.dae" scale="1 1 1" />
         </geometry>
       </visual>
       <collision>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/r3m_UR3emergencybutton.dae" scale="1 1 1" />
+          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/UR3emergencybutton.dae" scale="1 1 1" />
         </geometry>
       </collision>
       <inertial>
@@ -211,13 +211,31 @@
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/r3m_UR3button.dae" scale="1 1 1" />
+          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/UR3button.dae" scale="1 1 1" />
         </geometry>
       </visual>
       <collision>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/r3m_UR3button.dae" scale="1 1 1" />
+          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/UR3button.dae" scale="1 1 1" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1.0"/>
+        <inertia ixx="500.0" ixy="500.0" ixz="500.0" iyy="500.0" iyz="500.0" izz="500.0" />
+      </inertial>
+    </link>
+    <link name='ur3_L'>
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/XVC4B4.dae" scale="1 1 1" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_ur3_gazebo)/meshes/ur3_CranfieldCell/XVC4B4.dae" scale="1 1 1" />
         </geometry>
       </collision>
       <inertial>
@@ -242,13 +260,18 @@
     </joint>
     <joint name="eb_joint" type="fixed">
       <parent link="ur3_cell" />
-      <child link = "ur3_EB" />
+      <child link = "ur3_B" />
       <origin xyz="-0.10 0.01 0.762" rpy="0.0 0.0 0.0" /> 
     </joint>
     <joint name="b_joint" type="fixed">
       <parent link="ur3_cell" />
-      <child link = "ur3_B" />
+      <child link = "ur3_EB" />
       <origin xyz="-0.18 0.01 0.762" rpy="0.0 0.0 0.0" /> 
+    </joint>
+    <joint name="l_joint" type="fixed">
+      <parent link="ur3_cell" />
+      <child link = "ur3_L" />
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" /> 
     </joint>
   </xacro:if>
   <!-- === Cranfield University - Lab Cell === -->
