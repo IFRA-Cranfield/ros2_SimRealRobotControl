@@ -113,8 +113,24 @@ def generate_launch_description():
         else:
             print ("  Please select a valid option!")
     print("")
-    # End-Effectors:  
-    EE_no = "true"
+    # End-Effector:
+    print("- End-effector:")
+    error = True
+    while (error == True):
+        print("     + Option N1: No end-effector.")
+        print("     + Option N2: Robotiq 2f-85 parallel gripper.")
+        end_effector = input ("  Please select: ")
+        if (end_effector == "1"):
+            error = False
+            EE_no = "true"
+            EE_robotiq = "false"
+        elif (end_effector == "2"):
+            error = False
+            EE_no = "false"
+            EE_robotiq = "true"
+        else:
+            print ("  Please select a valid option!")
+    print("")
 
     # ***** ROBOT DESCRIPTION ***** #
     # UR3 Description file package:
@@ -131,6 +147,7 @@ def generate_launch_description():
         "cell_layout_2": cell_layout_2,
         "cell_layout_3": cell_layout_3,
         "EE_no": EE_no,
+        "EE_robotiq": EE_robotiq,
         })
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
@@ -175,9 +192,38 @@ def generate_launch_description():
         executable="spawner",
         arguments=["ur_controller", "-c", "/controller_manager"],
     )
+    # === ROBOTIQ 2f-85 CONTROLLER === #
+    robotiq_controller_spawner_LKJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_LKJ", "-c", "/controller_manager"],
+    )
+    robotiq_controller_spawner_RKJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_RKJ", "-c", "/controller_manager"],
+    )
+    robotiq_controller_spawner_LIKJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_LIKJ", "-c", "/controller_manager"],
+    )
+    robotiq_controller_spawner_RIKJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_RIKJ", "-c", "/controller_manager"],
+    )
+    robotiq_controller_spawner_LFTJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_LFTJ", "-c", "/controller_manager"],
+    )
+    robotiq_controller_spawner_RFTJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_RFTJ", "-c", "/controller_manager"],
+    )
 
-    # ========== END-EFFECTORS ========== #
-    # ========== END-EFFECTORS ========== #
 
     # *********************** MoveIt!2 *********************** #   
     
@@ -192,8 +238,12 @@ def generate_launch_description():
         robot_description_semantic_config = load_file(
             "ros2srrc_ur3_moveit2", "config/ur3.srdf"
         )
-    # ========== END-EFFECTORS ========== #
-    # ========== END-EFFECTORS ========== #
+    # === ROBOTIQ 2f-85 === #
+    elif (EE_robotiq == "true"):
+        robot_description_semantic_config = load_file(
+            "ros2srrc_ur3_moveit2", "config/ur3robotiq.srdf"
+        )
+    # === ROBOTIQ 2f-85 === #
 
     robot_description_semantic = {
         "robot_description_semantic": robot_description_semantic_config
@@ -238,8 +288,12 @@ def generate_launch_description():
         ompl_planning_yaml = load_yaml(
             "ros2srrc_ur3_moveit2", "config/ompl_planning.yaml"
         )
-    # ========== END-EFFECTORS ========== #
-    # ========== END-EFFECTORS ========== #
+    # === ROBOTIQ 2f-85 === #
+    elif (EE_robotiq == "true"):
+        ompl_planning_yaml = load_yaml(
+            "ros2srrc_ur3_moveit2", "config/ompl_planning_robotiq.yaml"
+        )
+    # === ROBOTIQ 2f-85 === #
     ompl_planning_pipeline_config["move_group"].update(ompl_planning_yaml)
 
     # MoveIt!2 Controllers:
@@ -247,8 +301,12 @@ def generate_launch_description():
         moveit_simple_controllers_yaml = load_yaml(
             "ros2srrc_ur3_moveit2", "config/ur_controllers.yaml"  
         )
-    # ========== END-EFFECTORS ========== #
-    # ========== END-EFFECTORS ========== #
+    # === ROBOTIQ 2f-85 === #
+    elif (EE_robotiq == "true"):
+        moveit_simple_controllers_yaml = load_yaml(
+            "ros2srrc_ur3_moveit2", "config/urrobotiq_controllers.yaml"  
+        )
+    # === ROBOTIQ 2f-85 === #
 
     moveit_controllers = {
         "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
@@ -301,8 +359,10 @@ def generate_launch_description():
 
     if (EE_no == "true"):
         rviz_full_config = os.path.join(rviz_base, "ur3_moveit2.rviz")
-    # ========== END-EFFECTORS ========== #
-    # ========== END-EFFECTORS ========== #
+    # === ROBOTIQ 2f-85 === #
+    elif (EE_robotiq == "true"):
+        rviz_full_config = os.path.join(rviz_base, "ur3robotiq_moveit2.rviz")
+    # === ROBOTIQ 2f-85 === #
 
     rviz_node_full = Node(
         package="rviz2",
@@ -346,6 +406,23 @@ def generate_launch_description():
             output="screen",
             parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "ur3"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "gazebo"}],
         )
+    
+    if (EE_robotiq == "true"):
+        
+        MoveInterface = Node(
+            name="move",
+            package="ros2srrc_execution",
+            executable="move",
+            output="screen",
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "ur3"}, {"EE_PARAM": "robotiq_2f85"}, {"ENV_PARAM": "gazebo"}],
+        )
+        SequenceInterface = Node(
+            name="sequence",
+            package="ros2srrc_execution",
+            executable="sequence",
+            output="screen",
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "ur3"}, {"EE_PARAM": "robotiq_2f85"}, {"ENV_PARAM": "gazebo"}],
+        )
 
     # ATTACHER action for ros2_grasping plugin:
     Attacher = Node(
@@ -381,10 +458,23 @@ def generate_launch_description():
                     ]
                 )
             ),
-
             RegisterEventHandler(
                 OnProcessExit(
                     target_action = joint_trajectory_controller_spawner,
+                    on_exit = [
+                        robotiq_controller_spawner_LKJ,
+                        robotiq_controller_spawner_RKJ,
+                        robotiq_controller_spawner_LIKJ,
+                        robotiq_controller_spawner_RIKJ,
+                        robotiq_controller_spawner_LFTJ,
+                        robotiq_controller_spawner_RFTJ,
+                    ]
+                )
+            ),
+
+            RegisterEventHandler(
+                OnProcessExit(
+                    target_action = robotiq_controller_spawner_RFTJ,
                     on_exit = [
 
                         # MoveIt!2:

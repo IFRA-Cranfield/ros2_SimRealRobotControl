@@ -61,7 +61,7 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="ur3_transmission" params="prefix">
+  <xacro:macro name="ur3_transmission" params="prefix EE_robotiq">
 
     <transmission name="${prefix}shoulder_pan_trans">
       <type>transmission_interface/SimpleTransmission</type>
@@ -125,6 +125,72 @@
 
     <!-- =================================== -->
     <!-- ========== END-EFFECTORS ========== -->
+
+    <!-- === ROBOTIQ 2f-85 GRIPPER === -->
+    <xacro:if value="${EE_robotiq}">
+
+      <transmission name="${prefix}robotiq_85_left_knuckle_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}robotiq_85_left_knuckle_joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}robotiq_85_left_knuckle_motor">
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+
+      <transmission name="${prefix}robotiq_85_right_knuckle_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}robotiq_85_right_knuckle_joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}robotiq_85_right_knuckle_motor">
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+
+      <transmission name="${prefix}robotiq_85_left_inner_knuckle_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}robotiq_85_left_inner_knuckle_joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}robotiq_85_left_inner_knuckle_motor">
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+
+      <transmission name="${prefix}robotiq_85_right_inner_knuckle_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}robotiq_85_right_inner_knuckle_joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}robotiq_85_right_inner_knuckle_motor">
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+
+      <transmission name="${prefix}robotiq_85_left_finger_tip_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}robotiq_85_left_finger_tip_joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}robotiq_85_left_finger_tip_motor">
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+
+      <transmission name="${prefix}robotiq_85_right_finger_tip_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}robotiq_85_right_finger_tip_joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}robotiq_85_right_finger_tip_motor">
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+
+    </xacro:if>
+    <!-- === ROBOTIQ 2f-85 GRIPPER === -->
 
     <!-- ========== END-EFFECTORS ========== -->
 

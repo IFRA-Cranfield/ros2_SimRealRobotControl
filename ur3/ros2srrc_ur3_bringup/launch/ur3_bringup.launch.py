@@ -103,8 +103,24 @@ def generate_launch_description():
         else:
             print ("  Please select a valid option!")
     print("")
-    # End-Effectors:  
-    EE_no = "true"
+    # End-Effector:
+    print("- End-effector:")
+    error = True
+    while (error == True):
+        print("     + Option N1: No end-effector.")
+        print("     + Option N2: Robotiq 2f-85 parallel gripper.")
+        end_effector = input ("  Please select: ")
+        if (end_effector == "1"):
+            error = False
+            EE_no = "true"
+            EE_robotiq = "false"
+        elif (end_effector == "2"):
+            error = False
+            EE_no = "false"
+            EE_robotiq = "true"
+        else:
+            print ("  Please select a valid option!")
+    print("")
     # UR_ROBOT_DRIVER variables: 
     ur_path = os.path.join(get_package_share_directory('ur_robot_driver'))
     script_filename = os.path.join(ur_path,
@@ -134,6 +150,7 @@ def generate_launch_description():
         "cell_layout_2": cell_layout_2,
         "cell_layout_3": cell_layout_3,
         "EE_no": EE_no,
+        "EE_robotiq": EE_robotiq,
 
         "script_filename": script_filename,
         "input_recipe_filename": input_recipe_filename,
@@ -181,7 +198,7 @@ def generate_launch_description():
     joint_trajectory_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["joint_trajectory_controller", "-c", "/controller_manager"],
+        arguments=["ur_controller", "-c", "/controller_manager"],
     )
 
 
@@ -199,6 +216,10 @@ def generate_launch_description():
             "ros2srrc_ur3_moveit2", "config/ur3.srdf"
         )
     # ========== END-EFFECTORS ========== #
+    if (EE_robotiq == "true"):
+        robot_description_semantic_config = load_file(
+            "ros2srrc_ur3_moveit2", "config/ur3robotiq.srdf"
+        )
     # ========== END-EFFECTORS ========== #
 
     robot_description_semantic = {
@@ -240,21 +261,15 @@ def generate_launch_description():
         }
     }
     # Load ompl_planning.yaml file:
-    if (EE_no == "true"):
-        ompl_planning_yaml = load_yaml(
-            "ros2srrc_ur3_moveit2", "config/ompl_planning.yaml"
-        )
-    # ========== END-EFFECTORS ========== #
-    # ========== END-EFFECTORS ========== #
+    ompl_planning_yaml = load_yaml(
+        "ros2srrc_ur3_moveit2", "config/ompl_planning.yaml"
+    )
     ompl_planning_pipeline_config["move_group"].update(ompl_planning_yaml)
 
     # MoveIt!2 Controllers:
-    if (EE_no == "true"):
-        moveit_simple_controllers_yaml = load_yaml(
-            "ros2srrc_ur3_moveit2", "config/ur_controllers.yaml"  
-        )
-    # ========== END-EFFECTORS ========== #
-    # ========== END-EFFECTORS ========== #
+    moveit_simple_controllers_yaml = load_yaml(
+        "ros2srrc_ur3_moveit2", "config/ur_controllers.yaml"  
+    )
 
     moveit_controllers = {
         "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
@@ -304,11 +319,7 @@ def generate_launch_description():
     # RVIZ:
     load_RVIZfile = LaunchConfiguration("rviz_file")
     rviz_base = os.path.join(get_package_share_directory("ros2srrc_ur3_moveit2"), "config")
-
-    if (EE_no == "true"):
-        rviz_full_config = os.path.join(rviz_base, "ur3_moveit2.rviz")
-    # ========== END-EFFECTORS ========== #
-    # ========== END-EFFECTORS ========== #
+    rviz_full_config = os.path.join(rviz_base, "ur3_moveit2.rviz")
 
     rviz_node_full = Node(
         package="rviz2",
@@ -343,14 +354,31 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "ur3"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "gazebo"}],
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "ur3"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
         )
         SequenceInterface = Node(
             name="sequence",
             package="ros2srrc_execution",
             executable="sequence",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "ur3"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "gazebo"}],
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "ur3"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
+        )
+
+    if (EE_robotiq == "true"):
+
+        MoveInterface = Node(
+            name="move",
+            package="ros2srrc_execution",
+            executable="move",
+            output="screen",
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "ur3"}, {"EE_PARAM": "robotiq_2f85"}, {"ENV_PARAM": "bringup"}],
+        )
+        SequenceInterface = Node(
+            name="sequence",
+            package="ros2srrc_execution",
+            executable="sequence",
+            output="screen",
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "ur3"}, {"EE_PARAM": "robotiq_2f85"}, {"ENV_PARAM": "bringup"}],
         )
 
     # ***** RETURN LAUNCH DESCRIPTION ***** #

@@ -1,0 +1,69 @@
+controller_manager:
+  ros__parameters:
+    
+    update_rate: 50 #Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    
+    ur_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    robotiq_controller_LKJ:
+      type: position_controllers/GripperActionController
+    robotiq_controller_RKJ:
+      type: position_controllers/GripperActionController
+    robotiq_controller_LIKJ:
+      type: position_controllers/GripperActionController
+    robotiq_controller_RIKJ:
+      type: position_controllers/GripperActionController
+    robotiq_controller_LFTJ:
+      type: position_controllers/GripperActionController
+    robotiq_controller_RFTJ:
+      type: position_controllers/GripperActionController
+
+ur_controller:
+  ros__parameters:
+    joints:
+        - shoulder_pan_joint
+        - shoulder_lift_joint
+        - elbow_joint
+        - wrist_1_joint
+        - wrist_2_joint
+        - wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.2
+      goal_time: 0.0
+      shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
+      shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
+      elbow_joint: { trajectory: 0.2, goal: 0.1 }
+      wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
+      wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
+      wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
+
+robotiq_controller_LKJ:
+  ros__parameters:
+    joint: robotiq_85_left_knuckle_joint
+robotiq_controller_RKJ:
+  ros__parameters:
+    joint: robotiq_85_right_knuckle_joint
+robotiq_controller_LIKJ:
+  ros__parameters:
+    joint: robotiq_85_left_inner_knuckle_joint
+robotiq_controller_RIKJ:
+  ros__parameters:
+    joint: robotiq_85_right_inner_knuckle_joint
+robotiq_controller_LFTJ:
+  ros__parameters:
+    joint: robotiq_85_left_finger_tip_joint
+robotiq_controller_RFTJ:
+  ros__parameters:
+    joint: robotiq_85_right_finger_tip_joint

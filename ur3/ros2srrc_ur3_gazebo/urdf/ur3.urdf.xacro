@@ -72,6 +72,8 @@
   
   <xacro:arg name="EE_no" default="false"/>
   <xacro:property name="EE_no" value="$(arg EE_no)"/>
+  <xacro:arg name="EE_robotiq" default="false"/>
+  <xacro:property name="EE_robotiq" value="$(arg EE_robotiq)"/>
 
   <xacro:arg name="bringup" default="false"/>
   <xacro:property name="bringup" value="$(arg bringup)"/>
@@ -93,6 +95,7 @@
   <xacro:ur3 
     prefix=""
     EE_no="${EE_no}"
+    EE_robotiq="${EE_robotiq}"
     bringup="${bringup}"
     robot_ip="${robot_ip}"
     script_filename="${script_filename}"

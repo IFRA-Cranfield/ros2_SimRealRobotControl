@@ -6,9 +6,9 @@ trajectory_execution:
 moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
 
 controller_names:
-  - joint_trajectory_controller
+  - ur_controller
 
-joint_trajectory_controller:
+ur_controller:
   action_ns: follow_joint_trajectory
   type: FollowJointTrajectory
   default: false

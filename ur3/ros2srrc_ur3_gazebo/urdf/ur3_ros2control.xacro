@@ -122,7 +122,7 @@
 
 
   <!-- UR3_CONTROL: -->
-  <xacro:macro name="ur3_ros2control" params="prefix EE_no bringup robot_ip script_filename input_recipe_filename output_recipe_filename" >
+  <xacro:macro name="ur3_ros2control" params="prefix EE_no EE_robotiq bringup robot_ip script_filename input_recipe_filename output_recipe_filename" >
 
     <!-- 1. ROS2_CONTROL tag name: -->
     <!-- A. GAZEBO SIMULATION: -->
@@ -136,6 +136,7 @@
 
     <!-- 2. IF GAZEBO -> Load PLUGIN: -->
     <xacro:unless value="${bringup}">
+
       <!-- === UR3 Robot (ALONE) === -->
       <xacro:if value="${EE_no}">
         <gazebo>
@@ -146,10 +147,15 @@
         </gazebo>
       </xacro:if>
 
-      <!-- =================================== -->
-      <!-- ========== END-EFFECTORS ========== -->
-
-      <!-- ========== END-EFFECTORS ========== -->
+      <!-- ========== Robotiq 2f-85 ========== -->
+      <xacro:if value="${EE_robotiq}">
+        <gazebo>
+          <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+            <parameters>$(find ros2srrc_ur3_gazebo)/config/urrobotiq_controller.yaml</parameters>
+          </plugin>
+        </gazebo>
+      </xacro:if>
     
     </xacro:unless>
 
@@ -288,6 +294,108 @@
       <!-- =================================== -->
       <!-- ========== END-EFFECTORS ========== -->
 
+      <!-- === ROBOTIQ 2f-85 GRIPPER === -->
+      <xacro:if value="${EE_robotiq}">
+
+        <joint name="${prefix}robotiq_85_left_knuckle_joint">
+          <command_interface name="position">
+            <param name="min">-0.05</param>
+            <param name="max">0.80285</param>
+          </command_interface>
+          <command_interface name="velocity">
+            <param name="min">0.5</param>
+            <param name="max">0.5</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="${prefix}robotiq_85_right_knuckle_joint">
+          <command_interface name="position">
+            <param name="min">-0.05</param>
+            <param name="max">0.80285</param>
+          </command_interface>
+          <command_interface name="velocity">
+            <param name="min">0.5</param>
+            <param name="max">0.5</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="${prefix}robotiq_85_left_inner_knuckle_joint">
+          <command_interface name="position">
+            <param name="min">-0.05</param>
+            <param name="max">0.80285</param>
+          </command_interface>
+          <command_interface name="velocity">
+            <param name="min">0.5</param>
+            <param name="max">0.5</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="${prefix}robotiq_85_right_inner_knuckle_joint">
+          <command_interface name="position">
+            <param name="min">-0.05</param>
+            <param name="max">0.80285</param>
+          </command_interface>
+          <command_interface name="velocity">
+            <param name="min">0.5</param>
+            <param name="max">0.5</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="${prefix}robotiq_85_left_finger_tip_joint">
+          <command_interface name="position">
+            <param name="min">-0.80285</param>
+            <param name="max">0.05</param>
+          </command_interface>
+          <command_interface name="velocity">
+            <param name="min">0.5</param>
+            <param name="max">0.5</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="${prefix}robotiq_85_right_finger_tip_joint">
+          <command_interface name="position">
+            <param name="min">-0.80285</param>
+            <param name="max">0.05</param>
+          </command_interface>
+          <command_interface name="velocity">
+            <param name="min">0.5</param>
+            <param name="max">0.5</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+      </xacro:if>
+      <!-- === ROBOTIQ 2f-85 GRIPPER === -->
+      
       <!-- ========== END-EFFECTORS ========== -->
 
     </ros2_control>
@@ -312,12 +420,42 @@
       <gazebo reference="${prefix}wrist_2_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="${prefix}ee_link">
-        <selfCollide>false</selfCollide>
-      </gazebo>
 
-    <!-- =================================== -->
-    <!-- ========== END-EFFECTORS ========== -->
+      <!-- =================================== -->
+      <!-- ========== END-EFFECTORS ========== -->
+
+      <!-- === ROBOTIQ 2f-85 GRIPPER === -->
+      <xacro:if value="${EE_robotiq}">
+
+        <gazebo reference="${prefix}robotiq_85_base_link">
+          <selfCollide>false</selfCollide>
+        </gazebo>
+        <gazebo reference="${prefix}robotiq_85_left_knuckle_link">
+          <selfCollide>false</selfCollide>
+        </gazebo>
+        <gazebo reference="${prefix}robotiq_85_right_knuckle_link">
+          <selfCollide>false</selfCollide>
+        </gazebo>
+        <gazebo reference="${prefix}robotiq_85_left_finger_link">
+          <selfCollide>false</selfCollide>
+        </gazebo>
+        <gazebo reference="${prefix}robotiq_85_right_finger_link">
+          <selfCollide>false</selfCollide>
+        </gazebo>
+        <gazebo reference="${prefix}robotiq_85_left_inner_knuckle_link">
+          <selfCollide>false</selfCollide>
+        </gazebo>
+        <gazebo reference="${prefix}robotiq_85_right_inner_knuckle_link">
+          <selfCollide>false</selfCollide>
+        </gazebo>
+        <gazebo reference="${prefix}robotiq_85_left_finger_tip_link">
+          <selfCollide>false</selfCollide>
+        </gazebo>
+        <gazebo reference="${prefix}robotiq_85_right_finger_tip_link">
+          <selfCollide>false</selfCollide>
+        </gazebo>  
+
+      </xacro:if>
 
     <!-- ========== END-EFFECTORS ========== -->
     

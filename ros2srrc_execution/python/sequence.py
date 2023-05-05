@@ -171,6 +171,7 @@ class eePARAM(Node):
             self.get_logger().info('EE_MODEL ROS2 Parameter received: ' + PARAM_EE)
             
             if (PARAM_EE == "egp64" or
+                PARAM_EE == "robotiq_2f85" or
                 PARAM_EE == "none"):
                 None # do nothing.
             else:

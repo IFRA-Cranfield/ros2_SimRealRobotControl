@@ -111,8 +111,24 @@ def generate_launch_description():
         else:
             print ("  Please select a valid option!")
     print("")
-    # End-Effectors:  
-    EE_no = "true"
+    # End-Effector:
+    print("- End-effector:")
+    error = True
+    while (error == True):
+        print("     + Option N1: No end-effector.")
+        print("     + Option N2: Robotiq 2f-85 parallel gripper.")
+        end_effector = input ("  Please select: ")
+        if (end_effector == "1"):
+            error = False
+            EE_no = "true"
+            EE_robotiq = "false"
+        elif (end_effector == "2"):
+            error = False
+            EE_no = "false"
+            EE_robotiq = "true"
+        else:
+            print ("  Please select a valid option!")
+    print("")
 
     # ***** ROBOT DESCRIPTION ***** #
     # UR3 Description file package:
@@ -129,6 +145,7 @@ def generate_launch_description():
         "cell_layout_2": cell_layout_2,
         "cell_layout_3": cell_layout_3,
         "EE_no": EE_no,
+        "EE_robotiq": EE_robotiq,
         })
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
@@ -163,6 +180,37 @@ def generate_launch_description():
         executable="spawner",
         arguments=["ur_controller", "-c", "/controller_manager"],
     )
+    # === ROBOTIQ 2f-85 CONTROLLER === #
+    robotiq_controller_spawner_LKJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_LKJ", "-c", "/controller_manager"],
+    )
+    robotiq_controller_spawner_RKJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_RKJ", "-c", "/controller_manager"],
+    )
+    robotiq_controller_spawner_LIKJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_LIKJ", "-c", "/controller_manager"],
+    )
+    robotiq_controller_spawner_RIKJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_RIKJ", "-c", "/controller_manager"],
+    )
+    robotiq_controller_spawner_LFTJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_LFTJ", "-c", "/controller_manager"],
+    )
+    robotiq_controller_spawner_RFTJ = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["robotiq_controller_RFTJ", "-c", "/controller_manager"],
+    )
 
     # ========== END-EFFECTORS ========== #
     # ========== END-EFFECTORS ========== #
@@ -187,6 +235,19 @@ def generate_launch_description():
                 target_action = joint_state_broadcaster_spawner,
                 on_exit = [
                     joint_trajectory_controller_spawner,
+                ]
+            )
+        ),
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = joint_trajectory_controller_spawner,
+                on_exit = [
+                    robotiq_controller_spawner_LKJ,
+                    robotiq_controller_spawner_RKJ,
+                    robotiq_controller_spawner_LIKJ,
+                    robotiq_controller_spawner_RIKJ,
+                    robotiq_controller_spawner_LFTJ,
+                    robotiq_controller_spawner_RFTJ,
                 ]
             )
         ),
