@@ -141,6 +141,10 @@ __VIDEO: Simulation and Control of an ABB-IRB120 using ROS2__
 
 [![Alt text](https://img.youtube.com/vi/qaowbdYvG2M/0.jpg)](https://www.youtube.com/watch?v=qaowbdYvG2M)
 
+__VIDEO: Simulation and Control of a Universal Robots - UR3 using ROS2__
+
+[![Alt text](https://img.youtube.com/vi/grhYzt0wf8c/0.jpg)](https://www.youtube.com/watch?v=grhYzt0wf8c)
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- INSTALLATION -->
