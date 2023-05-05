@@ -1,0 +1,5 @@
+{'action': 'MoveJ', 'value': {'joint1': -9.13615, 'joint2': -117.5559, 'joint3': -66.32366, 'joint4': -86.14282, 'joint5': 90.0091, 'joint6': 35.86377}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.1}, 'speed': 0.2}
+{'action': 'MoveG', 'value': {'value': 0.4}, 'speed': 1.0}
+{'action': 'Attach', 'value': {'object': 'box', 'endeffector': 'robotiq_2f85'}}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.1}, 'speed': 0.2}
