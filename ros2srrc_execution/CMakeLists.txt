@@ -121,6 +121,7 @@ install(
 )
 install(PROGRAMS
   python/sequence.py
+  python/RobotState.py
   DESTINATION lib/${PROJECT_NAME} 
 )
 
