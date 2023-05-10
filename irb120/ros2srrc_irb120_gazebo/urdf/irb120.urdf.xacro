@@ -59,6 +59,8 @@
   <xacro:property name="cell_layout_1" value="$(arg cell_layout_1)"/>
   <xacro:arg name="cell_layout_2" default="false"/>
   <xacro:property name="cell_layout_2" value="$(arg cell_layout_2)"/>
+  <xacro:arg name="cell_layout_3" default="false"/>
+  <xacro:property name="cell_layout_3" value="$(arg cell_layout_3)"/>
 
   <xacro:property name="EE_no" value="$(arg EE_no)"/>
   <xacro:arg name="EE_schunk" default="false"/>
@@ -121,5 +123,71 @@
     </joint>
   </xacro:if>
   <!-- === IA Lab - IRB120 Enclosure === -->
+
+  <!-- === Pick and Place use-case === -->
+  <xacro:if value="${cell_layout_3}">
+    <link name='irb120_block'>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="100"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      </inertial>
+      <collision name='collision'>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/> 
+        <geometry>
+          <box size = "0.2 0.2 0.5"/>
+        </geometry>
+      </collision>
+      <visual name='chassis_visual'>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/>
+        <geometry>
+          <box size = "0.2 0.2 0.5"/>
+        </geometry>
+        <material name="red">
+          <color rgba="1 0 0 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="world_joint" type="fixed">
+      <parent link="world" />
+      <child link = "irb120_block" />
+      <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0" />
+    </joint>
+    <joint name="block-base" type="fixed">
+      <parent link="irb120_block" />
+      <child link = "base_link" />
+      <origin xyz="0.0 0.0 0.255" rpy="0.0 0.0 0.0" /> 
+    </joint>
+
+    <link name='table'>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="100"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      </inertial>
+      <collision name='collision'>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/> 
+        <geometry>
+          <box size = "0.5 1.0 0.7"/>
+        </geometry>
+      </collision>
+      <visual name='chassis_visual'>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/>
+        <geometry>
+          <box size = "0.5 1.0 0.7"/>
+        </geometry>
+        <material name="black">
+          <color rgba="1 0 0 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="table_world" type="fixed">
+      <parent link="world" />
+      <child link = "table" />
+      <origin xyz="0.7 0.0 0.35" rpy="0.0 0.0 0.0" />
+    </joint>
+
+  </xacro:if>
+  <!-- === Pick and Place use-case === -->
 
 </robot>

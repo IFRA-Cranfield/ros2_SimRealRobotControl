@@ -91,16 +91,23 @@ def generate_launch_description():
     while (error == True):
         print("     + Option N1: ABB IRB-120 alone.")
         print("     + Option N2: Cranfield University: IA Lab enclosure.")
+        print("     + Option N3: Pick and Place use-case.")
         cell_layout = input ("  Please select: ")
         if (cell_layout == "1"):
             error = False
             cell_layout_1 = "true"
             cell_layout_2 = "false"
+            cell_layout_3 = "false"
         elif (cell_layout == "2"):
             error = False
             cell_layout_1 = "false"
             cell_layout_2 = "true"
-
+            cell_layout_3 = "false"
+        elif (cell_layout == "3"):
+            error = False
+            cell_layout_1 = "false"
+            cell_layout_2 = "false"
+            cell_layout_3 = "true"
         else:
             print ("  Please select a valid option!")
     print("")
@@ -136,6 +143,7 @@ def generate_launch_description():
     xacro.process_doc(doc, mappings={
         "cell_layout_1": cell_layout_1,
         "cell_layout_2": cell_layout_2,
+        "cell_layout_3": cell_layout_3,
         "EE_no": EE_no,
         "EE_schunk": EE_schunk,
         })
