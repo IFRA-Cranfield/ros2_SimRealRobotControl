@@ -205,7 +205,7 @@ void DETACH(){
     message.data = "True";
      
     int i = 0;
-    while (i < 1000) {
+    while (i < 10000) {
         publisher->publish(message);
         rclcpp::spin_some(DetacherNode);
         i = i + 1;
