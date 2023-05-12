@@ -33,8 +33,8 @@ find_package(rclcpp REQUIRED)
 # REQUIRED to -> Include ros2_data package:
 find_package(ros2srrc_data REQUIRED)
 
-# REQUIRED to -> Include ros2_grasping package:
-find_package(ros2_grasping REQUIRED)
+# REQUIRED to -> Include linkattacher_msgs package:
+find_package(linkattacher_msgs REQUIRED)
 
 # REQUIRED to -> Execute ACTIONS:
 find_package(rclcpp_action REQUIRED)
@@ -107,7 +107,7 @@ ament_target_dependencies(
   std_msgs
   rclcpp_action
   ros2srrc_data
-  ros2_grasping
+  linkattacher_msgs
   abb_robot_msgs
 )
 

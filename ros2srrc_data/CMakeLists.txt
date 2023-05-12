@@ -51,6 +51,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Xyzypr.msg"
   "msg/Ypr.msg"
   "msg/Action.msg"
+  "msg/Linkattacher.msg"
   "action/Move.action"
   "action/Sequence.action"
 )

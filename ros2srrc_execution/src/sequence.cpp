@@ -39,14 +39,15 @@
 #include "ros2srrc_execution/moveg.h"
 
 // Include for ATTACHER/DETACHER:
-#include "std_msgs/msg/string.hpp"
-#include "ros2_grasping/action/attacher.hpp"
+#include <linkattacher_msgs/srv/attach_link.hpp>   
+#include <linkattacher_msgs/srv/detach_link.hpp>
 
 // Include for ABB I/O manipulation:
 #include <abb_robot_msgs/srv/set_io_signal.hpp>
 
 // Include standard libraries:
 #include <string>
+#include "std_msgs/msg/string.hpp"
 #include <vector>
 #include <unistd.h> 
 #include <ctime>
@@ -68,6 +69,7 @@
 #include "ros2srrc_data/msg/xyz.hpp"
 #include "ros2srrc_data/msg/xyzypr.hpp"
 #include "ros2srrc_data/msg/ypr.hpp"
+#include "ros2srrc_data/msg/linkattacher.hpp"
 
 // Declaration of GLOBAL VARIABLES --> ROBOT / END-EFFECTOR / ENVIRONMENT PARAMETERS:
 std::string param_ROB = "none";
@@ -179,36 +181,63 @@ moveit::planning_interface::MoveGroupInterface::Plan plan_EE() {
 
 void AttachDetach_NODE(){
 
-    AttacherNode = rclcpp::Node::make_shared("ATTACHER_AC_node");
-    DetacherNode = rclcpp::Node::make_shared("DETACHER_P_node");
+    AttacherNode = rclcpp::Node::make_shared("ATTACHER_SC_node");
+    DetacherNode = rclcpp::Node::make_shared("DETACHER_SC_node");
 
 }
 
-void ATTACH(std::string OBJECT){
+bool ATTACH(ros2srrc_data::msg::Linkattacher REQ){
 
-    auto ATTACHER_AC = rclcpp_action::create_client<ros2_grasping::action::Attacher>(AttacherNode, "Attacher");
-    
-    auto goal_msg = ros2_grasping::action::Attacher::Goal();
-    goal_msg.object = OBJECT;
-    goal_msg.endeffector = "EE_" + param_EE;
+    auto ATTACHER_SC = AttacherNode->create_client<linkattacher_msgs::srv::AttachLink>("ATTACHLINK");
+    auto request = std::make_shared<linkattacher_msgs::srv::AttachLink::Request>();
 
-    auto GOAL = ATTACHER_AC->async_send_goal(goal_msg);
-    rclcpp::spin_some(AttacherNode);
+    request->model1_name = REQ.model1_name;
+    request->link1_name = REQ.link1_name;
+    request->model2_name = REQ.model2_name;
+    request->link2_name = REQ.link2_name;
+
+    auto result = ATTACHER_SC->async_send_request(request);
+
+    if (rclcpp::spin_until_future_complete(AttacherNode, result) == rclcpp::FutureReturnCode::SUCCESS)
+    {
+        auto RES = result.get();
+        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "MSG: %s", RES->message.c_str());
+        if (bool attachOK = RES->success) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Failed to call service /ATTACHLINK");
+        return false;
+    }
 
 }
 
-void DETACH(){
+bool DETACH(ros2srrc_data::msg::Linkattacher REQ){
     
-    auto publisher = DetacherNode->create_publisher<std_msgs::msg::String>("ros2_Detach", 10);
-    
-    std_msgs::msg::String message;
-    message.data = "True";
-     
-    int i = 0;
-    while (i < 10000) {
-        publisher->publish(message);
-        rclcpp::spin_some(DetacherNode);
-        i = i + 1;
+    auto DETACHER_SC = DetacherNode->create_client<linkattacher_msgs::srv::DetachLink>("DETACHLINK");
+    auto request = std::make_shared<linkattacher_msgs::srv::DetachLink::Request>();
+
+    request->model1_name = REQ.model1_name;
+    request->link1_name = REQ.link1_name;
+    request->model2_name = REQ.model2_name;
+    request->link2_name = REQ.link2_name;
+
+    auto result = DETACHER_SC->async_send_request(request);
+
+    if (rclcpp::spin_until_future_complete(DetacherNode, result) == rclcpp::FutureReturnCode::SUCCESS)
+    {
+        auto RES = result.get();
+        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "MSG: %s", RES->message.c_str());
+        if (bool detachOK = RES->success) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Failed to call service /DETACHLINK");
+        return false;
     }
     
 }
@@ -567,17 +596,31 @@ private:
                 // This happens when an object needs to be attached to an end-effector in Gazebo Simulation (using ros2_grasping):
                 if (ACTION == "Attach"){
 
-                    ATTACH(STEP.attach);
+                    bool success = ATTACH(STEP.attach);
+
+                    if (success){
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Object attached successfully.";
+                        goal_handle->publish_feedback(feedback);
+                    } else {
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":ERROR attaching object.";
+                        goal_handle->publish_feedback(feedback);
+                        CONTINUE = false;
+                    }
                     
-                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Object attached successfully.";
-                    goal_handle->publish_feedback(feedback);
+                    
 
                 } else if (ACTION == "Detach"){
 
-                    DETACH();
+                    bool success = DETACH(STEP.detach);
 
-                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Object detached successfully.";
-                    goal_handle->publish_feedback(feedback);
+                    if (success){
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Object detached successfully.";
+                        goal_handle->publish_feedback(feedback);
+                    } else {
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":ERROR detaching object.";
+                        goal_handle->publish_feedback(feedback);
+                        CONTINUE = false;
+                    }
                     
                 }
 

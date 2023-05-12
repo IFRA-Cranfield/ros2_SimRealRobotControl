@@ -1,5 +1,21 @@
 {'action': 'MoveJ', 'value': {'joint1': -9.13615, 'joint2': -117.5559, 'joint3': -66.32366, 'joint4': -86.14282, 'joint5': 90.0091, 'joint6': 35.86377}, 'speed': 1.0}
 {'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.1}, 'speed': 0.2}
 {'action': 'MoveG', 'value': {'value': 0.4}, 'speed': 1.0}
-{'action': 'Attach', 'value': {'object': 'box', 'endeffector': 'robotiq_2f85'}}
+{'action': 'Attach', 'value': {'model1': 'ur3', 'link1': 'EE_robotiq_2f85', 'model2': 'box', 'link2': 'box'}}
 {'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.1}, 'speed': 0.2}
+{'action': 'MoveJ', 'value': {'joint1': -42.2092, 'joint2': -77.7123, 'joint3': -112.1476, 'joint4': -80.1719, 'joint5': 89.9934, 'joint6': 2.7906}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.09}, 'speed': 0.2}
+{'action': 'MoveG', 'value': {'value': 0.0}, 'speed': 1.0}
+{'action': 'Detach', 'value': {'model1': 'ur3', 'link1': 'EE_robotiq_2f85', 'model2': 'box', 'link2': 'box'}}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.09}, 'speed': 0.2}
+{'action': 'MoveR', 'value': {'joint': 'joint6', 'value': 180.0}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.1}, 'speed': 0.2}
+{'action': 'MoveG', 'value': {'value': 0.4}, 'speed': 1.0}
+{'action': 'Attach', 'value': {'model1': 'ur3', 'link1': 'EE_robotiq_2f85', 'model2': 'box', 'link2': 'box'}}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.1}, 'speed': 0.2}
+{'action': 'MoveJ', 'value': {'joint1': -9.13615, 'joint2': -117.5559, 'joint3': -66.32366, 'joint4': -86.14282, 'joint5': 90.0091, 'joint6': 215.86377}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.09}, 'speed': 0.2}
+{'action': 'MoveG', 'value': {'value': 0.0}, 'speed': 1.0}
+{'action': 'Detach', 'value': {'model1': 'ur3', 'link1': 'EE_robotiq_2f85', 'model2': 'box', 'link2': 'box'}}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.09}, 'speed': 0.2}
+{'action': 'MoveJ', 'value': {'joint1': 45.0, 'joint2': -90.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': -90.0}, 'speed': 1.0}

@@ -46,6 +46,7 @@ from ros2srrc_data.msg import Joints
 from ros2srrc_data.msg import Xyz
 from ros2srrc_data.msg import Xyzypr
 from ros2srrc_data.msg import Ypr
+from ros2srrc_data.msg import Linkattacher
 
 # Define GLOBAL VARIABLE -> RES:
 RES = "null"
@@ -392,9 +393,20 @@ def main(args=None):
             ACTION.moveg = readSEQ[str(i)]['value']['value']
 
         elif (ACTION.action == "Attach"):
-            ACTION.attach = readSEQ[str(i)]['value']['object']
+            Attach_VAR = Linkattacher()
+            Attach_VAR.model1_name = readSEQ[str(i)]['value']['model1']
+            Attach_VAR.link1_name = readSEQ[str(i)]['value']['link1']
+            Attach_VAR.model2_name = readSEQ[str(i)]['value']['model2']
+            Attach_VAR.link2_name = readSEQ[str(i)]['value']['link2']
+            ACTION.attach = Attach_VAR
+
         elif (ACTION.action == "Detach"):
-            ACTION.detach = readSEQ[str(i)]['value']['object']
+            Detach_VAR = Linkattacher()
+            Detach_VAR.model1_name = readSEQ[str(i)]['value']['model1']
+            Detach_VAR.link1_name = readSEQ[str(i)]['value']['link1']
+            Detach_VAR.model2_name = readSEQ[str(i)]['value']['model2']
+            Detach_VAR.link2_name = readSEQ[str(i)]['value']['link2']
+            ACTION.detach = Detach_VAR
 
         elif (ACTION.action == "ABB - GripperOpen"):
             pass # No action required, since ACTION name is passed and enough.
