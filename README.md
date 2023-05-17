@@ -81,6 +81,7 @@
         <li><a href="#ros2srrc_data">ros2srrc_data</a></li>
         <li><a href="#ros2srrc_execution">ros2srrc_execution</a></li>
         <li><a href="#robot-simulation-and-control-packages">Robot Simulation and Control packages</a></li>
+        <li><a href="#ifra_linkattacher">IFRA_LinkAttacher</a></li>
       </ul>
     </li>
     <li><a href="#contributing">Contributing</a></li>
@@ -192,6 +193,16 @@ All packages in this repository have been developed, executed and tested in a Ub
     colcon build
     ```
 
+5. __Import and install IFRA_LinkAttacher__:
+
+    ```sh
+    cd ~/dev_ws/src
+    git clone https://github.com/IFRA-Cranfield/IFRA_LinkAttacher.git
+    cd ~/dev_ws
+    colcon build
+    ```
+
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
@@ -227,6 +238,11 @@ For the ROS 2-based Robot Simulation and Control to be successfully achieved, 3 
 - __Gazebo package__: The Gazebo/Simulation package contains all the information related to the Gazebo Simulation of the Robot Cell/Environment. CAD and mesh files containing visual data and [.urdf]+[.xacro] files containing Robot (ROS-format) data are combined with ROS 2 control and simulation components, and a simple simulation of the Robot (without any motion control) is obtained in Gazebo.  
 - __MoveIt!2 package__: For the Robot to be moved and controlled, a ROS 2 MoveIt!2 package is required. This package contains all the information related to the ROS 2 - MoveGroup (moveit2) node that controls the robot and its behaviour.  
 - __Bringup package__: The Bringup package acts as the main connection point between ROS 2 and the Real Robot. It contains all the information about the robot controllers, and establishes the connection between moveit2 and the Real Robot. For the connection between ROS 2 and a Real Robot to be established, a ROS 2 Driver is required, which translates the ROS 2-based commands to the Robot Controller. This ROS 2 Driver is usually developed by the Robot vendor or a recognised ROS2-development company.
+
+### IFRA_LinkAttacher
+At IFRA-Cranfield we have developed a ROS2-Gazebo Plugin which enables the attachment of 2 different entity links in Gazebo. The plugin has been designed with the main purpose of simulating object pick and place tasks using Robot Manipulators. The link attachment/detachment feature is available through a ROS2 Service Server, which creates a temporary fixed joint between two links for the "ATTACH" request, and removes the previously generated joint for the "DETACH" service. Thanks to this functionality, objects can be easily attached to any end-effector and pick/place tasks can be simulated in Gazebo-ROS2.
+
+For further detail about the link ATTACHER/DETACHER plugin, please click [here](https://github.com/IFRA-Cranfield/IFRA_LinkAttacher).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

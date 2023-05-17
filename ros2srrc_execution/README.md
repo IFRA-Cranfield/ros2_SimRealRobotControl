@@ -75,11 +75,16 @@ The pre-defined programs are saved inside the /programs folder as .txt files. Ev
 * For MoveG (ABB Robot): 
     * To Open Gripper ---> {'action': 'GripperOpen'}
     * To Close Gripper ---> {'action': 'GripperClose'}
-* For the ros2_grasping feature (Gazebo):
-    * To attach object to end-effector ---> {'action': 'Attach', 'value': {'object': '---', 'endeffector': '---'}}
-    * To detach object ---> {'action': 'Detach', 'value': {'object': '---'}}
+* For the object manipulation (IFRA_LinkAttacher Gazebo Plugin):
+    * To attach object to end-effector ---> {'action': 'Attach', 'value': {'model1': '---', 'link1': '---', 'model2': '---', 'link2': '---'}}
+    * To detach object from end-effector ---> {'action': 'Attach', 'value': {'model1': '---', 'link1': '---', 'model2': '---', 'link2': '---'}}
+    * Elements are defined as follows:
+      * model1 -> Name of the model/robot (defined in the robot .urdf). 
+      * link1 -> Name of the end-effector link that the object will be attached to.
+      * model2 -> Name of the object to be attached (defined in the object .urdf). 
+      * link2 -> Name of the object link.
 
-__Example of a ROBOT PROGRAM: irb120.txt__
+__Example of a simple ROBOT PROGRAM: irb120.txt__
 ```txt
 {'action': 'MoveJ', 'value': {'joint1': 90.0, 'joint2': 0.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': 45.0}, 'speed': 1.0}
 {'action': 'MoveJ', 'value': {'joint1': 90.0, 'joint2': -20.0, 'joint3': 40.0, 'joint4': 0.0, 'joint5': -20.0, 'joint6': 45.0}, 'speed': 1.0}
@@ -97,4 +102,29 @@ __Example of a ROBOT PROGRAM: irb120.txt__
 {'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.1}, 'speed': 0.05}
 {'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.1}, 'speed': 0.05}
 {'action': 'MoveJ', 'value': {'joint1': 0.0, 'joint2': 0.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': 0.0}, 'speed': 1.0}
+```
+
+__Example of a ROBOT PROGRAM w/ object Pick&Place: ur3cubePP.txt__
+```txt
+{'action': 'MoveJ', 'value': {'joint1': -9.13615, 'joint2': -117.5559, 'joint3': -66.32366, 'joint4': -86.14282, 'joint5': 90.0091, 'joint6': 35.86377}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.1}, 'speed': 0.2}
+{'action': 'MoveG', 'value': {'value': 0.4}, 'speed': 1.0}
+{'action': 'Attach', 'value': {'model1': 'ur3', 'link1': 'EE_robotiq_2f85', 'model2': 'box', 'link2': 'box'}}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.1}, 'speed': 0.2}
+{'action': 'MoveJ', 'value': {'joint1': -42.2092, 'joint2': -77.7123, 'joint3': -112.1476, 'joint4': -80.1719, 'joint5': 89.9934, 'joint6': 2.7906}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.09}, 'speed': 0.2}
+{'action': 'MoveG', 'value': {'value': 0.0}, 'speed': 1.0}
+{'action': 'Detach', 'value': {'model1': 'ur3', 'link1': 'EE_robotiq_2f85', 'model2': 'box', 'link2': 'box'}}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.09}, 'speed': 0.2}
+{'action': 'MoveR', 'value': {'joint': 'joint6', 'value': 180.0}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.1}, 'speed': 0.2}
+{'action': 'MoveG', 'value': {'value': 0.4}, 'speed': 1.0}
+{'action': 'Attach', 'value': {'model1': 'ur3', 'link1': 'EE_robotiq_2f85', 'model2': 'box', 'link2': 'box'}}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.1}, 'speed': 0.2}
+{'action': 'MoveJ', 'value': {'joint1': -9.13615, 'joint2': -117.5559, 'joint3': -66.32366, 'joint4': -86.14282, 'joint5': 90.0091, 'joint6': 215.86377}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.09}, 'speed': 0.2}
+{'action': 'MoveG', 'value': {'value': 0.0}, 'speed': 1.0}
+{'action': 'Detach', 'value': {'model1': 'ur3', 'link1': 'EE_robotiq_2f85', 'model2': 'box', 'link2': 'box'}}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.09}, 'speed': 0.2}
+{'action': 'MoveJ', 'value': {'joint1': 45.0, 'joint2': -90.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': -90.0}, 'speed': 1.0}
 ```
