@@ -1,0 +1,16 @@
+{'action': 'MoveJ', 'value': {'joint1': 90.0, 'joint2': 0.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': 45.0}, 'speed': 1.0}
+{'action': 'MoveJ', 'value': {'joint1': 90.0, 'joint2': -20.0, 'joint3': 40.0, 'joint4': 0.0, 'joint5': -20.0, 'joint6': 45.0}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.1, 'z': 0.0}, 'speed': 0.05}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': -0.1, 'z': 0.0}, 'speed': 0.05}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.2}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.1, 'z': 0.0}, 'speed': 0.05}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': -0.1, 'z': 0.0}, 'speed': 0.05}
+{'action': 'MoveJ', 'value': {'joint1': 0.0, 'joint2': 0.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': 0.0}, 'speed': 1.0}
+{'action': 'MoveROT', 'value': {'pitch': 90.0, 'yaw': 0.0, 'roll': 0.0}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.2}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.1}, 'speed': 0.05}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.1}, 'speed': 0.05}
+{'action': 'MoveR', 'value': {'joint': 'joint1', 'value': -45.0}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.1}, 'speed': 0.05}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.1}, 'speed': 0.05}
+{'action': 'MoveJ', 'value': {'joint1': 0.0, 'joint2': 0.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': 0.0}, 'speed': 1.0}

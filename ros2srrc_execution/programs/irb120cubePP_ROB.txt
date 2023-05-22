@@ -1,0 +1,9 @@
+{'action': 'MoveJ', 'value': {'joint1': 33.4928, 'joint2': 27.7661, 'joint3': 25.5554, 'joint4': 0.2029, 'joint5': 36.9276, 'joint6': 33.3304}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.05}, 'speed': 0.05}
+{'action': 'ABB - GripperClose'}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.05}, 'speed': 0.05}
+{'action': 'MoveJ', 'value': {'joint1': -41.0763, 'joint2': 55.8847, 'joint3': -39.8721, 'joint4': -0.4164, 'joint5': 74.5182, 'joint6': -40.9639}, 'speed': 1.0}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': -0.05}, 'speed': 0.05}
+{'action': 'ABB - GripperOpen'}
+{'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.05}, 'speed': 0.05}
+{'action': 'MoveJ', 'value': {'joint1': 0.0, 'joint2': 0.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 90.0, 'joint6': 0.0}, 'speed': 1.0}
