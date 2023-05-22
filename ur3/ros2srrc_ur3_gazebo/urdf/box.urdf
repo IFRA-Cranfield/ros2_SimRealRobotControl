@@ -23,18 +23,18 @@
 
     <inertial>
       <origin xyz= "0.0 0.0 0.0" rpy="0 0 0"/>
-      <mass value= "0.8" />
+      <mass value= "0.01" />
       <inertia
-        ixx="0.15" ixy="0.0"  ixz="0.0"
-        iyy="0.15" iyz="0.0"
-        izz="0.15" />
+        ixx="0.001" ixy="0.0"  ixz="0.0"
+        iyy="0.001" iyz="0.0"
+        izz="0.001" />
     </inertial>
   </link>
 
   <gazebo reference="box">
     <material>Gazebo/Orange</material>
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
+    <mu1>0.5</mu1>
+    <mu2>0.5</mu2>
     <selfCollide>false</selfCollide>
   </gazebo>
 
