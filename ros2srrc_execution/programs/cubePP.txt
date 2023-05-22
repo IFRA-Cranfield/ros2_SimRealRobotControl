@@ -1,5 +1,0 @@
-{'action': 'MoveJ', 'value': {'joint1': 0.0, 'joint2': 0.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': 0.0}, 'speed': 1.0}
-{'action': 'MoveJ', 'value': {'joint1': -58.10, 'joint2': 25.75, 'joint3': 27.17, 'joint4': -63.59, 'joint5': -71.41, 'joint6': 32.67}, 'speed': 1.0}
-{'action': 'MoveL', 'value': {'x': 0.06, 'y': 0.0, 'z': -0.1}, 'speed': 1.0}
-{'action': 'Attach', 'value': {'object': 'box', 'endeffector': 'EE_egp64'}, 'speed': 1.0}
-{'action': 'MoveG', 'value': {'value': 0.005}, 'speed': 1.0}

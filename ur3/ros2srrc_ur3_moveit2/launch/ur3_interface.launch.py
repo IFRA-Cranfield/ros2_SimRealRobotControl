@@ -17,16 +17,16 @@
 #                                                                                       #
 #  IFRA Group - Cranfield University                                                    #
 #  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
-#           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
-#           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
 #                                                                                       #
-#  Date: November, 2022.                                                                #
+#  Date: May, 2023.                                                                     #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
 # ======= CITE OUR WORK ======= #
 # You can cite our work with the following statement:
-# IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # ur3_interface.launch.py:
 # Launch file for the UR3 Robot GAZEBO + MoveIt!2 SIMULATION (+ Robot/Gripper triggers) in ROS2 Humble:
@@ -424,14 +424,6 @@ def generate_launch_description():
             parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "ur3"}, {"EE_PARAM": "robotiq_2f85"}, {"ENV_PARAM": "gazebo"}],
         )
 
-    # ATTACHER action for ros2_grasping plugin:
-    Attacher = Node(
-        name="ATTACHER_action",
-        package="ros2_grasping",
-        executable="attacher_action.py",
-        output="screen",
-    )
-
     return LaunchDescription(
         [
             # Gazebo nodes:
@@ -493,7 +485,6 @@ def generate_launch_description():
                             actions=[
                                 MoveInterface,
                                 SequenceInterface,
-                                Attacher,
                             ]
                         ),
 

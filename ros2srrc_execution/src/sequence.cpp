@@ -593,7 +593,7 @@ private:
                 // ========== EXTRA ACTIONS ========== //
 
                 // ATTACH/DETACH:
-                // This happens when an object needs to be attached to an end-effector in Gazebo Simulation (using ros2_grasping):
+                // This happens when an object needs to be attached to an end-effector in Gazebo Simulation (using IFRA_LinkAttacher):
                 if (ACTION == "Attach"){
 
                     bool success = ATTACH(STEP.attach);

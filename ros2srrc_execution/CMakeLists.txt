@@ -30,7 +30,7 @@ endif()
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(rclcpp REQUIRED)
 
-# REQUIRED to -> Include ros2_data package:
+# REQUIRED to -> Include ros2srrc_data package:
 find_package(ros2srrc_data REQUIRED)
 
 # REQUIRED to -> Include linkattacher_msgs package:
@@ -122,6 +122,7 @@ install(
 install(PROGRAMS
   python/sequence.py
   python/RobotState.py
+  python/SpawnObject.py
   DESTINATION lib/${PROJECT_NAME} 
 )
 

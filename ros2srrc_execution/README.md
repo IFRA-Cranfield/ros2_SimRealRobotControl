@@ -128,3 +128,22 @@ __Example of a ROBOT PROGRAM w/ object Pick&Place: ur3cubePP.txt__
 {'action': 'MoveL', 'value': {'x': 0.0, 'y': 0.0, 'z': 0.09}, 'speed': 0.2}
 {'action': 'MoveJ', 'value': {'joint1': 45.0, 'joint2': -90.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': -90.0}, 'speed': 1.0}
 ```
+
+### EXTRA features: RobotState.py and SpawnObject.py
+The __RobotState.py__ script allows the user to get the state of the robot in __joint values__, by simply executing the following command:
+```sh
+ros2 run ros2srrc_execution RobotState.py
+# The script returns the robot's JointState values in the standard format presented above, in the sequence definition:
+# {'joint1': 0.0, 'joint2': 0.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': 0.0}
+```
+The __SpawnObject.py__ script allows the user to spawn any object (defined in a .__urdf__ file) to a Gazebo simulation, by simply executing the following command:
+```sh
+ros2 run ros2srrc_execution SpawnObject.py --package "{}" --urdf "{}.urdf" --name "{}" --x {} --y {} --z {}
+# NOTE: It is assumed that the .urdf file of the object to be spawned is stored in the /urdf folder of the selected package.
+
+# EXAMPLES:
+#   - Box to UR3 simulation: 
+      ros2 run ros2srrc_execution SpawnObject.py --package "ros2srrc_ur3_gazebo" --urdf "box.urdf" --name "box" --x -0.4 --y 0.6 --z 0.78
+#   - Box to IRB120 simulation: 
+      ros2 run ros2srrc_execution SpawnObject.py --package "ros2srrc_irb120_gazebo" --urdf "box.urdf" --name "box" --x -0.35 --y 0.85 --z 0.88
+```

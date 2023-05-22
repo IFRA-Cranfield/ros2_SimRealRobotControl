@@ -15,9 +15,6 @@
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
-  <depend>ros2_data</depend>
-  <depend>ros2_actions</depend>
-
   <export>
     <build_type>ament_cmake</build_type>
   </export>

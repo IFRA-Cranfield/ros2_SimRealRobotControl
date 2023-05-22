@@ -135,6 +135,7 @@ This ros2_SimRealRobotControl repository is based on ros2_RobotSimulation, and c
 - Robot Bringup packages, that enable the control of REAL ROBOTS through ROS 2.
 - The Pilz Industrial Motion Planner, which replaces the OMPL planner (MoveIt!2 default) used in ros2_RobotSimulation and allows for advanced motion control and features, such as cartesian speed control.
 - In ros2_RobotSimulation, Robot Movements are triggered as individual ROS 2 Actions, each of them contained in a ROS 2 node. When executing Robot Programs (sequences) using ros2_execution, Robot Movements (execution steps) are executed by calling ROS 2 actions one by one. This introduces a small delay between steps. For ros2_SimRealRobotControl, all Robot Movements are contained in a single ROS 2 Action (therefore, a single ROS 2 node), and sequences are executed by calling a single ROS 2 Action from a python script. Thus, the delay introduced by ROS 2 Action calls is avoided, and the delay between movements now only depends on MoveIt!2's processing (plan+execute) time. Quicker and smoother results are obtained, closing the performance gap between ROS2-controlled robots and Industrial Manipulators.
+- Improved simulation of object grasping: The new [IFRA_LinkAttacher](https://github.com/IFRA-Cranfield/IFRA_LinkAttacher) ROS2-Gazebo plugin developed by IFRA-Cranfield is used in ros2_SimRealRobotControl. This new plugin is more precise and works better than ros2_grasping in ros2_RobotSimulation.
 
 In a nutshell, ros2_RobotSimulation is a great tool if you are new to ROS 2 and you wish to use it for Robot Simulation and Control, and ros2_SimRealRobotControl is appropriate for anyone willing to design, develop and test their own Robot applications using the ROS 2 packages (Gazebo+MoveIt!2+Bringup) provided.
 
@@ -153,14 +154,62 @@ __VIDEO: Simulation and Control of a Universal Robots - UR3 using ROS2__
 
 All packages in this repository have been developed, executed and tested in a Ubuntu 22.04 machine with ROS 2 Humble. Please find below all the required steps to set-up a ROS 2 Humble environment in Ubuntu and install the ROS 2-based Robot Simulation and Control packages.
 
-1. __Import and install ros2_RobotSimulation__: This repository is an advanced version of ros2_RobotSimulation. Thus, installing ros2_RobotSimulation and its resources is required. You can find the installation steps [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/humble). Please do make sure the following are properly installed:
-    - Ubuntu 22.04 machine.
-    - Git.
-    - ROS 2 Humble + ~/dev_ws workspace.
-    - MoveIt!2 (humble).
-    - ROS2 Control (humble) + ROS2 Controllers (humble).
-    - Gazebo + Gazebo ROS2 Control (humble) + Gazebo ROS Pkgs (humble).
-    - ros2_RobotSimulation (ros2_data, ros2_actions, ros2_execution and ros2_grasping are required).
+1. __Set-up the Ubuntu+ROS2 PC for the Robot Simulation and Control__: The steps below need to be followed in order to set-up a proper ROS2 (Humble) workspace for Robot Simulation and Control, and to be able to use ros2_SimRealRobotControl:
+
+    (1.1) Install Ubuntu 22.04: https://ubuntu.com/desktop
+
+    (1.2) Install Git:
+      ```sh
+      # In the terminal shell:
+      sudo apt install git
+      
+      # Git account configuration:
+      git config --global user.name YourUsername
+      git config --global user.email YourEmail
+      git config --global color.ui true
+      git config --global core.editor code --wait # Visual Studio Code is recommended.
+      git config --global credential.helper store
+      ```
+    
+    (1.3) Install ROS2 Humble:
+      - Follow instructions in: [ROS2 Humble Tutorials - Installation](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html).
+      - Source the ROS2.0 Humble installation in the .bashrc file (hidden file in /home):
+        ```sh
+        source opt/ros/humble/setup.bash
+        ```
+
+    (1.4) Install MoveIt!2 for ROS2 Humble ([REF: MoveIt!2 Website](https://moveit.picknik.ai/humble/index.html)):
+      ```sh
+      # Command for BINARY INSTALL (recommended):
+      sudo apt install ros-humble-moveit
+      ```
+
+    (1.5) Create and configure the ROS2.0 Humble ~/dev_ws environment/workspace:
+      - Follow instructions in: [ROS2 Humble Tutorials - Create a ROS2 Workspace](https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html).
+      - Source the ~/dev_ws workspace in .bashrc file:
+        ```sh
+        source ~/dev_ws/install/local_setup.bash
+        ```
+
+    (1.6) Install ROS2 packages, which are required for ROS2-based Robot Simulation and Control:
+      ```sh
+      # ROS2 Control + ROS2 Controllers:
+      sudo apt install ros-humble-ros2-control
+      sudo apt install ros-humble-ros2-controllers
+      sudo apt install ros-humble-gripper-controllers
+
+
+      # Gazebo for ROS2 Humble:
+      sudo apt install gazebo
+      sudo apt install ros-humble-gazebo-ros2-control
+      sudo apt install ros-humble-gazebo-ros-pkgs
+
+      # xacro:
+      sudo apt install ros-humble-xacro
+
+      # Fix cycle time issues in humble-moveit (temporary fix):
+      sudo apt install ros-humble-rmw-cyclonedds-cpp # (+) Add into .bashrc file -> export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      ```
 
 </br>
 
@@ -184,20 +233,20 @@ All packages in this repository have been developed, executed and tested in a Ub
     sudo apt-get install ros-humble-ur-robot-driver
     ```
 
-4. __Import and install ros2_SimRealRobotControl__:
-
-    ```sh
-    cd ~/dev_ws/src
-    git clone https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl
-    cd ~/dev_ws
-    colcon build
-    ```
-
-5. __Import and install IFRA_LinkAttacher__:
+4. __Import and install IFRA_LinkAttacher__:
 
     ```sh
     cd ~/dev_ws/src
     git clone https://github.com/IFRA-Cranfield/IFRA_LinkAttacher.git
+    cd ~/dev_ws
+    colcon build
+    ```
+
+5. __Import and install ros2_SimRealRobotControl__:
+
+    ```sh
+    cd ~/dev_ws/src
+    git clone https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl
     cd ~/dev_ws
     colcon build
     ```
