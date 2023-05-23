@@ -248,7 +248,7 @@ All packages in this repository have been developed, executed and tested in a Ub
 
     ```sh
     cd ~/dev_ws/src
-    git clone https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl
+    git clone https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl -b foxy
     cd ~/dev_ws
     colcon build
     ```
