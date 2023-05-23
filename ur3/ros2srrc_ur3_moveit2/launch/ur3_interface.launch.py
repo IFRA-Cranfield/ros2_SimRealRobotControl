@@ -180,49 +180,40 @@ def generate_launch_description():
 
     # ***** ROS2_CONTROL -> LOAD CONTROLLERS ***** #
 
-    # Joint STATE BROADCASTER:
-    joint_state_broadcaster_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
-    )
-    # Joint TRAJECTORY Controller:
-    joint_trajectory_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["ur_controller", "-c", "/controller_manager"],
-    )
+    if (EE_no == "true"):
+        load_controllers = []
+        for controller in [
+            "ur_controller",
+            "joint_state_controller",
+        ]:
+            load_controllers += [
+                ExecuteProcess(
+                    cmd=["ros2 run controller_manager spawner.py {}".format(controller)],
+                    shell=True,
+                    output="screen",
+                )
+            ]
+    
     # === ROBOTIQ 2f-85 CONTROLLER === #
-    robotiq_controller_spawner_LKJ = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["robotiq_controller_LKJ", "-c", "/controller_manager"],
-    )
-    robotiq_controller_spawner_RKJ = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["robotiq_controller_RKJ", "-c", "/controller_manager"],
-    )
-    robotiq_controller_spawner_LIKJ = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["robotiq_controller_LIKJ", "-c", "/controller_manager"],
-    )
-    robotiq_controller_spawner_RIKJ = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["robotiq_controller_RIKJ", "-c", "/controller_manager"],
-    )
-    robotiq_controller_spawner_LFTJ = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["robotiq_controller_LFTJ", "-c", "/controller_manager"],
-    )
-    robotiq_controller_spawner_RFTJ = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["robotiq_controller_RFTJ", "-c", "/controller_manager"],
-    )
+    if (EE_robotiq =="true"):
+        load_controllers = []
+        for controller in [
+            "ur_controller",
+            "joint_state_controller",
+            "robotiq_controller_LKJ",
+            "robotiq_controller_RKJ",
+            "robotiq_controller_LIKJ",
+            "robotiq_controller_RIKJ",
+            "robotiq_controller_LFTJ",
+            "robotiq_controller_RFTJ",
+        ]:
+            load_controllers += [
+                ExecuteProcess(
+                    cmd=["ros2 run controller_manager spawner.py {}".format(controller)],
+                    shell=True,
+                    output="screen",
+                )
+            ]
 
 
     # *********************** MoveIt!2 *********************** #   
@@ -432,41 +423,10 @@ def generate_launch_description():
             # ROS2_CONTROL:
             static_tf,
             node_robot_state_publisher,
-            
-            # ROS2 Controllers:
-            RegisterEventHandler(
-                OnProcessExit(
-                    target_action = spawn_entity,
-                    on_exit = [
-                        joint_state_broadcaster_spawner,
-                    ]
-                )
-            ),
-            RegisterEventHandler(
-                OnProcessExit(
-                    target_action = joint_state_broadcaster_spawner,
-                    on_exit = [
-                        joint_trajectory_controller_spawner,
-                    ]
-                )
-            ),
-            RegisterEventHandler(
-                OnProcessExit(
-                    target_action = joint_trajectory_controller_spawner,
-                    on_exit = [
-                        robotiq_controller_spawner_LKJ,
-                        robotiq_controller_spawner_RKJ,
-                        robotiq_controller_spawner_LIKJ,
-                        robotiq_controller_spawner_RIKJ,
-                        robotiq_controller_spawner_LFTJ,
-                        robotiq_controller_spawner_RFTJ,
-                    ]
-                )
-            ),
 
             RegisterEventHandler(
                 OnProcessExit(
-                    target_action = robotiq_controller_spawner_RFTJ,
+                    target_action = spawn_entity,
                     on_exit = [
 
                         # MoveIt!2:
@@ -492,4 +452,5 @@ def generate_launch_description():
                 )
             )
         ]
+        + load_controllers
     )
