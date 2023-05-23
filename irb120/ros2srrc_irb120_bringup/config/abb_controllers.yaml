@@ -2,16 +2,16 @@ controller_manager:
   ros__parameters:
     update_rate: 250  # Hz
 
-    joint_state_broadcaster:
-      type: joint_state_broadcaster/JointStateBroadcaster
+    joint_state_controller:
+      type: joint_state_controller/JointStateController
 
-    joint_trajectory_controller:
+    irb120_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
     forward_command_controller_position:
       type: forward_command_controller/ForwardCommandController
 
-joint_trajectory_controller:
+irb120_controller:
   ros__parameters:
     joints:
       - joint_1

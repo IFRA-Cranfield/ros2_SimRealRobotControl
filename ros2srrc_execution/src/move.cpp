@@ -29,7 +29,6 @@
 */
 
 #include "ros2srrc_execution/movej.h"
-#include "ros2srrc_execution/movel.h"
 #include "ros2srrc_execution/mover.h"
 #include "ros2srrc_execution/movexyzw.h"
 #include "ros2srrc_execution/movexyz.h"
@@ -251,6 +250,7 @@ private:
 
         // ===== ACTION EXECUTION ===== //
         moveit::planning_interface::MoveGroupInterface::Plan MyPlan;
+        moveit_msgs::msg::RobotTrajectory TRAJECTORY;
         
         if (action == "MoveJ" && param_ROB != "none"){
             
@@ -266,7 +266,7 @@ private:
             
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
-            move_group_interface_ROB.setPlannerId("PTP");
+            //move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
             // 4. PLAN:
             if (MoveJRES.RES == "LIMITS: OK"){
@@ -277,19 +277,35 @@ private:
 
         } else if (action == "MoveL" && param_ROB != "none"){
             
-            // 1. Define POSE VECTOR:
+            // SPECIAL CASE: MoveL LINEAR TRAJECTORY using OMPL in Foxy:
+
             auto POSE = move_group_interface_ROB.getCurrentPose();
             
-            // 2. CALL MoveLAction for CALCULATIONS:
-            auto TARGET_POSE = MoveLAction(goal->movel, POSE);
-            move_group_interface_ROB.setPoseTarget(TARGET_POSE);
-            
-            // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
-            move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
-            move_group_interface_ROB.setPlannerId("LIN");
+            geometry_msgs::msg::Pose TARGET_POSE = POSE.pose;
+            TARGET_POSE.position.x = TARGET_POSE.position.x + goal->movel.x;
+            TARGET_POSE.position.y = TARGET_POSE.position.y + goal->movel.y;
+            TARGET_POSE.position.z = TARGET_POSE.position.z + goal->movel.z;
 
-            // 4. PLAN:
+            move_group_interface_ROB.setPoseTarget(TARGET_POSE);
+
             MyPlan = plan_ROB();
+
+            if (RES == "PLANNING: OK"){
+
+                // Initialise LINEAR TRAJECTORY -> Waypoints VECTOR:
+                std::vector<geometry_msgs::msg::Pose> waypoints;
+
+                // Generate TRAJECTORY:
+                waypoints.push_back(TARGET_POSE);
+                
+                const double jump_threshold = 0.0;
+                const double eef_step = 0.001;
+                double fraction = move_group_interface_ROB.computeCartesianPath(waypoints, eef_step, jump_threshold, TRAJECTORY);
+
+                RES = "PLANNING: OK (MoveL)";
+
+            }
+            
 
         } else if (action == "MoveR" && param_ROB != "none"){
 
@@ -305,7 +321,7 @@ private:
             
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
-            move_group_interface_ROB.setPlannerId("PTP");
+            // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
             // 4. PLAN:
             if (MoveRRES.RES == "LIMITS: OK"){
@@ -322,7 +338,7 @@ private:
             
             // 2. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
-            move_group_interface_ROB.setPlannerId("PTP");
+            // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
             // 3. PLAN:
             MyPlan = plan_ROB();
@@ -338,7 +354,7 @@ private:
             
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
-            move_group_interface_ROB.setPlannerId("PTP");
+            // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
             // 4. PLAN:
             MyPlan = plan_ROB();
@@ -354,7 +370,7 @@ private:
             
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
-            move_group_interface_ROB.setPlannerId("PTP");
+            // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
             // 4. PLAN:
             MyPlan = plan_ROB();
@@ -370,7 +386,7 @@ private:
             
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
-            move_group_interface_ROB.setPlannerId("PTP");
+            // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
             // 4. PLAN:
             MyPlan = plan_ROB();
@@ -389,7 +405,7 @@ private:
             
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_EE.setMaxVelocityScalingFactor(goal->speed);
-            move_group_interface_EE.setPlannerId("PTP");
+            // move_group_interface_EE.setPlannerId("PTP"); // Pilz not working in Foxy.
 
             // 4. PLAN:
             if (MoveGRES.RES == "LIMITS: OK"){
@@ -422,7 +438,29 @@ private:
                 goal_handle->succeed(result);
             }
 
+        } else if (RES == "PLANNING: OK (MoveL)"){
+
+            bool ExecSUCCESS = (move_group_interface_ROB.execute(TRAJECTORY) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+            if (goal_handle->is_canceling()) {
+                RCLCPP_INFO(this->get_logger(), "Goal canceled.");
+                result->result = action + ":CANCELED";
+                goal_handle->canceled(result);
+                return;
+            } 
+            
+            if (ExecSUCCESS){
+                RCLCPP_INFO(this->get_logger(), "%s - %s: Movement executed!", param_ROB.c_str(), action.c_str());
+                result->result = action + ":SUCCESS";
+                goal_handle->succeed(result);
+            } else {
+                RCLCPP_INFO(this->get_logger(), "%s - %s: Movement execution failed!", param_ROB.c_str(), action.c_str());
+                result->result = action + ":FAILED. Reason -> Execution error.";
+                goal_handle->succeed(result);
+            }
+
         } else if (RES == "PLANNING: OK (EE)"){
+
             move_group_interface_EE.execute(MyPlan);
 
             if (goal_handle->is_canceling()) {

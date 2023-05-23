@@ -29,7 +29,7 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # irb120_bringup.launch.py:
-# Launch file for the ABB-IRB120 Robot CONTROL BRINGUP in ROS2 Humble:
+# Launch file for the ABB-IRB120 Robot CONTROL BRINGUP in ROS2 Foxy:
 
 # Import libraries:
 import os
@@ -174,17 +174,25 @@ def generate_launch_description():
         parameters=[robot_description, ros2_controllers_path],
         output="both",
     )
-    # Joint STATE BROADCASTER:
-    joint_state_broadcaster_spawner = Node(
+    # JOINT STATE CONTROLLER:
+    joint_state_controller_spawner = Node(
         package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+        executable="spawner.py",
+        arguments=[
+            "joint_state_controller",
+            "--controller-manager",
+            "/controller_manager",
+        ],
     )
-    # Joint TRAJECTORY Controller:
-    joint_trajectory_controller_spawner = Node(
+    # UR CONTROLLER:
+    joint_trajectory_controller_spawner= Node(
         package="controller_manager",
-        executable="spawner",
-        arguments=["joint_trajectory_controller", "-c", "/controller_manager"],
+        executable="spawner.py",
+        arguments=[
+            "irb120_controller", 
+            "-c", 
+            "/controller_manager"
+            ],
     )
 
 
@@ -224,20 +232,6 @@ def generate_launch_description():
     )
     joint_limits = {'robot_description_planning': joint_limits_yaml}
 
-    # pilz_planning_pipeline_config.yaml file:
-    pilz_planning_pipeline_config = {
-        "move_group": {
-            "planning_plugin": "pilz_industrial_motion_planner/CommandPlanner",
-            "request_adapters": """ """,
-            "start_state_max_bounds_error": 0.1,
-            "default_planner_config": "PTP",
-        }
-    }
-    pilz_cartesian_limits_yaml = load_yaml(
-        "ros2srrc_irb120_moveit2", "config/pilz_cartesian_limits.yaml"
-    )
-    pilz_cartesian_limits = {'robot_description_planning': pilz_cartesian_limits_yaml}
-
     # Move group: OMPL Planning.
     ompl_planning_pipeline_config = {
         "move_group": {
@@ -272,11 +266,6 @@ def generate_launch_description():
         "publish_transforms_updates": True,
     }
 
-    move_group_capabilities = {
-        "capabilities": """pilz_industrial_motion_planner/MoveGroupSequenceAction \
-            pilz_industrial_motion_planner/MoveGroupSequenceService"""
-    }
-
     # START NODE -> MOVE GROUP:
     run_move_group_node = Node(
         package="moveit_ros_move_group",
@@ -288,16 +277,13 @@ def generate_launch_description():
             robot_description_semantic,
             kinematics_yaml,
 
-            pilz_planning_pipeline_config,
-            #ompl_planning_pipeline_config,
+            ompl_planning_pipeline_config,
 
             joint_limits,
-            pilz_cartesian_limits,
 
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
-            move_group_capabilities,
 
         ],
     )
@@ -318,16 +304,13 @@ def generate_launch_description():
             robot_description_semantic,
             kinematics_yaml,
 
-            pilz_planning_pipeline_config,
-            #ompl_planning_pipeline_config,
+            ompl_planning_pipeline_config,
 
             joint_limits,
-            pilz_cartesian_limits,
 
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
-            move_group_capabilities,
         ],
         condition=UnlessCondition(load_RVIZfile),
     )
@@ -389,7 +372,7 @@ def generate_launch_description():
         ros2_control_node,
         node_robot_state_publisher,
         static_tf,
-        joint_state_broadcaster_spawner,
+        joint_state_controller_spawner,
         joint_trajectory_controller_spawner,
         rws_client,
         
@@ -411,5 +394,4 @@ def generate_launch_description():
                 ]
             )
         ),
-    ]
-)
+    ])

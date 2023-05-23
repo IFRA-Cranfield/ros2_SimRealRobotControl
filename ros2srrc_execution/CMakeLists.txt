@@ -56,7 +56,6 @@ add_executable(
   src/movexyz.cpp
   src/movexyzw.cpp
   src/mover.cpp
-  src/movel.cpp
   src/movej.cpp
   src/move.cpp
 )
@@ -69,7 +68,6 @@ add_executable(
   src/movexyz.cpp
   src/movexyzw.cpp
   src/mover.cpp
-  src/movel.cpp
   src/movej.cpp
   src/sequence.cpp
 )

@@ -29,7 +29,6 @@
 */
 
 #include "ros2srrc_execution/movej.h"
-#include "ros2srrc_execution/movel.h"
 #include "ros2srrc_execution/mover.h"
 #include "ros2srrc_execution/movexyzw.h"
 #include "ros2srrc_execution/movexyz.h"
@@ -385,6 +384,7 @@ private:
 
         // DECLARE PLAN:
         moveit::planning_interface::MoveGroupInterface::Plan MyPlan;
+        moveit_msgs::msg::RobotTrajectory TRAJECTORY;
 
         // ===== SEQUENCE EXECUTION ===== //
         int i = 1;
@@ -415,7 +415,7 @@ private:
                     
                     // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
                     move_group_interface_ROB.setMaxVelocityScalingFactor(STEP.speed);
-                    move_group_interface_ROB.setPlannerId("PTP");
+                    // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
                     // 4. PLAN:
                     if (MoveJRES.RES == "LIMITS: OK"){
@@ -427,19 +427,34 @@ private:
                 
                 } else if (ACTION == "MoveL"){
             
-                    // 1. Define POSE VECTOR:
+                    // SPECIAL CASE: MoveL LINEAR TRAJECTORY using OMPL in Foxy:
+
                     auto POSE = move_group_interface_ROB.getCurrentPose();
                     
-                    // 2. CALL MoveLAction for CALCULATIONS:
-                    auto TARGET_POSE = MoveLAction(STEP.movel, POSE);
-                    move_group_interface_ROB.setPoseTarget(TARGET_POSE);
-                    
-                    // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
-                    move_group_interface_ROB.setMaxVelocityScalingFactor(STEP.speed);
-                    move_group_interface_ROB.setPlannerId("LIN");
+                    geometry_msgs::msg::Pose TARGET_POSE = POSE.pose;
+                    TARGET_POSE.position.x = TARGET_POSE.position.x + STEP.movel.x;
+                    TARGET_POSE.position.y = TARGET_POSE.position.y + STEP.movel.y;
+                    TARGET_POSE.position.z = TARGET_POSE.position.z + STEP.movel.z;
 
-                    // 4. PLAN:
+                    move_group_interface_ROB.setPoseTarget(TARGET_POSE);
+
                     MyPlan = plan_ROB();
+
+                    if (RES == "PLANNING: OK"){
+
+                        // Initialise LINEAR TRAJECTORY -> Waypoints VECTOR:
+                        std::vector<geometry_msgs::msg::Pose> waypoints;
+
+                        // Generate TRAJECTORY:
+                        waypoints.push_back(TARGET_POSE);
+                        
+                        const double jump_threshold = 0.0;
+                        const double eef_step = 0.001;
+                        double fraction = move_group_interface_ROB.computeCartesianPath(waypoints, eef_step, jump_threshold, TRAJECTORY);
+
+                        RES = "PLANNING: OK (MoveL)";
+
+                    }
 
                 } else if (ACTION == "MoveR"){
 
@@ -455,7 +470,7 @@ private:
                     
                     // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
                     move_group_interface_ROB.setMaxVelocityScalingFactor(STEP.speed);
-                    move_group_interface_ROB.setPlannerId("PTP");
+                    // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
                     // 4. PLAN:
                     if (MoveRRES.RES == "LIMITS: OK"){
@@ -473,7 +488,7 @@ private:
                     
                     // 2. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
                     move_group_interface_ROB.setMaxVelocityScalingFactor(STEP.speed);
-                    move_group_interface_ROB.setPlannerId("PTP");
+                    // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
                     // 3. PLAN:
                     MyPlan = plan_ROB();
@@ -489,7 +504,7 @@ private:
                     
                     // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
                     move_group_interface_ROB.setMaxVelocityScalingFactor(STEP.speed);
-                    move_group_interface_ROB.setPlannerId("PTP");
+                    // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
                     // 4. PLAN:
                     MyPlan = plan_ROB();
@@ -505,7 +520,7 @@ private:
                     
                     // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
                     move_group_interface_ROB.setMaxVelocityScalingFactor(STEP.speed);
-                    move_group_interface_ROB.setPlannerId("PTP");
+                    // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
                     // 4. PLAN:
                     MyPlan = plan_ROB();
@@ -521,7 +536,7 @@ private:
                     
                     // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
                     move_group_interface_ROB.setMaxVelocityScalingFactor(STEP.speed);
-                    move_group_interface_ROB.setPlannerId("PTP");
+                    // move_group_interface_ROB.setPlannerId("PTP"); // Pilz not working in Foxy.
 
                     // 4. PLAN:
                     MyPlan = plan_ROB();
@@ -540,7 +555,7 @@ private:
                     
                     // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
                     move_group_interface_EE.setMaxVelocityScalingFactor(STEP.speed);
-                    move_group_interface_EE.setPlannerId("PTP");
+                    //move_group_interface_EE.setPlannerId("PTP"); // Pilz not working in Foxy.
 
                     // 4. PLAN:
                     if (MoveGRES.RES == "LIMITS: OK"){
@@ -577,6 +592,30 @@ private:
                         CONTINUE = false;
                     }
                     
+                } else if (RES == "PLANNING: OK (MoveL)") {
+
+                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Planning OK.";
+                    goal_handle->publish_feedback(feedback);
+
+                    bool ExecSUCCESS = (move_group_interface_ROB.execute(TRAJECTORY) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+                    if (goal_handle->is_canceling()) {
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Canceled.";
+                        goal_handle->publish_feedback(feedback);
+                        goal_handle->canceled(result);
+                        CONTINUE = false;
+                        return;
+                    } 
+                    
+                    if (ExecSUCCESS){
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Movement executed, SUCCESS.";
+                        goal_handle->publish_feedback(feedback);
+                    } else {
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Movement execution failed, ERROR.";
+                        goal_handle->publish_feedback(feedback);
+                        CONTINUE = false;
+                    }
+
                 } else if (RES == "PLANNING: ERROR" || RES == "PLANNING: ERROR (EE)"){
                     feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Planning ERROR.";
                     goal_handle->publish_feedback(feedback);

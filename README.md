@@ -134,6 +134,9 @@ On October 2022, IFRA-Cranfield released [ros2_RobotSimulation](https://github.c
 This ros2_SimRealRobotControl repository is based on ros2_RobotSimulation, and contains some improvements and advanced features:
 - Robot Bringup packages, that enable the control of REAL ROBOTS through ROS 2.
 - The Pilz Industrial Motion Planner, which replaces the OMPL planner (MoveIt!2 default) used in ros2_RobotSimulation and allows for advanced motion control and features, such as cartesian speed control.
+
+  __NOTE__: Pilz Industrial Motion Planner is not included in ROS2 Foxy. Thus, OMPL planner has been used instead for the ROS2 Foxy version of ros2_SimRealRobotControl.
+
 - In ros2_RobotSimulation, Robot Movements are triggered as individual ROS 2 Actions, each of them contained in a ROS 2 node. When executing Robot Programs (sequences) using ros2_execution, Robot Movements (execution steps) are executed by calling ROS 2 actions one by one. This introduces a small delay between steps. For ros2_SimRealRobotControl, all Robot Movements are contained in a single ROS 2 Action (therefore, a single ROS 2 node), and sequences are executed by calling a single ROS 2 Action from a python script. Thus, the delay introduced by ROS 2 Action calls is avoided, and the delay between movements now only depends on MoveIt!2's processing (plan+execute) time. Quicker and smoother results are obtained, closing the performance gap between ROS2-controlled robots and Industrial Manipulators.
 - Improved simulation of object grasping: The new [IFRA_LinkAttacher](https://github.com/IFRA-Cranfield/IFRA_LinkAttacher) ROS2-Gazebo plugin developed by IFRA-Cranfield is used in ros2_SimRealRobotControl. This new plugin is more precise and works better than ros2_grasping in ros2_RobotSimulation.
 
@@ -152,11 +155,11 @@ __VIDEO: Simulation and Control of a Universal Robots - UR3 using ROS2__
 <!-- INSTALLATION -->
 ## Installation
 
-All packages in this repository have been developed, executed and tested in a Ubuntu 22.04 machine with ROS 2 Humble. Please find below all the required steps to set-up a ROS 2 Humble environment in Ubuntu and install the ROS 2-based Robot Simulation and Control packages.
+All packages in this repository have been developed, executed and tested in a Ubuntu 20.04 machine with ROS 2 Foxy. Please find below all the required steps to set-up a ROS 2 Foxy environment in Ubuntu and install the ROS 2-based Robot Simulation and Control packages.
 
-1. __Set-up the Ubuntu+ROS2 PC for the Robot Simulation and Control__: The steps below need to be followed in order to set-up a proper ROS2 (Humble) workspace for Robot Simulation and Control, and to be able to use ros2_SimRealRobotControl:
+1. __Set-up the Ubuntu+ROS2 PC for the Robot Simulation and Control__: The steps below need to be followed in order to set-up a proper ROS2 (Foxy) workspace for Robot Simulation and Control, and to be able to use ros2_SimRealRobotControl:
 
-    (1.1) Install Ubuntu 22.04: https://ubuntu.com/desktop
+    (1.1) Install Ubuntu 20.04: https://ubuntu.com/desktop
 
     (1.2) Install Git:
       ```sh
@@ -171,21 +174,23 @@ All packages in this repository have been developed, executed and tested in a Ub
       git config --global credential.helper store
       ```
     
-    (1.3) Install ROS2 Humble:
-      - Follow instructions in: [ROS2 Humble Tutorials - Installation](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html).
-      - Source the ROS2.0 Humble installation in the .bashrc file (hidden file in /home):
+    (1.3) Install ROS2 Foxy:
+      - Follow instructions in: [ROS2 Foxy Tutorials - Installation](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html).
+      - Source the ROS2.0 Foxy installation in the .bashrc file (hidden file in /home):
         ```sh
-        source opt/ros/humble/setup.bash
+        source opt/ros/foxy/setup.bash
         ```
 
-    (1.4) Install MoveIt!2 for ROS2 Humble ([REF: MoveIt!2 Website](https://moveit.picknik.ai/humble/index.html)):
+    (1.4) Install MoveIt!2 for ROS2 Foxy ([REF: MoveIt!2 Website](https://moveit.ros.org/)):
       ```sh
       # Command for BINARY INSTALL (recommended):
-      sudo apt install ros-humble-moveit
+      sudo apt install ros-foxy-moveit
       ```
 
-    (1.5) Create and configure the ROS2.0 Humble ~/dev_ws environment/workspace:
-      - Follow instructions in: [ROS2 Humble Tutorials - Create a ROS2 Workspace](https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html).
+      A small improvement of the move_group_interface.h file has been developed in order to execute the Robot/Gripper triggers in this repository. Both the upgraded file and the instructions of how to implement it can be found here: [move_group_interface_improved.h](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/foxy/include)
+
+    (1.5) Create and configure the ROS2.0 Foxy ~/dev_ws environment/workspace:
+      - Follow instructions in: [ROS2 Foxy Tutorials - Create a ROS2 Workspace](https://docs.ros.org/en/foxy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html).
       - Source the ~/dev_ws workspace in .bashrc file:
         ```sh
         source ~/dev_ws/install/local_setup.bash
@@ -194,21 +199,18 @@ All packages in this repository have been developed, executed and tested in a Ub
     (1.6) Install ROS2 packages, which are required for ROS2-based Robot Simulation and Control:
       ```sh
       # ROS2 Control + ROS2 Controllers:
-      sudo apt install ros-humble-ros2-control
-      sudo apt install ros-humble-ros2-controllers
-      sudo apt install ros-humble-gripper-controllers
+      sudo apt install ros-foxy-ros2-control
+      sudo apt install ros-foxy-ros2-controllers
+      sudo apt install ros-foxy-gripper-controllers
 
 
-      # Gazebo for ROS2 Humble:
-      sudo apt install gazebo
-      sudo apt install ros-humble-gazebo-ros2-control
-      sudo apt install ros-humble-gazebo-ros-pkgs
+      # Gazebo for ROS2 Foxy:
+      sudo apt install gazebo11
+      sudo apt install ros-foxy-gazebo-ros2-control
+      sudo apt install ros-foxy-gazebo-ros-pkgs
 
       # xacro:
-      sudo apt install ros-humble-xacro
-
-      # Fix cycle time issues in humble-moveit (temporary fix):
-      sudo apt install ros-humble-rmw-cyclonedds-cpp # (+) Add into .bashrc file -> export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      sudo apt install ros-foxy-xacro
       ```
 
 </br>
@@ -218,7 +220,7 @@ All packages in this repository have been developed, executed and tested in a Ub
     ```sh
     mkdir -p ~/dev_ws/src/ABBDriver
     cd ~/dev_ws/src/ABBDriver
-    git clone https://github.com/PickNikRobotics/abb_ros2.git -b rolling
+    git clone https://github.com/PickNikRobotics/abb_ros2.git -b foxy
     sudo rosdep init
     rosdep update
     vcs import < abb_ros2/abb.repos
@@ -227,10 +229,10 @@ All packages in this repository have been developed, executed and tested in a Ub
     colcon build
     ```
 
-3. __Universal Robots ROS2 Driver__: The installation of the [ur-robot-driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver) driver is required for the control of any real UR robot using ROS 2. Binary install, for ROS2 Humble:
+3. __Universal Robots ROS2 Driver__: The installation of the [ur-robot-driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver) driver is required for the control of any real UR robot using ROS 2. Binary install, for ROS2 Foxy:
 
     ```sh
-    sudo apt-get install ros-humble-ur-robot-driver
+    sudo apt-get install ros-foxy-ur-robot-driver
     ```
 
 4. __Import and install IFRA_LinkAttacher__:
@@ -258,8 +260,8 @@ All packages in this repository have been developed, executed and tested in a Ub
 ## Supported Robots
 
 The Simulation & Control packages of the following Robots are currently available:
-- [ABB IRB-120 Robot](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/irb120)
-- [Universal Robots - UR3](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/ur3)
+- [ABB IRB-120 Robot](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/foxy/irb120)
+- [Universal Robots - UR3](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/foxy/ur3)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -272,7 +274,7 @@ This package contains the data structures for the ROS 2 Actions and Messages tha
 - __Sequence Action__: ROS 2 Action that contains the whole sequence of "Move.action" actions.
 - __MSG folder__: Custom ROS 2 Messages are kept in this folder. These are used to define specific ROS 2 Actions, which do have a different format according to the type of movement they refer to.
 
-For further detail about the data structures, please click [here](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/ros2srrc_data).
+For further detail about the data structures, please click [here](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/foxy/ros2srrc_data).
 
 ### ros2srrc_execution
 The ros2srrc_execution package contains the source code that executes both individual Robot movements and complete sequences or programs:
@@ -280,7 +282,7 @@ The ros2srrc_execution package contains the source code that executes both indiv
 - __sequence.cpp__: ROS 2 Action Server -> Executes a sequence, requested by calling "sequence.action".
 - __sequence.py__: Python script that reads the program (sequence) from a ".txt" file, transforms it into the "sequence.action" format and executes it by triggering the ROS 2 Action Server defined in sequence.cpp.
 
-For further detail about how Robot Movements and sequences are executed, please click [here](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/ros2srrc_execution).
+For further detail about how Robot Movements and sequences are executed, please click [here](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/foxy/ros2srrc_execution).
 
 ### Robot Simulation and Control packages
 For the ROS 2-based Robot Simulation and Control to be successfully achieved, 3 different ROS 2 packages are necessary (for each Robot/Application):
@@ -386,8 +388,8 @@ Don't forget to give the project a star! Thanks you very much!
 ## Acknowledgments
 
 * [README.md template - Othneil Drew](https://github.com/othneildrew/Best-README-Template).
-* [ROS 2 Documentation - Humble](https://docs.ros.org/en/humble/index.html).
-* [PicNik Robotics - MoveIt!2 Documentation](https://moveit.picknik.ai/humble/index.html).
+* [ROS 2 Documentation - Foxy](https://docs.ros.org/en/foxy/index.html).
+* [PicNik Robotics - MoveIt!2 Documentation](https://moveit.picknik.ai/foxy/index.html).
 * [ABB - ROS Repositories](http://wiki.ros.org/abb).
 * [ABB - ROS 2 Driver (PickNik Robotics)](https://github.com/PickNikRobotics/abb_ros2).
 * [Universal Robots - ROS 2 Driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver).

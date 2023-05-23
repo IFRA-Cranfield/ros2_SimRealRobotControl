@@ -29,7 +29,7 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # irb120_simulation.launch.py:
-# Launch file for the ABB-IRB120 Robot GAZEBO SIMULATION in ROS2 Humble:
+# Launch file for the ABB-IRB120 Robot GAZEBO SIMULATION in ROS2 Foxy:
 
 # Import libraries:
 import os

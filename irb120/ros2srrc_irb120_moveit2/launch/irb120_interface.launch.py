@@ -29,7 +29,7 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # irb120_interface.launch.py:
-# Launch file for the ABB-IRB120 Robot GAZEBO + MoveIt!2 SIMULATION (+ Robot/Gripper triggers) in ROS2 Humble:
+# Launch file for the ABB-IRB120 Robot GAZEBO + MoveIt!2 SIMULATION (+ Robot/Gripper triggers) in ROS2 Foxy:
 
 # Import libraries:
 import os
@@ -181,31 +181,36 @@ def generate_launch_description():
 
     # ***** ROS2_CONTROL -> LOAD CONTROLLERS ***** #
 
-    # Joint STATE BROADCASTER:
-    joint_state_broadcaster_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
-    )
-    # Joint TRAJECTORY Controller:
-    joint_trajectory_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["irb120_controller", "-c", "/controller_manager"],
-    )
+    if (EE_no == "true"):
+        load_controllers = []
+        for controller in [
+            "irb120_controller",
+            "joint_state_controller",
+        ]:
+            load_controllers += [
+                ExecuteProcess(
+                    cmd=["ros2 run controller_manager spawner.py {}".format(controller)],
+                    shell=True,
+                    output="screen",
+                )
+            ]
     
-    # === SCHUNK EGP-64 === #
-    egp64left_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["egp64_finger_left_controller", "-c", "/controller_manager"],
-    )
-    egp64right_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["egp64_finger_right_controller", "-c", "/controller_manager"],
-    )
-    # === SCHUNK EGP-64 === #
+    # === SCHUNK EGP-64 CONTROLLER === #
+    if (EE_schunk =="true"):
+        load_controllers = []
+        for controller in [
+            "irb120_controller",
+            "joint_state_controller",
+            "egp64_finger_left_controller",
+            "egp64_finger_right_controller",
+        ]:
+            load_controllers += [
+                ExecuteProcess(
+                    cmd=["ros2 run controller_manager spawner.py {}".format(controller)],
+                    shell=True,
+                    output="screen",
+                )
+            ]
 
 
     # *********************** MoveIt!2 *********************** #   
@@ -243,20 +248,6 @@ def generate_launch_description():
         "ros2srrc_irb120_moveit2", "config/joint_limits.yaml"
     )
     joint_limits = {'robot_description_planning': joint_limits_yaml}
-
-    # pilz_planning_pipeline_config.yaml file:
-    pilz_planning_pipeline_config = {
-        "move_group": {
-            "planning_plugin": "pilz_industrial_motion_planner/CommandPlanner",
-            "request_adapters": """ """,
-            "start_state_max_bounds_error": 0.1,
-            "default_planner_config": "PTP",
-        }
-    }
-    pilz_cartesian_limits_yaml = load_yaml(
-        "ros2srrc_irb120_moveit2", "config/pilz_cartesian_limits.yaml"
-    )
-    pilz_cartesian_limits = {'robot_description_planning': pilz_cartesian_limits_yaml}
 
     # Move group: OMPL Planning.
     ompl_planning_pipeline_config = {
@@ -307,10 +298,6 @@ def generate_launch_description():
         "publish_state_updates": True,
         "publish_transforms_updates": True,
     }
-    move_group_capabilities = {
-        "capabilities": """pilz_industrial_motion_planner/MoveGroupSequenceAction \
-            pilz_industrial_motion_planner/MoveGroupSequenceService"""
-    }
 
     # START NODE -> MOVE GROUP:
     run_move_group_node = Node(
@@ -322,16 +309,13 @@ def generate_launch_description():
             robot_description_semantic,
             kinematics_yaml,
             
-            pilz_planning_pipeline_config,
-            #ompl_planning_pipeline_config,
+            ompl_planning_pipeline_config,
 
             joint_limits,
-            pilz_cartesian_limits,
 
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
-            move_group_capabilities,
             {"use_sim_time": True},
         ],
     )
@@ -358,16 +342,13 @@ def generate_launch_description():
             robot_description_semantic,
             kinematics_yaml,
             
-            pilz_planning_pipeline_config,
-            #ompl_planning_pipeline_config,
+            ompl_planning_pipeline_config,
 
             joint_limits,
-            pilz_cartesian_limits,
 
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
-            move_group_capabilities,
             {"use_sim_time": True},
         ],
         condition=UnlessCondition(load_RVIZfile),
@@ -415,44 +396,10 @@ def generate_launch_description():
             # ROS2_CONTROL:
             static_tf,
             robot_state_publisher,
-            
-            # ROS2 Controllers:
-            RegisterEventHandler(
-                OnProcessExit(
-                    target_action = spawn_entity,
-                    on_exit = [
-                        joint_state_broadcaster_spawner,
-                    ]
-                )
-            ),
-            RegisterEventHandler(
-                OnProcessExit(
-                    target_action = joint_state_broadcaster_spawner,
-                    on_exit = [
-                        joint_trajectory_controller_spawner,
-                    ]
-                )
-            ),
-            RegisterEventHandler(
-                OnProcessExit(
-                    target_action = joint_trajectory_controller_spawner,
-                    on_exit = [
-                        egp64left_controller_spawner,
-                    ]
-                )
-            ),
-            RegisterEventHandler(
-                OnProcessExit(
-                    target_action = egp64left_controller_spawner,
-                    on_exit = [
-                        egp64right_controller_spawner,
-                    ]
-                )
-            ),
 
             RegisterEventHandler(
                 OnProcessExit(
-                    target_action = egp64right_controller_spawner,
+                    target_action = spawn_entity,
                     on_exit = [
 
                         # MoveIt!2:
@@ -465,7 +412,7 @@ def generate_launch_description():
                             ]
                         ),
 
-                        # TEST:
+                        # ROS2.0 Actions:
                         TimerAction(
                             period=5.0,
                             actions=[
@@ -478,4 +425,5 @@ def generate_launch_description():
                 )
             )
         ]
+        + load_controllers
     )
