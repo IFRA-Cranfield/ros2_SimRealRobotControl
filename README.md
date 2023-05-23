@@ -184,6 +184,8 @@ All packages in this repository have been developed, executed and tested in a Ub
       sudo apt install ros-humble-moveit
       ```
 
+      A small improvement of the move_group_interface.h file has been developed in order to execute the Robot/Gripper triggers in this repository. Both the upgraded file and the instructions of how to implement it can be found here: [move_group_interface_improved.h](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/include)
+
     (1.5) Create and configure the ROS2.0 Humble ~/dev_ws environment/workspace:
       - Follow instructions in: [ROS2 Humble Tutorials - Create a ROS2 Workspace](https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html).
       - Source the ~/dev_ws workspace in .bashrc file:
