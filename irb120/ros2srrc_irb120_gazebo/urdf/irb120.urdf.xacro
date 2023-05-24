@@ -121,6 +121,30 @@
       <child link="base_link"/>
       <origin xyz="-0.6506 0.6489 0.8605" rpy="0.0 0.0 0.0" />
     </joint>
+
+    <link name="ergobox">
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_irb120_gazebo)/meshes/IALab/ergobox.dae" scale="1 1 1" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_irb120_gazebo)/meshes/IALab/ergobox.dae" scale="1 1 1" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="10.0"/>
+        <inertia ixx="0.0002" ixy="0.0002" ixz="0.0002" iyy="0.0" iyz="0.0" izz="0.0" />
+      </inertial>
+    </link>
+    <joint name="cell-ergobox-fixed" type="fixed">
+      <parent link="cell"/>
+      <child link="ergobox"/>
+      <origin xyz="-0.3 0.32 0.8605" rpy="0.0 0.0 0.0" />
+    </joint>
   </xacro:if>
   <!-- === IA Lab - IRB120 Enclosure === -->
 
