@@ -33,9 +33,9 @@
 
   <gazebo reference="box">
     <material>Gazebo/Orange</material>
-    <mu1>0.5</mu1>
+    <!-- <mu1>0.5</mu1> 
     <mu2>0.5</mu2>
-    <selfCollide>false</selfCollide>
+    <selfCollide>false</selfCollide> -->
   </gazebo>
 
 </robot>
