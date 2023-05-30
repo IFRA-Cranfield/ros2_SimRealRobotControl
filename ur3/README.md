@@ -29,11 +29,8 @@ __Execute a program for the UR3 in a Gazebo Simulation__
 
 TBD.
 
-__Connect ROS2 with an ABB UR3 in ABB Robot Studio and execute a program__
 
-TBD.
-
-__Connect ROS2 with a Real ABB UR3 and execute a program__
+__Connect ROS2 with a Real UR3 and execute a program__
 
 TBD.
 
