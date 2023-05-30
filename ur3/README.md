@@ -4,7 +4,7 @@
 
 __Launch Gazebo Simulation Environment__
 
-The following command launches a Gazebo Simulation Environment with the UR3 in it. It does not have any special functionality, but it could be useful to check that CAD/mesgh files and components have been added to the environments successfully:
+The following command launches a Gazebo Simulation Environment with the UR3 in it. It does not have any special functionality, but it could be useful to check that CAD/mesh files and components have been added to the environments successfully:
 ```sh
 ros2 launch ros2srrc_ur3_gazebo ur3_simulation.launch.py
 ```
