@@ -151,8 +151,37 @@
   </xacro:if>
   <!-- === Cylindric BASE === -->
 
-  <!-- === Cranfield University - Lab Cell === -->
-  
-  <!-- === Cranfield University - Lab Cell === -->
+  <!-- === Cranfield University - UR10e COOLLABORATIVE CELL === -->
+  <xacro:if value="${cell_layout_3}">
+    <link name="cell">
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_ur10e_gazebo)/meshes/ur10e_CranfieldCell/IALab_CollabTableGz.dae" scale="1 1 1" />
+          <!-- If willing to use only the TOP of the table (lighter for simulation): /IALab_CollabTableTOP.dae -->
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_ur10e_gazebo)/meshes/ur10e_CranfieldCell/IALab_CollabTableGz.dae" scale="1 1 1" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1000.0"/>
+        <inertia ixx="500.0" ixy="500.0" ixz="500.0" iyy="500.0" iyz="500.0" izz="500.0" />
+      </inertial>
+    </link>
+    <joint name="world-cell-fixed" type="fixed">
+      <parent link="world"/>
+      <child link="cell"/>
+    </joint>
+    <joint name="cell-base_link-fixed" type="fixed">
+      <parent link="cell"/>
+      <child link="base_link"/>
+      <origin xyz="-0.965 -1.0 0.866" rpy="0.0 0.0 -0.785398" />
+    </joint>
+  </xacro:if>
+  <!-- === Cranfield University - UR10e COOLLABORATIVE CELL === -->
 
 </robot>

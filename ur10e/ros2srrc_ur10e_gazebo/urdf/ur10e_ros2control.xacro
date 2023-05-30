@@ -199,7 +199,7 @@
           <param name="max">2.0942</param>
         </command_interface>
         <state_interface name="position">
-          <param name="initial_value">0.0</param>
+          <param name="initial_value">${pi/4}</param>
         </state_interface>
         <state_interface name="velocity"/>
         <state_interface name="effort"/>
@@ -229,7 +229,7 @@
           <param name="max">3.15</param>
         </command_interface>
         <state_interface name="position">
-          <param name="initial_value">0.0</param>
+          <param name="initial_value">${pi/2}</param>
         </state_interface>
         <state_interface name="velocity"/>
         <state_interface name="effort"/>
