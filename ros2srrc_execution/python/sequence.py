@@ -146,7 +146,8 @@ class RobotPARAM(Node):
 
             # Check value:
             if (PARAM_ROBOT == "irb120"
-                or PARAM_ROBOT == "ur3"):
+                or PARAM_ROBOT == "ur3"
+                or PARAM_ROBOT == "ur10e"):
                 None # do nothing.
             else:
                 self.get_logger().info('ERROR: The Robot model defined is not in the system.')

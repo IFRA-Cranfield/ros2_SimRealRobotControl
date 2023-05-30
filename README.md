@@ -262,6 +262,7 @@ All packages in this repository have been developed, executed and tested in a Ub
 The Simulation & Control packages of the following Robots are currently available:
 - [ABB IRB-120 Robot](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/irb120)
 - [Universal Robots - UR3](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/ur3)
+- [Universal Robots - UR10e](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/ur10e)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

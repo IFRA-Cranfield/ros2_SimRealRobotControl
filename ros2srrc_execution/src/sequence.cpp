@@ -713,8 +713,8 @@ int main(int argc, char ** argv)
         } else if (param_ROB == "irb120" && param_ENV == "gazebo") {
             move_group_interface_ROB.setMaxAccelerationScalingFactor(0.5); // Equaled in order to have same speed in IRB120 Real Robot = Gazebo.
         } 
-        // UR3:
-        else if (param_ROB == "ur3") {
+        // UR3 + UR10e:
+        else if (param_ROB == "ur3" || param_ROB == "ur10e") {
             move_group_interface_ROB.setMaxAccelerationScalingFactor(1.0);
         }
 
