@@ -90,26 +90,51 @@ def generate_launch_description():
     # Cell Layout:
     print("- Cell layout:")
     error = True
+    rotate_InitialPose = "false"
     while (error == True):
         print("     + Option N1: UR10e alone.")
         print("     + Option N2: UR10e in Cylindric Stand.")
-        print("     + Option N3: UR10e in Cranfield University IA Lab.")
+        print("     + Option N3: UR10e in Cranfield University IA Lab: Collaborative Table.")
+        print("     + Option N4: UR10e in Cranfield University IA Lab: Table.")
+        print("     + Option N5: UR10e in Cranfield University IA Lab: Table + Safety Wall.")
         cell_layout = input ("  Please select: ")
         if (cell_layout == "1"):
             error = False
             cell_layout_1 = "true"
             cell_layout_2 = "false"
             cell_layout_3 = "false"
+            cell_layout_4 = "false"
+            cell_layout_5 = "false"
         elif (cell_layout == "2"):
             error = False
             cell_layout_1 = "false"
             cell_layout_2 = "true"
             cell_layout_3 = "false"
+            cell_layout_4 = "false"
+            cell_layout_5 = "false"
         elif (cell_layout == "3"):
             error = False
             cell_layout_1 = "false"
             cell_layout_2 = "false"
             cell_layout_3 = "true"
+            cell_layout_4 = "false"
+            cell_layout_5 = "false"
+        elif (cell_layout == "4"):
+            error = False
+            cell_layout_1 = "false"
+            cell_layout_2 = "false"
+            cell_layout_3 = "false"
+            cell_layout_4 = "true"
+            cell_layout_5 = "false"
+            rotate_InitialPose = "true"
+        elif (cell_layout == "5"):
+            error = False
+            cell_layout_1 = "false"
+            cell_layout_2 = "false"
+            cell_layout_3 = "false"
+            cell_layout_4 = "false"
+            cell_layout_5 = "true"
+            rotate_InitialPose = "true"
         else:
             print ("  Please select a valid option!")
     print("")
@@ -147,6 +172,9 @@ def generate_launch_description():
         "cell_layout_1": cell_layout_1,
         "cell_layout_2": cell_layout_2,
         "cell_layout_3": cell_layout_3,
+        "cell_layout_4": cell_layout_4,
+        "cell_layout_5": cell_layout_5,
+        "rotate_InitialPose": rotate_InitialPose,
         "EE_no": EE_no,
         })
     robot_description_config = doc.toxml()

@@ -69,6 +69,12 @@
   <xacro:property name="cell_layout_2" value="$(arg cell_layout_2)"/>
   <xacro:arg name="cell_layout_3" default="false"/>
   <xacro:property name="cell_layout_3" value="$(arg cell_layout_3)"/>
+  <xacro:arg name="cell_layout_4" default="false"/>
+  <xacro:property name="cell_layout_4" value="$(arg cell_layout_4)"/>
+  <xacro:arg name="cell_layout_5" default="false"/>
+  <xacro:property name="cell_layout_5" value="$(arg cell_layout_5)"/>
+  <xacro:arg name="rotate_InitialPose" default="false"/>
+  <xacro:property name="rotate_InitialPose" value="$(arg rotate_InitialPose)"/>
   
   <xacro:arg name="EE_no" default="false"/>
   <xacro:property name="EE_no" value="$(arg EE_no)"/>
@@ -92,6 +98,7 @@
   <xacro:include filename="$(find ros2srrc_ur10e_gazebo)/urdf/ur10e_macro.urdf.xacro"/>	
   <xacro:ur10e 
     prefix=""
+    rotate_InitialPose="${rotate_InitialPose}"
     EE_no="${EE_no}"
     bringup="${bringup}"
     robot_ip="${robot_ip}"
@@ -183,5 +190,69 @@
     </joint>
   </xacro:if>
   <!-- === Cranfield University - UR10e COOLLABORATIVE CELL === -->
+
+  <!-- === Cranfield University - IA Lab Table === -->
+  <xacro:if value="${cell_layout_4}">
+    <link name="cell">
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_ur10e_gazebo)/meshes/ur10e_CranfieldCell/IALab_Table.dae" scale="1 1 1" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_ur10e_gazebo)/meshes/ur10e_CranfieldCell/IALab_Table.dae" scale="1 1 1" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1000.0"/>
+        <inertia ixx="500.0" ixy="500.0" ixz="500.0" iyy="500.0" iyz="500.0" izz="500.0" />
+      </inertial>
+    </link>
+    <joint name="world-cell-fixed" type="fixed">
+      <parent link="world"/>
+      <child link="cell"/>
+    </joint>
+    <joint name="cell-base_link-fixed" type="fixed">
+      <parent link="cell"/>
+      <child link="base_link"/>
+      <origin xyz="0.36 0.55 0.805" rpy="0.0 0.0 -1.5708" />
+    </joint>
+  </xacro:if>
+  <!-- === Cranfield University - IA Lab Table === -->
+
+  <!-- === Cranfield University - IA Lab Table + Wall === -->
+  <xacro:if value="${cell_layout_5}">
+    <link name="cell">
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_ur10e_gazebo)/meshes/ur10e_CranfieldCell/IALab_TableWall.dae" scale="1 1 1" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_ur10e_gazebo)/meshes/ur10e_CranfieldCell/IALab_TableWall.dae" scale="1 1 1" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1000.0"/>
+        <inertia ixx="500.0" ixy="500.0" ixz="500.0" iyy="500.0" iyz="500.0" izz="500.0" />
+      </inertial>
+    </link>
+    <joint name="world-cell-fixed" type="fixed">
+      <parent link="world"/>
+      <child link="cell"/>
+    </joint>
+    <joint name="cell-base_link-fixed" type="fixed">
+      <parent link="cell"/>
+      <child link="base_link"/>
+      <origin xyz="-1.45 -0.65 0.805" rpy="0.0 0.0 -1.5708" />
+    </joint>
+  </xacro:if>
+  <!-- === Cranfield University - IA Lab Table + Wall === -->
 
 </robot>

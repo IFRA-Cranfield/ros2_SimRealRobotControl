@@ -65,7 +65,7 @@
   <xacro:include filename="$(find ros2srrc_ur10e_gazebo)/urdf/ur10e_common.xacro" />
 
   <!-- XACRO-MACRO of UR10e: -->
-  <xacro:macro name="ur10e" params="prefix EE_no bringup robot_ip script_filename input_recipe_filename output_recipe_filename">
+  <xacro:macro name="ur10e" params="prefix rotate_InitialPose EE_no bringup robot_ip script_filename input_recipe_filename output_recipe_filename">
 
     <!-- LOAD UR10e-Common: -->
     <xacro:ur10e_common/>
@@ -82,6 +82,7 @@
     <xacro:include filename="$(find ros2srrc_ur10e_gazebo)/urdf/ur10e_ros2control.xacro" />
     <xacro:ur10e_ros2control 
       prefix="" 
+      rotate_InitialPose="${rotate_InitialPose}"
       EE_no="${EE_no}"
       bringup="${bringup}"
       robot_ip="${robot_ip}"
