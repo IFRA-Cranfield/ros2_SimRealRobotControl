@@ -228,7 +228,12 @@ def generate_launch_description():
         executable="spawner",
         arguments=["ur_controller", "-c", "/controller_manager"],
     )
-
+    # I/O and RobotState Controller:
+    iostatus_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["io_and_status_controller", "--controller-manager", "/controller_manager"],
+    )
 
     # *********************** MoveIt!2 *********************** #   
     
@@ -395,6 +400,7 @@ def generate_launch_description():
         static_tf,
         joint_state_broadcaster_spawner,
         joint_trajectory_controller_spawner,
+        iostatus_controller_spawner,
         
         # 2. Step: Launch MoveIt!2:
         RegisterEventHandler(

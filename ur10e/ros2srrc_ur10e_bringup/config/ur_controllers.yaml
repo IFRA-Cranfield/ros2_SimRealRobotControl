@@ -8,6 +8,9 @@ controller_manager:
     ur_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
+    io_and_status_controller:
+      type: ur_controllers/GPIOController
+
 ur_controller:
   ros__parameters:
     joints:
