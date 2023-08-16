@@ -115,6 +115,7 @@
     <joint name="world-cell-fixed" type="fixed">
       <parent link="world"/>
       <child link="cell"/>
+      <origin xyz="0.926 -0.124 0.0" rpy="0.0 0.0 0.0" />
     </joint>
     <joint name="cell-base_link-fixed" type="fixed">
       <parent link="cell"/>

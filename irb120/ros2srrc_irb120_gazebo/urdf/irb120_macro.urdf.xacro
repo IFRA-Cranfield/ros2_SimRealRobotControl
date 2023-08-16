@@ -328,48 +328,6 @@
       <child link="${prefix}tool0" />
     </joint>
 
-    <!-- EXTRA LINK + JOINT for the base_link to appear in Gazebo and to be able to calculate TRANSFORMS: -->
-    <link name="BASE_TF">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0.00001" />
-        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
-      </inertial>
-      <visual>
-        <geometry>
-          <box size= "0.00001 0.00001 0.00001" />
-        </geometry>
-      </visual>
-    </link>
-    <joint name="BASE_TF_joint" type="prismatic" >
-      <parent link="base_link" />
-      <child link="BASE_TF" />
-      <limit effort="10000" lower="0.0" upper="0.0" velocity="0.0"/>
-      <axis xyz="1 0 0" />
-      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-    </joint>
-
-    <!-- EXTRA LINK + JOINT for the TCP to appear in Gazebo and to be able to calculate TRANSFORMS: -->
-    <link name="TCP">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0.00001" />
-        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
-      </inertial>
-      <visual>
-        <geometry>
-          <box size= "0.00001 0.00001 0.00001" />
-        </geometry>
-      </visual>
-    </link>
-    <joint name="TCP_joint" type="prismatic" >
-      <parent link="${prefix}link_6" />
-      <child link="TCP" />
-      <limit effort="10000" lower="0.0" upper="0.0" velocity="0.0"/>
-      <axis xyz="1 0 0" />
-      <origin xyz="0.0 0.0 0.0" rpy="0 ${radians(90)} 0"/>
-    </joint>
-
 
     <!-- =================================== -->
     <!-- ========== END-EFFECTORS ========== -->
@@ -574,13 +532,22 @@
         </visual>
       </link>
 
-      <joint name="EE_egp64_joint" type="prismatic" >
-        <parent link="egp64_gripper_base_link" />
-        <child link="EE_egp64" />
-        <limit effort="10000" lower="0.0" upper="0.0" velocity="0.0"/>
-        <axis xyz="1 0 0" />
-        <origin xyz="0.033 -0.018 0.15" rpy="0 0 0"/>
-      </joint>
+      <xacro:unless value="${bringup}">
+        <joint name="EE_egp64_joint" type="prismatic" >
+          <parent link="tool0" />
+          <child link="EE_egp64" />
+          <limit effort="10000" lower="0.0" upper="0.0" velocity="0.0"/>
+          <axis xyz="1 0 0" />
+          <origin xyz="0.0 0.0 0.19" rpy="0 0 0"/>
+        </joint>
+      </xacro:unless>
+      <xacro:if value="${bringup}">
+        <joint name="EE_egp64_joint" type="fixed" >
+          <parent link="tool0" />
+          <child link="EE_egp64" />
+          <origin xyz="0.0 0.0 0.19" rpy="0 0 0"/>
+        </joint>
+      </xacro:if>
     
     </xacro:if>
     <!-- === SCHUNK EGP-64 GRIPPER === -->

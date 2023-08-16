@@ -180,15 +180,15 @@
       <!-- irb120_joint5 -->
       <joint name="${prefix}joint_5">
         <command_interface name="position">
-          <param name="min">-2.094395</param>
-          <param name="max">2.094395</param>
+          <param name="min">-2.00</param>       <!-- Joint5 limits lowered to +-2rad -->
+          <param name="max">2.00</param>
         </command_interface>
         <command_interface name="velocity">
           <param name="min">-5.58505</param>
           <param name="max">5.58505</param>
         </command_interface>
         <state_interface name="position">
-          <param name="initial_value">0.523599</param>
+          <param name="initial_value">1.570796</param>
         </state_interface>
         <state_interface name="velocity"/>
       </joint>
@@ -242,6 +242,14 @@
             </state_interface>
             <state_interface name="velocity"/>
           </joint>
+
+          <joint name="EE_egp64_joint">
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+          </joint>
+
         </xacro:if>
       </xacro:unless>
       <!-- === SCHUNK EGP-64 GRIPPER === -->

@@ -332,39 +332,35 @@ def generate_launch_description():
         condition=UnlessCondition(load_RVIZfile),
     )
 
-    if (EE_no == "true"):
-        
-        MoveInterface = Node(
-            name="move",
-            package="ros2srrc_execution",
-            executable="move",
-            output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
-        )
-        SequenceInterface = Node(
-            name="sequence",
-            package="ros2srrc_execution",
-            executable="sequence",
-            output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
-        )
+    MoveInterface = Node(
+        name="move",
+        package="ros2srrc_execution",
+        executable="move",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
+    )
+    SequenceInterface = Node(
+        name="sequence",
+        package="ros2srrc_execution",
+        executable="sequence",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
+    )
+    RobMoveInterface = Node(
+        name="robmove",
+        package="ros2srrc_execution",
+        executable="robmove",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}],
+    )
+    RobPoseInterface = Node(
+        name="robpose",
+        package="ros2srrc_execution",
+        executable="robpose",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}],
+    )
     
-    elif (EE_schunk == "true"):
-    
-        MoveInterface = Node(
-            name="move",
-            package="ros2srrc_execution",
-            executable="move",
-            output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "egp64"}, {"ENV_PARAM": "bringup"}],
-        )
-        SequenceInterface = Node(
-            name="sequence",
-            package="ros2srrc_execution",
-            executable="sequence",
-            output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "egp64"}, {"ENV_PARAM": "bringup"}],
-        )
 
     # ========== ABB RWS CLIENT ========== #
     
@@ -408,6 +404,8 @@ def generate_launch_description():
 
                     MoveInterface,
                     SequenceInterface,
+                    RobMoveInterface,
+                    RobPoseInterface,
                 ]
             )
         ),
