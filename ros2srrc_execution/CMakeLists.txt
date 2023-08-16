@@ -73,6 +73,14 @@ add_executable(
   src/movej.cpp
   src/sequence.cpp
 )
+add_executable(
+  robmove
+  src/robmove.cpp
+)
+add_executable(
+  robpose
+  src/robpose.cpp
+)
 
 # Install executable:
 install(TARGETS
@@ -81,6 +89,14 @@ install(TARGETS
 )
 install(TARGETS
   sequence
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(TARGETS
+  robmove
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(TARGETS
+  robpose
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -109,6 +125,21 @@ ament_target_dependencies(
   ros2srrc_data
   linkattacher_msgs
   abb_robot_msgs
+)
+ament_target_dependencies(
+  robmove
+  rclcpp
+  moveit_ros_planning_interface
+  std_msgs
+  rclcpp_action
+  ros2srrc_data
+)
+ament_target_dependencies(
+  robpose
+  rclcpp
+  moveit_ros_planning_interface
+  std_msgs
+  ros2srrc_data
 )
 
 # =========================================================== #

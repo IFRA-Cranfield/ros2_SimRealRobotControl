@@ -407,6 +407,21 @@ def generate_launch_description():
             parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}, {"EE_PARAM": "egp64"}, {"ENV_PARAM": "gazebo"}],
         )
     
+    RobMoveInterface = Node(
+        name="robmove",
+        package="ros2srrc_execution",
+        executable="robmove",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}],
+    )
+    RobPoseInterface = Node(
+        name="robpose",
+        package="ros2srrc_execution",
+        executable="robpose",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": "irb120"}],
+    )
+    
     return LaunchDescription(
         [
             # Gazebo nodes:
@@ -471,6 +486,8 @@ def generate_launch_description():
                             actions=[
                                 MoveInterface,
                                 SequenceInterface,
+                                RobMoveInterface,
+                                RobPoseInterface,
                             ]
                         ),
 

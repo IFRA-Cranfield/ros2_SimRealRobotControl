@@ -52,8 +52,10 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Ypr.msg"
   "msg/Action.msg"
   "msg/Linkattacher.msg"
+  "msg/Robpose.msg"
   "action/Move.action"
   "action/Sequence.action"
+  "action/Robmove.action"
 )
 
 ament_package()

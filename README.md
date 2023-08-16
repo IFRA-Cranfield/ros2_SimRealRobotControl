@@ -280,6 +280,7 @@ For further detail about the data structures, please click [here](https://github
 ### ros2srrc_execution
 The ros2srrc_execution package contains the source code that executes both individual Robot movements and complete sequences or programs:
 - __move.cpp__: ROS 2 Action Server -> Executes an individual Robot Motion, requested by calling "move.action".
+- __robmove.cpp__: ROS 2 Action Server -> Executes an individual Robot Motion (input: End-Effector Pose), requested by calling "robmove.action".
 - __sequence.cpp__: ROS 2 Action Server -> Executes a sequence, requested by calling "sequence.action".
 - __sequence.py__: Python script that reads the program (sequence) from a ".txt" file, transforms it into the "sequence.action" format and executes it by triggering the ROS 2 Action Server defined in sequence.cpp.
 
