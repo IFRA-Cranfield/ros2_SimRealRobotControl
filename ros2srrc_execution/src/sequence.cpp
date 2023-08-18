@@ -722,7 +722,7 @@ int main(int argc, char ** argv)
         RCLCPP_INFO(logger, "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
     }
     // 2. END-EFFECTOR:
-    if (param_EE != "none"){
+    if (param_EE != "none" && param_ENV != "bringup"){
         move_group_interface_EE = MoveGroupInterface(node2, param_EE);
         move_group_interface_EE.setPlanningPipelineId("move_group");
         move_group_interface_EE.setMaxVelocityScalingFactor(1.0);

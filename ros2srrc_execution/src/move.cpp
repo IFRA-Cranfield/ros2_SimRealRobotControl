@@ -476,7 +476,7 @@ int main(int argc, char ** argv)
     rclcpp::spin_some(node_PARAM_ROB);
     auto node_PARAM_EE = std::make_shared<ros2_EEParam>();
     rclcpp::spin_some(node_PARAM_EE);
-    auto node_PARAM_ENV = std::make_shared<ros2_RobotParam>();
+    auto node_PARAM_ENV = std::make_shared<ros2_EnvironmentParam>();
     rclcpp::spin_some(node_PARAM_ENV);
 
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
@@ -515,7 +515,7 @@ int main(int argc, char ** argv)
         RCLCPP_INFO(logger, "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
     }
     // 2. END-EFFECTOR:
-    if (param_EE != "none"){
+    if (param_EE != "none" && param_ENV != "bringup"){
         move_group_interface_EE = MoveGroupInterface(node2, param_EE);
         move_group_interface_EE.setPlanningPipelineId("move_group");
         move_group_interface_EE.setMaxVelocityScalingFactor(1.0);
