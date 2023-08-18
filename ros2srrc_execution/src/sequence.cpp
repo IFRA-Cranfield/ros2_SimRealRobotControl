@@ -627,13 +627,17 @@ private:
                 // ABB ROBOT: I/O -> Gripper OPEN/CLOSE:
                 if (ACTION == "ABB - GripperOpen"){
 
+                    usleep(200000);
                     GripperOpenABB();
+                    usleep(500000);
                     feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper opened successfully.";
                     goal_handle->publish_feedback(feedback);
 
                 } else if (ACTION == "ABB - GripperClose"){
 
+                    usleep(200000);
                     GripperCloseABB();
+                    usleep(500000);
                     feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper closed successfully.";
                     goal_handle->publish_feedback(feedback);
 
