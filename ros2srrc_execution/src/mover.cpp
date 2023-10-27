@@ -56,6 +56,8 @@ const double k = pi/180.0;
 MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP, std::string param_ROB){
 
     MoveRSTRUCT RESULT;
+    double j1UL, j1LL, j2UL, j2LL, j3UL, j3LL, j4UL, j4LL, j5UL, j5LL, j6UL, j6LL = 0.0;
+    double j1, j2, j3, j4, j5, j6 = 0.0;
     
     // 1. Obtain variables:
     auto joint = GOAL.joint;
@@ -63,19 +65,20 @@ MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP,
 
     // 2. CALCULATIONS:
     // Obtain current joint values:
-    double j1 = JP[0] * (1/k);
-    double j2 = JP[1] * (1/k);
-    double j3 = JP[2] * (1/k);
-    double j4 = JP[3] * (1/k);
-    double j5 = JP[4] * (1/k);
-    double j6 = JP[5] * (1/k);
+    j1 = JP[0] * (1/k);
+    j2 = JP[1] * (1/k);
+    j3 = JP[2] * (1/k);
+    j4 = JP[3] * (1/k);
+    if (param_ROB != "dobot"){
+        j5 = JP[4] * (1/k);
+        j6 = JP[5] * (1/k);
+    }
     
-    double j1UL, j1LL, j2UL, j2LL, j3UL, j3LL, j4UL, j4LL, j5UL, j5LL, j6UL, j6LL = 0.0;
-
     // ROBOTS in ros2_SimRealRobotControl repository:
     //  - ABB IRB-120 industrial robot manipulator. NAME -> "irb120"
     //  - Universal Robots - UR3. NAME -> "ur3"
     //  - Universal Robots - UR10e. NAME -> "ur10e"
+    //  - Dobot Magician. NAME -> "dobot"
 
     // ***** JOINT VALUES (MAX/MIN) ***** //
     if (param_ROB == "irb120"){
@@ -117,6 +120,15 @@ MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP,
         j5LL = -360;
         j6UL = 360;
         j6LL = -360;
+    } else if (param_ROB == "dobot"){
+        j1UL = 120;
+        j1LL = -120;
+        j2UL = 90;
+        j2LL = -5;
+        j3UL = 90;
+        j3LL = -15;
+        j4UL = 140;
+        j4LL = -140;
     };
 
     // Check if INPUT JOINT VALUES are within the JOINT LIMIT VALUES:
@@ -178,8 +190,11 @@ MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP,
         JP[1] = j2 * k;
         JP[2] = j3 * k;
         JP[3] = j4 * k;
-        JP[4] = j5 * k;
-        JP[5] = j6 * k;
+        
+        if (param_ROB != "dobot"){
+            JP[4] = j5 * k;
+            JP[5] = j6 * k;
+        }
 
         RESULT.RES = "LIMITS: OK";
         RESULT.JP = JP;

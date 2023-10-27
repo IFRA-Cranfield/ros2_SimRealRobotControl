@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: April, 2023.                                                                   #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  Some of the information used to build the ROS2 ABB-IRB120 .urdf files in this ROS2   #
+#  repository has been taken from the following resource:                               #
+#       - abb_experimental (https://github.com/ros-industrial/abb_experimental)         #
+#                                                                                       #
+#  AUTHORS:                                                                             #
+#       - ROS-Industrial - https://rosindustrial.org                                    #
+#       - Mark Culleton (Trinity College Dublin) - culletom@tcd.ie                      #
+#       - Kevin Kelly   (Trinity College Dublin)                                        #
+#                                                                                       #
+#  COPYRIGHT - ROS-Industrial                                                           #
+#  (ORIGINAL LICENSE) -> Licensed under the Apache-2.0 License.                         #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  The original files contain the .urdf information of the robot for ROS1, and these    #
+#  have been modified for ROS2.                                                         #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <!-- XACRO-MACRO of DOBOT: -->
+  <xacro:macro name="dobot" params="">
+
+    <!-- Defining the colors used in this robot -->
+    <material name="Black">
+        <color rgba="0 0 0 1"/>
+    </material>
+    <material name="White">
+        <color rgba="1 1 1 1"/>
+    </material>
+    <material name="Grey">
+        <color rgba="0.9 0.9 0.9 1"/>
+    </material>
+
+    <!-- DOBOT TRANSMISSION: -->
+    <xacro:include filename="$(find ros2srrc_dobot_gazebo)/urdf/dobot_transmission.xacro" />
+    <xacro:dobot_transmission />
+
+    <!-- DOBOT GAZEBO - ROS2_CONTROL: -->
+    <xacro:include filename="$(find ros2srrc_dobot_gazebo)/urdf/dobot_ros2control.xacro" />
+    <xacro:dobot_ros2control />
+
+    <!-- ***** DOBOT ROBOT .urdf SERIAL CHAIN ***** -->
+
+    <!-- ===== LINK LIST ===== -->
+    <!-- BASE LINK: -->
+    <link name="base_link">
+      <inertial>
+        <origin xyz="0.04251794 -0.02273413 0.03329067"/>
+        <mass value="2.00000000"/>
+        <inertia ixx="0.00465413" ixy="0.00001311" ixz="-0.00000976" iyy="0.00468362" iyz="0.00000907" izz="0.00819820"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_dobot_gazebo)/meshes/dobot/base_link.stl"/>
+        </geometry>
+        <material name="White"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_dobot_gazebo)/meshes/dobot/base_link.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <!-- LINK 1: -->
+    <link name="link_1">
+      <inertial>
+        <origin xyz="0.00038037 -0.00515150 0.07917318"/>
+        <mass value="0.50000000"/>
+        <inertia ixx="0.00102692" ixy="-0.00000172" ixz="0.00000050" iyy="0.00162168" iyz="0.00001162" izz="0.00138833"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_dobot_gazebo)/meshes/dobot/link_1.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_dobot_gazebo)/meshes/dobot/link_1.dae"/>
+        </geometry>
+      </collision>
+    </link>
+    <!-- LINK 2: -->
+    <link name="link_2">
+      <inertial>
+        <origin xyz="0.04442809 0.07223258 -0.01117110"/>
+        <mass value="0.10000000"/>
+        <inertia ixx="0.00025719" ixy="-0.00003432" ixz="-0.00000000" iyy="0.00007311" iyz="0.00000000" izz="0.00030016"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_dobot_gazebo)/meshes/dobot/link_2.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_dobot_gazebo)/meshes/dobot/link_2.dae"/>
+        </geometry>
+      </collision>
+    </link>
+    <!-- LINK 3: -->
+    <link name="link_3">
+      <inertial>
+        <origin xyz="0.07174762 -0.03105705 0.00003808"/>
+        <mass value="0.10000000"/>
+        <inertia ixx="0.00022763" ixy="0.00010014" ixz="-0.00000000" iyy="0.00011279" iyz="0.00000000" izz="0.00032257"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_dobot_gazebo)/meshes/dobot/link_5.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_dobot_gazebo)/meshes/dobot/link_5.dae"/>
+        </geometry>
+      </collision>
+    </link>
+    <!-- LINK 4: -->
+    <link name="link_4">
+      <inertial>
+        <origin xyz="-0.01733982 0.01278737 0.00085845"/>
+        <mass value="0.01000000"/>
+        <inertia ixx="0.00000191" ixy="0.00000050" ixz="0.00000001" iyy="0.00000203" iyz="-0.00000001" izz="0.00000320"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_dobot_gazebo)/meshes/dobot/link_6.stl"/>
+        </geometry>
+        <material name="Grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_dobot_gazebo)/meshes/dobot/link_6.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- ===== JOINT LIST ===== -->
+    <!-- JOINT 1: -->
+    <joint name="joint_1" type ="revolute">
+      <origin xyz="0 0 0.024" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link_1"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="150.0" lower="-2.0944" upper="2.0944" velocity="3.15"/>
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+    <!-- JOINT 2: -->
+    <joint name="joint_2" type="revolute">
+      <origin xyz="-0.01175 0 0.114" rpy="1.570796325 0 -1.570796325"/>
+      <parent link="link_1"/>
+      <child link="link_2"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="150.0" lower="-0.0872665" upper="1.570796325" velocity="3.15"/>
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+    <!-- JOINT 3: -->
+    <joint name="joint_3" type ="revolute">
+      <origin xyz="0.02699 0.13228 -0.01175" rpy="0 3.14159265 0"/>
+      <parent link="link_2"/>
+      <child link="link_3"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="150.0" lower="-0.261799" upper="1.570796325" velocity="3.15"/>
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+    <!-- JOINT 4: -->
+    <joint name="joint_4" type ="revolute">
+      <origin xyz="0.07431 -0.12684 0.0" rpy="0 3.14159265 0"/>
+      <parent link="link_3"/>
+      <child link="link_4"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="150.0" lower="-2.44346" upper="2.44346" velocity="3.15"/>
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

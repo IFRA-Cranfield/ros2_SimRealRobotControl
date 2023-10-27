@@ -56,25 +56,28 @@ const double k = pi/180.0;
 MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> JP, std::string param_ROB){
 
     MoveJSTRUCT RESULT;
-    
+    double j1UL, j1LL, j2UL, j2LL, j3UL, j3LL, j4UL, j4LL, j5UL, j5LL, j6UL, j6LL = 0.0;
+    double j1, j2, j3, j4, j5, j6 = 0.0;
+
     // 1. Obtain variables:
     auto MoveJgoal = JOINTS;
 
     // 2. CALCULATIONS:
     // Declare joint value variables:
-    double j1 = MoveJgoal.joint1;
-    double j2 = MoveJgoal.joint2;
-    double j3 = MoveJgoal.joint3;
-    double j4 = MoveJgoal.joint4;
-    double j5 = MoveJgoal.joint5;
-    double j6 = MoveJgoal.joint6;
-    
-    double j1UL, j1LL, j2UL, j2LL, j3UL, j3LL, j4UL, j4LL, j5UL, j5LL, j6UL, j6LL = 0.0;
+    j1 = MoveJgoal.joint1;
+    j2 = MoveJgoal.joint2;
+    j3 = MoveJgoal.joint3;
+    j4 = MoveJgoal.joint4;
+    if (param_ROB != "dobot"){
+        j5 = MoveJgoal.joint5;
+        j6 = MoveJgoal.joint6;
+    }
 
     // ROBOTS in ros2_SimRealRobotControl repository:
     //  - ABB IRB-120 industrial robot manipulator. NAME -> "irb120"
     //  - Universal Robots - UR3. NAME -> "ur3"
     //  - Universal Robots - UR10e. NAME -> "ur10e"
+    //  - Dobot Magician. NAME -> "dobot"
 
     // ***** JOINT VALUES (MAX/MIN) ***** //
     if (param_ROB == "irb120"){
@@ -116,6 +119,15 @@ MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> 
         j5LL = -360;
         j6UL = 360;
         j6LL = -360;
+    } else if (param_ROB == "dobot"){
+        j1UL = 120;
+        j1LL = -120;
+        j2UL = 90;
+        j2LL = -5;
+        j3UL = 90;
+        j3LL = -15;
+        j4UL = 140;
+        j4LL = -140;
     };
 
     // Check if INPUT JOINT VALUES are within the JOINT LIMIT VALUES:
@@ -141,15 +153,20 @@ MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> 
     } else {
         LimitCheck = true;
     }
-    if (j5 <= j5UL && j5 >= j5LL && LimitCheck == false) {
-        // Do nothing, check complete.
-    } else {
-        LimitCheck = true;
-    }
-    if (j6 <= j6UL && j6 >= j6LL && LimitCheck == false) {
-        // Do nothing, check complete.
-    } else {
-        LimitCheck = true;
+
+    if (param_ROB != "dobot"){
+
+        if (j5 <= j5UL && j5 >= j5LL && LimitCheck == false) {
+            // Do nothing, check complete.
+        } else {
+            LimitCheck = true;
+        }
+        if (j6 <= j6UL && j6 >= j6LL && LimitCheck == false) {
+            // Do nothing, check complete.
+        } else {
+            LimitCheck = true;
+        }
+
     }
 
     // 4. SET TARGET and RETURN:
@@ -159,8 +176,11 @@ MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> 
         JP[1] = MoveJgoal.joint2 * k;
         JP[2] = MoveJgoal.joint3 * k;
         JP[3] = MoveJgoal.joint4 * k;
-        JP[4] = MoveJgoal.joint5 * k;
-        JP[5] = MoveJgoal.joint6 * k; 
+
+        if (param_ROB != "dobot"){
+            JP[4] = MoveJgoal.joint5 * k;
+            JP[5] = MoveJgoal.joint6 * k; 
+        }
 
         RESULT.RES = "LIMITS: OK";
         RESULT.JP = JP;
