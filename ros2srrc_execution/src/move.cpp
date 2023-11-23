@@ -359,6 +359,22 @@ private:
             // 4. PLAN:
             MyPlan = plan_ROB();
         
+        } else if (action == "MoveYPR" && param_ROB != "none"){
+            
+            // 1. Define POSE VECTOR:
+            auto POSE = move_group_interface_ROB.getCurrentPose();
+            
+            // 2. CALL MoveROTAction for CALCULATIONS:
+            auto TARGET_POSE = MoveYPRAction(goal->moveypr, POSE);
+            move_group_interface_ROB.setPoseTarget(TARGET_POSE);
+            
+            // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
+            move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
+            move_group_interface_ROB.setPlannerId("PTP");
+
+            // 4. PLAN:
+            MyPlan = plan_ROB();
+        
         } else if (action == "MoveRP" && param_ROB != "none"){
             
             // 1. Define POSE VECTOR:
