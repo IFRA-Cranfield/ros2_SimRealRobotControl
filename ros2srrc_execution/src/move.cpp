@@ -447,7 +447,7 @@ private:
 
         } else if (RES == "LIMITS: ERROR"){
             RCLCPP_INFO(this->get_logger(), "%s - %s: ERROR - Check joint limits!", param_ROB.c_str(), action.c_str());
-            result->result = action + ":FAILED. Reason -> Joint limits.";
+            result->result = action + ":FAILED. Reason -> Wrong joint name or joint limits exceeded.";
             goal_handle->succeed(result);
         } else if (RES == "LIMITS: ERROR (EE)"){
             RCLCPP_INFO(this->get_logger(), "%s - %s: ERROR - Check joint limits!", param_EE.c_str(), action.c_str());
