@@ -33,6 +33,7 @@
 
 # Import libraries:
 import os
+import sys
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -62,6 +63,18 @@ def load_yaml(package_name, file_path):
     except EnvironmentError:
         # parent of IOError, OSError *and* WindowsError where available.
         return None
+    
+# ========== **INPUT ARGUMENTS** ========== #
+#  layout -> Cell layout.
+
+# EVALUATE INPUT ARGUMENTS:
+def AssignArgument(ARGUMENT):
+    
+    ARGUMENTS = sys.argv
+    for y in ARGUMENTS:
+        if (ARGUMENT + ":=") in y:
+            ARG = y.replace((ARGUMENT + ":="),"")
+            return(ARG)
 
 # ========== **GENERATE LAUNCH DESCRIPTION** ========== #
 def generate_launch_description():
@@ -78,56 +91,74 @@ def generate_launch_description():
                     get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
                 launch_arguments={'world': ros2srrc_irb120_gazebo}.items(),
              )
+    
+    # ========== INPUT ARGUMENTS ========== #
+    # Cell layout:
+    layout = AssignArgument("layout")
+    if layout != None:
+        None
+    else:
+        print("")
+        print("ERROR: layout INPUT ARGUMENT has not been defined. Please try again.")
+        print("Closing... BYE!")
+        exit()
 
+    if layout == "ros2srrc_irb120_1":
+        LYT = "ABB IRB-120 alone."
+        ros2srrc_irb120_1 = "true"
+        ros2srrc_irb120_2 = "false"
+        ros2srrc_irb120_3 = "false"
+    elif layout == "ros2srrc_irb120_2":
+        LYT = "Cranfield University IA Lab enclosure."
+        ros2srrc_irb120_1 = "false"
+        ros2srrc_irb120_2 = "true"
+        ros2srrc_irb120_3 = "false"
+    elif layout == "ros2srrc_irb120_3":
+        LYT = "Pick and Place Use-Case."
+        ros2srrc_irb120_1 = "false"
+        ros2srrc_irb120_2 = "false"
+        ros2srrc_irb120_3 = "true"
+    else:
+        print("")
+        print("ERROR: layout INPUT ARGUMENT has not been defined properly. Please try again.")
+        print("Options: {ros2srrc_irb120_1, ros2srrc_irb120_2, ros2srrc_irb120_3}")
+        print("Closing... BYE!")
+        exit()
 
-    # ========== COMMAND LINE ARGUMENTS ========== #
+    # End effector:
+    endeffector = AssignArgument("endeffector")
+    if endeffector != None:
+        None
+    else:
+        print("")
+        print("ERROR: endeffector INPUT ARGUMENT has not been defined. Please try again.")
+        print("Closing... BYE!")
+        exit()
+
+    if endeffector == "RobAlone":
+        EE = "ABB IRB-120 alone."
+        RobAlone = "true"
+        egp64 = "false"
+    elif endeffector == "egp64":
+        EE = "Cranfield University IA Lab enclosure."
+        RobAlone = "false"
+        egp64 = "true"
+    else:
+        print("")
+        print("ERROR: endeffector INPUT ARGUMENT has not been defined properly. Please try again.")
+        print("Options: {RobAlone, egp64}")
+        print("Closing... BYE!")
+        exit()
+
+    # ========== CELL INFORMATION ========== #
     print("")
     print("===== ABB IRB-120: Robot Simulation (ros2srrc_irb120_gazebo) =====")
     print("Robot configuration:")
     print("")
     # Cell Layout:
-    print("- Cell layout:")
-    error = True
-    while (error == True):
-        print("     + Option N1: ABB IRB-120 alone.")
-        print("     + Option N2: Cranfield University: IA Lab enclosure.")
-        print("     + Option N3: Pick and Place use-case.")
-        cell_layout = input ("  Please select: ")
-        if (cell_layout == "1"):
-            error = False
-            cell_layout_1 = "true"
-            cell_layout_2 = "false"
-            cell_layout_3 = "false"
-        elif (cell_layout == "2"):
-            error = False
-            cell_layout_1 = "false"
-            cell_layout_2 = "true"
-            cell_layout_3 = "false"
-        elif (cell_layout == "3"):
-            error = False
-            cell_layout_1 = "false"
-            cell_layout_2 = "false"
-            cell_layout_3 = "true"
-        else:
-            print ("  Please select a valid option!")
-    print("")
+    print("- Cell layout: " + LYT)
     # End-Effector:
-    print("- End-effector:")
-    error = True
-    while (error == True):
-        print("     + Option N1: No end-effector.")
-        print("     + Option N2: Schunk EGP-64 parallel gripper.")
-        end_effector = input ("  Please select: ")
-        if (end_effector == "1"):
-            error = False
-            EE_no = "true"
-            EE_schunk = "false"
-        elif (end_effector == "2"):
-            error = False
-            EE_no = "false"
-            EE_schunk = "true"
-        else:
-            print ("  Please select a valid option!")
+    print("- End-effector: " + EE)
     print("")
 
     # ***** ROBOT DESCRIPTION ***** #
@@ -140,13 +171,15 @@ def generate_launch_description():
                               'irb120.urdf.xacro')
     # Generate ROBOT_DESCRIPTION for ABB-IRB120:
     doc = xacro.parse(open(xacro_file))
+    
     xacro.process_doc(doc, mappings={
-        "cell_layout_1": cell_layout_1,
-        "cell_layout_2": cell_layout_2,
-        "cell_layout_3": cell_layout_3,
-        "EE_no": EE_no,
-        "EE_schunk": EE_schunk,
-        })
+        "cell_layout_1": ros2srrc_irb120_1,
+        "cell_layout_2": ros2srrc_irb120_2,
+        "cell_layout_3": ros2srrc_irb120_3,
+        "EE_no": RobAlone,
+        "EE_schunk": egp64,
+    })
+    
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
 
