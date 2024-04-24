@@ -239,8 +239,10 @@ int main(int argc, char **argv)
     auto ROBname = param_ROB + "_arm";
     move_group_interface_ROB = MoveGroupInterface(MoveIt2_NODE, ROBname);
     move_group_interface_ROB.setPlanningPipelineId("move_group");
+
     move_group_interface_ROB.setMaxVelocityScalingFactor(1.0);
-    move_group_interface_ROB.setMaxAccelerationScalingFactor(0.5);
+    move_group_interface_ROB.setMaxAccelerationScalingFactor(1.0);
+    
     RCLCPP_INFO(logger, "MoveGroupInterface object created for ROBOT: %s", ROBname);
 
     // CREATE -> PlanningSceneInterface:
