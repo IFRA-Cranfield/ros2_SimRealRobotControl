@@ -58,6 +58,7 @@ MoveGSTRUCT MoveGAction (double VAL, std::vector<double> JP, std::string param_E
     // GRIPPERS in ros2_SimRealRobotControl repository:
     //  - Schunk EGP-64 parallel gripper. NAME -> "egp64"
     //  - Robotiq 2f-85 parallel gripper. NAME -> "robotiq_2f85"
+    //  - Robotiq Hand-E parallel gripper. NAME -> "robotiq_hande"
 
     // Check GRIPPER LIMITS:
     double GPupper, GPlower = 0.0;
@@ -67,6 +68,9 @@ MoveGSTRUCT MoveGAction (double VAL, std::vector<double> JP, std::string param_E
         GPlower = 0.0;
     } else if (param_EE == "robotiq_2f85"){
         GPupper = 0.8;
+        GPlower = 0.0;
+    } else if (param_EE == "robotiq_hande"){
+        GPupper = 0.025;
         GPlower = 0.0;
     };
     if (GP <= GPupper && GP >= GPlower) {
@@ -88,6 +92,9 @@ MoveGSTRUCT MoveGAction (double VAL, std::vector<double> JP, std::string param_E
             JP[3] = GP;
             JP[4] = -GP;
             JP[5] = GP;
+        } else if (param_EE == "robotiq_hande"){
+            JP[0] = GP;
+            JP[1] = GP;
         };
 
         RESULT.RES = "LIMITS: OK";

@@ -174,6 +174,7 @@ class eePARAM(Node):
             
             if (PARAM_EE == "egp64" or
                 PARAM_EE == "robotiq_2f85" or
+                PARAM_EE == "robotiq_hande" or
                 PARAM_EE == "none"):
                 None # do nothing.
             else:
