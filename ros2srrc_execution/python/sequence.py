@@ -414,6 +414,11 @@ def main(args=None):
             pass # No action required, since ACTION name is passed and enough.
         elif (ACTION.action == "ABB - GripperClose"):
             pass # No action required, since ACTION name is passed and enough.
+
+        elif (ACTION.action == "UR HandE - GripperOpen"):
+            pass # No action required, since ACTION name is passed and enough.
+        elif (ACTION.action == "UR HandE - GripperClose"):
+            pass # No action required, since ACTION name is passed and enough.
         
         SEQUENCE.append(ACTION)
     

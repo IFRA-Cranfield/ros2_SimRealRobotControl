@@ -44,6 +44,7 @@
 
 // Include for ABB I/O manipulation:
 #include <abb_robot_msgs/srv/set_io_signal.hpp>
+#include <ros2_robotiqgripper/srv/robotiq_gripper.hpp>
 
 // Include standard libraries:
 #include <string>
@@ -87,10 +88,11 @@ const moveit::core::JointModelGroup* joint_model_group_EE;
 // Declaration of GLOBAL VARIABLE --> RES:
 std::string RES = "none";
 
-// Declaration of GLOBAL VARIABLES --> Attacher & Detacher / ABBGripper nodes:
+// Declaration of GLOBAL VARIABLES --> Attacher & Detacher / Gripper nodes:
 std::shared_ptr<rclcpp::Node> AttacherNode;
 std::shared_ptr<rclcpp::Node> DetacherNode;
 std::shared_ptr<rclcpp::Node> ABBGripperNode;
+std::shared_ptr<rclcpp::Node> URRobotiqGripper_NODE;
 
 // ======================================================================================================================== //
 // ==================== PARAM: ROBOT + END-EFFECTOR ==================== //
@@ -288,6 +290,40 @@ void GripperCloseABB(){
     REQUEST = GRIPPER_SC->async_send_request(req_msg);
     rclcpp::spin_some(ABBGripperNode);
     
+}
+
+
+// ======================================================================================================================== //
+// ==================== UR Robotiq GRIPPER: Open/Close ==================== //
+
+void URRobotiqGripper_NODE(){
+
+    URRobotiqGripperNode = rclcpp::Node::make_shared("URRobotiqGripper_SC_node");
+
+}
+
+void GripperOpenURRobotiq(){
+
+    auto GRIPPER_SC = URRobotiqGripperNode->create_client<ros2_robotiqgripper::srv::RobotiqGripper>("/Robotiq_Gripper");
+    auto req_msg = std::make_shared<ros2_robotiqgripper::srv::RobotiqGripper::Request>();
+
+    // GripperOpen:
+    req_msg->action = "OPEN";
+    REQUEST = GRIPPER_SC->async_send_request(req_msg);
+    rclcpp::spin_some(URRobotiqGripperNode);
+
+}
+
+void GripperCloseURRobotiq(){
+
+    auto GRIPPER_SC = URRobotiqGripperNode->create_client<ros2_robotiqgripper::srv::RobotiqGripper>("/Robotiq_Gripper");
+    auto req_msg = std::make_shared<ros2_robotiqgripper::srv::RobotiqGripper::Request>();
+
+    // GripperCLose:
+    req_msg->action = "CLOSE";
+    REQUEST = GRIPPER_SC->async_send_request(req_msg);
+    rclcpp::spin_some(URRobotiqGripperNode);
+
 }
 
 
@@ -643,6 +679,25 @@ private:
 
                 }
 
+                // UR Robot - Robotiq Gripper -> Gripper OPEN/CLOSE:
+                if (ACTION == "UR HandE - GripperOpen"){
+
+                    usleep(200000);
+                    GripperOpenURRobotiq();
+                    usleep(500000);
+                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper opened successfully.";
+                    goal_handle->publish_feedback(feedback);
+
+                } else if (ACTION == "UR HandE - GripperClose"){
+
+                    usleep(200000);
+                    GripperCloseURRobotiq();
+                    usleep(500000);
+                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper closed successfully.";
+                    goal_handle->publish_feedback(feedback);
+
+                }
+
                 // RE-INITIALISE RES variable:
                 RES = "none";
 
@@ -688,6 +743,12 @@ int main(int argc, char ** argv)
     if (param_ROB == "irb120" && param_EE != "none" && param_ENV == "bringup"){
         ABBGripper_NODE();
         RCLCPP_INFO(logger, "ABB Gripper NODE initialised.");
+    }
+
+    // Declare UR Robotiq-HandE Gripper node:
+    if (param_ROB == "ur3" && param_EE != "robotiq_hande" && param_ENV == "bringup"){
+        URRobotiqGripper_NODE();
+        RCLCPP_INFO(logger, "UR-RobotiqHandE NODE initialised.");
     }
          
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
