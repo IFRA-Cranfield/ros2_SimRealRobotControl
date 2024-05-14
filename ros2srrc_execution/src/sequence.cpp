@@ -92,7 +92,7 @@ std::string RES = "none";
 std::shared_ptr<rclcpp::Node> AttacherNode;
 std::shared_ptr<rclcpp::Node> DetacherNode;
 std::shared_ptr<rclcpp::Node> ABBGripperNode;
-std::shared_ptr<rclcpp::Node> URRobotiqGripper_NODE;
+std::shared_ptr<rclcpp::Node> URRobotiqGripperNode;
 
 // ======================================================================================================================== //
 // ==================== PARAM: ROBOT + END-EFFECTOR ==================== //
@@ -309,7 +309,7 @@ void GripperOpenURRobotiq(){
 
     // GripperOpen:
     req_msg->action = "OPEN";
-    REQUEST = GRIPPER_SC->async_send_request(req_msg);
+    auto REQUEST = GRIPPER_SC->async_send_request(req_msg);
     rclcpp::spin_some(URRobotiqGripperNode);
 
 }
@@ -321,7 +321,7 @@ void GripperCloseURRobotiq(){
 
     // GripperCLose:
     req_msg->action = "CLOSE";
-    REQUEST = GRIPPER_SC->async_send_request(req_msg);
+    auto REQUEST = GRIPPER_SC->async_send_request(req_msg);
     rclcpp::spin_some(URRobotiqGripperNode);
 
 }

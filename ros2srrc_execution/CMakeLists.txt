@@ -43,6 +43,9 @@ find_package(std_msgs REQUIRED)
 # REQUIRED to -> ABB:
 find_package(abb_robot_msgs REQUIRED)
 
+# REQUIRED to -> Robotiq:
+find_package(ros2_robotiqgripper REQUIRED)
+
 # Add include directories:
 include_directories(include)
 
@@ -125,6 +128,7 @@ ament_target_dependencies(
   ros2srrc_data
   linkattacher_msgs
   abb_robot_msgs
+  ros2_robotiqgripper
 )
 ament_target_dependencies(
   robmove

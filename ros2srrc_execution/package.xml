@@ -24,6 +24,7 @@
   <depend>ros2srrc_data</depend>
   <build_depend>linkattacher_msgs</build_depend>
   <build_depend>abb_robot_msgs</build_depend>
+  <depend>ros2_robotiqgripper</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
