@@ -213,6 +213,21 @@ All packages in this repository have been developed, executed and tested in a Ub
       sudo apt install ros-humble-rmw-cyclonedds-cpp # (+) Add into .bashrc file -> export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       ```
 
+    (EXTRA STEP) -> Due to problems with URDF file processing for the newest version of ROS 2 Control-Gazebo plugin, Gazebo-ROS2-Control must be downgraded to the 0.4.6 version:
+
+    ```sh
+    # Uninstall Gazebo ROS2 Control:
+    sudo apt remove ros-humble-gazebo-ros2-control
+
+    # Download and install the 0.4.6 version:
+    cd ~/dev_ws/src
+    git clone https://github.com/ros-controls/gazebo_ros2_control.git
+    cd gazebo_ros2_control
+    git reset --hard 9a3736c # Commit for the 0.4.6 version!
+    cd ~/dev_ws
+    colcon build
+    ``` 
+
 </br>
 
 2. __ABB DRIVER for ROS 2__: The installation of the [abb_ros2](https://github.com/PickNikRobotics/abb_ros2) driver is required for the control of any real ABB robot using ROS 2. 
