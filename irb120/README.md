@@ -13,14 +13,14 @@ __Launch Gazebo + MoveIt!2 Environment__
 
 The following command launches the Gazebo Simulation Environment and the MoveIt!2 Framework for the control of the ABB IRB-120 robot:
 ```sh
-ros2 launch ros2srrc_irb120_moveit2 irb120_interface.launch.py layout:=ABC endeffector:=ABC
+ros2 launch ros2srrc_irb120_moveit2 moveit2.launch.py layout:=ABC endeffector:=ABC
 ```
 
 __Launch RobotBringup + MoveIt!2 Environment__
 
 The following command launches the ROS2 Node that establishes the connection between the Robot's ROS2 Driver and the Robot Controller, and the MoveIt!2 Framework for the control of the robot:
 ```sh
-ros2 launch ros2srrc_irb120_bringup irb120_bringup.launch.py layout:=ABC endeffector:=ABC robot_ip:=ABC
+ros2 launch ros2srrc_irb120_bringup bringup.launch.py layout:=ABC endeffector:=ABC robot_ip:=ABC
 ```
 
 __Variants for the ROS2srrc ABB IRB120__

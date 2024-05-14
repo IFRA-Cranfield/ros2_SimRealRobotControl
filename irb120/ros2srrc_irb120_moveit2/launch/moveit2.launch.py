@@ -142,7 +142,7 @@ def generate_launch_description():
         RobAlone = "true"
         egp64 = "false"
     elif endeffector == "egp64":
-        EE = "Cranfield University IA Lab enclosure."
+        EE = "Schunk EGP-64 parallel gripper."
         RobAlone = "false"
         egp64 = "true"
     else:
