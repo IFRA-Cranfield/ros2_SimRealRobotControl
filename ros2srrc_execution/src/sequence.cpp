@@ -746,7 +746,7 @@ int main(int argc, char ** argv)
     }
 
     // Declare UR Robotiq-HandE Gripper node:
-    if (param_ROB == "ur3" && param_EE != "robotiq_hande" && param_ENV == "bringup"){
+    if (param_ROB == "ur3" && param_EE != "none" && param_ENV == "bringup"){
         URRobotiqGripper_NODE();
         RCLCPP_INFO(logger, "UR-RobotiqHandE NODE initialised.");
     }
