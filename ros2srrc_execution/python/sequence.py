@@ -83,6 +83,9 @@ class ACsequence(Node):
         if not goal_handle.accepted:
             self.get_logger().info('Goal rejected.')
             return
+        
+        self._goal_handle = goal_handle
+
         self.get_logger().info('Goal accepted.')
         self._get_result_future = goal_handle.get_result_async()
         self._get_result_future.add_done_callback(self.get_result_callback)
@@ -106,6 +109,17 @@ class ACsequence(Node):
         
         # 2. Print FEEDBACK:
         print (feedback_msg.feedback.feedback)
+
+    def ifCLOSED(self):
+        print("")
+        print("Program TERMINATED!")
+        print('Cancelling the SEQUENCE EXECUTION and stopping the robot.')
+
+        self._goal_handle.cancel_goal_async()
+
+        print("Closing... BYE!")
+        time.sleep(5)
+        exit()
 
 
 # ===== INPUT PARAMETERS ===== #
@@ -425,11 +439,14 @@ def main(args=None):
     # 6. CALL ROS2 Action -> SEQUENCE:
     SEQ_CLIENT.send_goal(SEQUENCE, PARAM_ROBOT, PARAM_EE, PARAM_GzBr)
             
-    while rclpy.ok():
-        rclpy.spin_once(SEQ_CLIENT)
-        if (RES != "null"):
-            break
-    
+    try:
+        while rclpy.ok():
+            rclpy.spin_once(SEQ_CLIENT)
+            if (RES != "null"):
+                break
+    except KeyboardInterrupt:
+        SEQ_CLIENT.ifCLOSED()
+
     nodeLOG.destroy_node()
     print("Closing... BYE!")
     time.sleep(5)
