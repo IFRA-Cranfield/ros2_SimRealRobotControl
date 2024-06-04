@@ -397,7 +397,7 @@ private:
         if (param_ROB != "none"){
             move_group_interface_ROB.stop();
         }
-        if (param_EE != "none"){
+        if (param_EE != "none" && param_ENV != "bringup"){
             move_group_interface_EE.stop();
         }
 
