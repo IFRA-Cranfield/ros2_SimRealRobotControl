@@ -1,0 +1,36 @@
+controller_manager:
+  ros__parameters:
+
+    update_rate: 250 #Hz
+
+    robotiq_controller_LKJ:
+      type: position_controllers/GripperActionController
+    robotiq_controller_RKJ:
+      type: position_controllers/GripperActionController
+    robotiq_controller_LIKJ:
+      type: position_controllers/GripperActionController
+    robotiq_controller_RIKJ:
+      type: position_controllers/GripperActionController
+    robotiq_controller_LFTJ:
+      type: position_controllers/GripperActionController
+    robotiq_controller_RFTJ:
+      type: position_controllers/GripperActionController
+
+robotiq_controller_LKJ:
+  ros__parameters:
+    joint: robotiq_85_left_knuckle_joint
+robotiq_controller_RKJ:
+  ros__parameters:
+    joint: robotiq_85_right_knuckle_joint
+robotiq_controller_LIKJ:
+  ros__parameters:
+    joint: robotiq_85_left_inner_knuckle_joint
+robotiq_controller_RIKJ:
+  ros__parameters:
+    joint: robotiq_85_right_inner_knuckle_joint
+robotiq_controller_LFTJ:
+  ros__parameters:
+    joint: robotiq_85_left_finger_tip_joint
+robotiq_controller_RFTJ:
+  ros__parameters:
+    joint: robotiq_85_right_finger_tip_joint

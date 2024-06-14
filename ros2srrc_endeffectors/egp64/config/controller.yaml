@@ -1,0 +1,18 @@
+controller_manager:
+  ros__parameters:
+
+    update_rate: 250 #Hz
+
+    egp64_finger_left_controller:
+      type: position_controllers/GripperActionController
+
+    egp64_finger_right_controller:
+      type: position_controllers/GripperActionController
+
+egp64_finger_left_controller:
+  ros__parameters:
+    joint: egp64_finger_left_joint
+
+egp64_finger_right_controller:
+  ros__parameters:
+    joint: egp64_finger_right_joint

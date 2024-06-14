@@ -1,0 +1,16 @@
+controller_manager:
+  ros__parameters:
+
+    update_rate: 250 #Hz
+
+    hande_controller_LEFT:
+      type: position_controllers/GripperActionController
+    hande_controller_RIGHT:
+      type: position_controllers/GripperActionController
+
+hande_controller_LEFT:
+  ros__parameters:
+    joint: robotiq_hande_left_finger_joint
+hande_controller_RIGHT:
+  ros__parameters:
+    joint: robotiq_hande_right_finger_joint

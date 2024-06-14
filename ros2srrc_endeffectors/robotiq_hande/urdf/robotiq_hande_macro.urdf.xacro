@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: April, 2023.                                                                   #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- XACRO-MACRO of Robotiq HandE: -->
+  <xacro:macro name="robotiq_hande" params="bringup parent_link">
+
+    <xacro:unless value="${bringup}">  
+      
+      <!-- Robotiq HandE TRANSMISSION: -->
+      <xacro:include filename="$(find ros2srrc_endeffectors)/robotiq_hande/urdf/robotiq_hande_transmission.xacro" />
+      <xacro:robotiq_hande_transmission />
+
+    </xacro:unless>
+
+    <!-- ***** Robotiq HandE GRIPPER .urdf SERIAL CHAIN ***** -->
+
+    <!-- Robotiq: bracket -->
+    <link name="robotiq_bracket">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/hande_bracket.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/hande_bracket.dae" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="2.073e-05   1.45286e-03  -1.1049e-03" rpy="0 0 0" />
+        <mass value="0.25" />
+        <inertia ixx="6.69695624e-05" ixy="5.21511788e-09" ixz="-2.74383009e-08" 
+                iyy="7.85088161e-05" iyz="5.41105193e-07" izz="1.41819717e-04"/>
+      </inertial>
+    </link>
+
+    <joint name="robotiq_bracket_joint" type="fixed">
+      <origin xyz="0 0 0.002" rpy="0 0 0" />
+      <parent link="${parent_link}"/>
+      <child link="robotiq_bracket"/>
+    </joint>
+    
+    <!-- Robotiq: coupler -->
+    <link name="robotiq_coupler">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/robotiq_hande_coupler.stl" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/robotiq_hande_coupler.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="2.073e-05   1.45286e-03  -1.1049e-03" rpy="0 0 0" />
+        <mass value="0.25" />
+        <inertia ixx="6.69695624e-05" ixy="5.21511788e-09" ixz="-2.74383009e-08" 
+                iyy="7.85088161e-05" iyz="5.41105193e-07" izz="1.41819717e-04"/>
+      </inertial>
+    </link>
+
+    <joint name="robotiq_coupler_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="robotiq_bracket"/>
+      <child link="robotiq_coupler"/>
+    </joint>
+
+    <gazebo reference="robotiq_coupler">
+      <mu1>0.9</mu1>
+      <mu2>0.9</mu2>
+      <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <!-- Robotiq: base_link -->
+    <link name="robotiq_hande_base_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/hand-e.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/hand-e.dae"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.86387" />
+        <origin xyz="0.0 0.0 0.0" />
+        <inertia ixx="1017560E-9" ixy="0" ixz="2235E-9" iyy="1028041E-9" iyz="0" izz="489810E-9"/>
+      </inertial>
+    </link>
+
+    <gazebo reference="robotiq_hande_base_link">
+      <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <joint name="robotiq_hande_base_joint" type="fixed">
+      <origin xyz="0 0.0 0.0175" rpy="0.0 0.0 ${pi}"/>
+      <parent link="robotiq_coupler"/>
+      <child link="robotiq_hande_base_link"/>
+    </joint>
+
+    <!-- Robotiq: left finger -->
+    <link name="robotiq_hande_left_finger">
+      <inertial>
+        <origin rpy="0 0 0" xyz="0.02262 -0.00759 0.00738"/>
+        <mass value="0.03804"/>
+        <inertia ixx="13567E-9" ixy="1849E-9" ixz="3622E-9" iyy="15784E-9" iyz="3616E-9" izz="7478E-9"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/finger_1.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/finger_1.dae"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="robotiq_hande_left_finger">
+      <material>Gazebo/Grey</material>
+    </gazebo>
+
+    <joint name="robotiq_hande_left_finger_joint" type="prismatic">
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.099"/>
+      <parent link="robotiq_hande_base_link"/>
+      <child link="robotiq_hande_left_finger"/>
+      <axis xyz="-1 0 0"/>
+      <limit effort="130" lower="-0.05" upper="0.025" velocity="0.15"/>
+    </joint>
+
+    <!-- Robotiq: right finger -->
+    <link name="robotiq_hande_right_finger">
+      <inertial>
+        <origin rpy="0 0 0" xyz="-0.02262 0.00759 0.00738"/>
+        <mass value="0.03804"/>
+        <inertia ixx="13567E-9" ixy="1849E-9" ixz="3622E-9" iyy="15784E-9" iyz="3616E-9" izz="7478E-9"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/finger_2.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/finger_2.dae"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="robotiq_hande_right_finger">
+      <material>Gazebo/Grey</material>
+    </gazebo>
+
+    <joint name="robotiq_hande_right_finger_joint" type="prismatic">
+      <origin rpy="0 0 0" xyz="0 0 0.099"/>
+      <parent link="robotiq_hande_base_link"/>
+      <child link="robotiq_hande_right_finger"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="130" lower="-0.05" upper="0.025" velocity="0.15"/>
+    </joint>
+
+    <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
+
+    <link name="EE_robotiq_hande">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.00001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <box size= "0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+    </link>
+
+    <xacro:unless value="${bringup}">
+
+      <joint name="EE_robotiq_hande_joint" type="prismatic" >
+        <parent link="robotiq_hande_base_link" />
+        <child link="EE_robotiq_hande" />
+        <limit effort="10000" lower="0.0" upper="0.0" velocity="0.0"/>
+        <axis xyz="1 0 0" />
+        <origin xyz="0.0 0.0 0.135" rpy="0 0 0"/>
+      </joint>
+
+      <!-- LOAD LinkPose Gazebo (ROS2) PLUGIN: -->
+      <gazebo>
+        <plugin name="ros2_linkpose_plugin" filename="libros2_linkpose_plugin.so" >
+          <link>EE_robotiq_hande</link>
+        </plugin>
+      </gazebo>
+
+    </xacro:unless>
+
+    <xacro:if value="${bringup}">
+      <joint name="EE_robotiq_hande_joint" type="fixed" >
+        <parent link="robotiq_hande_base_link" />
+        <child link="EE_robotiq_hande" />
+        <origin xyz="0.0 0.0 0.135" rpy="0 0 0"/>
+      </joint>
+    </xacro:if>
+    
+  </xacro:macro>
+</robot>

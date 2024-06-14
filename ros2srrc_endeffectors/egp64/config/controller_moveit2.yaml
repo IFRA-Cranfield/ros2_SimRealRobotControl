@@ -1,0 +1,17 @@
+controller_names:
+  - egp64_finger_left_controller
+  - egp64_finger_right_controller
+
+egp64_finger_left_controller:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - egp64_finger_left_joint
+
+egp64_finger_right_controller:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - egp64_finger_right_joint

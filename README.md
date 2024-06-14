@@ -94,6 +94,13 @@
 
 <br />
 
+<!-- ANOTE -->
+## NOTE: New repo structure!
+
+We are currently re-structuring the ros2_SimRealRobotControl repository, to provide a more intuitive usage of the ROS 2-based Robot Simulation and Control packages. Meanwhile, please open the following COMMIT (prior to the re-structuring phase): [LINK](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/2960895d48ed8ce7e10a05dabacf984c0998ee8c)
+
+The new packages will be ready before AUGUST 2024. Do not hesitate to contact us if you have any questions, or if you are interested in using any particular robot arm, which could be added to this repository. Thanks!
+
 <!-- ABOUT THE PROJECT -->
 ## About
 

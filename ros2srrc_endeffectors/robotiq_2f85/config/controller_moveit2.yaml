@@ -1,0 +1,49 @@
+controller_names:
+  - robotiq_controller_LKJ
+  - robotiq_controller_RKJ
+  - robotiq_controller_LIKJ
+  - robotiq_controller_RIKJ
+  - robotiq_controller_LFTJ
+  - robotiq_controller_RFTJ
+
+robotiq_controller_LKJ:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - robotiq_85_left_knuckle_joint
+
+robotiq_controller_RKJ:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - robotiq_85_right_knuckle_joint
+
+robotiq_controller_LIKJ:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - robotiq_85_left_inner_knuckle_joint
+
+robotiq_controller_RIKJ:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - robotiq_85_right_inner_knuckle_joint
+
+robotiq_controller_LFTJ:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - robotiq_85_left_finger_tip_joint
+
+robotiq_controller_RFTJ:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - robotiq_85_right_finger_tip_joint

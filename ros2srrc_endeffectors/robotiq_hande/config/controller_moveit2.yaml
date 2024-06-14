@@ -1,0 +1,17 @@
+controller_names:
+  - hande_controller_LEFT
+  - hande_controller_RIGHT
+
+hande_controller_LEFT:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - robotiq_hande_left_finger_joint
+
+hande_controller_RIGHT:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - robotiq_hande_right_finger_joint
