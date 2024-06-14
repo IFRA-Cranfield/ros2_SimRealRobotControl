@@ -35,9 +35,12 @@ endif()
 # REQUIRED to -> Load END-EFFECTOR DATABASE:
 install(
   DIRECTORY 
+    
     egp64
+    
     robotiq_2f85
     robotiq_hande
+    
   DESTINATION 
     share/${PROJECT_NAME}
 )

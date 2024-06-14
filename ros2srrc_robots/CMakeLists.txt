@@ -37,14 +37,14 @@ install(
   DIRECTORY 
     
     irb120
-    irb1200
-    irb6640
+    #irb1200
+    #irb6640
 
     ur3
-    ur5
-    ur10e
+    #ur5
+    #ur10e
 
-    iiwa
+    #iiwa
 
   DESTINATION 
     share/${PROJECT_NAME}
