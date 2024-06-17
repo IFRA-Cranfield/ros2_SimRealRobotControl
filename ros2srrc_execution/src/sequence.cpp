@@ -28,12 +28,23 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 */
 
+// Include standard libraries:
+#include <string>
+#include "std_msgs/msg/string.hpp"
+#include <vector>
+#include <unistd.h> 
+#include <ctime>
+
+// Include -> YAML file parser:
+#include <iostream>
+#include <fstream>
+#include <yaml-cpp/yaml.h>
+#include <ament_index_cpp/get_package_share_directory.hpp>
+
+// Include -> FUNCTIONS:
 #include "ros2srrc_execution/movej.h"
 #include "ros2srrc_execution/movel.h"
 #include "ros2srrc_execution/mover.h"
-#include "ros2srrc_execution/movexyzw.h"
-#include "ros2srrc_execution/movexyz.h"
-#include "ros2srrc_execution/moveypr.h"
 #include "ros2srrc_execution/moverot.h"
 #include "ros2srrc_execution/moverp.h"
 #include "ros2srrc_execution/moveg.h"
@@ -45,13 +56,6 @@
 // Include for ABB I/O manipulation:
 #include <abb_robot_msgs/srv/set_io_signal.hpp>
 #include <ros2_robotiqgripper/srv/robotiq_gripper.hpp>
-
-// Include standard libraries:
-#include <string>
-#include "std_msgs/msg/string.hpp"
-#include <vector>
-#include <unistd.h> 
-#include <ctime>
 
 // Include RCLCPP and RCLCPP_ACTION:
 #include "rclcpp/rclcpp.hpp"
@@ -71,6 +75,7 @@
 #include "ros2srrc_data/msg/xyzypr.hpp"
 #include "ros2srrc_data/msg/ypr.hpp"
 #include "ros2srrc_data/msg/linkattacher.hpp"
+#include "ros2srrc_data/msg/specs.hpp"
 
 // Declaration of GLOBAL VARIABLES --> ROBOT / END-EFFECTOR / ENVIRONMENT PARAMETERS:
 std::string param_ROB = "none";
@@ -93,6 +98,10 @@ std::shared_ptr<rclcpp::Node> AttacherNode;
 std::shared_ptr<rclcpp::Node> DetacherNode;
 std::shared_ptr<rclcpp::Node> ABBGripperNode;
 std::shared_ptr<rclcpp::Node> URRobotiqGripperNode;
+
+// Declaration of GLOBAL VARIABLES --> robotSPECS and eeSPECS:
+ros2srrc_data::msg::Specs robotSPECS;
+ros2srrc_data::msg::Specs eeSPECS;
 
 // ======================================================================================================================== //
 // ==================== PARAM: ROBOT + END-EFFECTOR ==================== //
@@ -445,7 +454,7 @@ private:
                     current_state->copyJointGroupPositions(joint_model_group_ROB, JP);
                     
                     // 2. CALL MoveJAction for CALCULATIONS:
-                    MoveJSTRUCT MoveJRES = MoveJAction(STEP.movej, JP, param_ROB);
+                    MoveJSTRUCT MoveJRES = MoveJAction(STEP.movej, JP, robotSPECS);
                     JP = MoveJRES.JP;
                     move_group_interface_ROB.setJointValueTarget(JP);
                     
@@ -485,7 +494,7 @@ private:
                     current_state->copyJointGroupPositions(joint_model_group_ROB, JP);
                     
                     // 2. CALL MoveRAction for CALCULATIONS:
-                    MoveRSTRUCT MoveRRES = MoveRAction(STEP.mover, JP, param_ROB);
+                    MoveRSTRUCT MoveRRES = MoveRAction(STEP.mover, JP, robotSPECS);
                     JP = MoveRRES.JP;
                     move_group_interface_ROB.setJointValueTarget(JP);
                     
@@ -501,35 +510,6 @@ private:
                         sleep(1.0);
                     }
 
-                } else if (ACTION == "MoveXYZW"){
-                    
-                    // 1. CALL MoveXYZWAction for CALCULATIONS:
-                    auto TARGET_POSE = MoveXYZWAction(STEP.movexyzw);
-                    move_group_interface_ROB.setPoseTarget(TARGET_POSE);
-                    
-                    // 2. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
-                    move_group_interface_ROB.setMaxVelocityScalingFactor(STEP.speed);
-                    move_group_interface_ROB.setPlannerId("PTP");
-
-                    // 3. PLAN:
-                    MyPlan = plan_ROB();
-                
-                } else if (ACTION == "MoveXYZ"){
-                    
-                    // 1. Define POSE VECTOR:
-                    auto POSE = move_group_interface_ROB.getCurrentPose();
-                    
-                    // 2. CALL MoveXYZAction for CALCULATIONS:
-                    auto TARGET_POSE = MoveXYZAction(STEP.movexyz, POSE);
-                    move_group_interface_ROB.setPoseTarget(TARGET_POSE);
-                    
-                    // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
-                    move_group_interface_ROB.setMaxVelocityScalingFactor(STEP.speed);
-                    move_group_interface_ROB.setPlannerId("PTP");
-
-                    // 4. PLAN:
-                    MyPlan = plan_ROB();
-                
                 } else if (ACTION == "MoveROT"){
                     
                     // 1. Define POSE VECTOR:
@@ -570,7 +550,7 @@ private:
                     current_state->copyJointGroupPositions(joint_model_group_EE, JP);
                     
                     // 2. CALL MoveGAction for CALCULATIONS:
-                    MoveGSTRUCT MoveGRES = MoveGAction(STEP.moveg, JP, param_EE);
+                    MoveGSTRUCT MoveGRES = MoveGAction(STEP.moveg, JP, eeSPECS);
                     JP = MoveGRES.JP;
                     move_group_interface_EE.setJointValueTarget(JP);
                     
@@ -733,6 +713,21 @@ int main(int argc, char ** argv)
     auto node_PARAM_ENV = std::make_shared<ros2_EnvironmentParam>();
     rclcpp::spin_some(node_PARAM_ENV);
 
+    // DEFINE -> RobotSPECS + eeSPECS variables:
+    // Robot SPECIFICATIONS:
+    std::string pkgPATH_R = ament_index_cpp::get_package_share_directory("ros2srrc_robots");
+    std::string PATH_R = pkgPATH_R + "/" + param_ROB + "/config/joint_specifications.yaml";
+    YAML::Node SPECIFICATIONS_R = YAML::LoadFile(PATH_R);
+    robotSPECS.robot_max = SPECIFICATIONS_R["Limits"]["Max"].as<std::vector<double>>();
+    robotSPECS.robot_min = SPECIFICATIONS_R["Limits"]["Min"].as<std::vector<double>>();
+    // End-Effector SPECIFICATIONS:
+    std::string pkgPATH_EE = ament_index_cpp::get_package_share_directory("ros2srrc_endeffectors");
+    std::string PATH_EE = pkgPATH_EE + "/" + param_EE + "/config/joint_specifications.yaml";
+    YAML::Node SPECIFICATIONS_EE = YAML::LoadFile(PATH_EE);
+    eeSPECS.ee_max = SPECIFICATIONS_EE["Limits"]["Max"].as<double>();
+    eeSPECS.ee_min = SPECIFICATIONS_EE["Limits"]["Min"].as<double>();
+    eeSPECS.ee_vector =  SPECIFICATIONS_EE["JointsVector"].as<std::vector<double>>();
+
     // Declare ATTACH and DETACH nodes:
     if (param_EE != "none" && param_ENV == "gazebo"){
         AttachDetach_NODE();
@@ -753,8 +748,7 @@ int main(int argc, char ** argv)
          
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
     auto name = "ros2srrc_sequence";
-    auto const node2 = std::make_shared<rclcpp::Node>(
-        name, rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
+    auto const node2 = std::make_shared<rclcpp::Node>(name, rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
     rclcpp::executors::SingleThreadedExecutor executor; 
     executor.add_node(node2);
     std::thread([&executor]() { executor.spin(); }).detach();

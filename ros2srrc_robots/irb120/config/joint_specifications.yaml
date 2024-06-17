@@ -1,1 +1,4 @@
-# TBD.
+# ROS 2 Sim-to-Real Robot Control -> ROBOT-JOINT SPECIFICATIONS (ABB IRB-120)
+Limits:
+  Max: [165.0, 110.0, 70.0, 160.0, 120.0, 400.0]
+  Min: [-165.0, -110.0, -110.0, -160.0, -120.0, -400.0]

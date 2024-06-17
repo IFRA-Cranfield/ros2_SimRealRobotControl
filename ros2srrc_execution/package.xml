@@ -3,7 +3,7 @@
 <package format="3">
   <name>ros2srrc_execution</name>
   <version>0.0.0</version>
-  <description>IFRA-Cranfield (Cranfield University, UK). Package: ROS 2 SimRealRobotControl - DATA</description>
+  <description>IFRA-Cranfield (Cranfield University, UK). Package: ROS 2 SimRealRobotControl - EXECUTION</description>
   <maintainer email="Mikel.Bueno-Viso@cranfield.ac.uk">mikel</maintainer>
   <license>TODO: License declaration</license>
 
@@ -25,6 +25,9 @@
   <build_depend>linkattacher_msgs</build_depend>
   <build_depend>abb_robot_msgs</build_depend>
   <depend>ros2_robotiqgripper</depend>
+
+  <depend>yaml-cpp</depend>
+  <depend>ament_index_cpp</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

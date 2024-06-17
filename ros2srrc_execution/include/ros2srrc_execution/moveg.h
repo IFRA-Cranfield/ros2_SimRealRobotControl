@@ -46,11 +46,14 @@
 // Include the move ROS2 ACTION:
 #include "ros2srrc_data/action/move.hpp"
 
+// ROS 2 MSG -> SPECIFICATIONS:
+#include "ros2srrc_data/msg/specs.hpp"
+
 struct MoveGSTRUCT {
   std::string RES;
   std::vector<double> JP;
 };
 
-MoveGSTRUCT MoveGAction(double VAL, std::vector<double> JP, std::string param_EE);
+MoveGSTRUCT MoveGAction(double VAL, std::vector<double> JP, ros2srrc_data::msg::Specs SPECIFICATIONS);
 
 #endif /* MOVEG_H */

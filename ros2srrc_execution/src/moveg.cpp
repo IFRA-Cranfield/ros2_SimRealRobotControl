@@ -45,67 +45,41 @@
 // Include the move ROS2 ACTION:
 #include "ros2srrc_data/action/move.hpp"
 
+// ROS 2 MSG -> SPECIFICATIONS:
+#include "ros2srrc_data/msg/specs.hpp"
+
 // MoveG:
-MoveGSTRUCT MoveGAction (double VAL, std::vector<double> JP, std::string param_EE){
+MoveGSTRUCT MoveGAction (double VAL, std::vector<double> JP, ros2srrc_data::msg::Specs SPECIFICATIONS){
 
     MoveGSTRUCT RESULT;
-    
-    // 1. Obtain variables:
-    double GP = VAL;
+    double GPMax, GPMin;
+    std::vector<double> JointsVector;
 
-    // 2. CALCULATIONS:
+    GPMax = SPECIFICATIONS.ee_max;
+    GPMin = SPECIFICATIONS.ee_min;
+    JointsVector = SPECIFICATIONS.ee_vector;
 
-    // GRIPPERS in ros2_SimRealRobotControl repository:
-    //  - Schunk EGP-64 parallel gripper. NAME -> "egp64"
-    //  - Robotiq 2f-85 parallel gripper. NAME -> "robotiq_2f85"
-    //  - Robotiq Hand-E parallel gripper. NAME -> "robotiq_hande"
-
-    // Check GRIPPER LIMITS:
-    double GPupper, GPlower = 0.0;
-    bool LimitCheck = false;
-    if (param_EE == "egp64"){
-        GPupper = 0.025;
-        GPlower = 0.0;
-    } else if (param_EE == "robotiq_2f85"){
-        GPupper = 0.8;
-        GPlower = 0.0;
-    } else if (param_EE == "robotiq_hande"){
-        GPupper = 0.025;
-        GPlower = 0.0;
-    };
-    if (GP <= GPupper && GP >= GPlower) {
-        // Do nothing, check complete.
-    } else {
-        LimitCheck = true;
-    }
-
-    // 3. SET TARGET and RETURN:
-    if (LimitCheck == false){
+    // 1. CALCULATIONS -> Check VALUE is between 0 and 100:
+    if (VAL < 0 || VAL > 100){
         
-        if (param_EE == "egp64"){
-            JP[0] = GP;
-            JP[1] = GP;
-        } else if (param_EE == "robotiq_2f85"){
-            JP[0] = GP;
-            JP[1] = -GP;
-            JP[2] = GP;
-            JP[3] = GP;
-            JP[4] = -GP;
-            JP[5] = GP;
-        } else if (param_EE == "robotiq_hande"){
-            JP[0] = GP;
-            JP[1] = GP;
-        };
-
-        RESULT.RES = "LIMITS: OK";
-        RESULT.JP = JP;
-
-    } else {
         RESULT.RES = "LIMITS: ERROR";
         RESULT.JP = JP;
-    }
 
-    // 4. RETURN RESULT:
+        return(RESULT); // RETURN ERROR message.
+    };
+
+    // 2. CONVERT -> VAL to GripperPose value (GP):
+    double GP = (GPMax - GPMin) * (VAL/100.0);
+
+    // 3. SET GRIPPER POSE vector:
+    for (int i=0; i<JP.size(); i++){
+        JP[i] = GP*JointsVector[i];
+    };
+
+    RESULT.RES = "LIMITS: OK";
+    RESULT.JP = JP;
+
+    // 4. RETURN -> RESULT:
     return(RESULT);
 
 };

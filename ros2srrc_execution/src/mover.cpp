@@ -53,152 +53,63 @@ const double pi = 3.14159265358979;
 const double k = pi/180.0;
 
 // MoveR:
-MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP, std::string param_ROB){
+MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP, ros2srrc_data::msg::Specs SPECIFICATIONS){
 
     MoveRSTRUCT RESULT;
-    double j1UL, j1LL, j2UL, j2LL, j3UL, j3LL, j4UL, j4LL, j5UL, j5LL, j6UL, j6LL = 0.0;
-    double j1, j2, j3, j4, j5, j6 = 0.0;
     
-    // 1. Obtain variables:
+    // 1. VARIABLES:
     auto joint = GOAL.joint;
     auto value = GOAL.value;
+    std::vector<double> CURRENT;
 
     // 2. CALCULATIONS:
     // Obtain current joint values:
-    j1 = JP[0] * (1/k);
-    j2 = JP[1] * (1/k);
-    j3 = JP[2] * (1/k);
-    j4 = JP[3] * (1/k);
-    if (param_ROB != "dobot"){
-        j5 = JP[4] * (1/k);
-        j6 = JP[5] * (1/k);
-    }
-    
-    // ROBOTS in ros2_SimRealRobotControl repository:
-    //  - ABB IRB-120 industrial robot manipulator. NAME -> "irb120"
-    //  - Universal Robots - UR3. NAME -> "ur3"
-    //  - Universal Robots - UR10e. NAME -> "ur10e"
-    //  - Dobot Magician. NAME -> "dobot"
+    for (int i=0; i<JP.size(); i++){
+        
+        CURRENT.push_back(JP[i] * (1/k));
 
-    // ***** JOINT VALUES (MAX/MIN) ***** //
-    if (param_ROB == "irb120"){
-        j1UL = 165;
-        j1LL = -165;
-        j2UL = 110;
-        j2LL = -110;
-        j3UL = 70;
-        j3LL = -110;
-        j4UL = 160;
-        j4LL = -160;
-        j5UL = 120;
-        j5LL = -120;
-        j6UL = 400;
-        j6LL = -400;
-    } else if (param_ROB == "ur3"){
-        j1UL = 360;
-        j1LL = -360;
-        j2UL = 360;
-        j2LL = -360;
-        j3UL = 180;
-        j3LL = -180;
-        j4UL = 360;
-        j4LL = -360;
-        j5UL = 360;
-        j5LL = -360;
-        j6UL = 360;
-        j6LL = -360;
-    } else if (param_ROB == "ur10e"){
-        j1UL = 360;
-        j1LL = -360;
-        j2UL = 360;
-        j2LL = -360;
-        j3UL = 180;
-        j3LL = -180;
-        j4UL = 360;
-        j4LL = -360;
-        j5UL = 360;
-        j5LL = -360;
-        j6UL = 360;
-        j6LL = -360;
-    } else if (param_ROB == "dobot"){
-        j1UL = 120;
-        j1LL = -120;
-        j2UL = 90;
-        j2LL = -5;
-        j3UL = 90;
-        j3LL = -15;
-        j4UL = 140;
-        j4LL = -140;
     };
 
-    // Check if INPUT JOINT VALUES are within the JOINT LIMIT VALUES:
-    bool LimitCheck = false;
-    
-    auto InputJoint = "Valid";
-
+    // Joint Limits:
+    auto inputOK = true;
+    int j;
     if (joint == "joint1"){
-        j1 = j1 + value;
-        if (j1 <= j1UL && j1 >= j1LL && LimitCheck == false) {
-            // Do nothing, check complete.
-        } else {
-            LimitCheck = true;
-        }
+        j = 0;
     } else if (joint == "joint2"){
-        j2 = j2 + value;
-        if (j2 <= j2UL && j2 >= j2LL && LimitCheck == false) {
-            // Do nothing, check complete.
-        } else {
-            LimitCheck = true;
-        }
+        j = 1;
     } else if (joint == "joint3"){
-        j3 = j3 + value;
-        if (j3 <= j3UL && j3 >= j3LL && LimitCheck == false) {
-            // Do nothing, check complete.
-        } else {
-            LimitCheck = true;
-        }
+        j = 2;
     } else if (joint == "joint4"){
-        j4 = j4 + value;
-        if (j4 <= j4UL && j4 >= j4LL && LimitCheck == false) {
-            // Do nothing, check complete.
-        } else {
-            LimitCheck = true;
-        }
+        j = 3;
     } else if (joint == "joint5"){
-        j5 = j5 + value;
-        if (j5 <= j5UL && j5 >= j5LL && LimitCheck == false) {
-            // Do nothing, check complete.
-        } else {
-            LimitCheck = true;
-        }
+        j = 4;
     } else if (joint == "joint6"){
-        j6 = j6 + value;
-        if (j6 <= j6UL && j6 >= j6LL && LimitCheck == false) {
-            // Do nothing, check complete.
-        } else {
-            LimitCheck = true;
-        }
+        j = 5;
+    } else if (joint == "joint7"){
+        j = 6;
     } else {
-        LimitCheck = true;
-        InputJoint = "NotValid";
-    }
+        inputOK = false;
+    };
 
-    // 4. SET TARGET and RETURN:
-    if (LimitCheck == false){
+    auto VAL = CURRENT[j] + value;
+    auto LimitsOK = true;
+    if (VAL <= SPECIFICATIONS.robot_max[j] && VAL >= SPECIFICATIONS.robot_min[j]) {
+        CURRENT[j] = VAL;
+    } else {
+        LimitsOK = false;
+    };
+
+    // 3. SET TARGET and RETURN:
+    if (LimitsOK && inputOK){
         
-        JP[0] = j1 * k;
-        JP[1] = j2 * k;
-        JP[2] = j3 * k;
-        JP[3] = j4 * k;
-        
-        if (param_ROB != "dobot"){
-            JP[4] = j5 * k;
-            JP[5] = j6 * k;
-        }
+        for (int i=0; i<JP.size(); i++){
+            JP[i] = CURRENT[i] * k;
+        };
 
         RESULT.RES = "LIMITS: OK";
         RESULT.JP = JP;
-    } else if (InputJoint = "NotValid"){
+
+    } else if (inputOK == false){
         RESULT.RES = "LIMITS: JointName INPUT ERROR";
         RESULT.JP = JP;
     } else {

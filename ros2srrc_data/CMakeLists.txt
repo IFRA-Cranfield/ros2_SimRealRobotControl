@@ -45,6 +45,7 @@ install(
 # ADD ROS 2 .msg, .srv and .action files:
 find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Specs.msg"
   "msg/Robmove.msg"
   "msg/Joint.msg"
   "msg/Joints.msg"

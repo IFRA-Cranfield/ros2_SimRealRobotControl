@@ -48,12 +48,13 @@
 
 // Include the ROS2 MSG messages:
 #include "ros2srrc_data/msg/joints.hpp"
+#include "ros2srrc_data/msg/specs.hpp"
 
 struct MoveJSTRUCT {
   std::string RES;
   std::vector<double> JP;
 };
 
-MoveJSTRUCT MoveJAction(ros2srrc_data::msg::Joints JOINTS, std::vector<double> JP, std::string param_ROB);
+MoveJSTRUCT MoveJAction(ros2srrc_data::msg::Joints JOINTS, std::vector<double> JP, ros2srrc_data::msg::Specs SPECIFICATIONS);
 
 #endif /* MOVEJ_H */

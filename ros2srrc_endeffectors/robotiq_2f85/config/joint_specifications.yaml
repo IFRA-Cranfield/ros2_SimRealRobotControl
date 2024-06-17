@@ -1,1 +1,5 @@
-# TBD.
+# ROS 2 Sim-to-Real Robot Control -> END-EFFECTOR SPECIFICATIONS (Robotiq 2f-85)
+Limits:
+  Max: 0.80
+  Min: 0.00
+JointsVector: [1.0, -1.0, 1.0, 1.0, -1.0, 1.0]
