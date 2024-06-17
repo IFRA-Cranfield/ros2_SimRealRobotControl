@@ -158,6 +158,7 @@ ament_target_dependencies(
 install(
   DIRECTORY 
     python
+    programs
   DESTINATION 
     share/${PROJECT_NAME}
 )

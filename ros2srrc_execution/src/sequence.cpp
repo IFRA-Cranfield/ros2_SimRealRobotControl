@@ -566,7 +566,78 @@ private:
                         sleep(1.0);
                     }
                 
-                }
+                } else if (ACTION == "Attach"){
+
+                    // ATTACH/DETACH:
+                    // This happens when an object needs to be attached to an end-effector in Gazebo Simulation (using IFRA_LinkAttacher):
+
+                    bool success = ATTACH(STEP.attach);
+
+                    if (success){
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Object attached successfully.";
+                        goal_handle->publish_feedback(feedback);
+                    } else {
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":ERROR attaching object.";
+                        goal_handle->publish_feedback(feedback);
+                        CONTINUE = false;
+                    }
+
+                } else if (ACTION == "Detach"){
+
+                    bool success = DETACH(STEP.detach);
+
+                    if (success){
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Object detached successfully.";
+                        goal_handle->publish_feedback(feedback);
+                    } else {
+                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":ERROR detaching object.";
+                        goal_handle->publish_feedback(feedback);
+                        CONTINUE = false;
+                    }
+                    
+                }else if (ACTION == "ABB/EGP64 - OPEN"){
+
+                    // Schunk EGP Gripper OPEN/CLOSE through ABB Robot Controller I/O:
+
+                    usleep(200000);
+                    GripperOpenABB();
+                    usleep(500000);
+                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper opened successfully.";
+                    goal_handle->publish_feedback(feedback);
+
+                } else if (ACTION == "ABB/EGP64 - CLOSE"){
+
+                    usleep(200000);
+                    GripperCloseABB();
+                    usleep(500000);
+                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper closed successfully.";
+                    goal_handle->publish_feedback(feedback);
+
+                } else if (ACTION == "UR/RobotiqHandE - OPEN"){
+
+                    // Robotiq HandE Gripper OPEN/CLOSE through UR Robot Controller I/O:
+
+                    usleep(200000);
+                    GripperOpenURRobotiq();
+                    usleep(500000);
+                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper opened successfully.";
+                    goal_handle->publish_feedback(feedback);
+
+                } else if (ACTION == "UR/RobotiqHandE - CLOSE"){
+
+                    usleep(200000);
+                    GripperCloseURRobotiq();
+                    usleep(500000);
+                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper closed successfully.";
+                    goal_handle->publish_feedback(feedback);
+
+                } else {
+
+                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Defined ACTION is not valid, ERROR.";
+                    goal_handle->publish_feedback(feedback);
+                    CONTINUE = false;
+
+                };
 
                 // c) EXECUTE and RETURN RESULT (step feedback):
                 if (RES == "PLANNING: OK" || RES == "PLANNING: OK (EE)"){
@@ -603,80 +674,7 @@ private:
                     goal_handle->publish_feedback(feedback);
                     CONTINUE = false;
                 
-                }
-
-
-                // ========== EXTRA ACTIONS ========== //
-
-                // ATTACH/DETACH:
-                // This happens when an object needs to be attached to an end-effector in Gazebo Simulation (using IFRA_LinkAttacher):
-                if (ACTION == "Attach"){
-
-                    bool success = ATTACH(STEP.attach);
-
-                    if (success){
-                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Object attached successfully.";
-                        goal_handle->publish_feedback(feedback);
-                    } else {
-                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":ERROR attaching object.";
-                        goal_handle->publish_feedback(feedback);
-                        CONTINUE = false;
-                    }
-                    
-                    
-
-                } else if (ACTION == "Detach"){
-
-                    bool success = DETACH(STEP.detach);
-
-                    if (success){
-                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Object detached successfully.";
-                        goal_handle->publish_feedback(feedback);
-                    } else {
-                        feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":ERROR detaching object.";
-                        goal_handle->publish_feedback(feedback);
-                        CONTINUE = false;
-                    }
-                    
-                }
-
-                // ABB ROBOT: I/O -> Gripper OPEN/CLOSE:
-                if (ACTION == "ABB - GripperOpen"){
-
-                    usleep(200000);
-                    GripperOpenABB();
-                    usleep(500000);
-                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper opened successfully.";
-                    goal_handle->publish_feedback(feedback);
-
-                } else if (ACTION == "ABB - GripperClose"){
-
-                    usleep(200000);
-                    GripperCloseABB();
-                    usleep(500000);
-                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper closed successfully.";
-                    goal_handle->publish_feedback(feedback);
-
-                }
-
-                // UR Robot - Robotiq Gripper -> Gripper OPEN/CLOSE:
-                if (ACTION == "UR HandE - GripperOpen"){
-
-                    usleep(200000);
-                    GripperOpenURRobotiq();
-                    usleep(500000);
-                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper opened successfully.";
-                    goal_handle->publish_feedback(feedback);
-
-                } else if (ACTION == "UR HandE - GripperClose"){
-
-                    usleep(200000);
-                    GripperCloseURRobotiq();
-                    usleep(500000);
-                    feedback_msg = "{STEP " + std::to_string(i) + "}: " + ACTION + ":Gripper closed successfully.";
-                    goal_handle->publish_feedback(feedback);
-
-                }
+                };
 
                 // RE-INITIALISE RES variable:
                 RES = "none";
@@ -703,7 +701,7 @@ int main(int argc, char ** argv)
 {
     // Initialise MAIN NODE:
     rclcpp::init(argc, argv);
-    auto const logger = rclcpp::get_logger("SEQUENCE_INTERFACE");
+    auto const logger = rclcpp::get_logger("ros2srrc_SEQUENCE");
 
     // Obtain ROBOT + END-EFFECTOR parameters:
     auto node_PARAM_ROB = std::make_shared<ros2_RobotParam>();
@@ -734,16 +732,19 @@ int main(int argc, char ** argv)
         RCLCPP_INFO(logger, "Attacher/Detacher NODES initialised.");
     }
 
-    // Declare ABB Gripper node:
-    if (param_ROB == "irb120" && param_EE != "none" && param_ENV == "bringup"){
+    // Declare ABB/EGP64 Gripper node:
+    if (param_ROB == "irb120" && param_EE == "egp64" && param_ENV == "bringup"){
         ABBGripper_NODE();
         RCLCPP_INFO(logger, "ABB Gripper NODE initialised.");
     }
 
-    // Declare UR Robotiq-HandE Gripper node:
-    if (param_ROB == "ur3" && param_EE != "none" && param_ENV == "bringup"){
+    // Declare UR Robotiq-HandE/2f85 Gripper node:
+    if (param_ROB == "ur3" && param_EE == "robotiq_hande" && param_ENV == "bringup"){
         URRobotiqGripper_NODE();
         RCLCPP_INFO(logger, "UR-RobotiqHandE NODE initialised.");
+    } else if (param_ROB == "ur3" && param_EE == "robotiq_2f85" && param_ENV == "bringup"){
+        URRobotiqGripper_NODE();
+        RCLCPP_INFO(logger, "UR-Robotiq2f85 NODE initialised.");
     }
          
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:

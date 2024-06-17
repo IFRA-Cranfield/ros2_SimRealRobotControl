@@ -29,12 +29,13 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # Import required libraries:
-import rclpy
-from rclpy.action import ActionClient
-from rclpy.node import Node
 import os
 import ast
 import time
+import rclpy
+from rclpy.node import Node
+from rclpy.action import ActionClient
+from ament_index_python.packages import get_package_share_directory
 
 # Import ACTION:
 from ros2srrc_data.action import Sequence
@@ -118,11 +119,29 @@ class ACsequence(Node):
         self._goal_handle.cancel_goal_async()
 
         print("Closing... BYE!")
-        time.sleep(5)
+        time.sleep(2)
         exit()
 
 
 # ===== INPUT PARAMETERS ===== #
+# CLASS: Input ROS 2 PACKAGE as ROS2 PARAMETER:
+PARAM_PACKAGE = "default"
+P_CHECK_PACKAGE = False
+class PackagePARAM(Node):
+    def __init__(self):
+        global PARAM_PACKAGE
+        global P_CHECK_PACKAGE
+        
+        super().__init__('ros2srrc_package_param')
+        self.declare_parameter('PACKAGE_NAME', "default")
+        PARAM_PACKAGE = self.get_parameter('PACKAGE_NAME').get_parameter_value().string_value
+        if (PARAM_PACKAGE == "default"):
+            self.get_logger().info('PACKAGE_NAME ROS2 Parameter was not defined.')
+            CloseProgram.CLOSE()
+        else:    
+            self.get_logger().info('PACKAGE_NAME ROS2 Parameter received: ' + PARAM_PACKAGE)
+        P_CHECK_PACKAGE = True
+
 # CLASS: Input program (.txt) as ROS2 PARAMETER:
 PARAM_PROGRAM = "default"
 P_CHECK_PROGRAM = False
@@ -157,15 +176,6 @@ class RobotPARAM(Node):
             CloseProgram.CLOSE()
         else:
             self.get_logger().info('ROBOT_MODEL ROS2 Parameter received: ' + PARAM_ROBOT)
-
-            # Check value:
-            if (PARAM_ROBOT == "irb120"
-                or PARAM_ROBOT == "ur3"
-                or PARAM_ROBOT == "ur10e"):
-                None # do nothing.
-            else:
-                self.get_logger().info('ERROR: The Robot model defined is not in the system.')
-                CloseProgram.CLOSE()
         
         P_CHECK_ROBOT = True
 
@@ -185,15 +195,6 @@ class eePARAM(Node):
             CloseProgram.CLOSE()
         else:
             self.get_logger().info('EE_MODEL ROS2 Parameter received: ' + PARAM_EE)
-            
-            if (PARAM_EE == "egp64" or
-                PARAM_EE == "robotiq_2f85" or
-                PARAM_EE == "robotiq_hande" or
-                PARAM_EE == "none"):
-                None # do nothing.
-            else:
-                self.get_logger().info('ERROR: The End-Effector model defined is not in the system.')
-                CloseProgram.CLOSE()
         
         P_CHECK_EE = True
 
@@ -213,14 +214,6 @@ class GzBrPARAM(Node):
             CloseProgram.CLOSE()
         else:
             self.get_logger().info('GzBr_ENV ROS2 Parameter received: ' + PARAM_GzBr)
-
-            # Check value:
-            if (PARAM_GzBr == "gazebo" or 
-                PARAM_GzBr == "bringup"):
-                None # do nothing.
-            else:
-                self.get_logger().info('ERROR: The GzBr Parameter must be either "gazebo" or "bringup".')
-                CloseProgram.CLOSE()
         
         P_CHECK_GzBr = True
 
@@ -229,11 +222,10 @@ class CloseProgram():
     def CLOSE():
         print("")
         print("Please execute the program and input all ROS2 parameters in the Ubuntu Terminal as stated below:")
-        print('COMMAND -> ros2 run ros2srrc_execution sequence.py --ros-args -p PROGRAM_FILENAME:="---" -p ROBOT_MODEL:="---" -p EE_MODEL:="---" -p GzBr_ENV:="---"')
+        print('COMMAND -> ros2 run ros2srrc_execution sequence.py --ros-args -p PACKAGE_NAME:= "---" -p PROGRAM_FILENAME:="---" -p ROBOT_MODEL:="---" -p EE_MODEL:="---" -p GzBr_ENV:="---"')
         print("Closing... BYE!")
         time.sleep(5)
         exit()
-
 
 # ==================================================================================================================================== #
 # ==================================================================================================================================== #
@@ -261,6 +253,8 @@ def main(args=None):
     # 2. INITIALISE RECEIVED ROS2 PARAMETERS:
     global PARAM_PROGRAM
     global P_CHECK_PROGRAM
+    global PARAM_PACKAGE
+    global P_CHECK_PACKAGE
     global PARAM_ROBOT
     global P_CHECK_ROBOT
     global PARAM_EE
@@ -268,6 +262,11 @@ def main(args=None):
     global PARAM_GzBr
     global P_CHECK_GzBr
 
+    paramNODE = PackagePARAM()
+    while (P_CHECK_PACKAGE == False):
+        rclpy.spin_once(paramNODE)
+    paramNODE.destroy_node()
+    
     paramNODE = ProgramPARAM()
     while (P_CHECK_PROGRAM == False):
         rclpy.spin_once(paramNODE)
@@ -288,6 +287,8 @@ def main(args=None):
         rclpy.spin_once(GzBrNODE)
     GzBrNODE.destroy_node()
 
+    print("")
+
     # 3. CHECK if ActionServer is ACTIVE:
     SEQ_CLIENT = ACsequence()
 
@@ -300,20 +301,17 @@ def main(args=None):
     nodeLOG = rclpy.create_node('node_LOG')
 
     EXISTS = False
+    PKG_NAME = PARAM_PACKAGE
     PR_NAME = PARAM_PROGRAM
-    filepath = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_execution', 'programs', PR_NAME + ".txt")
+    filepath = os.path.join(get_package_share_directory(PKG_NAME), 'programs', PR_NAME + ".txt")
     EXISTS = os.path.exists(filepath)
     if (EXISTS == True):
         print(PR_NAME + " file found! Executing program...")
         nodeLOG.get_logger().info("SUCCESS: " + PR_NAME + " file (program) found.")
         time.sleep(1)
     elif (EXISTS == False):
-        print(PR_NAME + " file not found. Please input the PROGRAM FILENAME correctly as a ROS2 parameter in the Ubuntu Terminal:")
-        nodeLOG.get_logger().info("ERROR: " + PR_NAME + " file (program) not found. Please try again.")
-        print('COMMAND -> ros2 run ros2srrc_execution sequence.py --ros-args -p PROGRAM_FILENAME:="---" -p ROBOT_MODEL:="---" -p EE_MODEL:="---" -p GzBr_ENV:="---"')
-        print("Closing... BYE!")
-        time.sleep(5)
-        exit()
+        print(PR_NAME + " file not found. Please input the ROS 2 PACKAGE and PROGRAM FILENAME correctly as ROS2 parameters in the Ubuntu Terminal.")
+        CloseProgram.CLOSE()
 
     # OPEN PR_NAME.txt FILE:
     with open(filepath) as file:
@@ -424,14 +422,7 @@ def main(args=None):
             Detach_VAR.link2_name = readSEQ[str(i)]['value']['link2']
             ACTION.detach = Detach_VAR
 
-        elif (ACTION.action == "ABB - GripperOpen"):
-            pass # No action required, since ACTION name is passed and enough.
-        elif (ACTION.action == "ABB - GripperClose"):
-            pass # No action required, since ACTION name is passed and enough.
-
-        elif (ACTION.action == "UR HandE - GripperOpen"):
-            pass # No action required, since ACTION name is passed and enough.
-        elif (ACTION.action == "UR HandE - GripperClose"):
+        else:
             pass # No action required, since ACTION name is passed and enough.
         
         SEQUENCE.append(ACTION)
