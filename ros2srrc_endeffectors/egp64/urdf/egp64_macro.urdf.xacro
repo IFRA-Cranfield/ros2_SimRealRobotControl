@@ -244,32 +244,11 @@
       </visual>
     </link>
 
-    <xacro:unless value="${bringup}">
-
-      <joint name="EE_egp64_joint" type="prismatic" >
-        <parent link="${parent_link}" />
-        <child link="EE_egp64" />
-        <limit effort="10000" lower="0.0" upper="0.0" velocity="0.0"/>
-        <axis xyz="1 0 0" />
-        <origin xyz="0.0 0.0 0.19" rpy="0 0 0"/>
-      </joint>
-
-      <!-- LOAD LinkPose Gazebo (ROS2) PLUGIN: -->
-      <gazebo>
-        <plugin name="ros2_linkpose_plugin" filename="libros2_linkpose_plugin.so" >
-          <link>EE_egp64</link>
-        </plugin>
-      </gazebo>
-
-    </xacro:unless>
-    
-    <xacro:if value="${bringup}">
-      <joint name="EE_egp64_joint" type="fixed" >
-        <parent link="${parent_link}" />
-        <child link="EE_egp64" />
-        <origin xyz="0.0 0.0 0.19" rpy="0 0 0"/>
-      </joint>
-    </xacro:if>
+    <joint name="EE_egp64_joint" type="fixed" >
+      <parent link="${parent_link}" />
+      <child link="EE_egp64" />
+      <origin xyz="0.0 0.0 0.19" rpy="0 0 0"/>
+    </joint>
     
   </xacro:macro>
 </robot>

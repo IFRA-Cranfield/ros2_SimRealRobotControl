@@ -35,7 +35,7 @@
 <robot name="ur3">
 
   <group name="ur3_arm">
-    <chain base_link="base_link" tip_link="tool0"/>
+    <chain base_link="base_link" tip_link="EE_robotiq_2f85"/>
   </group>
 
   <group name="robotiq_2f85">
