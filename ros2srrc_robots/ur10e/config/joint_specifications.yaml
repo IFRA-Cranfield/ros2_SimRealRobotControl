@@ -1,0 +1,4 @@
+# ROS 2 Sim-to-Real Robot Control -> ROBOT-JOINT SPECIFICATIONS (Universal Robots UR10e)
+Limits:
+  Max: [360.0, 360.0, 180.0, 360.0, 360.0, 360.0]
+  Min: [-360.0, -360.0, -180.0, -360.0, -360.0, -360.0]
