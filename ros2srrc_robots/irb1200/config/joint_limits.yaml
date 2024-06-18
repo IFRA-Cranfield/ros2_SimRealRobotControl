@@ -1,0 +1,35 @@
+joint_limits:
+  joint_1:
+    has_velocity_limits: true
+    max_velocity: 5.027
+    has_acceleration_limits: true
+    max_acceleration: 15.0
+  joint_2:
+    has_velocity_limits: true
+    max_velocity: 4.189
+    has_acceleration_limits: true
+    max_acceleration: 15.0
+  joint_3:
+    has_velocity_limits: true
+    max_velocity: 5.236
+    has_acceleration_limits: true
+    max_acceleration: 15.0
+  joint_4:
+    has_velocity_limits: true
+    max_velocity: 6.981
+    has_acceleration_limits: true
+    max_acceleration: 22.5
+  joint_5:
+    has_velocity_limits: true
+    max_velocity: 7.069
+    has_acceleration_limits: true
+    max_acceleration: 22.5
+  joint_6:
+    has_velocity_limits: true
+    max_velocity: 10.472
+    has_acceleration_limits: true
+    max_acceleration: 30.0
+
+# Velocity and acceleration limits taken from ABB IRB-1200 SPECIFICATIONS: https://new.abb.com/products/robotics/robots/articulated-robots/irb-1200
+#   - Velocity limits left as is, exactly the same as in .urdf (macro file).
+#   - Acceleration limits made higher, since values in documentation (ABB Experimental/abb_ros2 - GitHub) are too conservative -> Robot moves VERY slowly.
