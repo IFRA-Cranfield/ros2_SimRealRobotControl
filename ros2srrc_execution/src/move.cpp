@@ -458,18 +458,22 @@ int main(int argc, char ** argv)
 
     // DEFINE -> RobotSPECS + eeSPECS variables:
     // Robot SPECIFICATIONS:
-    std::string pkgPATH_R = ament_index_cpp::get_package_share_directory("ros2srrc_robots");
-    std::string PATH_R = pkgPATH_R + "/" + param_ROB + "/config/joint_specifications.yaml";
-    YAML::Node SPECIFICATIONS_R = YAML::LoadFile(PATH_R);
-    robotSPECS.robot_max = SPECIFICATIONS_R["Limits"]["Max"].as<std::vector<double>>();
-    robotSPECS.robot_min = SPECIFICATIONS_R["Limits"]["Min"].as<std::vector<double>>();
+    if (param_ROB != "none"){
+        std::string pkgPATH_R = ament_index_cpp::get_package_share_directory("ros2srrc_robots");
+        std::string PATH_R = pkgPATH_R + "/" + param_ROB + "/config/joint_specifications.yaml";
+        YAML::Node SPECIFICATIONS_R = YAML::LoadFile(PATH_R);
+        robotSPECS.robot_max = SPECIFICATIONS_R["Limits"]["Max"].as<std::vector<double>>();
+        robotSPECS.robot_min = SPECIFICATIONS_R["Limits"]["Min"].as<std::vector<double>>();
+    };
     // End-Effector SPECIFICATIONS:
-    std::string pkgPATH = ament_index_cpp::get_package_share_directory("ros2srrc_endeffectors");
-    std::string PATH = pkgPATH + "/" + param_EE + "/config/joint_specifications.yaml";
-    YAML::Node SPECIFICATIONS = YAML::LoadFile(PATH);
-    eeSPECS.ee_max = SPECIFICATIONS["Limits"]["Max"].as<double>();
-    eeSPECS.ee_min = SPECIFICATIONS["Limits"]["Min"].as<double>();
-    eeSPECS.ee_vector =  SPECIFICATIONS["JointsVector"].as<std::vector<double>>();
+    if (param_EE != "none"){
+        std::string pkgPATH = ament_index_cpp::get_package_share_directory("ros2srrc_endeffectors");
+        std::string PATH = pkgPATH + "/" + param_EE + "/config/joint_specifications.yaml";
+        YAML::Node SPECIFICATIONS = YAML::LoadFile(PATH);
+        eeSPECS.ee_max = SPECIFICATIONS["Limits"]["Max"].as<double>();
+        eeSPECS.ee_min = SPECIFICATIONS["Limits"]["Min"].as<double>();
+        eeSPECS.ee_vector =  SPECIFICATIONS["JointsVector"].as<std::vector<double>>();
+    };
 
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
     auto name = "ros2srrc_move";

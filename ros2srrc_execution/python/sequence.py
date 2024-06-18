@@ -440,8 +440,7 @@ def main(args=None):
 
     nodeLOG.destroy_node()
     print("Closing... BYE!")
-    time.sleep(5)
-        
+    time.sleep(2)   
 
 if __name__ == '__main__':
     main()
