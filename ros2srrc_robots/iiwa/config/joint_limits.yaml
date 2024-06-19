@@ -1,36 +1,40 @@
 joint_limits:
   joint_1:
     has_velocity_limits: true
-    max_velocity: 4.36332
+    max_velocity: 1.4834
     has_acceleration_limits: true
-    max_acceleration: 17.4532
+    max_acceleration: 3.75
   joint_2:
     has_velocity_limits: true
-    max_velocity: 4.36332
+    max_velocity: 1.4834
     has_acceleration_limits: true
-    max_acceleration: 17.4532
+    max_acceleration: 1.875
   joint_3:
     has_velocity_limits: true
-    max_velocity: 4.36332
+    max_velocity: 1.7452
     has_acceleration_limits: true
-    max_acceleration: 17.4532
+    max_acceleration: 2.5
   joint_4:
     has_velocity_limits: true
-    max_velocity: 5.58505
+    max_velocity: 1.3089
     has_acceleration_limits: true
-    max_acceleration: 22.3402
+    max_acceleration: 3.125
   joint_5:
     has_velocity_limits: true
-    max_velocity: 5.58505
+    max_velocity: 2.2688
     has_acceleration_limits: true
-    max_acceleration: 22.3402
+    max_acceleration: 3.75
   joint_6:
     has_velocity_limits: true
-    max_velocity: 7.33038
+    max_velocity: 2.356
     has_acceleration_limits: true
-    max_acceleration: 29.3216
+    max_acceleration: 5.0
   joint_7:
     has_velocity_limits: true
-    max_velocity: 7.33038
+    max_velocity: 2.356
     has_acceleration_limits: true
-    max_acceleration: 29.3216
+    max_acceleration: 5.0
+
+# Joint VELOCITY LIMITS have been taken from the ROBOT's URDF.
+# Joint ACCELERATIOJ LIMITS have been taken from ICube-Robotics' iiwa_ros2 repository:
+# Link: https://github.com/ICube-Robotics/iiwa_ros2/blob/main/iiwa_description/moveit2/iiwa_joint_limits.yaml

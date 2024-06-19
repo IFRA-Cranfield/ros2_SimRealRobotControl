@@ -106,216 +106,207 @@
 
     <!-- Link list: -->
     <link name="base_link">
-      <inertial>
-        <mass value="50"/>
-        <origin xyz="-0.014677 0.000023 0.071546" rpy="0 0 0"/>
-        <inertia ixx="0.000030" ixy="0.0" ixz="0.000001" iyy="0.000037" iyz="0.000001" izz="0.000041"/>
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0.0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/base_link.dae"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/visual/base_link.dae"/>
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/base_link.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/collision/base_link.stl"/>
         </geometry>
       </collision>
+      <inertial>
+        <origin xyz="-0.1 0 0.07" rpy="0 0 0"/>
+        <mass value="5"/>
+        <inertia ixx="0.05"  ixy="0"  ixz="0" iyy="0.06" iyz="0" izz="0.03" />
+      </inertial>
     </link>
     <link name="link_1">
-      <inertial>
-        <mass value="5.109"/>
-        <origin xyz="-0.000018 -0.033763 0.279711" rpy="0 0 0"/>
-        <inertia ixx="0.000033" ixy="0.0" ixz="0.0" iyy="0.000033" iyz="0.000005" izz="0.000012"/>
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_1.dae"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/visual/link_1.dae"/>
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_1.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/collision/link_1.stl"/>
         </geometry>
       </collision>
+      <inertial>
+        <origin xyz="0 -0.03 0.12" rpy="0 0 0"/>
+        <mass value="4"/>
+        <inertia ixx="0.1"  ixy="0"  ixz="0" iyy="0.09" iyz="0" izz="0.02" />
+      </inertial>
     </link>
     <link name="link_2">
-      <inertial>
-        <mass value="4.916"/>
-        <origin xyz="0.000159 0.041906 0.059034" rpy="0 0 0"/>
-        <inertia ixx="0.00003" ixy="0.0" ixz="0.0" iyy="0.00003" iyz="0.000005" izz="0.000011"/>
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_2.dae"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/visual/link_2.dae"/>
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_2.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/collision/link_2.stl"/>
         </geometry>
       </collision>
+      <inertial>
+        <origin xyz="0.0003 0.059 0.042" rpy="0 0 0"/>
+        <mass value="4"/>
+        <inertia ixx="0.05"  ixy="0"  ixz="0" iyy="0.018" iyz="0" izz="0.044" />
+      </inertial>
     </link>
     <link name="link_3">
-      <inertial>
-        <mass value="3.949"/>
-        <origin xyz="0.000010 0.029517 0.330895" rpy="0 0 0"/>
-        <inertia ixx="0.000025" ixy="0.0" ixz="0.0" iyy="0.000024" iyz="-0.000005" izz="0.000008"/>
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_3.dae"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/visual/link_3.dae"/>
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_3.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/collision/link_3.stl"/>
         </geometry>
       </collision>
+      <inertial>
+        <origin xyz="0 0.03 0.13" rpy="0 0 0"/>
+        <mass value="3"/>
+        <inertia ixx="0.08"  ixy="0"  ixz="0" iyy="0.075" iyz="0" izz="0.01" />
+      </inertial>
     </link>
     <link name="link_4">
-      <inertial>
-        <mass value="3.406"/>
-        <origin xyz="-0.000002 -0.034187 0.067609" rpy="0 0 0"/>
-        <inertia ixx="0.000017" ixy="0.0" ixz="0.0" iyy="0.000016" iyz="-0.000003" izz="0.000006"/>
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_4.dae"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/visual/link_4.dae"/>
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_4.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/collision/link_4.stl"/>
         </geometry>
       </collision>
+      <inertial>
+        <origin xyz="0 0.067 0.034" rpy="0 0 0"/>
+        <mass value="2.7"/>
+        <inertia ixx="0.03"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.029" />
+      </inertial>
     </link>
     <link name="link_5">
-      <inertial>
-        <mass value="2.103"/>
-        <origin xyz="-0.000097 -0.021376 0.259847" rpy="0 0 0"/>
-        <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.000009" iyz="0.000003" izz="0.000004"/>
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_5.dae"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/visual/link_5.dae"/>
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_5.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/collision/link_5.stl"/>
         </geometry>
       </collision>
+      <inertial>
+        <origin xyz="0.0001 0.021 0.076" rpy="0 0 0"/>
+        <mass value="1.7"/>
+        <inertia ixx="0.02"  ixy="0"  ixz="0" iyy="0.018" iyz="0" izz="0.005" />
+      </inertial>
     </link>
     <link name="link_6">
-      <inertial>
-        <mass value="2.255"/>
-        <origin xyz="0.000008 0.000263 0.000742" rpy="0 0 0"/>
-        <inertia ixx="0.000005" ixy="0.0" ixz="0.0" iyy="0.000005" iyz="0.0" izz="0.000004"/>
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_6.dae"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/visual/link_6.dae"/>
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_6.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/collision/link_6.stl"/>
         </geometry>
       </collision>
+      <inertial>
+        <origin xyz="0 0.0006 0.0004" rpy="0 0 0"/>
+        <mass value="1.8"/>
+        <inertia ixx="0.025"  ixy="0"  ixz="0" iyy="0.0136" iyz="0" izz="0.0247" />
+      </inertial>
     </link>
     <link name="link_7">
-      <inertial>
-        <mass value="0.443"/>
-        <origin xyz="-0.000023 -0.000003 0.097716" rpy="0 0 0"/>
-        <inertia ixx="0.000001" ixy="0.0" ixz="0.0" iyy="0.000001" iyz="0.0" izz="0.000001"/>
-      </inertial>
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_7.dae"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/visual/link_7.dae" />
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0.07"/>
         <geometry>
-          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_7.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/iiwa/meshes/collision/link_7.stl" />
         </geometry>
       </collision>
+      <inertial>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
+        <mass value="1.5"/> 
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      </inertial>
     </link>
-    <!-- end of link list -->
 
     <!-- Joint list: -->
-    <!-- joint list -->
     <joint name="joint_1" type="revolute">
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="base_link" />
-      <child link="link_1" />
-      <axis xyz="0 0 1" />
-      <limit lower="-2.9668" upper="2.9668" effort="0" velocity="1.4834" />
-      <dynamics damping="0.5" friction="1.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link_1"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="320" lower="-2.9668" upper="2.9668" velocity="1.4834"/>
     </joint>
     <joint name="joint_2" type="revolute">
-      <origin xyz="-0.00043624 0 0.36" rpy="0 0 0" />
-      <parent link="link_1" />
-      <child link="link_2" />
-      <axis xyz="0 1 0" />
-      <limit lower="-2.0942" upper="2.0942" effort="0" velocity="1.4834" />
-      <dynamics damping="0.5" friction="1.0"/>
+      <origin rpy="0 0 0" xyz="-0.00043624 0 0.36"/>
+      <parent link="link_1"/>
+      <child link="link_2"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="320" lower="-2.0942" upper="2.0942" velocity="1.4834"/>
     </joint>
     <joint name="joint_3" type="revolute">
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="link_2" />
-      <child link="link_3" />
-      <axis xyz="0 0 1" />
-      <limit lower="-2.9668" upper="2.9668" effort="0" velocity="1.7452" />
-      <dynamics damping="0.5" friction="1.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <parent link="link_2"/>
+      <child link="link_3"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="176" lower="-2.9668" upper="2.9668" velocity="1.7452"/>
     </joint>
     <joint name="joint_4" type="revolute">
-      <origin xyz="0.00043624 0 0.42" rpy="0 0 0" />
-      <parent link="link_3" />
-      <child link="link_4" />
-      <axis xyz="0 -1 0" />
-      <limit lower="-2.0942" upper="2.0942" effort="0" velocity="1.3089" />
-      <dynamics damping="0.5" friction="1.0"/>
+      <origin rpy="0 0 0" xyz="0.00043624 0 0.42"/>
+      <parent link="link_3"/>
+      <child link="link_4"/>
+      <axis xyz="0 -1 0"/>
+      <limit effort="176" lower="-2.0942" upper="2.0942" velocity="1.3089"/>
     </joint>
     <joint name="joint_5" type="revolute">
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="link_4" />
-      <child link="link_5" />
-      <axis xyz="0 0 1" />
-      <limit lower="-2.9668" upper="2.9668" effort="0" velocity="2.2688" />
-      <dynamics damping="0.5" friction="1.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <parent link="link_4"/>
+      <child link="link_5"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="110" lower="-2.9668" upper="2.9668" velocity="2.2688"/>
     </joint>
     <joint name="joint_6" type="revolute">
-      <origin xyz="0 0 0.4" rpy="0 0 0" />
-      <parent link="link_5" />
-      <child link="link_6" />
-      <axis xyz="0 1 0" />
-      <limit lower="-2.0942" upper="2.0942" effort="0" velocity="2.356" />
-      <dynamics damping="0.5" friction="1.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0.4"/>
+      <parent link="link_5"/>
+      <child link="link_6"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="40" lower="-2.0942" upper="2.0942" velocity="2.356"/>
     </joint>
     <joint name="joint_7" type="revolute">
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="link_6" />
-      <child link="link_7" />
-      <axis xyz="0 0 1" />
-      <limit lower="-3.0541" upper="3.0541" effort="0" velocity="2.356" />
-      <dynamics damping="0.5" friction="1.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <parent link="link_6"/>
+      <child link="link_7"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="40" lower="-3.0541" upper="3.0541" velocity="2.356"/>
     </joint>
     <!-- end of joint list -->
 

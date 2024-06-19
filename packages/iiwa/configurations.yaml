@@ -1,0 +1,12 @@
+# ROS 2 Sim-to-Real Robot Control: KUKA LBR-IIWA Robot.
+Configurations:
+
+  - ID: "iiwa_1"
+    Name: "KUKA LBR-IIWA on top of Robot Stand."
+    urdf: "iiwa.urdf.xacro"
+    ee: "none"
+
+  - ID: "iiwa_2"
+    Name: "KUKA LBR-IIWA + Robotiq 2f-85 Gripper on top of Robot Stand."
+    urdf: "iiwa_robotiq_2f85.urdf.xacro"
+    ee: "robotiq_2f85"

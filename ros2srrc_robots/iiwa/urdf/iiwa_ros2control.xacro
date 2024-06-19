@@ -54,7 +54,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="irb120_ros2control" params="bringup robot_ip EE EE_name" >
+  <xacro:macro name="iiwa_ros2control" params="bringup robot_ip EE EE_name" >
 
     <!-- 1. ROS2_CONTROL tag name: -->
     <!-- A. GAZEBO SIMULATION: -->
@@ -63,7 +63,7 @@
     </xacro:unless>
     <!-- B. ROBOT BRINGUP: -->
     <xacro:if value="${bringup}">
-      <xacro:property name="name" value="ABBMultiInterfaceHardware"/>
+      <xacro:property name="name" value="TBD"/>
     </xacro:if>
 
     <!-- 3. Load ROS2_CONTROL: -->
@@ -79,22 +79,20 @@
       <!-- B. ROBOT BRINGUP: -->
       <xacro:if value="${bringup}">
         <hardware>
-          <plugin>abb_hardware_interface/ABBSystemHardware</plugin>
-          <param name="rws_port">80</param>
-          <param name="rws_ip">${robot_ip}</param>
-          <param name="egm_port">6511</param>
+          <plugin>TBD</plugin>
+          <param name="TBD">TBD</param>
         </hardware>
       </xacro:if>
 
-      <!-- irb120_joint1 -->
+      <!-- iiwa_joint1 -->
       <joint name="joint_1">
         <command_interface name="position">
-          <param name="min">-2.87979</param>
-          <param name="max">2.87979</param>
+          <param name="min">-2.9668</param>
+          <param name="max">2.9668</param>
         </command_interface>
         <command_interface name="velocity">
-          <param name="min">-4.36332</param>
-          <param name="max">4.36332</param>
+          <param name="min">-1.4834</param>
+          <param name="max">1.4834</param>
         </command_interface>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
@@ -102,15 +100,15 @@
         <state_interface name="velocity"/>
       </joint>
 
-      <!-- irb120_joint2 -->
+      <!-- iiwa_joint2 -->
       <joint name="joint_2">
         <command_interface name="position">
-          <param name="min">-1.91986</param>
-          <param name="max">1.91986</param>
+          <param name="min">-2.0942</param>
+          <param name="max">2.0942</param>
         </command_interface>
         <command_interface name="velocity">
-          <param name="min">-4.36332</param>
-          <param name="max">4.36332</param>
+          <param name="min">-1.4834</param>
+          <param name="max">1.4834</param>
         </command_interface>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
@@ -118,15 +116,15 @@
         <state_interface name="velocity"/>
       </joint>
 
-      <!-- irb120_joint3 -->
+      <!-- iiwa_joint3 -->
       <joint name="joint_3">
         <command_interface name="position">
-          <param name="min">-1.91986</param>
-          <param name="max">1.22173</param>
+          <param name="min">-2.9668</param>
+          <param name="max">2.9668</param>
         </command_interface>
         <command_interface name="velocity">
-          <param name="min">-4.36332</param>
-          <param name="max">4.36332</param>
+          <param name="min">-1.7452</param>
+          <param name="max">1.7452</param>
         </command_interface>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
@@ -134,15 +132,15 @@
         <state_interface name="velocity"/>
       </joint>
 
-      <!-- irb120_joint4 -->
+      <!-- iiwa_joint4 -->
       <joint name="joint_4">
         <command_interface name="position">
-          <param name="min">-2.79253</param>
-          <param name="max">2.79253</param>
+          <param name="min">-2.0942</param>
+          <param name="max">2.0942</param>
         </command_interface>
         <command_interface name="velocity">
-          <param name="min">-5.58505</param>
-          <param name="max">5.58505</param>
+          <param name="min">-1.3089</param>
+          <param name="max">1.3089</param>
         </command_interface>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
@@ -150,31 +148,47 @@
         <state_interface name="velocity"/>
       </joint>
 
-      <!-- irb120_joint5 -->
+      <!-- iiwa_joint5 -->
       <joint name="joint_5">
         <command_interface name="position">
-          <param name="min">-2.00</param>       <!-- Joint5 limits lowered to +-2rad -->
-          <param name="max">2.00</param>
+          <param name="min">-2.9668</param>       
+          <param name="max">2.9668</param>
         </command_interface>
         <command_interface name="velocity">
-          <param name="min">-5.58505</param>
-          <param name="max">5.58505</param>
+          <param name="min">-2.2688</param>
+          <param name="max">2.2688</param>
         </command_interface>
         <state_interface name="position">
-          <param name="initial_value">1.570796</param>
+          <param name="initial_value">0.0</param>
         </state_interface>
         <state_interface name="velocity"/>
       </joint>
 
-      <!-- irb120_joint6 -->
+      <!-- iiwa_joint6 -->
       <joint name="joint_6">
         <command_interface name="position">
-          <param name="min">-6.98132</param> 
-          <param name="max">6.98132</param> 
+          <param name="min">-2.0942</param> 
+          <param name="max">2.0942</param> 
         </command_interface>
         <command_interface name="velocity">
-          <param name="min">-7.33038</param>
-          <param name="max">7.33038</param>
+          <param name="min">-2.356</param>
+          <param name="max">2.356</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- iiwa_joint7 -->
+      <joint name="joint_7">
+        <command_interface name="position">
+          <param name="min">-3.0541</param> 
+          <param name="max">3.0541</param> 
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.356</param>
+          <param name="max">2.356</param>
         </command_interface>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
@@ -213,6 +227,9 @@
         <selfCollide>false</selfCollide>
       </gazebo>
       <gazebo reference="link_6">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="link_7">
         <selfCollide>false</selfCollide>
       </gazebo>
     
