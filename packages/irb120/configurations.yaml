@@ -8,5 +8,5 @@ Configurations:
 
   - ID: "irb120_2"
     Name: "ABB IRB-120 + Schunk EGP-64 Gripper on top of Robot Stand."
-    urdf: "irb120egp64.urdf.xacro"
+    urdf: "irb120_egp64.urdf.xacro"
     ee: "egp64"
