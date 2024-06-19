@@ -44,7 +44,7 @@ install(
     ur5
     ur10e
 
-    #iiwa
+    iiwa
 
   DESTINATION 
     share/${PROJECT_NAME}
