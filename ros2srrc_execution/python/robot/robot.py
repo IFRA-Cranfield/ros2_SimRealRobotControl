@@ -168,6 +168,10 @@ class RBT():
     def Move_EXECUTE(self, ACTION):
 
         global RES
+
+        # Initialise RES:
+        RES["Success"] = False
+        RES["Message"] = "null"
         
         self.MoveClient.send_goal(ACTION)
         while rclpy.ok():
@@ -176,16 +180,15 @@ class RBT():
             if (RES["Message"] != "null"):
                 break
 
-        # Assign RESULT:
-        RESULT = RES
-        
+        return(RES)
+
+    def RobMove_EXECUTE(self, TYPE, SPEED, POSE):
+
+        global RES
+
         # Initialise RES:
         RES["Success"] = False
         RES["Message"] = "null"
-
-        return(RESULT)
-
-    def RobMove_EXECUTE(self, TYPE, SPEED, POSE):
 
         self.RobMoveClient.send_goal(TYPE, SPEED, POSE)
         while rclpy.ok():
@@ -194,11 +197,4 @@ class RBT():
             if (RES["Message"] != "null"):
                 break
 
-        # Assign RESULT:
-        RESULT = RES
-        
-        # Initialise RES:
-        RES["Success"] = False
-        RES["Message"] = "null"
-
-        return(RESULT)
+        return(RES)
