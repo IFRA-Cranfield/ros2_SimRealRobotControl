@@ -278,7 +278,7 @@ private:
             if (MoveJRES.RES == "LIMITS: OK"){
                 MyPlan = plan_ROB();
             } else {
-                RES = "LIMITS: ERROR";
+                RES = MoveJRES.RES;
             }
 
         } else if (action == "MoveL" && param_ROB != "none"){
@@ -317,7 +317,7 @@ private:
             if (MoveRRES.RES == "LIMITS: OK"){
                 MyPlan = plan_ROB();
             } else {
-                RES = "LIMITS: ERROR";
+                RES = MoveRRES.RES;
             }
 
         } else if (action == "MoveROT" && param_ROB != "none"){
@@ -372,7 +372,7 @@ private:
             if (MoveGRES.RES == "LIMITS: OK"){
                 MyPlan = plan_EE();
             } else {
-                RES = "LIMITS: ERROR (EE)";
+                RES = MoveGRES.RES;
             }
         
         }
@@ -422,15 +422,13 @@ private:
             result->result = action + ":FAILED. Reason -> Planning failed.";
             goal_handle->succeed(result);
 
-        } else if (RES == "LIMITS: ERROR"){
-            RCLCPP_INFO(this->get_logger(), "%s - %s: ERROR - Check joint limits!", param_ROB.c_str(), action.c_str());
-            result->result = action + ":FAILED. Reason -> Wrong joint name or joint limits exceeded.";
+        } else {
+
+            RCLCPP_INFO(this->get_logger(), "ERROR: %s", RES.c_str());
+            result->result = action + ":FAILED. Reason -> " + RES;
             goal_handle->succeed(result);
-        } else if (RES == "LIMITS: ERROR (EE)"){
-            RCLCPP_INFO(this->get_logger(), "%s - %s: ERROR - Check joint limits!", param_EE.c_str(), action.c_str());
-            result->result = action + ":FAILED. Reason -> Joint limits.";
-            goal_handle->succeed(result);
-        }
+
+        };
 
         // RE-INITIALISE RES variable:
         RES = "none";

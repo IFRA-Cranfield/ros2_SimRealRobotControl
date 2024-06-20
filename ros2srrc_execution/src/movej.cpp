@@ -77,12 +77,14 @@ MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> 
 
     // 2. CALCULATIONS -> Joint Limits:
     auto LimitsOK = true;
+    std::vector<std::string> jointLIST;
     for (int i=0; i<JP.size(); i++){
         
         if (GOAL[i] <= SPECIFICATIONS.robot_max[i] && GOAL[i] >= SPECIFICATIONS.robot_min[i]) {
         // Do nothing, check complete.
         } else {
             LimitsOK = false;
+            jointLIST.push_back("joint" + std::to_string(i+1));
         };
 
     };
@@ -98,7 +100,16 @@ MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> 
         RESULT.JP = JP;
 
     } else {
-        RESULT.RES = "LIMITS: ERROR";
+
+        std::string OUTPUT = "[";
+        for (int k=0; k<jointLIST.size(); k++){
+            OUTPUT = OUTPUT + jointLIST[k] + ", ";
+        };
+        OUTPUT.pop_back();
+        OUTPUT.pop_back();
+        OUTPUT = OUTPUT + "]";
+
+        RESULT.RES = "For the requested input, the following joints are outside their limit -> " + OUTPUT;
         RESULT.JP = JP;
     }
 

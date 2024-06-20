@@ -62,7 +62,7 @@ MoveGSTRUCT MoveGAction (double VAL, std::vector<double> JP, ros2srrc_data::msg:
     // 1. CALCULATIONS -> Check VALUE is between 0 and 100:
     if (VAL < 0 || VAL > 100){
         
-        RESULT.RES = "LIMITS: ERROR";
+        RESULT.RES = "Gripper INPUT VALUE is not correct! It should be [0, 100]. Try again.";
         RESULT.JP = JP;
 
         return(RESULT); // RETURN ERROR message.

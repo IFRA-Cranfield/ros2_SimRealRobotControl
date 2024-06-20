@@ -72,7 +72,7 @@ MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP,
 
     // Joint Limits:
     auto inputOK = true;
-    int j;
+    int j = 0;
     if (joint == "joint1"){
         j = 0;
     } else if (joint == "joint2"){
@@ -110,10 +110,10 @@ MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP,
         RESULT.JP = JP;
 
     } else if (inputOK == false){
-        RESULT.RES = "LIMITS: JointName INPUT ERROR";
+        RESULT.RES = joint + " is not a valid input, it should be 'jointX'.";
         RESULT.JP = JP;
     } else {
-        RESULT.RES = "LIMITS: ERROR";
+        RESULT.RES = "{" + joint + ", " + std::to_string(VAL) + "} is outside its joint limits, which are: [min: " + std::to_string(SPECIFICATIONS.robot_min[j]) + ", max: " + std::to_string(SPECIFICATIONS.robot_max[j]) + "].";
         RESULT.JP = JP;
     }
 
