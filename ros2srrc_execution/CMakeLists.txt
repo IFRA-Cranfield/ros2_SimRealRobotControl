@@ -166,6 +166,7 @@ install(PROGRAMS
   python/sequence.py
   python/RobotState.py
   python/SpawnObject.py
+  python/TestClient.py
   DESTINATION lib/${PROJECT_NAME} 
 )
 

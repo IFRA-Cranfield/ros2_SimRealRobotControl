@@ -57,23 +57,24 @@ class RobMoveCLIENT(Node):
         super().__init__('ros2srrc_RobMove_Client')
         self._action_client = ActionClient(self, Robmove, 'Robmove')
 
-        print("(/RobMove): Initialising ROS2 Action Client!")
-        print("(/RobMove): Waiting for /Robmove ROS2 ActionServer to be available...")
+        print("[CLIENT - robot.py]: Initialising ROS2 /RobMove Action Client!")
+        print("[CLIENT - robot.py]: Waiting for /Robmove ROS2 ActionServer to be available...")
         self._action_client.wait_for_server()
-        print("(/RobMove): /Robmove ACTION SERVER detected.")
+        print("[CLIENT - robot.py]: /Robmove ACTION SERVER detected, ready!")
+        print("")
 
     def send_goal(self, TYPE, SPEED, TARGET_POSE):
         
         goal_msg = Robmove.Goal()
         goal_msg.type = TYPE
         goal_msg.speed = SPEED
-        goal_msg.x = TARGET_POSE.position.x
-        goal_msg.y = TARGET_POSE.position.y
-        goal_msg.z = TARGET_POSE.position.z
-        goal_msg.qx = TARGET_POSE.orientation.x
-        goal_msg.qy = TARGET_POSE.orientation.y
-        goal_msg.qz = TARGET_POSE.orientation.z
-        goal_msg.qw = TARGET_POSE.orientation.w
+        goal_msg.x = TARGET_POSE.x
+        goal_msg.y = TARGET_POSE.y
+        goal_msg.z = TARGET_POSE.z
+        goal_msg.qx = TARGET_POSE.qx
+        goal_msg.qy = TARGET_POSE.qy
+        goal_msg.qz = TARGET_POSE.qz
+        goal_msg.qw = TARGET_POSE.qw
         
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -83,10 +84,10 @@ class RobMoveCLIENT(Node):
         goal_handle = future.result()
 
         if not goal_handle.accepted:
-            print('(/RobMove): RobMove ACTION CALL -> GOAL has been REJECTED.')
+            print('[CLIENT - robot.py]: RobMove ACTION CALL -> GOAL has been REJECTED.')
             return
         
-        # print('(/RobMove): RobMove ACTION CALL -> GOAL has been ACCEPTED.')
+        print('[CLIENT - robot.py]: RobMove ACTION CALL -> GOAL has been ACCEPTED.')
 
         self._get_result_future = goal_handle.get_result_async()
         self._get_result_future.add_done_callback(self.get_result_callback)
@@ -109,10 +110,11 @@ class MoveCLIENT(Node):
         super().__init__('ros2srrc_Move_Client')
         self._action_client = ActionClient(self, Move, 'Move')
 
-        print("(/Move): Initialising ROS2 Action Client!")
-        print("(/Move): Waiting for /Move ROS2 ActionServer to be available...")
+        print("[CLIENT - robot.py]: Initialising ROS2 /Move Action Client!")
+        print("[CLIENT - robot.py]: Waiting for /Move ROS2 ActionServer to be available...")
         self._action_client.wait_for_server()
-        print("(/Move): /Move ACTION SERVER detected.")
+        print("[CLIENT - robot.py]: /Move ACTION SERVER detected, ready!")
+        print("")
 
     def send_goal(self, ACTION):
 
@@ -134,10 +136,10 @@ class MoveCLIENT(Node):
         goal_handle = future.result()
 
         if not goal_handle.accepted:
-            print('(/Move): Move ACTION CALL -> GOAL has been REJECTED.')
+            print('[CLIENT - robot.py]: Move ACTION CALL -> GOAL has been REJECTED.')
             return
         
-        # print('(/Move): Move ACTION CALL -> GOAL has been ACCEPTED.')
+        print('[CLIENT - robot.py]: Move ACTION CALL -> GOAL has been ACCEPTED.')
 
         self._get_result_future = goal_handle.get_result_async()
         self._get_result_future.add_done_callback(self.get_result_callback)
@@ -180,6 +182,9 @@ class RBT():
             if (RES["Message"] != "null"):
                 break
 
+        print('[CLIENT - robot.py]: Move ACTION EXECUTED -> Result: ' + RES["Message"])
+        print("")
+
         return(RES)
 
     def RobMove_EXECUTE(self, TYPE, SPEED, POSE):
@@ -196,5 +201,8 @@ class RBT():
 
             if (RES["Message"] != "null"):
                 break
+
+        print('[CLIENT - robot.py]: RobMove ACTION EXECUTED -> Result: ' + RES["Message"])
+        print("")
 
         return(RES)

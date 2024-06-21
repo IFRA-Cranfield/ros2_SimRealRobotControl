@@ -47,12 +47,15 @@ class SchunkGRIPPER(Node):
 
         super().__init__('SchunkGripper_client')
 
-        print("(SchunkGripper): Initialising ROS2 Service Client!")
+        print("[CLIENT - schunk_abb.py]: Initialising ABB-RWS I/O ROS 2 Service Client.")
+
         self.cli = self.create_client(SetIOSignal, '/rws_client/set_io_signal')
         while not self.cli.wait_for_service(timeout_sec=1.0):
-            print('(SchunkGripper): Waiting for ABB-RWS I/O Service Server to be available...')
+            print('[CLIENT - schunk_abb.py]: Waiting for ABB-RWS I/O Service Server to be available...')
 
-        print('(SchunkGripper): ABB-RWS I/O Service Server detected.')
+        print('[CLIENT - schunk_abb.py]: ABB-RWS I/O Service Server detected, ready!')
+        print("")
+
         self.req = SetIOSignal.Request()
 
     def send_request(self, signal, value):
@@ -60,10 +63,11 @@ class SchunkGRIPPER(Node):
         self.req.value = value
         self.future = self.cli.call_async(self.req)
         rclpy.spin_until_future_complete(self, self.future)
-        print('(SchunkGripper): ROS 2 Service successfully executed. Signal -> ' + signal + ", Value -> " + value)
+        print('[CLIENT - schunk_abb.py]: ROS 2 Service successfully executed. Signal -> ' + signal + ", Value -> " + value)
+        print("")
 
     def OPEN(self):
-        print('(SchunkGripper): Sending request -> OPEN GRIPPER.')
+        print('[CLIENT - schunk_abb.py]: Sending request -> OPEN GRIPPER.')
         signal = "CloseGripper"
         value = "0"
         self.send_request(signal,value)
@@ -72,7 +76,7 @@ class SchunkGRIPPER(Node):
         self.send_request(signal,value)
 
     def CLOSE(self):
-        print('(SchunkGripper): Sending request -> CLOSE GRIPPER.')
+        print('[CLIENT - schunk_abb.py]: Sending request -> CLOSE GRIPPER.')
         signal = "OpenGripper"
         value = "0"
         self.send_request(signal,value)
