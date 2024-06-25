@@ -220,6 +220,10 @@
       <child link="EE_robotiq_hande" />
       <origin xyz="0.0 0.0 0.135" rpy="0 0 0"/>
     </joint>
+
+    <gazebo reference="EE_robotiq_hande_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
     
   </xacro:macro>
 </robot>

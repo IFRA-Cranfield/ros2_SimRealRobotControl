@@ -249,6 +249,10 @@
       <child link="EE_egp64" />
       <origin xyz="0.0 0.0 0.19" rpy="0 0 0"/>
     </joint>
+
+    <gazebo reference="EE_egp64_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
     
   </xacro:macro>
 </robot>

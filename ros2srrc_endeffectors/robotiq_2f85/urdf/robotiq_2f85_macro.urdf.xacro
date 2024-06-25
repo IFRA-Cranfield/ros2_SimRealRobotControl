@@ -362,6 +362,10 @@
       <child link="EE_robotiq_2f85" />
       <origin xyz="0.128 0.0 0.0" rpy="0 0 0"/>
     </joint>
+
+    <gazebo reference="EE_robotiq_2f85_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
     
   </xacro:macro>
 </robot>
