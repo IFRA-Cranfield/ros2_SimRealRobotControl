@@ -251,7 +251,7 @@ class LinkAttacher():
 class parallelGR():
 
     def __init__(self, ObjectList, ROBOT, EE):
-
+        
         # Initialise RBT client -> For MoveG execution:
         self.RBTClient = RBT()
 
@@ -269,6 +269,15 @@ class parallelGR():
         self.LinkAttacher = LinkAttacher(ROBOT, EE)
 
     def CLOSE(self, VAL):
+        
+        T_start = time.time()
+        
+        # Initialise -> RES:
+        RES = {
+            "Message": "",
+            "Success": False,
+            "ExecTime": -1.0
+        }
 
         print("[CLIENT - parallelGripper.py]: EXECUTION REQUEST -> CLOSE GRIPPER.")
         print("")
@@ -287,9 +296,10 @@ class parallelGR():
             print("")
             
         else:
-            print("[CLIENT - parallelGripper.py]: MoveG-CLOSE, Result -> " + gRES["Message"])
+            RES["Message"] = "MoveG-CLOSE, Result -> " + gRES["Message"]
+            print("[CLIENT - parallelGripper.py]: " + RES["Message"])
             print("")
-            return()
+            return(RES)
 
         # ===== CHECK GRASPING ===== #
         Objects = self.objPoseClient.getOBJECTS()
@@ -321,20 +331,38 @@ class parallelGR():
             
             AttRES = self.LinkAttacher.ATTACH(objNAME)
             if AttRES:
-                print("[CLIENT - parallelGripper.py]: Gripper closed, object->" + objNAME + " attached.")
+                RES["Message"] = "Gripper closed, object->" + objNAME + " attached."
+                RES["Success"] = True
+                print("[CLIENT - parallelGripper.py]: " + RES["Message"])
                 print("")
-            else: 
-                print("[CLIENT - parallelGripper.py]: Gripper closed, object->" + objNAME + " not attached, LinkAttacher plugin failed.")
+            else:
+                RES["Message"] = "Gripper closed, object->" + objNAME + " not attached, LinkAttacher plugin failed."
+                print("[CLIENT - parallelGripper.py]: " + RES["Message"])
                 print("")
 
         else:
-            print("[CLIENT - parallelGripper.py]: Gripper closed without grasping any object.")
+            RES["Message"] = "Gripper closed without grasping any object."
+            RES["Success"] = True
+            print("[CLIENT - parallelGripper.py]: " + RES["Message"])
             print("")
+            
+        T_end = time.time()
+        T = round((T_end - T_start), 4)
+        RES["ExecTime"] = T
 
-        return()
+        return(RES)
 
     def OPEN(self):
+        
+        T_start = time.time()
 
+        # Initialise -> RES:
+        RES = {
+            "Message": "",
+            "Success": False,
+            "ExecTime": -1.0
+        }
+         
         print("[CLIENT - parallelGripper.py]: EXECUTION REQUEST -> OPEN GRIPPER.")
         print("")
 
@@ -351,8 +379,9 @@ class parallelGR():
             print("[CLIENT - parallelGripper.py]: MoveG-OPEN, Result -> " + gRES["Message"])
             
         else:
-            print("[CLIENT - parallelGripper.py], MoveG-OPEN, Result -> " + gRES["Message"])
-            return()
+            RES["Message"] = "MoveG-OPEN, Result -> " + gRES["Message"]
+            print("[CLIENT - parallelGripper.py]: " + RES["Message"])
+            return(RES)
 
         # CHECK if --> There is any object currently grasped:
         global AttachCheck 
@@ -363,15 +392,23 @@ class parallelGR():
             DetRES = self.LinkAttacher.DETACH(objNAME)
 
             if DetRES:
-                print("[CLIENT - parallelGripper.py]: Gripper opened, object->" + objNAME + " detached.")
+                RES["Message"] = "Gripper opened, object->" + objNAME + " detached."
+                RES["Success"] = True
+                print("[CLIENT - parallelGripper.py]: " + RES["Message"])
                 print("")
             else: 
-                print("[CLIENT - parallelGripper.py]: Gripper opened, object->" + objNAME + " not detached, LinkAttacher plugin failed.")
+                RES["Message"] = "Gripper opened, object->" + objNAME + " not detached, LinkAttacher plugin failed."
+                print("[CLIENT - parallelGripper.py]: " + RES["Message"])
                 print("")
 
         else:
-
+            RES["Message"] = "Gripper opened without dropping any object."
+            RES["Success"] = True
             print("[CLIENT - parallelGripper.py]: Gripper opened without dropping any object.")
             print("")
+            
+        T_end = time.time()
+        T = round((T_end - T_start), 4)
+        RES["ExecTime"] = T
 
-        return()
+        return(RES)

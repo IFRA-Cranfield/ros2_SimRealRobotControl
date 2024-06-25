@@ -34,6 +34,8 @@
 #   - /Move allows the user to execute a specific robot movement: Cartesian-Space, Joint-Space, Single Joint, Rotation... 
 
 # ===== IMPORT REQUIRED COMPONENTS ===== #
+# System:
+import time
 # Required to include ROS2 and its components:
 import rclpy
 from rclpy.node import Node
@@ -46,6 +48,7 @@ from ros2srrc_data.action import Robmove
 RES = {}
 RES["Success"] = False
 RES["Message"] = "null"
+RES["ExecTime"] = -1.0
 
 # =============================================================================== #
 # /RobMove ACTION CLIENT:
@@ -170,10 +173,13 @@ class RBT():
     def Move_EXECUTE(self, ACTION):
 
         global RES
+        
+        T_start = time.time()
 
         # Initialise RES:
         RES["Success"] = False
         RES["Message"] = "null"
+        RES["ExecTime"] = -1.0
         
         self.MoveClient.send_goal(ACTION)
         while rclpy.ok():
@@ -184,16 +190,23 @@ class RBT():
 
         print('[CLIENT - robot.py]: Move ACTION EXECUTED -> Result: ' + RES["Message"])
         print("")
+        
+        T_end = time.time()
+        T = round((T_end - T_start), 4)
+        RES["ExecTime"] = T
 
         return(RES)
 
     def RobMove_EXECUTE(self, TYPE, SPEED, POSE):
 
         global RES
+        
+        T_start = time.time()
 
         # Initialise RES:
         RES["Success"] = False
         RES["Message"] = "null"
+        RES["ExecTime"] = -1.0
 
         self.RobMoveClient.send_goal(TYPE, SPEED, POSE)
         while rclpy.ok():
@@ -204,5 +217,9 @@ class RBT():
 
         print('[CLIENT - robot.py]: RobMove ACTION EXECUTED -> Result: ' + RES["Message"])
         print("")
+        
+        T_end = time.time()
+        T = round((T_end - T_start), 4)
+        RES["ExecTime"] = T
 
         return(RES)
