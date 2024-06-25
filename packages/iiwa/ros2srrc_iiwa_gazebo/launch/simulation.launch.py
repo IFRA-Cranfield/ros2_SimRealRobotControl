@@ -29,19 +29,20 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # simulation.launch.py:
-# Launch file for the iiwa Robot GAZEBO SIMULATION in ROS2 Humble:
+# Launch file for the ROBOT's GAZEBO SIMULATION in ROS2 Humble:
 
 # Import libraries:
-import os
-import sys
+import os, sys, xacro, yaml
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler, TimerAction
+from launch.actions import IncludeLaunchDescription, RegisterEventHandler
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-import xacro
-import yaml
+
+# INFORMATION -> LAUNCH FILE PARAMETERS:
+PACKAGE_NAME = "ros2srrc_iiwa"
+CONFIG_PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'packages', 'iiwa')
 
 # LOAD FILE:
 def load_file(package_name, file_path):
@@ -78,9 +79,9 @@ def AssignArgument(ARGUMENT):
 def GetCONFIG(CONFIGURATION):
     
     RESULT = {"Success": False, "ID": "", "Name": "", "urdf": "", "ee": ""}
-
-    PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'packages', 'iiwa')
-    YAML_PATH = PATH + "/configurations.yaml"
+    
+    global CONFIG_PATH
+    YAML_PATH = CONFIG_PATH + "/configurations.yaml"
     
     if not os.path.exists(YAML_PATH):
         return (RESULT)
@@ -95,6 +96,7 @@ def GetCONFIG(CONFIGURATION):
             RESULT["ID"] = x["ID"]
             RESULT["Name"] = x["Name"]
             RESULT["urdf"] = x["urdf"]
+            RESULT["rob"] = x["rob"]
             RESULT["ee"] = x["ee"]
 
     return(RESULT)
@@ -122,16 +124,15 @@ def generate_launch_description():
 
     # ***** GAZEBO ***** #   
     # DECLARE Gazebo WORLD file:
-    ros2srrc_iiwa_gazebo = os.path.join(
-        get_package_share_directory('ros2srrc_iiwa_gazebo'),
+    robot_gazebo = os.path.join(
+        get_package_share_directory(PACKAGE_NAME + '_gazebo'),
         'worlds',
-        'iiwa.world')
+        PACKAGE_NAME + '.world')
     # DECLARE Gazebo LAUNCH file:
     gazebo = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
-                launch_arguments={'world': ros2srrc_iiwa_gazebo}.items(),
-             )
+                PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
+                launch_arguments={'world': robot_gazebo}.items(),
+            )
     
     # === INPUT ARGUMENT: CONFIGURATION === #
     CONFIG = AssignArgument("config")
@@ -145,18 +146,17 @@ def generate_launch_description():
 
     # ========== CELL INFORMATION ========== #
     print("")
-    print("===== KUKA LBR-IIWA: Robot Simulation (ros2srrc_iiwa_gazebo) =====")
+    print("===== GAZEBO: Robot Simulation (" + PACKAGE_NAME + "_gazebo) =====")
     print("Robot configuration:")
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["Name"])
     print("")
 
     # ***** ROBOT DESCRIPTION ***** #
-    # iiwa Description file package:
-    iiwa_description_path = os.path.join(
-        get_package_share_directory('ros2srrc_iiwa_gazebo'))
-    # iiwa ROBOT urdf file path:
-    xacro_file = os.path.join(iiwa_description_path,'urdf',CONFIGURATION["urdf"])
-    # Generate ROBOT_DESCRIPTION for iiwa:
+    # Robot Description file package:
+    robot_description_path = os.path.join(get_package_share_directory(PACKAGE_NAME + '_gazebo'))
+    # ROBOT urdf file path:
+    xacro_file = os.path.join(robot_description_path,'urdf',CONFIGURATION["urdf"])
+    # Generate ROBOT_DESCRIPTION variable:
     doc = xacro.parse(open(xacro_file))
     
     if CONFIGURATION["ee"] == "none":
@@ -185,8 +185,7 @@ def generate_launch_description():
 
     # SPAWN ROBOT TO GAZEBO:
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
-                        arguments=['-topic', 'robot_description',
-                                   '-entity', 'iiwa'],
+                        arguments=['-topic', 'robot_description','-entity', CONFIGURATION["rob"]],
                         output='both')
 
     # ***** CONTROLLERS ***** #

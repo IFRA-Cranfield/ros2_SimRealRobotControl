@@ -28,20 +28,20 @@
 # You can cite our work with the following statement:
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
-# moveit2.launch.py:
-# Launch file for the UR5 Robot BRINGUP + MoveIt!2 Framework in ROS2 Humble:
+# bringup.launch.py:
+# Launch file for the Robot's BRINGUP ROS 2 DRIVER + MoveIt!2 Framework in ROS2 Humble:
 
 # Import libraries:
-import os
-import sys
+import os, sys, xacro, yaml
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler, DeclareLaunchArgument, TimerAction
+from launch.actions import RegisterEventHandler, TimerAction
 from launch.event_handlers import OnProcessExit
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-import xacro
-import yaml
+
+# INFORMATION -> LAUNCH FILE PARAMETERS:
+PACKAGE_NAME = "ros2srrc_ur5"
+CONFIG_PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'packages', 'ur5')
 
 # LOAD FILE:
 def load_file(package_name, file_path):
@@ -79,8 +79,8 @@ def GetCONFIG(CONFIGURATION):
     
     RESULT = {"Success": False, "ID": "", "Name": "", "urdf": "", "ee": ""}
 
-    PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'packages', 'ur5')
-    YAML_PATH = PATH + "/configurations.yaml"
+    global CONFIG_PATH
+    YAML_PATH = CONFIG_PATH + "/configurations.yaml"
     
     if not os.path.exists(YAML_PATH):
         return (RESULT)
@@ -95,6 +95,7 @@ def GetCONFIG(CONFIGURATION):
             RESULT["ID"] = x["ID"]
             RESULT["Name"] = x["Name"]
             RESULT["urdf"] = x["urdf"]
+            RESULT["rob"] = x["rob"]
             RESULT["ee"] = x["ee"]
 
     return(RESULT)
@@ -147,7 +148,7 @@ def generate_launch_description():
 
     # ========== CELL INFORMATION ========== #
     print("")
-    print("===== ABB UR5: Robot Bringup + MoveIt!2 Framework (ros2srrc_ur5_bringup) =====")
+    print("===== " + CONFIGURATION["rob"] + ": Robot Bringup + MoveIt!2 Framework (" + PACKAGE_NAME + "_bringup) =====")
     print("Robot IP Address -> " + robot_ip)
     print("Robot configuration:")
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["Name"])
@@ -167,12 +168,11 @@ def generate_launch_description():
                               'rtde_output_recipe.txt')
 
     # ***** ROBOT DESCRIPTION ***** #
-    # UR5 Description file package:
-    ur5_description_path = os.path.join(
-        get_package_share_directory('ros2srrc_ur5_gazebo'))
-    # UR5 ROBOT urdf file path:
-    xacro_file = os.path.join(ur5_description_path,'urdf',CONFIGURATION["urdf"])
-    # Generate ROBOT_DESCRIPTION for UR5:
+    # Robot Description file package:
+    robot_description_path = os.path.join(get_package_share_directory(PACKAGE_NAME + '_gazebo'))
+    # ROBOT urdf file path:
+    xacro_file = os.path.join(robot_description_path,'urdf',CONFIGURATION["urdf"])
+    # Generate ROBOT_DESCRIPTION variable:
     doc = xacro.parse(open(xacro_file))
     
     if CONFIGURATION["ee"] == "none":
@@ -216,7 +216,7 @@ def generate_launch_description():
     # ***** CONTROLLERS ***** #
 
     # ros2_control:
-    ros2_controllers_path = os.path.join(get_package_share_directory("ros2srrc_robots"), "ur5", "config", "controller_ur.yaml")
+    ros2_controllers_path = os.path.join(get_package_share_directory("ros2srrc_robots"), CONFIGURATION["rob"], "config", "controller_ur.yaml")
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
@@ -260,18 +260,18 @@ def generate_launch_description():
     # *** PLANNING CONTEXT *** #
     # Robot description, SRDF:
     if EE == "false":
-        robot_description_semantic_config = load_file("ros2srrc_ur5_moveit2", "config/ur5.srdf")
+        robot_description_semantic_config = load_file(PACKAGE_NAME + "_moveit2", "config/" + CONFIGURATION["rob"] + ".srdf")
     else:
-        robot_description_semantic_config = load_file("ros2srrc_ur5_moveit2", "config/ur5" + CONFIGURATION["ee"] + ".srdf")
+        robot_description_semantic_config = load_file(PACKAGE_NAME + "_moveit2", "config/" + CONFIGURATION["rob"] + CONFIGURATION["ee"] + ".srdf")
     
     robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config}
 
     # Kinematics.yaml file:
-    kinematics_yaml = load_yaml("ros2srrc_robots", "ur5/config/kinematics.yaml")
+    kinematics_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/kinematics.yaml")
     robot_description_kinematics = {"robot_description_kinematics": kinematics_yaml}
 
     # joint_limits.yaml file:
-    joint_limits_yaml = load_yaml("ros2srrc_robots", "ur5/config/joint_limits.yaml")
+    joint_limits_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/joint_limits.yaml")
     joint_limits = {'robot_description_planning': joint_limits_yaml}
 
     # pilz_planning_pipeline_config.yaml file:
@@ -283,11 +283,11 @@ def generate_launch_description():
             "default_planner_config": "PTP",
         }
     }
-    pilz_cartesian_limits_yaml = load_yaml("ros2srrc_robots", "ur5/config/pilz_cartesian_limits.yaml")
+    pilz_cartesian_limits_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/pilz_cartesian_limits.yaml")
     pilz_cartesian_limits = {'robot_description_planning': pilz_cartesian_limits_yaml}
 
     # MoveIt!2 Controllers:
-    moveit_simple_controllers_yaml = load_yaml("ros2srrc_robots", "ur5/config/controller_moveit2.yaml")
+    moveit_simple_controllers_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/controller_moveit2.yaml")
     moveit_simple_controllers_yaml["joint_trajectory_controller"]["default"] = False
     moveit_simple_controllers_yaml["scaled_joint_trajectory_controller"]["default"] = True
 
@@ -336,11 +336,11 @@ def generate_launch_description():
     )
 
     # RVIZ:
-    rviz_base = os.path.join(get_package_share_directory("ros2srrc_ur5_moveit2"), "config")
+    rviz_base = os.path.join(get_package_share_directory(PACKAGE_NAME + "_moveit2"), "config")
     if EE == "false":
-        rviz_full_config = os.path.join(rviz_base, "ur5_moveit2.rviz")
+        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + "_moveit2.rviz")
     else:
-        rviz_full_config = os.path.join(rviz_base, "ur5" + CONFIGURATION["ee"] + "_moveit2.rviz")
+        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + CONFIGURATION["ee"] + "_moveit2.rviz")
 
     rviz_node_full = Node(
         package="rviz2",
@@ -376,14 +376,14 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": "ur5"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
         )
         SequenceInterface = Node(
             name="sequence",
             package="ros2srrc_execution",
             executable="sequence",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": "ur5"}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
         )
 
     else:
@@ -393,14 +393,14 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": "ur5"}, {"EE_PARAM": CONFIGURATION["ee"]}, {"ENV_PARAM": "bringup"}],
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": CONFIGURATION["ee"]}, {"ENV_PARAM": "bringup"}],
         )
         SequenceInterface = Node(
             name="sequence",
             package="ros2srrc_execution",
             executable="sequence",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": "ur5"}, {"EE_PARAM": CONFIGURATION["ee"]}, {"ENV_PARAM": "bringup"}],
+            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": CONFIGURATION["ee"]}, {"ENV_PARAM": "bringup"}],
         )
 
     # RobMove and RobPose:
@@ -409,14 +409,14 @@ def generate_launch_description():
         package="ros2srrc_execution",
         executable="robmove",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": "ur5"}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}],
     )
     RobPoseInterface = Node(
         name="robpose",
         package="ros2srrc_execution",
         executable="robpose",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": "ur5"}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}],
     )
 
     # =============================================== #

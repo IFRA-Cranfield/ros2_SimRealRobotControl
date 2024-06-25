@@ -4,9 +4,11 @@ Configurations:
   - ID: "irb1200_1"
     Name: "ABB IRB-1200 on top of Robot Stand."
     urdf: "irb1200.urdf.xacro"
+    rob: "irb1200"
     ee: "none"
 
   - ID: "irb1200_2"
     Name: "ABB IRB-1200 + Schunk EGP-64 Gripper on top of Robot Stand."
     urdf: "irb1200_egp64.urdf.xacro"
+    rob: "irb1200"
     ee: "egp64"
