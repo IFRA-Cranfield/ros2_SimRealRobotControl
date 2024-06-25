@@ -185,16 +185,20 @@ def Test_PG():
     
     if ACTION == "OPEN":
         client.OPEN()
+        
+    return()
 
 # ===================================================================== #
 # Test -> RobotiqUR class:
 def Test_RobotiqUR():
     None # TBD
+    return()
 
 # ===================================================================== #
 # Test -> SchunkABB class:
 def Test_SchunkABB():
     None # TBD
+    return()
 
 # ===================================================================== #
 # Get OPTION as input argument:
