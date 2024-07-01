@@ -277,42 +277,42 @@
 
     <!-- joint list -->
     <joint type="revolute" name="joint_1">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0.78" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
       <parent link="base_link"/>
       <child link="link_1"/>
       <limit effort="0" lower="-1.2217" upper="1.2217" velocity="1.7453"/>
     </joint>
     <joint type="revolute" name="joint_2">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0.32 0 0" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <parent link="link_1"/>
       <child link="link_2"/>
       <limit effort="0" lower="-1.134" upper="1.4835" velocity="1.5708"/>
     </joint>
     <joint type="revolute" name="joint_3">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 1.28" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <parent link="link_2"/>
       <child link="link_3"/>
       <limit effort="0" lower="-3.1416" upper="1.2217" velocity="1.5708"/>
     </joint>
     <joint type="revolute" name="joint_4">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0.2" rpy="0 0 0"/>
       <axis xyz="1 0 0"/>
       <parent link="link_3"/>
       <child link="link_4"/>
       <limit effort="0" lower="-5.236" upper="5.236" velocity="2.9671"/>
     </joint>
     <joint type="revolute" name="joint_5">
-      <origin xyz="0 0 0 " rpy="0 0 0"/>
+      <origin xyz="1.28 0 0 " rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <parent link="link_4"/>
       <child link="link_5"/>
       <limit effort="0" lower="-2.0944" upper="2.0944" velocity="2.0944"/>
     </joint>
     <joint type="revolute" name="joint_6">
-      <origin xyz="0 0 0 " rpy="0 0 0"/>
+      <origin xyz="0.2 0 0 " rpy="0 0 0"/>
       <axis xyz="1 0 0"/>
       <parent link="link_5"/>
       <child link="link_6"/>
@@ -320,18 +320,18 @@
     </joint>
 
     <joint type="continuous" name="joint_cylinder">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="-0.365 0 -0.145" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <parent link="link_1"/>
       <child link="link_cylinder"/>
-      <mimic joint="joint_2" multiplier="-0.25"/>
+      <mimic joint="joint_2" multiplier="-0.35" offset="0.0"/>
     </joint>
     <joint type="continuous" name="joint_piston">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="-0.22 0 -0.0673" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <parent link="link_2"/>
       <child link="link_piston"/>
-      <mimic joint="joint_2" multiplier="-1.25"/>
+      <mimic joint="joint_2" multiplier="-1.35" offset="0.0"/>
     </joint>
     <!-- end of joint list -->
 

@@ -116,6 +116,26 @@
       </actuator>
     </transmission>
 
+    <transmission name="joint_cylinder_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_cylinder">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint_cylinder_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="joint_piston_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_piston">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint_piston_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
   </xacro:macro>
 
 </robot>

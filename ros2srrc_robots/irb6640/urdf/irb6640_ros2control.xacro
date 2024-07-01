@@ -182,6 +182,20 @@
         <state_interface name="velocity"/>
       </joint>
 
+      <!-- CYLINDER&PISTON -->
+      <joint name="joint_cylinder">
+        <param name="mimic">joint_2</param>
+        <param name="multiplier">-0.35</param>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="joint_piston">
+        <param name="mimic">joint_2</param>
+        <param name="multiplier">-1.35</param>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+
       <!-- END EFFECTOR -->
       <xacro:unless value="${bringup}">
         <xacro:if value="${EE}">
@@ -200,9 +214,6 @@
       <gazebo reference="link_1">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="link_2_low">
-        <selfCollide>false</selfCollide>
-      </gazebo>
       <gazebo reference="link_2">
         <selfCollide>false</selfCollide>
       </gazebo>
@@ -218,10 +229,10 @@
       <gazebo reference="link_6">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="cylinder">
+      <gazebo reference="link_cylinder">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="piston">
+      <gazebo reference="link_piston">
         <selfCollide>false</selfCollide>
       </gazebo>
     
