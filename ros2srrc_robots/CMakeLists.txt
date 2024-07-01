@@ -38,7 +38,7 @@ install(
     
     irb120
     irb1200
-    #irb6640
+    irb6640
 
     ur3
     ur5
