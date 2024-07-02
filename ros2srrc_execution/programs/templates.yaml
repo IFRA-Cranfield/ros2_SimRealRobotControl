@@ -1,0 +1,195 @@
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: April, 2023.                                                                   #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+# ============================================================================ #
+# ============== ros2srrc_execution -> STATIC PROGRAM EXECUTION ============== #
+# ============================================================================ #
+
+# TEMPLATES: Use the templates below to define each STEP of your static program.
+# Please do keep in mind that the steps will be executed sequentially one after 
+# the other, starting with the step defined at the top of this .yaml file and
+# finishing with the step defined at the bottom.
+
+# ================================================================ # 
+# ================================================================ #
+# MOVE:
+
+# ===== Move action - MoveJ Movement ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "MoveJ"
+  Speed: 1.0
+  Input:
+    joint1: 0.0
+    joint2: 0.0
+    joint3: 0.0
+    joint4: 0.0
+    joint5: 0.0
+    joint6: 0.0
+
+# ===== Move action - MoveR Movement ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "MoveR"
+  Speed: 1.0
+  Input:
+    joint: "jointN"
+    value: 0.0
+
+# ===== Move action - MoveL Movement ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "MoveL"
+  Speed: 1.0
+  Input:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+
+# ===== Move action - MoveROT Movement ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "MoveROT"
+  Speed: 1.0
+  Input:
+    yaw: 0.0
+    pitch: 0.0
+    roll: 0.0
+
+# ===== Move action - MoveRP Movement ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "MoveRP"
+  Speed: 1.0
+  Input:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    yaw: 0.0
+    pitch: 0.0
+    roll: 0.0
+
+# ===== Move action - MoveG Movement ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "MoveG"
+  Speed: 1.0
+  Input:
+    value: 0.0  # This value represents gripper CLOSING AVERAGE, [0, 100].
+
+# ================================================================ # 
+# ================================================================ # 
+# ROBMOVE:
+
+# ===== RobMove action - PTP Movement ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "RobMove"
+  Movement: "PTP"
+  Speed: 1.0
+  Input:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    qx: 0.0
+    qy: 0.0
+    qz: 0.0
+    qw: 0.0
+
+# ===== RobMove action - LIN Movement ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "RobMove"
+  Movement: "LIN"
+  Speed: 1.0
+  Input:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    qx: 0.0
+    qy: 0.0
+    qz: 0.0
+    qw: 0.0
+
+# ================================================================ # 
+# ================================================================ #
+# LINK ATTACHER:
+
+# ===== LinkAttacher Plugin - ATTACH ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "LinkAttacher"
+  Action: "ATTACH"
+  Input:
+    RobModel: "Model name of the ROBOT."
+    EELink: "Link name of the END-EFFECTOR."
+    ObjModel: "Model name of the OBJECT."
+    ObjLink: "Link name of the OBJECT (should be same as object model name)."
+
+# ===== LinkAttacher Plugin - DETACH ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "LinkAttacher"
+  Action: "DETACH"
+  Input:
+    RobModel: "Model name of the ROBOT."
+    EELink: "Link name of the END-EFFECTOR."
+    ObjModel: "Model name of the OBJECT."
+    ObjLink: "Link name of the OBJECT (should be same as object model name)."
+
+# ================================================================ # 
+# ================================================================ #
+# SCHUNK EGP-64 GRIPPER - ABB ROBOT:
+
+# ===== Shunk EGP-64 Gripper (ABB Robot) - OPEN ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "EGP64/ABB"
+  Action: "OPEN"
+
+# ===== Shunk EGP-64 Gripper (ABB Robot) - CLOSE ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "EGP64/ABB"
+  Action: "CLOSE"
+
+# ================================================================ # 
+# ================================================================ #
+# ROBOTIQ HAND-E GRIPPER - UR ROBOT:
+
+# ===== RobotiqHandE Gripper (UR Robot) - OPEN ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "RobotiqHandE/UR"
+  Action: "OPEN"
+
+# ===== RobotiqHandE Gripper (UR Robot) - CLOSE ===== #
+- Step: 0
+  Name: "Please type the name of your program step here."
+  Type: "RobotiqHandE/UR"
+  Action: "CLOSE"
