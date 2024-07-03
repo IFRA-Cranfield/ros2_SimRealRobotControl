@@ -281,7 +281,7 @@
       <axis xyz="0 0 1"/>
       <parent link="base_link"/>
       <child link="link_1"/>
-      <limit effort="0" lower="-1.2217" upper="1.2217" velocity="1.7453"/>
+      <limit effort="0" lower="-2.96706" upper="2.96706" velocity="1.7453"/>
     </joint>
     <joint type="revolute" name="joint_2">
       <origin xyz="0.32 0 0" rpy="0 0 0"/>
