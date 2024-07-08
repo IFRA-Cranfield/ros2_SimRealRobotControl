@@ -84,7 +84,7 @@
       <origin xyz="0.065 0.0 0.1" rpy="0 0 0"/>
     </joint>
 
-    <gazebo reference="EE_ls_vgr">
+    <gazebo reference="EE_vgr_joint">
       <preserveFixedJoint>true</preserveFixedJoint>
     </gazebo>
     
