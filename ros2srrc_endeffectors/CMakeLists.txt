@@ -37,6 +37,8 @@ install(
   DIRECTORY 
     
     egp64
+
+    ls_vgr
     
     robotiq_2f85
     robotiq_hande

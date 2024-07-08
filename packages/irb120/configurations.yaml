@@ -12,3 +12,9 @@ Configurations:
     urdf: "irb120_egp64.urdf.xacro"
     rob: "irb120"
     ee: "egp64"
+
+  - ID: "irb120_3"
+    Name: "ABB IRB-120 + Lamination Sheet Vacuum-Gripper on top of Robot Stand."
+    urdf: "irb120_ls_vgr.urdf.xacro"
+    rob: "irb120"
+    ee: "ls_vgr"
