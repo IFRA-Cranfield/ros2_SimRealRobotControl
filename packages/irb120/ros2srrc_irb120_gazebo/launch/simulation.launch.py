@@ -117,22 +117,19 @@ def GetEEctr(EEName):
 
     return(RESULT)
 
+# CHECK if CONTROLLER file exists for EE:
+def EEctrlEXISTS(EEName):
+    
+    PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
+    YAML_PATH = PATH + "/controller.yaml"
+    
+    RES = os.path.exists(YAML_PATH)
+    return(RES)
+
 # ========== **GENERATE LAUNCH DESCRIPTION** ========== #
 def generate_launch_description():
     
     LD = LaunchDescription()
-
-    # ***** GAZEBO ***** #   
-    # DECLARE Gazebo WORLD file:
-    robot_gazebo = os.path.join(
-        get_package_share_directory(PACKAGE_NAME + '_gazebo'),
-        'worlds',
-        PACKAGE_NAME + '.world')
-    # DECLARE Gazebo LAUNCH file:
-    gazebo = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
-                launch_arguments={'world': robot_gazebo}.items(),
-            )
     
     # === INPUT ARGUMENT: CONFIGURATION === #
     CONFIG = AssignArgument("config")
@@ -150,6 +147,18 @@ def generate_launch_description():
     print("Robot configuration:")
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["Name"])
     print("")
+    
+    # ***** GAZEBO ***** #   
+    # DECLARE Gazebo WORLD file:
+    robot_gazebo = os.path.join(
+        get_package_share_directory(PACKAGE_NAME + '_gazebo'),
+        'worlds',
+        PACKAGE_NAME + '.world')
+    # DECLARE Gazebo LAUNCH file:
+    gazebo = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
+                launch_arguments={'world': robot_gazebo}.items(),
+            )
 
     # ***** ROBOT DESCRIPTION ***** #
     # Robot Description file package:
@@ -161,13 +170,17 @@ def generate_launch_description():
     
     if CONFIGURATION["ee"] == "none":
         EE = "false"
-    else: 
+    else:
         EE = "true"
     
     xacro.process_doc(doc, mappings={
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
     })
+    
+    # EE -> Controller file needed?
+    if EEctrlEXISTS(CONFIGURATION["ee"]) == False:
+        EE = "true-NOctr"
     
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}

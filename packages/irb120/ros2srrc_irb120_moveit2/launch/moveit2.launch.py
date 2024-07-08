@@ -117,10 +117,36 @@ def GetEEctr(EEName):
 
     return(RESULT)
 
+# CHECK if CONTROLLER file exists for EE:
+def EEctrlEXISTS(EEName):
+    
+    PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
+    YAML_PATH = PATH + "/controller.yaml"
+    
+    RES = os.path.exists(YAML_PATH)
+    return(RES)
+
 # ========== **GENERATE LAUNCH DESCRIPTION** ========== #
 def generate_launch_description():
 
     LD = LaunchDescription()
+    
+    # === INPUT ARGUMENT: CONFIGURATION === #
+    CONFIG = AssignArgument("config")
+    CONFIGURATION = GetCONFIG(CONFIG)
+
+    if CONFIGURATION["Success"] == False:
+        print("")
+        print("ERROR: config INPUT ARGUMENT has not been correctly defined. Please try again.")
+        print("Closing... BYE!")
+        exit()   
+
+    # ========== CELL INFORMATION ========== #
+    print("")
+    print("===== GAZEBO: Robot Simulation + MoveIt!2 Framework (" + PACKAGE_NAME + "_moveit2) =====")
+    print("Robot configuration:")
+    print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["Name"])
+    print("")
     
     # ***** GAZEBO ***** #   
     # DECLARE Gazebo WORLD file:
@@ -133,28 +159,6 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
                 launch_arguments={'world': robot_gazebo}.items(),
             )
-    
-    # === INPUT ARGUMENT: CONFIGURATION === #
-    CONFIG = AssignArgument("config")
-    CONFIGURATION = GetCONFIG(CONFIG)
-
-    if CONFIGURATION["Success"] == False:
-        print("")
-        print("ERROR: config INPUT ARGUMENT has not been correctly defined. Please try again.")
-        print("Closing... BYE!")
-        exit()   
-
-    if CONFIGURATION["ee"] == "none":
-        EE = "false"
-    else: 
-        EE = "true"
-
-    # ========== CELL INFORMATION ========== #
-    print("")
-    print("===== GAZEBO: Robot Simulation + MoveIt!2 Framework (" + PACKAGE_NAME + "_moveit2) =====")
-    print("Robot configuration:")
-    print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["Name"])
-    print("")
 
     # ***** ROBOT DESCRIPTION ***** #
     # Robot Description file package:
@@ -173,6 +177,10 @@ def generate_launch_description():
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
     })
+    
+    # EE -> Controller file needed?
+    if EEctrlEXISTS(CONFIGURATION["ee"]) == False:
+        EE = "true-NOctr"
     
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
@@ -232,7 +240,7 @@ def generate_launch_description():
 
     # *** PLANNING CONTEXT *** #
     # Robot description, SRDF:
-    if EE == "false":
+    if (EE == "false"):
         robot_description_semantic_config = load_file(PACKAGE_NAME + "_moveit2", "config/" + CONFIGURATION["rob"] + ".srdf")
     else:
         robot_description_semantic_config = load_file(PACKAGE_NAME + "_moveit2", "config/" + CONFIGURATION["rob"] + CONFIGURATION["ee"] + ".srdf")
@@ -244,7 +252,7 @@ def generate_launch_description():
     robot_description_kinematics = {"robot_description_kinematics": kinematics_yaml}
 
     # joint_limits.yaml file:
-    if EE == "false":
+    if (EE == "false") or (EE == "true-NOctr"):
         joint_limits_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/joint_limits.yaml")
     else:
         YAML_ROB = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/joint_limits.yaml")["joint_limits"]
@@ -267,7 +275,7 @@ def generate_launch_description():
     pilz_cartesian_limits = {'robot_description_planning': pilz_cartesian_limits_yaml}
 
     # MoveIt!2 Controllers:
-    if EE == "false":
+    if (EE == "false") or (EE == "true-NOctr"):
         moveit_simple_controllers_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/controller_moveit2.yaml")
     else:
         YAML_ROB = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/controller_moveit2.yaml")
@@ -405,7 +413,7 @@ def generate_launch_description():
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}],
     )
-
+    
     # =============================================== #
     # ========== RETURN LAUNCH DESCRIPTION ========== #
 
