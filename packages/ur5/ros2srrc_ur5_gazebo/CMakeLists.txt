@@ -34,7 +34,7 @@ endif()
 
 install(
   DIRECTORY 
-    launch
+    config
     urdf 
     worlds
   DESTINATION 

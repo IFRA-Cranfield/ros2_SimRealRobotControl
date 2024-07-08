@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ros2srrc_ur10e_moveit2)
+project(ros2srrc_launch)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -32,10 +32,11 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-# REQUIRED to -> Launch simulation:
 install(
-  DIRECTORY 
-    config
+  DIRECTORY
+    gazebo
+    moveit2
+    bringup
   DESTINATION 
     share/${PROJECT_NAME}
 )
