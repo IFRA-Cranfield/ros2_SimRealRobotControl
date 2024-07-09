@@ -65,16 +65,6 @@ add_executable(
   src/move.cpp
 )
 add_executable(
-  sequence
-  src/moveg.cpp
-  src/moverp.cpp
-  src/moverot.cpp
-  src/mover.cpp
-  src/movel.cpp
-  src/movej.cpp
-  src/sequence.cpp
-)
-add_executable(
   robmove
   src/robmove.cpp
 )
@@ -86,15 +76,10 @@ add_executable(
 # Link directories:
 include_directories(${YAML_CPP_INCLUDE_DIR})
 target_link_libraries(move ${YAML_CPP_LIBRARIES})
-target_link_libraries(sequence ${YAML_CPP_LIBRARIES})
 
 # Install executable:
 install(TARGETS
   move
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(TARGETS
-  sequence
   DESTINATION lib/${PROJECT_NAME}
 )
 install(TARGETS
@@ -121,19 +106,6 @@ ament_target_dependencies(
   rclcpp_action
   ros2srrc_data
   abb_robot_msgs
-  yaml-cpp
-  ament_index_cpp
-)
-ament_target_dependencies(
-  sequence
-  rclcpp
-  moveit_ros_planning_interface
-  std_msgs
-  rclcpp_action
-  ros2srrc_data
-  linkattacher_msgs
-  abb_robot_msgs
-  ros2_robotiqgripper
   yaml-cpp
   ament_index_cpp
 )

@@ -124,7 +124,7 @@ int main(int argc, char **argv)
     rclcpp::spin_some(node_PARAM_ROB);
 
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
-    auto name = "ros2srrc_RobMove";
+    auto name = "ros2srrc_RobPose";
     auto const MoveIt2_NODE = std::make_shared<rclcpp::Node>(name, rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
     rclcpp::executors::SingleThreadedExecutor executor; 
     executor.add_node(MoveIt2_NODE);

@@ -366,41 +366,14 @@ def generate_launch_description():
     # =================================================================================================== #
     # ============================= ros2srrc_execution -> CUSTOM INTERFACES ============================= #
 
-    # Move and Sequence:
-    if EE == "false":
-
-        MoveInterface = Node(
-            name="move",
-            package="ros2srrc_execution",
-            executable="move",
-            output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
-        )
-        SequenceInterface = Node(
-            name="sequence",
-            package="ros2srrc_execution",
-            executable="sequence",
-            output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
-        )
-
-    else:
-
-        MoveInterface = Node(
-            name="move",
-            package="ros2srrc_execution",
-            executable="move",
-            output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": CONFIGURATION["ee"]}, {"ENV_PARAM": "bringup"}],
-        )
-        SequenceInterface = Node(
-            name="sequence",
-            package="ros2srrc_execution",
-            executable="sequence",
-            output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": CONFIGURATION["ee"]}, {"ENV_PARAM": "bringup"}],
-        )
-
+    # Move:
+    MoveInterface = Node(
+        name="move",
+        package="ros2srrc_execution",
+        executable="move",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
+    )
     # RobMove and RobPose:
     RobMoveInterface = Node(
         name="robmove",
@@ -458,7 +431,6 @@ def generate_launch_description():
                     period=5.0,
                     actions=[
                         MoveInterface,
-                        SequenceInterface,
                         RobMoveInterface,
                         RobPoseInterface,
                     ]
