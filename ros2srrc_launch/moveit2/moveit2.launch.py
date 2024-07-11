@@ -198,8 +198,9 @@ def generate_launch_description():
     })
     
     # EE -> Controller file needed?
-    if EEctrlEXISTS(CONFIGURATION["ee"]) == False:
-        EE = "true-NOctr"
+    if EE == "true":
+        if EEctrlEXISTS(CONFIGURATION["ee"]) == False:
+            EE = "true-NOctr"
     
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
