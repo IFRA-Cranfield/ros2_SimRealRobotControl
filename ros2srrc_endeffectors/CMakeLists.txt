@@ -39,6 +39,7 @@ install(
     egp64
 
     ls_vgr
+    ls_vgr_amrc
     
     robotiq_2f85
     robotiq_hande

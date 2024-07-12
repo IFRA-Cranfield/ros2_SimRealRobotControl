@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: April, 2023.                                                                   #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- XACRO-MACRO of LS-VacuumGripper: -->
+  <xacro:macro name="ls_vgr_amrc" params="bringup parent_link">
+
+    <!-- ***** LS-VacuumGripper .urdf SERIAL CHAIN ***** -->
+
+    <!-- Vacuum Gripper: Body -->
+    <link name="ls_vgr_amrc_link">
+      <inertial>
+        <mass value="0.2"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/ls_vgr_amrc/meshes/ls_vgr_amrc.dae"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/ls_vgr_amrc/meshes/ls_vgr_amrc.dae"/>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="ls_vgr_amrc_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="ls_vgr_amrc_link"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0 -1.5708 0" />
+    </joint>
+
+    <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
+
+    <link name="EE_ls_vgr_amrc">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.00001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <box size= "0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="EE_vgr_joint" type="fixed" >
+      <parent link="ls_vgr_amrc_link" />
+      <child link="EE_ls_vgr_amrc" />
+      <origin xyz="0.162 0.0 -0.051" rpy="0 0 0"/>
+    </joint>
+
+    <gazebo reference="EE_vgr_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+    
+  </xacro:macro>
+</robot>
