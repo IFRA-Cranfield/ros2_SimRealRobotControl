@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: April, 2023.                                                                   #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- XACRO-MACRO of Zimmer GPP5010NC Gripper: -->
+  <xacro:macro name="gpp5010nc" params="bringup parent_link">
+
+    <xacro:unless value="${bringup}">  
+      
+      <!-- Zimmer GPP5010NC TRANSMISSION: -->
+      <xacro:include filename="$(find ros2srrc_endeffectors)/gpp5010nc/urdf/gpp5010nc_transmission.xacro" />
+      <xacro:gpp5010nc_transmission />
+
+    </xacro:unless>
+
+    <!-- ***** Zimmer GPP5010NC GRIPPER .urdf SERIAL CHAIN ***** -->
+
+    <!-- Zimmer GPP5010NC - Main Body: -->
+    <link name="gpp5010nc_gripper_base_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1.0" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/gpp5010nc/meshes/gpp5010nc_MainBody.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/gpp5010nc/meshes/gpp5010nc_MainBody.dae" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="gpp5010nc_coupler" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="gpp5010nc_gripper_base_link"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+    </joint>
+
+    <!-- LEFT FINGER -->
+    
+    <link name="gpp5010nc_finger_left_link">
+      <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <mass value="0.05" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/gpp5010nc/meshes/gpp5010nc_LeftFinger.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/gpp5010nc/meshes/gpp5010nc_LeftFinger.dae" />
+        </geometry>
+      </collision>
+    </link>
+    
+    <joint name="gpp5010nc_finger_left_joint" type="prismatic" >
+      <parent link="gpp5010nc_gripper_base_link" />
+      <child link="gpp5010nc_finger_left_link" />
+      <limit effort="1000" lower="-0.001" upper="0.011" velocity="1.0"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <axis xyz="0 -1 0" />
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+    
+    <!-- RIGHT FINGER -->
+
+    <link name="gpp5010nc_finger_right_link">
+      <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <mass value="0.05" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/gpp5010nc/meshes/gpp5010nc_RightFinger.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/gpp5010nc/meshes/gpp5010nc_RightFinger.dae" />
+        </geometry>
+      </collision>
+    </link>
+    
+    <joint name="gpp5010nc_finger_right_joint" type="prismatic" >
+      <parent link="gpp5010nc_gripper_base_link" />
+      <child link="gpp5010nc_finger_right_link" />
+      <limit effort="1000" lower="-0.001" upper="0.011" velocity="1.0"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+
+    <gazebo reference="gpp5010nc_finger_right_link">
+      <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="gpp5010nc_finger_left_link">
+      <material>Gazebo/Grey</material>
+    </gazebo>
+
+    <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
+
+    <link name="EE_gpp5010nc">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.00001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <box size= "0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="EE_gpp5010nc_joint" type="fixed" >
+      <parent link="${parent_link}" />
+      <child link="EE_gpp5010nc" />
+      <origin xyz="-0.10 0.0 0.0" rpy="0 0 0"/>
+    </joint>
+
+    <gazebo reference="EE_gpp5010nc_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+    
+  </xacro:macro>
+</robot>

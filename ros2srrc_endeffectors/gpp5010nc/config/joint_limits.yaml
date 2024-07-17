@@ -1,0 +1,11 @@
+joint_limits:
+  gpp5010nc_finger_left_joint:
+    has_velocity_limits: true
+    max_velocity: 5.0
+    has_acceleration_limits: true
+    max_acceleration: 1.00
+  gpp5010nc_finger_right_joint:
+    has_velocity_limits: true
+    max_velocity: 5.0
+    has_acceleration_limits: true
+    max_acceleration: 1.00

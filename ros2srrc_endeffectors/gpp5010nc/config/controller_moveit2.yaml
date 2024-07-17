@@ -1,0 +1,17 @@
+controller_names:
+  - gpp5010nc_finger_left_controller
+  - gpp5010nc_finger_right_controller
+
+gpp5010nc_finger_left_controller:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - gpp5010nc_finger_left_joint
+
+gpp5010nc_finger_right_controller:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - gpp5010nc_finger_right_joint

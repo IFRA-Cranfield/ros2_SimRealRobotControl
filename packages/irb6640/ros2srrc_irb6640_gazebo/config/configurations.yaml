@@ -6,3 +6,9 @@ Configurations:
     urdf: "irb6640.urdf.xacro"
     rob: "irb6640"
     ee: "none"
+
+  - ID: "irb6640_2"
+    Name: "ABB IRB-6640 + Zimmer GP5010NC-00-A Parallel Gripper on top of Robot Stand."
+    urdf: "irb6640_gpp5010nc.urdf.xacro"
+    rob: "irb6640"
+    ee: "gpp5010nc"

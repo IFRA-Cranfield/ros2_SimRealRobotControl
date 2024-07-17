@@ -1,0 +1,5 @@
+# ROS 2 Sim-to-Real Robot Control -> END-EFFECTOR SPECIFICATIONS (Zimmer GPP5010NC Gripper)
+Limits:
+  Max: 0.01
+  Min: 0.00
+JointsVector: [1.0, 1.0]

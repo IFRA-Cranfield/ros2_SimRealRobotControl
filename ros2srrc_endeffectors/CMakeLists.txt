@@ -37,6 +37,8 @@ install(
   DIRECTORY 
     
     egp64
+    
+    gpp5010nc
 
     ls_vgr
     ls_vgr_amrc

@@ -1,0 +1,18 @@
+controller_manager:
+  ros__parameters:
+
+    update_rate: 250 #Hz
+
+    gpp5010nc_finger_left_controller:
+      type: position_controllers/GripperActionController
+
+    gpp5010nc_finger_right_controller:
+      type: position_controllers/GripperActionController
+
+gpp5010nc_finger_left_controller:
+  ros__parameters:
+    joint: gpp5010nc_finger_left_joint
+
+gpp5010nc_finger_right_controller:
+  ros__parameters:
+    joint: gpp5010nc_finger_right_joint
