@@ -67,6 +67,22 @@
   <disable_collisions link1="link_4" link2="link_6" reason="Default" />
   <disable_collisions link1="link_5" link2="link_6" reason="Adjacent" />
 
+  <disable_collisions link1="link_cylinder" link2="link_piston" reason="Adjacent" />
+  <disable_collisions link1="base_link" link2="link_cylinder" reason="Never" />
+  <disable_collisions link1="base_link" link2="link_piston" reason="Never" />
+  <disable_collisions link1="link_1" link2="link_cylinder" reason="Adjacent" />
+  <disable_collisions link1="link_1" link2="link_piston" reason="Default" />
+  <disable_collisions link1="link_2" link2="link_cylinder" reason="Adjacent" />
+  <disable_collisions link1="link_2" link2="link_piston" reason="Adjacent" />
+  <disable_collisions link1="link_3" link2="link_cylinder" reason="Never" />
+  <disable_collisions link1="link_3" link2="link_piston" reason="Never" />
+  <disable_collisions link1="link_4" link2="link_cylinder" reason="Never" />
+  <disable_collisions link1="link_4" link2="link_piston" reason="Never" />
+  <disable_collisions link1="link_5" link2="link_cylinder" reason="Never" />
+  <disable_collisions link1="link_5" link2="link_piston" reason="Never" />
+  <disable_collisions link1="link_6" link2="link_cylinder" reason="Never" />
+  <disable_collisions link1="link_6" link2="link_piston" reason="Never" />
+  
   <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
   <group name="gpp5010nc">
     <joint name="gpp5010nc_finger_left_joint"/>
