@@ -251,19 +251,25 @@ class LinkAttacher():
 class vacuumGR():
 
     def __init__(self, ObjectList, ROBOT, EE):
+        
+        self.OLCheck = False
+        if ObjectList != None:
+            self.OLCheck = True
 
-        # Initialise OBJECTS variable:
-        for x in ObjectList:
-            OBJ = ObjectPose()
-            OBJ.objectname = x
-            OBJECTS.append(OBJ)
+        if self.OLCheck:
+            
+            # Initialise OBJECTS variable:
+            for x in ObjectList:
+                OBJ = ObjectPose()
+                OBJ.objectname = x
+                OBJECTS.append(OBJ)
 
-        # Initialise ObjPose and eePose classes:
-        self.objPoseClient = ObjPOSE(ObjectList)
-        self.eePoseClient = eePOSE()
+            # Initialise ObjPose and eePose classes:
+            self.objPoseClient = ObjPOSE(ObjectList)
+            self.eePoseClient = eePOSE()
 
-        # Initialise LinkAttacher class:
-        self.LinkAttacher = LinkAttacher(ROBOT, EE)
+            # Initialise LinkAttacher class:
+            self.LinkAttacher = LinkAttacher(ROBOT, EE)
 
     def ACTIVATE(self):
         
@@ -279,50 +285,52 @@ class vacuumGR():
         print("[CLIENT - vacuumGripper.py]: EXECUTION REQUEST -> ACTIVATE VACUUM.")
         print("")
 
-        # ===== CHECK GRASPING ===== #
-        Objects = self.objPoseClient.getOBJECTS()
-        EEPose = self.eePoseClient.getEEPose()
+        if self.OLCheck:
 
-        objNAME = ""
-        for x in Objects:
+            # ===== CHECK GRASPING ===== #
+            Objects = self.objPoseClient.getOBJECTS()
+            EEPose = self.eePoseClient.getEEPose()
 
-            Check = True
-            print("[CLIENT - vacuumGripper.py]: Checking if object is attached to VacuumGripper: " + x.objectname)
-            print("[CLIENT - vacuumGripper.py]: EEPose.x -> " + str(EEPose.x) + " / ObjectPose.x -> " + str(x.x))
-            print("[CLIENT - vacuumGripper.py]: EEPose.y -> " + str(EEPose.y) + " / ObjectPose.y -> " + str(x.y))
-            print("[CLIENT - vacuumGripper.py]: EEPose.z -> " + str(EEPose.z) + " / ObjectPose.z -> " + str(x.z))
-            print("")
+            objNAME = ""
+            for x in Objects:
 
-            if (EEPose.x - 0.01 > x.x) or (EEPose.x + 0.01 < x.x): 
-                Check = False
-            if (EEPose.y - 0.01 > x.y) or (EEPose.y + 0.01 < x.y): 
-                Check = False
-            if (EEPose.z - 0.01 > x.z) or (EEPose.z + 0.01 < x.z): 
-                Check = False
+                Check = True
+                print("[CLIENT - vacuumGripper.py]: Checking if object is attached to VacuumGripper: " + x.objectname)
+                print("[CLIENT - vacuumGripper.py]: EEPose.x -> " + str(EEPose.x) + " / ObjectPose.x -> " + str(x.x))
+                print("[CLIENT - vacuumGripper.py]: EEPose.y -> " + str(EEPose.y) + " / ObjectPose.y -> " + str(x.y))
+                print("[CLIENT - vacuumGripper.py]: EEPose.z -> " + str(EEPose.z) + " / ObjectPose.z -> " + str(x.z))
+                print("")
 
-            if Check == True:
-                objNAME = x.objectname
-                break
+                if (EEPose.x - 0.01 > x.x) or (EEPose.x + 0.01 < x.x): 
+                    Check = False
+                if (EEPose.y - 0.01 > x.y) or (EEPose.y + 0.01 < x.y): 
+                    Check = False
+                if (EEPose.z - 0.01 > x.z) or (EEPose.z + 0.01 < x.z): 
+                    Check = False
 
-        # LinkAttacher:
-        if Check:
-            
-            AttRES = self.LinkAttacher.ATTACH(objNAME)
-            if AttRES:
-                RES["Message"] = "Vacuum activated, object->" + objNAME + " attached."
+                if Check == True:
+                    objNAME = x.objectname
+                    break
+
+            # LinkAttacher:
+            if Check:
+                
+                AttRES = self.LinkAttacher.ATTACH(objNAME)
+                if AttRES:
+                    RES["Message"] = "Vacuum activated, object->" + objNAME + " attached."
+                    RES["Success"] = True
+                    print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
+                    print("")
+                else:
+                    RES["Message"] = "Vacuum activated, object->" + objNAME + " not attached, LinkAttacher plugin failed."
+                    print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
+                    print("")
+
+            else:
+                RES["Message"] = "Vacuum activated without grasping any object."
                 RES["Success"] = True
                 print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
                 print("")
-            else:
-                RES["Message"] = "Vacuum activated, object->" + objNAME + " not attached, LinkAttacher plugin failed."
-                print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
-                print("")
-
-        else:
-            RES["Message"] = "Vacuum activated without grasping any object."
-            RES["Success"] = True
-            print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
-            print("")
             
         T_end = time.time()
         T = round((T_end - T_start), 4)
@@ -344,26 +352,34 @@ class vacuumGR():
         print("[CLIENT - vacuumGripper.py]: EXECUTION REQUEST -> DEACTIVATE VACUUM.")
         print("")
 
-        # CHECK if --> There is any object currently grasped:
-        global AttachCheck 
-        objNAME = AttachCheck.NAME
+        if self.OLCheck:
+        
+            # CHECK if --> There is any object currently grasped:
+            global AttachCheck 
+            objNAME = AttachCheck.NAME
 
-        if AttachCheck.ATTACHED:
+            if AttachCheck.ATTACHED:
 
-            DetRES = self.LinkAttacher.DETACH(objNAME)
+                DetRES = self.LinkAttacher.DETACH(objNAME)
 
-            if DetRES:
-                RES["Message"] = "Vacuum deactivated, object->" + objNAME + " detached."
+                if DetRES:
+                    RES["Message"] = "Vacuum deactivated, object->" + objNAME + " detached."
+                    RES["Success"] = True
+                    print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
+                    print("")
+                else: 
+                    RES["Message"] = "Vacuum deactivated, object->" + objNAME + " not detached, LinkAttacher plugin failed."
+                    print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
+                    print("")
+
+            else:
+                RES["Message"] = "Vacuum deactivated without dropping any object."
                 RES["Success"] = True
                 print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
                 print("")
-            else: 
-                RES["Message"] = "Vacuum deactivated, object->" + objNAME + " not detached, LinkAttacher plugin failed."
-                print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
-                print("")
-
+                
         else:
-            RES["Message"] = "Vacuum deactivated without dropping any object."
+            RES["Message"] = "Vacuum deactivated, no objects."
             RES["Success"] = True
             print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
             print("")

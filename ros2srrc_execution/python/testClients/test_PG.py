@@ -27,7 +27,7 @@ def main(args=None):
     # Get VARIABLES for CLIENT INIT:
 
     # Environment variables:
-    OBJECTS = ["BlackCube", "BlueCube", "WhiteCube", "Cube"]
+    OBJECTS = None
     ROBOT = "ur3"
     EE_link = "EE_robotiq_hande"
 

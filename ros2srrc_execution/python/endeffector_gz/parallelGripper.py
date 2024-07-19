@@ -252,21 +252,28 @@ class parallelGR():
 
     def __init__(self, ObjectList, ROBOT, EE):
         
+        self.OLCheck = False
+        if ObjectList != None:
+            self.OLCheck = True
+        
         # Initialise RBT client -> For MoveG execution:
         self.RBTClient = RBT()
 
         # Initialise OBJECTS variable:
-        for x in ObjectList:
-            OBJ = ObjectPose()
-            OBJ.objectname = x
-            OBJECTS.append(OBJ)
+        if self.OLCheck:
+            
+            for x in ObjectList:
+                OBJ = ObjectPose()
+                OBJ.objectname = x
+                OBJECTS.append(OBJ)
+                
+            # Initialise ObjPose class:
+            self.objPoseClient = ObjPOSE(ObjectList)  
+            # Initialise eePose class:
+            self.eePoseClient = eePOSE()
 
-        # Initialise ObjPose and eePose classes:
-        self.objPoseClient = ObjPOSE(ObjectList)
-        self.eePoseClient = eePOSE()
-
-        # Initialise LinkAttacher class:
-        self.LinkAttacher = LinkAttacher(ROBOT, EE)
+            # Initialise LinkAttacher class:
+            self.LinkAttacher = LinkAttacher(ROBOT, EE)
 
     def CLOSE(self, VAL):
         
@@ -301,47 +308,55 @@ class parallelGR():
             print("")
             return(RES)
 
-        # ===== CHECK GRASPING ===== #
-        Objects = self.objPoseClient.getOBJECTS()
-        EEPose = self.eePoseClient.getEEPose()
-
-        objNAME = ""
-        for x in Objects:
-
-            Check = True
-            print("[CLIENT - parallelGripper.py]: Checking if object is attached to ParallelGripper: " + x.objectname)
-            print("[CLIENT - parallelGripper.py]: EEPose.x -> " + str(EEPose.x) + " / ObjectPose.x -> " + str(x.x))
-            print("[CLIENT - parallelGripper.py]: EEPose.y -> " + str(EEPose.y) + " / ObjectPose.y -> " + str(x.y))
-            print("[CLIENT - parallelGripper.py]: EEPose.z -> " + str(EEPose.z) + " / ObjectPose.z -> " + str(x.z))
-            print("")
-
-            if (EEPose.x - 0.01 > x.x) or (EEPose.x + 0.01 < x.x): 
-                Check = False
-            if (EEPose.y - 0.01 > x.y) or (EEPose.y + 0.01 < x.y): 
-                Check = False
-            if (EEPose.z - 0.01 > x.z) or (EEPose.z + 0.01 < x.z): 
-                Check = False
-
-            if Check == True:
-                objNAME = x.objectname
-                break
-
-        # LinkAttacher:
-        if Check:
+        if self.OLCheck:
             
-            AttRES = self.LinkAttacher.ATTACH(objNAME)
-            if AttRES:
-                RES["Message"] = "Gripper closed, object->" + objNAME + " attached."
+            # ===== CHECK GRASPING ===== #
+            Objects = self.objPoseClient.getOBJECTS()
+            EEPose = self.eePoseClient.getEEPose()
+
+            objNAME = ""
+            for x in Objects:
+
+                Check = True
+                print("[CLIENT - parallelGripper.py]: Checking if object is attached to ParallelGripper: " + x.objectname)
+                print("[CLIENT - parallelGripper.py]: EEPose.x -> " + str(EEPose.x) + " / ObjectPose.x -> " + str(x.x))
+                print("[CLIENT - parallelGripper.py]: EEPose.y -> " + str(EEPose.y) + " / ObjectPose.y -> " + str(x.y))
+                print("[CLIENT - parallelGripper.py]: EEPose.z -> " + str(EEPose.z) + " / ObjectPose.z -> " + str(x.z))
+                print("")
+
+                if (EEPose.x - 0.01 > x.x) or (EEPose.x + 0.01 < x.x): 
+                    Check = False
+                if (EEPose.y - 0.01 > x.y) or (EEPose.y + 0.01 < x.y): 
+                    Check = False
+                if (EEPose.z - 0.01 > x.z) or (EEPose.z + 0.01 < x.z): 
+                    Check = False
+
+                if Check == True:
+                    objNAME = x.objectname
+                    break
+
+            # LinkAttacher:
+            if Check:
+                
+                AttRES = self.LinkAttacher.ATTACH(objNAME)
+                if AttRES:
+                    RES["Message"] = "Gripper closed, object->" + objNAME + " attached."
+                    RES["Success"] = True
+                    print("[CLIENT - parallelGripper.py]: " + RES["Message"])
+                    print("")
+                else:
+                    RES["Message"] = "Gripper closed, object->" + objNAME + " not attached, LinkAttacher plugin failed."
+                    print("[CLIENT - parallelGripper.py]: " + RES["Message"])
+                    print("")
+
+            else:
+                RES["Message"] = "Gripper closed without grasping any object."
                 RES["Success"] = True
                 print("[CLIENT - parallelGripper.py]: " + RES["Message"])
                 print("")
-            else:
-                RES["Message"] = "Gripper closed, object->" + objNAME + " not attached, LinkAttacher plugin failed."
-                print("[CLIENT - parallelGripper.py]: " + RES["Message"])
-                print("")
-
+                
         else:
-            RES["Message"] = "Gripper closed without grasping any object."
+            RES["Message"] = "Gripper closed, no objects."
             RES["Success"] = True
             print("[CLIENT - parallelGripper.py]: " + RES["Message"])
             print("")
@@ -382,29 +397,37 @@ class parallelGR():
             RES["Message"] = "MoveG-OPEN, Result -> " + gRES["Message"]
             print("[CLIENT - parallelGripper.py]: " + RES["Message"])
             return(RES)
+        
+        if self.OLCheck:
 
-        # CHECK if --> There is any object currently grasped:
-        global AttachCheck 
-        objNAME = AttachCheck.NAME
+            # CHECK if --> There is any object currently grasped:
+            global AttachCheck 
+            objNAME = AttachCheck.NAME
 
-        if AttachCheck.ATTACHED:
+            if AttachCheck.ATTACHED:
 
-            DetRES = self.LinkAttacher.DETACH(objNAME)
+                DetRES = self.LinkAttacher.DETACH(objNAME)
 
-            if DetRES:
-                RES["Message"] = "Gripper opened, object->" + objNAME + " detached."
+                if DetRES:
+                    RES["Message"] = "Gripper opened, object->" + objNAME + " detached."
+                    RES["Success"] = True
+                    print("[CLIENT - parallelGripper.py]: " + RES["Message"])
+                    print("")
+                else: 
+                    RES["Message"] = "Gripper opened, object->" + objNAME + " not detached, LinkAttacher plugin failed."
+                    print("[CLIENT - parallelGripper.py]: " + RES["Message"])
+                    print("")
+
+            else:
+                RES["Message"] = "Gripper opened without dropping any object."
                 RES["Success"] = True
-                print("[CLIENT - parallelGripper.py]: " + RES["Message"])
+                print("[CLIENT - parallelGripper.py]: Gripper opened without dropping any object.")
                 print("")
-            else: 
-                RES["Message"] = "Gripper opened, object->" + objNAME + " not detached, LinkAttacher plugin failed."
-                print("[CLIENT - parallelGripper.py]: " + RES["Message"])
-                print("")
-
+                
         else:
-            RES["Message"] = "Gripper opened without dropping any object."
+            RES["Message"] = "Gripper opened, no objects."
             RES["Success"] = True
-            print("[CLIENT - parallelGripper.py]: Gripper opened without dropping any object.")
+            print("[CLIENT - parallelGripper.py]: " + RES["Message"])
             print("")
             
         T_end = time.time()
