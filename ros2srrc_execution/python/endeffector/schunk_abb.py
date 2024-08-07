@@ -67,6 +67,11 @@ class SchunkGRIPPER(Node):
         print("")
 
     def OPEN(self):
+
+        RES = {}
+        RES["Success"] = False
+        RES["Message"] = ""
+
         print('[CLIENT - schunk_abb.py]: Sending request -> OPEN GRIPPER.')
         signal = "CloseGripper"
         value = "0"
@@ -75,7 +80,16 @@ class SchunkGRIPPER(Node):
         value = "1"
         self.send_request(signal,value)
 
+        RES["Message"] = "GripperOpen signal successfully sent to ABB Robot Controller."
+        RES["Success"]= True
+        return(RES)
+
     def CLOSE(self):
+
+        RES = {}
+        RES["Success"] = False
+        RES["Message"] = ""
+
         print('[CLIENT - schunk_abb.py]: Sending request -> CLOSE GRIPPER.')
         signal = "OpenGripper"
         value = "0"
@@ -83,3 +97,7 @@ class SchunkGRIPPER(Node):
         signal = "CloseGripper"
         value = "1"
         self.send_request(signal,value)
+
+        RES["Message"] = "GripperClose signal successfully sent to ABB Robot Controller."
+        RES["Success"]= True
+        return(RES)

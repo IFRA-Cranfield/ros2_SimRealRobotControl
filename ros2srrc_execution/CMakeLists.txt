@@ -139,6 +139,7 @@ install(PROGRAMS
   python/sequence.py
   python/RobotState.py
   python/SpawnObject.py
+  python/ExecuteProgram.py
   
   python/testClients/test_Move.py
   python/testClients/test_RobMove.py

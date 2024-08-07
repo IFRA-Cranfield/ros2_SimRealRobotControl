@@ -37,159 +37,178 @@
 
 # ================================================================ # 
 # ================================================================ #
+# PROGRAM SPECIFICATIONS:
+Specifications:
+  Robot: ""
+  EndEffector: "" # None if not required.
+  EELink: "" # None if not required.
+  Objects: "" # None if not required.
+
+Sequence: 
+  - Step: 0
+
+# ================================================================ # 
+# ================================================================ #
 # MOVE:
 
 # ===== Move action - MoveJ Movement ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "MoveJ"
-  Speed: 1.0
-  Input:
-    joint1: 0.0
-    joint2: 0.0
-    joint3: 0.0
-    joint4: 0.0
-    joint5: 0.0
-    joint6: 0.0
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "MoveJ"
+    Speed: 1.0
+    Input:
+      joint1: 0.0
+      joint2: 0.0
+      joint3: 0.0
+      joint4: 0.0
+      joint5: 0.0
+      joint6: 0.0
 
 # ===== Move action - MoveR Movement ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "MoveR"
-  Speed: 1.0
-  Input:
-    joint: "jointN"
-    value: 0.0
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "MoveR"
+    Speed: 1.0
+    Input:
+      joint: "jointN"
+      value: 0.0
 
 # ===== Move action - MoveL Movement ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "MoveL"
-  Speed: 1.0
-  Input:
-    x: 0.0
-    y: 0.0
-    z: 0.0
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "MoveL"
+    Speed: 1.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: 0.0
 
 # ===== Move action - MoveROT Movement ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "MoveROT"
-  Speed: 1.0
-  Input:
-    yaw: 0.0
-    pitch: 0.0
-    roll: 0.0
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "MoveROT"
+    Speed: 1.0
+    Input:
+      yaw: 0.0
+      pitch: 0.0
+      roll: 0.0
 
 # ===== Move action - MoveRP Movement ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "MoveRP"
-  Speed: 1.0
-  Input:
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    yaw: 0.0
-    pitch: 0.0
-    roll: 0.0
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "MoveRP"
+    Speed: 1.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      yaw: 0.0
+      pitch: 0.0
+      roll: 0.0
 
 # ===== Move action - MoveG Movement ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "MoveG"
-  Speed: 1.0
-  Input:
-    value: 0.0  # This value represents gripper CLOSING AVERAGE, [0, 100].
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "MoveG"
+    Speed: 1.0
+    Input:
+      value: 0.0  # This value represents gripper CLOSING AVERAGE, [0, 100].
 
 # ================================================================ # 
 # ================================================================ # 
 # ROBMOVE:
 
 # ===== RobMove action - PTP Movement ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "RobMove"
-  Movement: "PTP"
-  Speed: 1.0
-  Input:
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    qx: 0.0
-    qy: 0.0
-    qz: 0.0
-    qw: 0.0
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "RobMove"
+    Movement: "PTP"
+    Speed: 1.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      qx: 0.0
+      qy: 0.0
+      qz: 0.0
+      qw: 0.0
 
 # ===== RobMove action - LIN Movement ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "RobMove"
-  Movement: "LIN"
-  Speed: 1.0
-  Input:
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    qx: 0.0
-    qy: 0.0
-    qz: 0.0
-    qw: 0.0
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "RobMove"
+    Movement: "LIN"
+    Speed: 1.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      qx: 0.0
+      qy: 0.0
+      qz: 0.0
+      qw: 0.0
 
 # ================================================================ # 
 # ================================================================ #
-# LINK ATTACHER:
+# END-EFFECTOR in Gazebo - ParallelGripper:
 
-# ===== LinkAttacher Plugin - ATTACH ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "LinkAttacher"
-  Action: "ATTACH"
-  Input:
-    RobModel: "Model name of the ROBOT."
-    EELink: "Link name of the END-EFFECTOR."
-    ObjModel: "Model name of the OBJECT."
-    ObjLink: "Link name of the OBJECT (should be same as object model name)."
+# ===== Parallel Gripper (Gazebo) - OPEN ===== #
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "ParallelGripper"
+    Action: "OPEN"
 
-# ===== LinkAttacher Plugin - DETACH ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "LinkAttacher"
-  Action: "DETACH"
-  Input:
-    RobModel: "Model name of the ROBOT."
-    EELink: "Link name of the END-EFFECTOR."
-    ObjModel: "Model name of the OBJECT."
-    ObjLink: "Link name of the OBJECT (should be same as object model name)."
+# ===== Parallel Gripper (Gazebo) - CLOSE ===== #
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "ParallelGripper"
+    Action: "CLOSE"
+    Value: 0.0
+
+# ================================================================ # 
+# ================================================================ #
+# END-EFFECTOR in Gazebo - VacuumGripper:
+
+# ===== Vacuum Gripper (Gazebo) - DEACTIVATE ===== #
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "VacuumGripper"
+    Action: "DEACTIVATE"
+
+# ===== Vacuum Gripper (Gazebo) - ACTIVATE ===== #
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "VacuumGripper"
+    Action: "ACTIVATE"
 
 # ================================================================ # 
 # ================================================================ #
 # SCHUNK EGP-64 GRIPPER - ABB ROBOT:
 
 # ===== Shunk EGP-64 Gripper (ABB Robot) - OPEN ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "EGP64/ABB"
-  Action: "OPEN"
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "EGP64/ABB"
+    Action: "OPEN"
 
 # ===== Shunk EGP-64 Gripper (ABB Robot) - CLOSE ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "EGP64/ABB"
-  Action: "CLOSE"
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "EGP64/ABB"
+    Action: "CLOSE"
 
 # ================================================================ # 
 # ================================================================ #
 # ROBOTIQ HAND-E GRIPPER - UR ROBOT:
 
 # ===== RobotiqHandE Gripper (UR Robot) - OPEN ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "RobotiqHandE/UR"
-  Action: "OPEN"
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "RobotiqHandE/UR"
+    Action: "OPEN"
 
 # ===== RobotiqHandE Gripper (UR Robot) - CLOSE ===== #
-- Step: 0
-  Name: "Please type the name of your program step here."
-  Type: "RobotiqHandE/UR"
-  Action: "CLOSE"
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "RobotiqHandE/UR"
+    Action: "CLOSE"
