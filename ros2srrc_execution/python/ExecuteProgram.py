@@ -30,7 +30,7 @@
 
 # ===== IMPORT REQUIRED COMPONENTS ===== #
 # System functions and classes:
-import sys, os, yaml
+import sys, os, yaml, time
 # Required to include ROS2 and its components:
 import rclpy
 from ament_index_python.packages import get_package_share_directory
@@ -365,6 +365,12 @@ def main(args=None):
         else:
             print("Execution SUCCESSFUL!")
             print("Message -> " + RES["Message"])
+            print("")
+            
+        # ADD -> DELAY:
+        if x["Delay"] != 0.0:
+            print("Requested a waitTime of " + str(x["Delay"]) + " seconds.")
+            time.sleep(x["Delay"])
             print("")
 
     # ==== FINISH ===== #
