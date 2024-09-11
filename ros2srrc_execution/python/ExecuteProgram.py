@@ -172,11 +172,11 @@ def main(args=None):
         print("Not required.")
     
     elif seqRES["EEType"] == "ParallelGripper":
-        EEClient = parallelGR(seqRES["EEType"], seqRES["Robot"], seqRES["EELink"])
+        EEClient = parallelGR(seqRES["Objects"], seqRES["Robot"], seqRES["EELink"])
         print("Loaded -> ParallelGripper.")
     
     elif seqRES["EEType"] == "VacuumGripper":
-        EEClient = vacuumGR(seqRES["EEType"], seqRES["Robot"], seqRES["EELink"])
+        EEClient = vacuumGR(seqRES["Objects"], seqRES["Robot"], seqRES["EELink"])
         print("Loaded -> VacuumGripper.")
     
     elif seqRES["EEType"] == "EGP64/ABB":

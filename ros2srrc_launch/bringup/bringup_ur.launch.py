@@ -317,7 +317,7 @@ def generate_launch_description():
     }
     trajectory_execution = {
         "moveit_manage_controllers": True,
-        "trajectory_execution.allowed_execution_duration_scaling": 5.0, # Value increased to accommodate the "decreased" joint limits.
+        "trajectory_execution.allowed_execution_duration_scaling": 10.0, # Value increased to accommodate the "decreased" joint limits.
         "trajectory_execution.allowed_goal_duration_margin": 0.5,
         "trajectory_execution.allowed_start_tolerance": 0.01,
     }
