@@ -209,193 +209,204 @@ def main(args=None):
 
     # ==== EXECUTE PROGRAM, STEP BY STEP ===== #
     for x in SEQUENCE:
-
-        print("============================================================")
-        print("Step N" + str(x["Step"]) + ": " + x["Name"])
-        print("")
-
-        if x["Type"] == "MoveJ":
-
-            ACTION = Action()
-            ACTION.action = "MoveJ"
-            ACTION.speed = x["Speed"]
-
-            INPUT = Joints()
-            INPUT.joint1 = x["Input"]["joint1"]
-            INPUT.joint2 = x["Input"]["joint2"]
-            INPUT.joint3 = x["Input"]["joint3"]
-            INPUT.joint4 = x["Input"]["joint4"]
-            INPUT.joint5 = x["Input"]["joint5"]
-            INPUT.joint6 = x["Input"]["joint6"]
-            ACTION.movej = INPUT
-
-            RES = RobotClient.Move_EXECUTE(ACTION)
-
-        elif x["Type"] == "MoveJ7":
-
-            ACTION = Action()
-            ACTION.action = "MoveJ"
-            ACTION.speed = x["Speed"]
-
-            INPUT = Joints()
-            INPUT.joint1 = x["Input"]["joint1"]
-            INPUT.joint2 = x["Input"]["joint2"]
-            INPUT.joint3 = x["Input"]["joint3"]
-            INPUT.joint4 = x["Input"]["joint4"]
-            INPUT.joint5 = x["Input"]["joint5"]
-            INPUT.joint6 = x["Input"]["joint6"]
-            INPUT.joint7 = x["Input"]["joint7"]
-            ACTION.movej = INPUT
-
-            RES = RobotClient.Move_EXECUTE(ACTION)
-
-        elif x["Type"] == "MoveR":
-
-            ACTION = Action()
-            ACTION.action = "MoveR"
-            ACTION.speed = x["Speed"]
-
-            INPUT = Joint()
-            INPUT.joint = x["Input"]["joint"]
-            INPUT.value = x["Input"]["value"]
-            ACTION.mover = INPUT
-
-            RES = RobotClient.Move_EXECUTE(ACTION)
-
-        elif x["Type"] == "MoveL":
-
-            ACTION = Action()
-            ACTION.action = "MoveL"
-            ACTION.speed = x["Speed"]
-
-            INPUT = Xyz()
-            INPUT.x = x["Input"]["x"]
-            INPUT.y = x["Input"]["y"]
-            INPUT.z = x["Input"]["z"]
-            ACTION.movel = INPUT
-
-            RES = RobotClient.Move_EXECUTE(ACTION)
-
-        elif x["Type"] == "MoveROT":
-
-            ACTION = Action()
-            ACTION.action = "MoveROT"
-            ACTION.speed = x["Speed"]
-
-            INPUT = Ypr()
-            INPUT.pitch = x["Input"]["pitch"]
-            INPUT.yaw = x["Input"]["yaw"]
-            INPUT.roll = x["Input"]["roll"]
-            ACTION.moverot = INPUT
-
-            RES = RobotClient.Move_EXECUTE(ACTION)
-
-        elif x["Type"] == "MoveRP":
-
-            ACTION = Action()
-            ACTION.action = "MoveRP"
-            ACTION.speed = x["Speed"]
-
-            INPUT = Xyzypr()
-            INPUT.x = x["Input"]["x"]
-            INPUT.y = x["Input"]["y"]
-            INPUT.z = x["Input"]["z"]
-            INPUT.pitch = x["Input"]["pitch"]
-            INPUT.yaw = x["Input"]["yaw"]
-            INPUT.roll = x["Input"]["roll"]
-            ACTION.moverp = INPUT
-
-            RES = RobotClient.Move_EXECUTE(ACTION)
-
-        elif x["Type"] == "MoveG":
-
-            ACTION = Action()
-            ACTION.action = "MoveG"
-            ACTION.speed = x["Speed"]
-            ACTION.moveg = x["Input"]["value"]
-
-            RES = RobotClient.Move_EXECUTE(ACTION)
-
-        elif x["Type"] == "RobMove":
-
-            InputPose = Robpose()
-            InputPose.x = x["Input"]["x"]
-            InputPose.y = x["Input"]["y"]
-            InputPose.z = x["Input"]["z"]
-            InputPose.qx = x["Input"]["qx"]
-            InputPose.qy = x["Input"]["qy"]
-            InputPose.qz = x["Input"]["qz"]
-            InputPose.qw = x["Input"]["qw"]
-
-            RES = RobotClient.RobMove_EXECUTE(x["Movement"], x["Speed"], InputPose)
-
-        elif x["Type"] == "ParallelGripper":
-
-            if x["Action"] == "CLOSE":
-                RES = EEClient.CLOSE(x["Value"])
-            else:
-                RES = EEClient.OPEN()
         
-        elif x["Type"] == "VacuumGripper":
+        try:
 
-            if x["Action"] == "ACTIVATE":
-                RES = EEClient.ACTIVATE()
-            else:
-                RES = EEClient.DEACTIVATE()
-
-        elif x["Type"] == "EGP64/ABB":
-
-            if x["Action"] == "CLOSE":
-                RES = EEClient.CLOSE()
-            else:
-                RES = EEClient.OPEN()
-
-        elif x["Type"] == "GPP5010NC/ABB":
-
-            if x["Action"] == "CLOSE":
-                RES = EEClient.CLOSE()
-            else:
-                RES = EEClient.OPEN()
-
-        elif x["Type"] == "vgr/ABB":
-
-            if x["Action"] == "ACTIVATE":
-                RES = EEClient.ACTIVATE()
-            else:
-                RES = EEClient.DEACTIVATE()
-
-        elif x["Type"] == "RobotiqHandE/UR":
-
-            if x["Action"] == "CLOSE":
-                RES = EEClient.CLOSE()
-            else:
-                RES = EEClient.OPEN()
-
-        else:
-            print("ERROR: ACTION TYPE -> " + x["Type"] + " unknown.")
-            print("Closing program... BYE!")
-            exit()
-
-        # CHECK if STEP EXECUTION WAS SUCCESSFUL:
-        print("")
-        
-        if RES["Success"] == False:
-            print("ERROR: Execution FAILED!")
-            print("Message -> " + RES["Message"])
+            print("============================================================")
+            print("Step N" + str(x["Step"]) + ": " + x["Name"])
             print("")
-            print("Closing... BYE!")
-            exit()
 
-        else:
-            print("Execution SUCCESSFUL!")
-            print("Message -> " + RES["Message"])
+            if x["Type"] == "MoveJ":
+
+                ACTION = Action()
+                ACTION.action = "MoveJ"
+                ACTION.speed = x["Speed"]
+
+                INPUT = Joints()
+                INPUT.joint1 = x["Input"]["joint1"]
+                INPUT.joint2 = x["Input"]["joint2"]
+                INPUT.joint3 = x["Input"]["joint3"]
+                INPUT.joint4 = x["Input"]["joint4"]
+                INPUT.joint5 = x["Input"]["joint5"]
+                INPUT.joint6 = x["Input"]["joint6"]
+                ACTION.movej = INPUT
+
+                RES = RobotClient.Move_EXECUTE(ACTION)
+
+            elif x["Type"] == "MoveJ7":
+
+                ACTION = Action()
+                ACTION.action = "MoveJ"
+                ACTION.speed = x["Speed"]
+
+                INPUT = Joints()
+                INPUT.joint1 = x["Input"]["joint1"]
+                INPUT.joint2 = x["Input"]["joint2"]
+                INPUT.joint3 = x["Input"]["joint3"]
+                INPUT.joint4 = x["Input"]["joint4"]
+                INPUT.joint5 = x["Input"]["joint5"]
+                INPUT.joint6 = x["Input"]["joint6"]
+                INPUT.joint7 = x["Input"]["joint7"]
+                ACTION.movej = INPUT
+
+                RES = RobotClient.Move_EXECUTE(ACTION)
+
+            elif x["Type"] == "MoveR":
+
+                ACTION = Action()
+                ACTION.action = "MoveR"
+                ACTION.speed = x["Speed"]
+
+                INPUT = Joint()
+                INPUT.joint = x["Input"]["joint"]
+                INPUT.value = x["Input"]["value"]
+                ACTION.mover = INPUT
+
+                RES = RobotClient.Move_EXECUTE(ACTION)
+
+            elif x["Type"] == "MoveL":
+
+                ACTION = Action()
+                ACTION.action = "MoveL"
+                ACTION.speed = x["Speed"]
+
+                INPUT = Xyz()
+                INPUT.x = x["Input"]["x"]
+                INPUT.y = x["Input"]["y"]
+                INPUT.z = x["Input"]["z"]
+                ACTION.movel = INPUT
+
+                RES = RobotClient.Move_EXECUTE(ACTION)
+
+            elif x["Type"] == "MoveROT":
+
+                ACTION = Action()
+                ACTION.action = "MoveROT"
+                ACTION.speed = x["Speed"]
+
+                INPUT = Ypr()
+                INPUT.pitch = x["Input"]["pitch"]
+                INPUT.yaw = x["Input"]["yaw"]
+                INPUT.roll = x["Input"]["roll"]
+                ACTION.moverot = INPUT
+
+                RES = RobotClient.Move_EXECUTE(ACTION)
+
+            elif x["Type"] == "MoveRP":
+
+                ACTION = Action()
+                ACTION.action = "MoveRP"
+                ACTION.speed = x["Speed"]
+
+                INPUT = Xyzypr()
+                INPUT.x = x["Input"]["x"]
+                INPUT.y = x["Input"]["y"]
+                INPUT.z = x["Input"]["z"]
+                INPUT.pitch = x["Input"]["pitch"]
+                INPUT.yaw = x["Input"]["yaw"]
+                INPUT.roll = x["Input"]["roll"]
+                ACTION.moverp = INPUT
+
+                RES = RobotClient.Move_EXECUTE(ACTION)
+
+            elif x["Type"] == "MoveG":
+
+                ACTION = Action()
+                ACTION.action = "MoveG"
+                ACTION.speed = x["Speed"]
+                ACTION.moveg = x["Input"]["value"]
+
+                RES = RobotClient.Move_EXECUTE(ACTION)
+
+            elif x["Type"] == "RobMove":
+
+                InputPose = Robpose()
+                InputPose.x = x["Input"]["x"]
+                InputPose.y = x["Input"]["y"]
+                InputPose.z = x["Input"]["z"]
+                InputPose.qx = x["Input"]["qx"]
+                InputPose.qy = x["Input"]["qy"]
+                InputPose.qz = x["Input"]["qz"]
+                InputPose.qw = x["Input"]["qw"]
+
+                RES = RobotClient.RobMove_EXECUTE(x["Movement"], x["Speed"], InputPose)
+
+            elif x["Type"] == "ParallelGripper":
+
+                if x["Action"] == "CLOSE":
+                    RES = EEClient.CLOSE(x["Value"])
+                else:
+                    RES = EEClient.OPEN()
+            
+            elif x["Type"] == "VacuumGripper":
+
+                if x["Action"] == "ACTIVATE":
+                    RES = EEClient.ACTIVATE()
+                else:
+                    RES = EEClient.DEACTIVATE()
+
+            elif x["Type"] == "EGP64/ABB":
+
+                if x["Action"] == "CLOSE":
+                    RES = EEClient.CLOSE()
+                else:
+                    RES = EEClient.OPEN()
+
+            elif x["Type"] == "GPP5010NC/ABB":
+
+                if x["Action"] == "CLOSE":
+                    RES = EEClient.CLOSE()
+                else:
+                    RES = EEClient.OPEN()
+
+            elif x["Type"] == "vgr/ABB":
+
+                if x["Action"] == "ACTIVATE":
+                    RES = EEClient.ACTIVATE()
+                else:
+                    RES = EEClient.DEACTIVATE()
+
+            elif x["Type"] == "RobotiqHandE/UR":
+
+                if x["Action"] == "CLOSE":
+                    RES = EEClient.CLOSE()
+                else:
+                    RES = EEClient.OPEN()
+
+            else:
+                print("ERROR: ACTION TYPE -> " + x["Type"] + " unknown.")
+                print("Closing program... BYE!")
+                exit()
+
+            # CHECK if STEP EXECUTION WAS SUCCESSFUL:
             print("")
             
-        # ADD -> DELAY:
-        if x["Delay"] != 0.0:
-            print("Requested a waitTime of " + str(x["Delay"]) + " seconds.")
-            time.sleep(x["Delay"])
-            print("")
+            if RES["Success"] == False:
+                print("ERROR: Execution FAILED!")
+                print("Message -> " + RES["Message"])
+                print("")
+                print("Closing... BYE!")
+                exit()
+
+            else:
+                print("Execution SUCCESSFUL!")
+                print("Message -> " + RES["Message"])
+                print("")
+                
+            # ADD -> DELAY:
+            if x["Delay"] != 0.0:
+                print("Requested a waitTime of " + str(x["Delay"]) + " seconds.")
+                time.sleep(x["Delay"])
+                print("")
+                
+        except KeyboardInterrupt:
+            
+            # CANCEL ANY ONGOING ROBOT MOVEMENTS:
+            RobotClient.CANCEL()
+            
+            print("Sequence execution manually interrupted and cancelled.")
+            print("Closing... BYE!")
+            exit()
 
     # ==== FINISH ===== #
     print("")

@@ -84,15 +84,15 @@ class RobMoveCLIENT(Node):
 
     def goal_response_callback(self, future):
         
-        goal_handle = future.result()
+        self.goal_handle = future.result()
 
-        if not goal_handle.accepted:
+        if not self.goal_handle.accepted:
             print('[CLIENT - robot.py]: RobMove ACTION CALL -> GOAL has been REJECTED.')
             return
         
         print('[CLIENT - robot.py]: RobMove ACTION CALL -> GOAL has been ACCEPTED.')
 
-        self._get_result_future = goal_handle.get_result_async()
+        self._get_result_future = self.goal_handle.get_result_async()
         self._get_result_future.add_done_callback(self.get_result_callback)
 
     def get_result_callback(self, future):
@@ -136,15 +136,15 @@ class MoveCLIENT(Node):
 
     def goal_response_callback(self, future):
         
-        goal_handle = future.result()
+        self.goal_handle = future.result()
 
-        if not goal_handle.accepted:
+        if not self.goal_handle.accepted:
             print('[CLIENT - robot.py]: Move ACTION CALL -> GOAL has been REJECTED.')
             return
         
         print('[CLIENT - robot.py]: Move ACTION CALL -> GOAL has been ACCEPTED.')
 
-        self._get_result_future = goal_handle.get_result_async()
+        self._get_result_future = self.goal_handle.get_result_async()
         self._get_result_future.add_done_callback(self.get_result_callback)
 
     def get_result_callback(self, future):
@@ -223,3 +223,11 @@ class RBT():
         RES["ExecTime"] = T
 
         return(RES)
+    
+    def CANCEL(self):
+        
+        print('[CLIENT - robot.py]: MOVEMENT CANCEL REQUEST. Stopping robot...')
+        self.MoveClient.goal_handle.cancel_goal_async()
+        self.RobMoveClient.goal_handle.cancel_goal_async()
+        print('[CLIENT - robot.py]: MOVEMENT CANCEL REQUEST. Robot stopped.')
+        print("")
