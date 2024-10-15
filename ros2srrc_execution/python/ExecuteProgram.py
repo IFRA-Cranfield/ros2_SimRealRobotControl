@@ -52,8 +52,10 @@ from parallelGripper import parallelGR
 
 # IMPORT -> EE:
 sys.path.append(PATH_EE)
+from zimmer_abb import ZimmerGRIPPER
 from schunk_abb import SchunkGRIPPER
 from robotiq_ur import RobotiqGRIPPER
+from vgr_abb import vgrABB
 
 # IMPORT ROS2 Custom Messages:
 from ros2srrc_data.msg import Action
@@ -182,6 +184,14 @@ def main(args=None):
     elif seqRES["EEType"] == "EGP64/ABB":
         EEClient = SchunkGRIPPER()
         print("Loaded -> EGP64/ABB.")
+
+    elif seqRES["EEType"] == "GPP5010NC/ABB":
+        EEClient = ZimmerGRIPPER()
+        print("Loaded -> GPP5010NC/ABB.")
+
+    elif seqRES["EEType"] == "vgr/ABB":
+        EEClient = vgrABB()
+        print("Loaded -> vgr/ABB.")
     
     elif seqRES["EEType"] == "RobotiqHandE/UR":
         EEClient = RobotiqGRIPPER()
@@ -339,6 +349,20 @@ def main(args=None):
                 RES = EEClient.CLOSE()
             else:
                 RES = EEClient.OPEN()
+
+        elif x["Type"] == "GPP5010NC/ABB":
+
+            if x["Action"] == "CLOSE":
+                RES = EEClient.CLOSE()
+            else:
+                RES = EEClient.OPEN()
+
+        elif x["Type"] == "vgr/ABB":
+
+            if x["Action"] == "ACTIVATE":
+                RES = EEClient.ACTIVATE()
+            else:
+                RES = EEClient.DEACTIVATE()
 
         elif x["Type"] == "RobotiqHandE/UR":
 

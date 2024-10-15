@@ -199,6 +199,38 @@ Sequence:
 
 # ================================================================ # 
 # ================================================================ #
+# Zimmer GPP5010NC GRIPPER - ABB ROBOT:
+
+# ===== Zimmer GPP5010NC Gripper (ABB Robot) - OPEN ===== #
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "GPP5010NC/ABB"
+    Action: "OPEN"
+
+# ===== Zimmer GPP5010NC Gripper (ABB Robot) - CLOSE ===== #
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "GPP5010NC/ABB"
+    Action: "CLOSE"
+
+# ================================================================ # 
+# ================================================================ #
+# VACUUM GRIPPER - ABB ROBOT:
+
+# ===== Vacuum Gripper (ABB Robot) - ACTIVATE ===== #
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "vgr/ABB"
+    Action: "ACTIVATE"
+
+# ===== Zimmer GPP5010NC Gripper (ABB Robot) - DEACTIVATE ===== #
+  - Step: 0
+    Name: "Please type the name of your program step here."
+    Type: "vgr/ABB"
+    Action: "DEACTIVATE"
+
+# ================================================================ # 
+# ================================================================ #
 # ROBOTIQ HAND-E GRIPPER - UR ROBOT:
 
 # ===== RobotiqHandE Gripper (UR Robot) - OPEN ===== #
