@@ -1,0 +1,184 @@
+Specifications:
+  Robot: "irb6640"
+  EndEffector: None
+  EELink: None
+  Objects: None
+
+Sequence: 
+  
+  - Step: 1
+    Name: "[IRB6640-Demo]: MoveJ - HomePosition."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint1: 0.0
+      joint2: 0.0
+      joint3: 0.0
+      joint4: 0.0
+      joint5: 90.0
+      joint6: 0.0
+      
+  - Step: 2
+    Name: "[IRB6640-Demo]: MoveR - Rotate Joint1 -45.0 degrees."
+    Type: "MoveR"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint: "joint1"
+      value: -45.0
+
+  - Step: 3
+    Name: "[IRB6640-Demo]: MoveR - Rotate Joint1 +135.0 degrees."
+    Type: "MoveR"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint: "joint1"
+      value: 135.0
+
+  - Step: 4
+    Name: "[IRB6640-Demo]: MoveL - +0.25m in y axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.25
+      z: 0.0
+  
+  - Step: 5
+    Name: "[IRB6640-Demo]: MoveL - -0.25m in y axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: -0.25
+      z: 0.0
+
+  - Step: 6
+    Name: "[IRB6640-Demo]: MoveL - -0.75m in z axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: -0.75
+
+  - Step: 7
+    Name: "[IRB6640-Demo]: MoveL - +1m in y axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+  
+  - Step: 8
+    Name: "[IRB6640-Demo]: MoveL - -1m in y axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: -1.0
+      z: 0.0
+  
+  - Step: 9
+    Name: "[IRB6640-Demo]: MoveL - +0.75m in z axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: 0.75
+
+  - Step: 10
+    Name: "[IRB6640-Demo]: MoveJ - Back to HomePosition."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 1.0
+    Input:
+      joint1: 0.0
+      joint2: 0.0
+      joint3: 0.0
+      joint4: 0.0
+      joint5: 90.0
+      joint6: 0.0
+
+  - Step: 11
+    Name: "[IRB6640-Demo]: MoveROT - -90.0 pitch rotation."
+    Type: "MoveROT"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      yaw: 0.0
+      pitch: -90.0
+      roll: 0.0
+
+  - Step: 12
+    Name: "[IRB6640-Demo]: MoveL - -0.75m in z axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: -0.75
+
+  - Step: 13
+    Name: "[IRB6640-Demo]: MoveL - -0.25m in z axis (slower)."
+    Type: "MoveL"
+    Speed: 0.05
+    Delay: 2.5
+    Input:
+      x: 0.0
+      y: 0.0
+      z: -0.25
+  
+  - Step: 14
+    Name: "[IRB6640-Demo]: MoveROT - 90.0 pitch rotation."
+    Type: "MoveROT"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      yaw: 0.0
+      pitch: 90.0
+      roll: 0.0
+
+  - Step: 15
+    Name: "[IRB6640-Demo]: MoveL - +0.5m in x axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: 0.50
+      y: 0.0
+      z: 0.0
+
+  - Step: 16
+    Name: "[IRB6640-Demo]: MoveL - +1m in z axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: 1.0
+
+  - Step: 17
+    Name: "[IRB6640-Demo]: MoveJ - Back to HomePosition."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint1: 0.0
+      joint2: 0.0
+      joint3: 0.0
+      joint4: 0.0
+      joint5: 90.0
+      joint6: 0.0
