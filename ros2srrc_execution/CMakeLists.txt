@@ -126,7 +126,7 @@ ament_target_dependencies(
 )
 
 # =========================================================== #
-# REQUIRED TO EXECUTE .py scripts -> sequence.py:
+# REQUIRED TO EXECUTE .py scripts:
 install(
   DIRECTORY 
     python
@@ -136,7 +136,6 @@ install(
 )
 install(PROGRAMS
   
-  python/sequence.py
   python/RobotState.py
   python/SpawnObject.py
   python/ExecuteProgram.py
