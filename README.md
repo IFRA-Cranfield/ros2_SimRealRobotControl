@@ -44,7 +44,7 @@
 <br />
 <div align="center">
   <a>
-    <img src="media/header.jpg" alt="header" width="1228" height="287">
+    <img src="media/header.jpg" alt="header" width="800" height="187">
   </a>
 
   <br />
