@@ -170,9 +170,12 @@ class RBT():
         self.MoveClient = MoveCLIENT()
         self.RobMoveClient = RobMoveCLIENT()
 
+        self.EXECUTING = ""
+
     def Move_EXECUTE(self, ACTION):
 
         global RES
+        self.EXECUTING = "Move"
         
         T_start = time.time()
 
@@ -195,11 +198,13 @@ class RBT():
         T = round((T_end - T_start), 4)
         RES["ExecTime"] = T
 
+        self.EXECUTING = ""
         return(RES)
 
     def RobMove_EXECUTE(self, TYPE, SPEED, POSE):
 
         global RES
+        self.EXECUTING = "RobMove"
         
         T_start = time.time()
 
@@ -222,12 +227,22 @@ class RBT():
         T = round((T_end - T_start), 4)
         RES["ExecTime"] = T
 
+        self.EXECUTING = ""
         return(RES)
     
     def CANCEL(self):
         
         print('[CLIENT - robot.py]: MOVEMENT CANCEL REQUEST. Stopping robot...')
-        self.MoveClient.goal_handle.cancel_goal_async()
-        self.RobMoveClient.goal_handle.cancel_goal_async()
+        
+        try:
+            if self.EXECUTING == "Move":
+                self.MoveClient.goal_handle.cancel_goal_async()
+            elif self.EXECUTING =="RobMove":
+                self.RobMoveClient.goal_handle.cancel_goal_async()
+            else:
+                None
+        except AttributeError:
+            pass
+        
         print('[CLIENT - robot.py]: MOVEMENT CANCEL REQUEST. Robot stopped.')
         print("")
