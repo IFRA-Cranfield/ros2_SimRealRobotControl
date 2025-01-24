@@ -183,18 +183,20 @@
       </joint>
 
       <!-- CYLINDER&PISTON -->
-      <joint name="joint_cylinder">
-        <param name="mimic">joint_2</param>
-        <param name="multiplier">-0.35</param>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-      <joint name="joint_piston">
-        <param name="mimic">joint_2</param>
-        <param name="multiplier">-1.35</param>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
+      <xacro:unless value="${bringup}">
+        <joint name="joint_cylinder">
+          <param name="mimic">joint_2</param>
+          <param name="multiplier">-0.35</param>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+        <joint name="joint_piston">
+          <param name="mimic">joint_2</param>
+          <param name="multiplier">-1.35</param>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+      </xacro:unless>
 
       <!-- END EFFECTOR -->
       <xacro:unless value="${bringup}">

@@ -305,7 +305,7 @@
       <limit effort="0" lower="-5.236" upper="5.236" velocity="2.9671"/>
     </joint>
     <joint type="revolute" name="joint_5">
-      <origin xyz="1.28 0 0 " rpy="0 0 0"/>
+      <origin xyz="1.142 0 0 " rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <parent link="link_4"/>
       <child link="link_5"/>

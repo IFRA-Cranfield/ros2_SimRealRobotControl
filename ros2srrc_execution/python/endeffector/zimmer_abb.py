@@ -74,7 +74,7 @@ class ZimmerGRIPPER(Node):
 
         print('[CLIENT - zimmer_abb.py]: Sending request -> OPEN GRIPPER.')
         signal = "gripper"
-        value = "0"
+        value = "1"
         self.send_request(signal,value)
 
         RES["Message"] = "Gripper (0-OPEN) signal successfully sent to ABB Robot Controller."
@@ -89,7 +89,7 @@ class ZimmerGRIPPER(Node):
 
         print('[CLIENT - zimmer_abb.py]: Sending request -> CLOSE GRIPPER.')
         signal = "gripper"
-        value = "1"
+        value = "0"
         self.send_request(signal,value)
 
         RES["Message"] = "Gripper (1-CLOSE) signal successfully sent to ABB Robot Controller."
