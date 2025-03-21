@@ -1,0 +1,9 @@
+cartesian_limits:
+  max_trans_vel: 0.25
+  max_trans_acc: 0.25
+  max_trans_dec: 0.25
+  max_rot_vel: 2.0
+
+# These values have been reduced (to really conservative values) 
+# since the maximum speed in the actual robot controller has been
+# reduced to its 30% for safety purposes.
