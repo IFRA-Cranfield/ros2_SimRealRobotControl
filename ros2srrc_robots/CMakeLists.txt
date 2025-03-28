@@ -42,6 +42,7 @@ install(
 
     ur3
     ur5
+    ur10
     ur10e
     ur16e
 
