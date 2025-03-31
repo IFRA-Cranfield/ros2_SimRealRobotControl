@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ros2srrc_robots)
+project(ros2srrc_ur3e_moveit2)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -32,23 +32,10 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-# REQUIRED to -> Load ROBOT DATABASE:
+# REQUIRED to -> Launch simulation:
 install(
   DIRECTORY 
-    
-    irb120
-    irb1200
-    irb6640
-
-    ur3
-    ur3e
-    ur5
-    ur10
-    ur10e
-    ur16e
-
-    iiwa
-
+    config
   DESTINATION 
     share/${PROJECT_NAME}
 )
