@@ -150,9 +150,12 @@ The Simulation & Control packages of the following Robots are currently included
 - ABB IRB-1200.
 - ABB IRB-6640.
 - Universal Robots UR3.
+- Universal Robots UR3e.
 - Universal Robots UR5.
+- Universal Robots UR10.
 - Universal Robots UR10e.
 - Universal Robots UR16e.
+- Universal Robots UR20.
 - KUKA LBR-iiwa.
 
 The following end-effectors are supported in ros2srrc:
