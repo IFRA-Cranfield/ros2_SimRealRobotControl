@@ -1,0 +1,20 @@
+# ROS 2 Sim-to-Real Robot Control: UR10 Robot.
+Configurations:
+
+  - ID: "ur10_1"
+    Name: "UR10 on top of Robot Stand."
+    urdf: "ur10.urdf.xacro"
+    rob: "ur10"
+    ee: "none"
+
+  - ID: "ur10_2"
+    Name: "UR10 + Robotiq 2f-85 gripper on top of Robot Stand."
+    urdf: "ur10_robotiq_2f85.urdf.xacro"
+    rob: "ur10"
+    ee: "robotiq_2f85"
+
+  - ID: "ur10_3"
+    Name: "UR10 + Robotiq HandE gripper on top of Robot Stand."
+    urdf: "ur10_robotiq_hande.urdf.xacro"
+    rob: "ur10"
+    ee: "robotiq_hande"
