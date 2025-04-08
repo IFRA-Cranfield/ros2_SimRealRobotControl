@@ -1,0 +1,20 @@
+# ROS 2 Sim-to-Real Robot Control: UR5e Robot.
+Configurations:
+
+  - ID: "ur5e_1"
+    Name: "UR5e on top of Robot Stand."
+    urdf: "ur5e.urdf.xacro"
+    rob: "ur5e"
+    ee: "none"
+
+  - ID: "ur5e_2"
+    Name: "UR5e + Robotiq 2f-85 gripper on top of Robot Stand."
+    urdf: "ur5e_robotiq_2f85.urdf.xacro"
+    rob: "ur5e"
+    ee: "robotiq_2f85"
+
+  - ID: "ur5e_3"
+    Name: "UR5e + Robotiq HandE gripper on top of Robot Stand."
+    urdf: "ur5e_robotiq_hande.urdf.xacro"
+    rob: "ur5e"
+    ee: "robotiq_hande"

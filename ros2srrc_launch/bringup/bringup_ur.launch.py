@@ -411,16 +411,6 @@ def generate_launch_description():
         parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}],
     )
 
-    # =================================================================================================== #
-    # ================================== RobotiQ Gripper Service Server ================================= #
-    RobotiqServer = Node(
-        name="robotiq_server",
-        package="ros2_robotiqgripper",
-        executable="server.py",
-        output="screen",
-        parameters=[{"IPAddress": robot_ip}],
-    )
-
     # =============================================== #
     # ========== RETURN LAUNCH DESCRIPTION ========== #
 
@@ -434,9 +424,6 @@ def generate_launch_description():
     LD.add_action(speed_scaling_state_broadcaster_spawner)
     #LD.add_action(joint_trajectory_controller_spawner)
     LD.add_action(scaled_joint_trajectory_controller_spawner)
-
-    if CONFIGURATION["ee"] == "robotiq_hande":
-        LD.add_action(RobotiqServer)
 
     LD.add_action(RegisterEventHandler(
         OnProcessExit(

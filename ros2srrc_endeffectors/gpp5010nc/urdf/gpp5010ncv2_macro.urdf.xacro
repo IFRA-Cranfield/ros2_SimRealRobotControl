@@ -155,7 +155,7 @@
     <joint name="EE_gpp5010nc_joint" type="fixed" >
       <parent link="${parent_link}" />
       <child link="EE_gpp5010nc" />
-      <origin xyz="-0.17 0.0 0.0" rpy="0 0 0"/>
+      <origin xyz="-0.16 0.0 0.0" rpy="0 0 0"/>
     </joint>
 
     <gazebo reference="EE_gpp5010nc_joint">

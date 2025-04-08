@@ -73,7 +73,7 @@ class vgrABB(Node):
         RES["Message"] = ""
 
         print('[CLIENT - vgr_abb.py]: Sending request -> DEACTIVATE VACUUM.')
-        signal = "gripper"
+        signal = "vacuum"
         value = "0"
         self.send_request(signal,value)
 
@@ -88,7 +88,7 @@ class vgrABB(Node):
         RES["Message"] = ""
 
         print('[CLIENT - vgr_abb.py]: Sending request -> ACTIVATE VACUUM.')
-        signal = "gripper"
+        signal = "vacuum"
         value = "1"
         self.send_request(signal,value)
 
