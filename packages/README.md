@@ -139,6 +139,16 @@ Configurations:
 - ur5_2: UR5 + Robotiq 2f-85 gripper on top of Robot Stand.
 - ur5_3: UR5 + Robotiq HandE gripper on top of Robot Stand.
 
+__Universal Robots UR5e__
+
+Package name: ros2srrc_ur5e
+
+Configurations:
+
+- ur5e_1: UR5e on top of Robot Stand.
+- ur5e_2: UR5e + Robotiq 2f-85 gripper on top of Robot Stand.
+- ur5e_3: UR5e + Robotiq HandE gripper on top of Robot Stand.
+
 __Universal Robots UR10__
 
 Package name: ros2srrc_ur10
