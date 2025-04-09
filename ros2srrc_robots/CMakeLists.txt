@@ -47,6 +47,7 @@ install(
     ur10e
     ur16e
     ur20
+    ur5e
 
     iiwa
 

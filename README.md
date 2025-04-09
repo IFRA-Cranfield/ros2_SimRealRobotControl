@@ -152,6 +152,7 @@ The Simulation & Control packages of the following Robots are currently included
 - Universal Robots UR3.
 - Universal Robots UR3e.
 - Universal Robots UR5.
+- Universal Robots UR5e.
 - Universal Robots UR10.
 - Universal Robots UR10e.
 - Universal Robots UR16e.
