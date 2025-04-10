@@ -58,7 +58,7 @@
 
     <transmission name="irb1200_joint1_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="irb1200_joint1">
+      <joint name="joint_1">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="irb1200_joint1_motor">
@@ -68,7 +68,7 @@
 
     <transmission name="irb1200_joint2_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="irb1200_joint2">
+      <joint name="joint_2">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="irb1200_joint2_motor">
@@ -78,7 +78,7 @@
 
     <transmission name="irb1200_joint3_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="irb1200_joint3">
+      <joint name="joint_3">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="irb1200_joint3_motor">
@@ -88,7 +88,7 @@
 
     <transmission name="irb1200_joint4_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="irb1200_joint4">
+      <joint name="joint_4">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="irb1200_joint4_motor">
@@ -98,7 +98,7 @@
 
     <transmission name="irb1200_joint5_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="irb1200_joint5">
+      <joint name="joint_5">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="irb1200_joint5_motor">
@@ -108,7 +108,7 @@
 
     <transmission name="irb1200_joint6_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="irb1200_joint6">
+      <joint name="joint_6">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
       <actuator name="irb1200_joint6_motor">
