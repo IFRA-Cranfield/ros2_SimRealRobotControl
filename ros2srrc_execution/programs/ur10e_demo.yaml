@@ -1,0 +1,146 @@
+Specifications:
+  Robot: "ur10e"
+  EndEffector: None
+  EELink: None
+  Objects: None
+
+Sequence: 
+  
+  - Step: 1
+    Name: "[UR10e-Demo]: MoveJ - HomePosition."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint1: 0.0
+      joint2: -90.0
+      joint3: 0.0
+      joint4: -90.0
+      joint5: 0.0
+      joint6: 0.0
+  
+  - Step: 2
+    Name: "[UR10e-Demo]: MoveJ - Orientate."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint1: 90.0
+      joint2: -90.0
+      joint3: 90.0
+      joint4: -90.0
+      joint5: -90.0
+      joint6: 0.0
+  
+  - Step: 3
+    Name: "[UR10e-Demo]: MoveL - -0.40m in z axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: -0.40
+
+  - Step: 4
+    Name: "[UR10e-Demo]: MoveL - +0.40m in x axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: 0.40
+      y: 0.0
+      z: 0.0
+
+  - Step: 5
+    Name: "[UR10e-Demo]: MoveL - -0.40m in x axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: -0.40
+      y: 0.0
+      z: 0.0
+
+  - Step: 6
+    Name: "[UR10e-Demo]: MoveL - +0.40m in y axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.40
+      z: 0.0
+  
+  - Step: 7
+    Name: "[UR10e-Demo]: MoveL - -0.40m in y axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: -0.40
+      z: 0.0
+
+  - Step: 8
+    Name: "[UR10e-Demo]: MoveL - 0.40m in z axis."
+    Type: "MoveL"
+    Speed: 0.1
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: 0.40
+
+  - Step: 9
+    Name: "[UR10e-Demo]: MoveR - Rotate Joint1 +45.0 degrees."
+    Type: "MoveR"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint: "joint1"
+      value: 45.0
+
+  - Step: 10
+    Name: "[UR10e-Demo]: MoveR - Rotate Joint1 -90.0 degrees."
+    Type: "MoveR"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint: "joint1"
+      value: -90.0
+
+  - Step: 11
+    Name: "[UR10e-Demo]: MoveR - Rotate Joint1 +45.0 degrees."
+    Type: "MoveR"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint: "joint1"
+      value: +45.0
+
+  - Step: 12
+    Name: "[UR10e-Demo]: MoveJ - Orientate."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint1: 90.0
+      joint2: -90.0
+      joint3: 90.0
+      joint4: -90.0
+      joint5: -90.0
+      joint6: 0.0
+  
+  - Step: 13
+    Name: "[UR10e-Demo]: MoveJ - HomePosition."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint1: 0.0
+      joint2: -90.0
+      joint3: 0.0
+      joint4: -90.0
+      joint5: 0.0
+      joint6: 0.0
