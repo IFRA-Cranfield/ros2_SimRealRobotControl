@@ -88,8 +88,8 @@ Configurations:
 
 - irb120_1: ABB IRB-120 on top of Robot Stand.
 - irb120_2: ABB IRB-120 + Schunk EGP-64 Gripper on top of Robot Stand.
-- irb120_3: ABB IRB-120 + Schunk EGP-64 Gripper (rounded fingers) on top of Robot Stand.
-- irb120_4: ABB IRB-120 + Lamination Sheet Vacuum-Gripper on top of Robot Stand.
+- irb120_21: ABB IRB-120 + Schunk EGP-64 Gripper (rounded fingers) on top of Robot Stand.
+- irb120_3: ABB IRB-120 + Lamination Sheet Vacuum-Gripper on top of Robot Stand.
 
 __ABB IRB-1200__
 
