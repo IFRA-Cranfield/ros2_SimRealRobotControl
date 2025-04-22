@@ -37,8 +37,6 @@
   <!-- PASS ARGUMENTS: -->
   <xacro:arg name="bringup" default="false"/>
   <xacro:property name="bringup" value="$(arg bringup)"/>
-  <xacro:arg name="hmi" default="false"/>
-  <xacro:property name="hmi" value="$(arg hmi)"/>
   <xacro:arg name="robot_ip" default="0.0.0.0"/>
   <xacro:property name="robot_ip" value="$(arg robot_ip)"/>
 
@@ -108,18 +106,5 @@
     <child link = "base_link" />
     <origin xyz="0.0 0.0 0.255" rpy="0.0 0.0 0.0" /> 
   </joint>
-
-  <!-- ros2srrc_HMI CAMERA -->
-  <xacro:if value="${hmi}">
-    <xacro:include filename="$(find ros2srrc_hmi)/urdf/hmicamera.urdf.xacro"/>	
-    <xacro:HMI_camera 
-      x="2.5"
-      y="1.50"
-      z="2.0"
-      roll="0.0"
-      pitch="0.35"
-      yaw="-2.6"
-    />
-  </xacro:if>
 
 </robot>

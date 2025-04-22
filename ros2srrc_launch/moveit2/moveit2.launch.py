@@ -160,13 +160,6 @@ def generate_launch_description():
         print("Closing... BYE!")
         exit()   
 
-    # === INPUT ARGUMENT: HMI === #
-    HMI = AssignArgument("hmi")
-    if HMI == "True" or HMI == "true":
-        HMI = "true"
-    else:
-        HMI = "false"
-
     # ========== CELL INFORMATION ========== #
     print("")
     print("===== GAZEBO: Robot Simulation + MoveIt!2 Framework (" + PACKAGE_NAME + "_moveit2) =====")
@@ -202,7 +195,6 @@ def generate_launch_description():
     xacro.process_doc(doc, mappings={
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
-        "hmi": HMI,
     })
     
     # EE -> Controller file needed?
