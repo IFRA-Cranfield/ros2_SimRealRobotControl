@@ -103,7 +103,7 @@ class ObjPOSE(Node):
 
         T = time.time() + 0.50
         while time.time() < T:
-            rclpy.spin_once(self)
+            rclpy.spin_once(self, timeout_sec=0.50)
         
         return(OBJECTS)
     
