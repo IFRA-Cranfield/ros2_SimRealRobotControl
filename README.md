@@ -148,6 +148,7 @@ The Simulation & Control packages of the following Robots are currently included
 
 - ABB IRB-120.
 - ABB IRB-1200.
+- ABB IRB-1600.
 - ABB IRB-6640.
 - Universal Robots UR3.
 - Universal Robots UR3e.

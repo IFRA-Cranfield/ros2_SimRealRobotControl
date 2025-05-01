@@ -93,6 +93,14 @@ Configurations:
 
 __ABB IRB-1200__
 
+Package name: ros2srrc_irb1600
+
+Configurations:
+
+- irb1600_1: ABB IRB-1600 on top of Robot Stand.
+
+__ABB IRB-1600__
+
 Package name: ros2srrc_irb1200
 
 Configurations:

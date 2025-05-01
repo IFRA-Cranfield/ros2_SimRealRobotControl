@@ -1,0 +1,96 @@
+controller_manager:
+  ros__parameters:
+    
+    update_rate: 250 #Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+joint_trajectory_controller:
+  ros__parameters:
+    update_rate: 250
+    joints:
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
+    command_joints:
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
+    command_interfaces:
+      - position
+      - velocity
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
+    gains:
+      joint_1: 
+        p: 0.0 
+        i: 0.0
+        d: 0.0
+        i_clamp: 0.0
+        ff_velocity_scale: 1.0
+      joint_2: 
+        p: 0.0
+        i: 0.0
+        d: 0.0
+        i_clamp: 0.0
+        ff_velocity_scale: 1.0
+      joint_3: 
+        p: 0.0
+        i: 0.0
+        d: 0.0
+        i_clamp: 0.0
+        ff_velocity_scale: 1.0
+      joint_4: 
+        p: 0.0
+        i: 0.0
+        d: 0.0
+        i_clamp: 0.0
+        ff_velocity_scale: 1.0
+      joint_5: 
+        p: 0.0
+        i: 0.0
+        d: 0.0
+        i_clamp: 0.0
+        ff_velocity_scale: 1.0
+      joint_6: 
+        p: 0.0
+        i: 0.0
+        d: 0.0
+        i_clamp: 0.0
+        ff_velocity_scale: 1.0
+    allow_partial_joints_goal: false
+    #allow_integration_in_goal_trajectories: false
+    constraints:
+      stopped_velocity_tolerance: 0.1
+      goal_time: 0.0
+      joint_1:
+        goal: 0.005
+        #trajectory: 0.10
+      joint_2:
+        goal: 0.005
+        #trajectory: 0.10
+      joint_3:
+        goal: 0.005
+        #trajectory: 0.10
+      joint_4:
+        goal: 0.005
+        #trajectory: 0.10
+      joint_5:
+        goal: 0.005
+        #trajectory: 0.10
+      joint_6:
+        goal: 0.005
+        #trajectory: 0.10
