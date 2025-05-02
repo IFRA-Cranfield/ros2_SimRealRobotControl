@@ -1,0 +1,35 @@
+joint_limits:
+  joint_1:
+    has_velocity_limits: true
+    max_velocity: 2.88
+    has_acceleration_limits: true
+    max_acceleration: 15.0
+  joint_2:
+    has_velocity_limits: true
+    max_velocity: 2.62
+    has_acceleration_limits: true
+    max_acceleration: 15.0
+  joint_3:
+    has_velocity_limits: true
+    max_velocity: 3.32
+    has_acceleration_limits: true
+    max_acceleration: 15.0
+  joint_4:
+    has_velocity_limits: true
+    max_velocity: 5.15
+    has_acceleration_limits: true
+    max_acceleration: 20.0
+  joint_5:
+    has_velocity_limits: true
+    max_velocity: 4.54
+    has_acceleration_limits: true
+    max_acceleration: 20.0
+  joint_6:
+    has_velocity_limits: true
+    max_velocity: 7.68
+    has_acceleration_limits: true
+    max_acceleration: 30.0
+
+# Velocity and acceleration limits taken from ros-industrial/staubli: https://github.com/ros-industrial/staubli/blob/melodic-devel/staubli_rx160_support/urdf/rx160.urdf
+#   - Velocity limits left as is, exactly the same as in .urdf file.
+#   - Acceleration limits have been defined based on experience, as there is no documentation available.

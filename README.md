@@ -159,6 +159,7 @@ The Simulation & Control packages of the following Robots are currently included
 - Universal Robots UR16e.
 - Universal Robots UR20.
 - KUKA LBR-iiwa.
+- Staubli RX-160.
 
 The following end-effectors are supported in ros2srrc:
 

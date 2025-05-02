@@ -205,3 +205,11 @@ Configurations:
 
 - iiwa_1: KUKA LBR-iiwa on top of Robot Stand.
 - iiwa_2: KUKA LBR-iiwa + Robotiq 2f-85 gripper on top of Robot Stand.
+
+__Staubli RX-160__
+
+Package name: ros2srrc_rx160
+
+Configurations:
+
+- rx160_1: Staubli RX-160 on top of Robot Stand.
