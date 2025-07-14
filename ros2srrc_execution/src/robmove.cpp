@@ -221,7 +221,8 @@ int main(int argc, char **argv)
 
     // Initialise MAIN NODE:
     rclcpp::init(argc, argv);
-    auto const logger = rclcpp::get_logger("RobMove_INTERFACE");
+    
+    auto node_LOGGER = std::make_shared<rclcpp::Node>("MOVE_INTERFACE_log");
 
     // Obtain ROBOT parameter:
     auto node_PARAM_ROB = std::make_shared<ros2_RobotParam>();
@@ -243,7 +244,7 @@ int main(int argc, char **argv)
     move_group_interface_ROB.setMaxVelocityScalingFactor(1.0);
     move_group_interface_ROB.setMaxAccelerationScalingFactor(1.0);
     
-    RCLCPP_INFO(logger, "MoveGroupInterface object created for ROBOT: %s", ROBname);
+    RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
 
     // CREATE -> PlanningSceneInterface:
     using moveit::planning_interface::PlanningSceneInterface;

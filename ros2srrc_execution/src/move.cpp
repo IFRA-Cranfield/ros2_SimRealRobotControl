@@ -432,7 +432,8 @@ int main(int argc, char ** argv)
 {
     // Initialise MAIN NODE:
     rclcpp::init(argc, argv);
-    auto const logger = rclcpp::get_logger("MOVE_INTERFACE");
+
+    auto node_LOGGER = std::make_shared<rclcpp::Node>("MOVE_INTERFACE_log");
 
     // Obtain ROBOT + END-EFFECTOR + ENVIRONMENT parameters:
     auto node_PARAM_ROB = std::make_shared<ros2_RobotParam>();
@@ -479,7 +480,7 @@ int main(int argc, char ** argv)
         move_group_interface_ROB.setMaxAccelerationScalingFactor(1.0);
 
         joint_model_group_ROB = move_group_interface_ROB.getCurrentState()->getJointModelGroup(name);
-        RCLCPP_INFO(logger, "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
+        RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
     }
     // 2. END-EFFECTOR:
     if (param_EE != "none"){
@@ -488,7 +489,7 @@ int main(int argc, char ** argv)
         move_group_interface_EE.setMaxVelocityScalingFactor(1.0);
         move_group_interface_EE.setMaxAccelerationScalingFactor(1.0);
         joint_model_group_EE = move_group_interface_EE.getCurrentState()->getJointModelGroup(param_EE);
-        RCLCPP_INFO(logger, "MoveGroupInterface object created for END-EFFECTOR: %s", param_EE.c_str());
+        RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for END-EFFECTOR: %s", param_EE.c_str());
     }
 
     // CREATE -> PlanningSceneInterface:

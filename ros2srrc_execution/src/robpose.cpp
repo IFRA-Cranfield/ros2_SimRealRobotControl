@@ -118,6 +118,8 @@ int main(int argc, char **argv)
 
     // Initialise MAIN NODE:
     rclcpp::init(argc, argv);
+
+    auto node_LOGGER = std::make_shared<rclcpp::Node>("MOVE_INTERFACE_log");
     
     // Obtain ROBOT parameter:
     auto node_PARAM_ROB = std::make_shared<ros2_RobotParam>();
@@ -134,6 +136,8 @@ int main(int argc, char **argv)
     using moveit::planning_interface::MoveGroupInterface;
     auto ROBname = param_ROB + "_arm";
     move_group_interface_ROB = MoveGroupInterface(MoveIt2_NODE, ROBname);
+
+    RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
 
     // SPIN PUBLISHER:
     rclcpp::spin(std::make_shared<RobPose_PUB>());
