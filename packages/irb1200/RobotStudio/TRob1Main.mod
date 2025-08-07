@@ -41,16 +41,18 @@ MODULE TRob1Main
 ! 
 !   The TRob1Main.mod file provided in the public abb_ros2 (https://github.com/PickNikRobotics/abb_ros2)
 !   GitHub repository has been modified, obtaining better results and an improved Robot Motion.
-!   The ROS2-Control of the ABB IRB1200 robot is realised through the ros2srrc_irb1200_bringup ROS2 package,
-!   which is publicly available in the ros2_SimRealRobotControl GitHub repository:
+!   The ROS2-Control of the ABB IRBx robots is realised through the ros2srrc_robots (IRBx) ROS2 packages,
+!   which are publicly available in the ros2_SimRealRobotControl GitHub repository:
 !         * https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl
+!
+!   IMPORTANT NOTE: This RAPID code has been tested and proven successful in the ABB IRB120 and IRB1200 robots only.
 !
 !   AUTHORS:
 !     - Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk
 !     - Dr. Seemal Asif - s.asif@cranfield.ac.uk
 !     - Prof. Phil Webb - p.f.webb@cranfield.ac.uk
 !
-!   DATE: April, 2023.
+!   DATE: August, 2025.
 !
 !======================================================================================================
 
@@ -64,8 +66,7 @@ MODULE TRob1Main
     LOCAL VAR egmident egm_id;
 
     ! Limits for convergance.
-    LOCAL VAR egm_minmax egm_condition := [-0.1, 0.1];
-    LOCAL VAR egm_minmax egm_condition_lin := [-1, 1];
+    LOCAL VAR egm_minmax egm_condition := [-0.01, 0.01];
 
     !***********************************************************
     !
@@ -91,7 +92,7 @@ MODULE TRob1Main
         EGMGetId egm_id;
 
         ! Setup the EGM communication.
-        EGMSetupUC ROB_1, egm_id, "default", "ROB_1", \Joint;
+        EGMSetupUC ROB_1, egm_id, "default", "ROB_1", \Joint, \CommTimeout:=60.0;
 
         ! Prepare for an EGM communication session.
         EGMActJoint egm_id
@@ -103,11 +104,11 @@ MODULE TRob1Main
                     \J6:=egm_condition
                     \LpFilter:=20
                     \SampleRate:=4
-                    \MaxPosDeviation:=2000
-                    \MaxSpeedDeviation:=250.0;
+                    \MaxPosDeviation:=1000
+                    \MaxSpeedDeviation:=500.0;
         WHILE TRUE DO
             ! Start the EGM communication session.
-            EGMRunJoint egm_id, EGM_STOP_HOLD, \J1 \J2 \J3 \J4 \J5 \J6 \CondTime:=1 \RampOutTime:=1 \PosCorrGain:=0;
+            EGMRunJoint egm_id, EGM_STOP_HOLD, \J1 \J2 \J3 \J4 \J5 \J6 \CondTime:=1 \PosCorrGain:=0;
         ENDWHILE
         ! Release the EGM id.
         EGMReset egm_id;
