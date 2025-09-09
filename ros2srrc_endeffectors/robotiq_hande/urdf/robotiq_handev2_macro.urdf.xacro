@@ -47,7 +47,7 @@
 
     <!-- ***** Robotiq HandE GRIPPER .urdf SERIAL CHAIN ***** -->
 
-    <!-- Robotiq: bracket -->
+    <!-- Robotiq: bracket 
     <link name="robotiq_bracket">
       <visual>
         <geometry>
@@ -71,7 +71,7 @@
       <origin xyz="0 0 0.002" rpy="0 0 0" />
       <parent link="${parent_link}"/>
       <child link="robotiq_bracket"/>
-    </joint>
+    </joint> -->
     
     <!-- Robotiq: coupler -->
     <link name="robotiq_coupler">
@@ -94,8 +94,8 @@
     </link>
 
     <joint name="robotiq_coupler_joint" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="robotiq_bracket"/>
+      <origin xyz="0 0 -0.008" rpy="0 0 0" />
+      <parent link="${parent_link}"/>
       <child link="robotiq_coupler"/>
     </joint>
 
