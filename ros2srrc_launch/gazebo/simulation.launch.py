@@ -138,7 +138,7 @@ def generate_launch_description():
         
     # CHECK if -> PACKAGE EXISTS, and GET PATH:
     try:
-        PKG_PATH = get_package_share_directory(PACKAGE_NAME + "_gazebo")
+        PKG_PATH = get_package_share_directory(PACKAGE_NAME)
     except PackageNotFoundError:
         print("")
         print("ERROR: The defined ROS 2 Package was not found. Please try again.")
@@ -162,26 +162,26 @@ def generate_launch_description():
 
     # ========== CELL INFORMATION ========== #
     print("")
-    print("===== GAZEBO: Robot Simulation (" + PACKAGE_NAME + "_gazebo) =====")
+    print("===== GAZEBO: Robot Simulation (" + PACKAGE_NAME + ") =====")
     print("Robot configuration:")
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["Name"])
     print("")
     
     # ***** GAZEBO ***** #   
     # DECLARE Gazebo WORLD file:
-    robot_gazebo = os.path.join(
-        get_package_share_directory(PACKAGE_NAME + '_gazebo'),
+    world_gazebo = os.path.join(
+        get_package_share_directory('ros2srrc_gazebo'),
         'worlds',
-        PACKAGE_NAME + '.world')
+        'ros2srrc_gazebo.world')
     # DECLARE Gazebo LAUNCH file:
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
-                launch_arguments={'world': robot_gazebo}.items(),
+                launch_arguments={'world': world_gazebo}.items(),
             )
 
     # ***** ROBOT DESCRIPTION ***** #
     # Robot Description file package:
-    robot_description_path = os.path.join(get_package_share_directory(PACKAGE_NAME + '_gazebo'))
+    robot_description_path = os.path.join(get_package_share_directory(PACKAGE_NAME))
     # ROBOT urdf file path:
     xacro_file = os.path.join(robot_description_path,'urdf',CONFIGURATION["urdf"])
     # Generate ROBOT_DESCRIPTION variable:

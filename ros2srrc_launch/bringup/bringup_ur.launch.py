@@ -138,7 +138,7 @@ def generate_launch_description():
         
     # CHECK if -> PACKAGE EXISTS, and GET PATH:
     try:
-        PKG_PATH = get_package_share_directory(PACKAGE_NAME + "_gazebo")
+        PKG_PATH = get_package_share_directory(PACKAGE_NAME)
     except PackageNotFoundError:
         print("")
         print("ERROR: The defined ROS 2 Package was not found. Please try again.")
@@ -167,7 +167,7 @@ def generate_launch_description():
 
     # ========== CELL INFORMATION ========== #
     print("")
-    print("===== " + CONFIGURATION["rob"] + ": Robot Bringup + MoveIt!2 Framework (" + PACKAGE_NAME + "_bringup) =====")
+    print("===== " + CONFIGURATION["rob"] + ": Robot Bringup + MoveIt!2 Framework (" + PACKAGE_NAME + ") =====")
     print("Robot IP Address -> " + robot_ip)
     print("Robot configuration:")
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["Name"])
@@ -188,7 +188,7 @@ def generate_launch_description():
 
     # ***** ROBOT DESCRIPTION ***** #
     # Robot Description file package:
-    robot_description_path = os.path.join(get_package_share_directory(PACKAGE_NAME + '_gazebo'))
+    robot_description_path = os.path.join(get_package_share_directory(PACKAGE_NAME))
     # ROBOT urdf file path:
     xacro_file = os.path.join(robot_description_path,'urdf',CONFIGURATION["urdf"])
     # Generate ROBOT_DESCRIPTION variable:
@@ -221,7 +221,7 @@ def generate_launch_description():
         output='both',
         parameters=[
             robot_description,
-            {"use_sim_time": True}
+            {"use_sim_time": False}
         ]
     )
     static_tf = Node(
@@ -279,9 +279,9 @@ def generate_launch_description():
     # *** PLANNING CONTEXT *** #
     # Robot description, SRDF:
     if EE == "false":
-        robot_description_semantic_config = load_file(PACKAGE_NAME + "_moveit2", "config/" + CONFIGURATION["rob"] + ".srdf")
+        robot_description_semantic_config = load_file("ros2srrc_moveit", "config/" + CONFIGURATION["rob"] + ".srdf")
     else:
-        robot_description_semantic_config = load_file(PACKAGE_NAME + "_moveit2", "config/" + CONFIGURATION["rob"] + CONFIGURATION["ee"] + ".srdf")
+        robot_description_semantic_config = load_file("ros2srrc_moveit", "config/" + CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".srdf")
     
     robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config}
 
@@ -355,11 +355,11 @@ def generate_launch_description():
     )
 
     # RVIZ:
-    rviz_base = os.path.join(get_package_share_directory(PACKAGE_NAME + "_moveit2"), "config")
+    rviz_base = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config")
     if EE == "false":
-        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + "_moveit2.rviz")
+        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + ".rviz")
     else:
-        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + CONFIGURATION["ee"] + "_moveit2.rviz")
+        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".rviz")
 
     rviz_node_full = Node(
         package="rviz2",
