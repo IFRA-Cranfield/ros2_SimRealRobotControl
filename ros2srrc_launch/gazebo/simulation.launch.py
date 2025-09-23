@@ -168,16 +168,21 @@ def generate_launch_description():
     print("")
     
     # ***** GAZEBO ***** #   
-    # DECLARE Gazebo WORLD file:
-    world_gazebo = os.path.join(
-        get_package_share_directory('ros2srrc_gazebo'),
+    # DECLARE GAZEBO WORLD file:
+    world_gz = os.path.join(
+        get_package_share_directory('ros2srrc_gz'),
         'worlds',
-        'ros2srrc_gazebo.world')
+        'ros2srrc_gz.sdf')
     # DECLARE Gazebo LAUNCH file:
-    gazebo = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
-                launch_arguments={'world': world_gazebo}.items(),
-            )
+    gzSIM = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]
+        ),
+        launch_arguments={
+            'gz_args': f'-r -v 1 "{world_gz}"',
+            'on_exit_shutdown': 'true'
+        }.items(),
+    )
 
     # ***** ROBOT DESCRIPTION ***** #
     # Robot Description file package:
@@ -217,9 +222,17 @@ def generate_launch_description():
     )
 
     # SPAWN ROBOT TO GAZEBO:
-    spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
-                        arguments=['-topic', 'robot_description','-entity', CONFIGURATION["rob"]],
-                        output='both')
+    spawn_entity = Node(
+        package='ros_gz_sim', 
+        executable='create',
+        arguments=[
+            '-topic', 'robot_description',
+            '-name', CONFIGURATION["rob"],
+            '-x', '0',
+            '-y', '0',
+            '-z', '0',
+        ],
+        output='both')
 
     # ***** CONTROLLERS ***** #
     # Joint STATE BROADCASTER:
@@ -253,7 +266,7 @@ def generate_launch_description():
     # ========== RETURN LAUNCH DESCRIPTION ========== #
 
     # Add ROS 2 Nodes to LaunchDescription() element:
-    LD.add_action(gazebo)
+    LD.add_action(gzSIM)
     LD.add_action(node_robot_state_publisher)
     LD.add_action(spawn_entity)
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ros2srrc_ur3e)
+project(ros2srrc_gz)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -34,8 +34,7 @@ endif()
 
 install(
   DIRECTORY 
-    config
-    urdf 
+    worlds
   DESTINATION 
     share/${PROJECT_NAME}
 )

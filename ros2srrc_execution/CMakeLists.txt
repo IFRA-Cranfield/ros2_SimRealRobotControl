@@ -34,7 +34,7 @@ find_package(rclcpp REQUIRED)
 find_package(ros2srrc_data REQUIRED)
 
 # REQUIRED to -> Include linkattacher_msgs package:
-find_package(linkattacher_msgs REQUIRED)
+#find_package(linkattacher_msgs REQUIRED)
 
 # REQUIRED to -> Execute ACTIONS:
 find_package(rclcpp_action REQUIRED)
@@ -45,10 +45,10 @@ find_package(yaml-cpp REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 
 # REQUIRED to -> ABB:
-find_package(abb_robot_msgs REQUIRED)
+#find_package(abb_robot_msgs REQUIRED)
 
 # REQUIRED to -> Robotiq:
-find_package(ros2_robotiqgripper REQUIRED)
+#find_package(ros2_robotiqgripper REQUIRED)
 
 # Add include directories:
 include_directories(include)
@@ -105,7 +105,7 @@ ament_target_dependencies(
   std_msgs
   rclcpp_action
   ros2srrc_data
-  abb_robot_msgs
+  #abb_robot_msgs
   yaml-cpp
   ament_index_cpp
 )

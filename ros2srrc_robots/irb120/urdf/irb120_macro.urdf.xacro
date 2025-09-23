@@ -90,7 +90,6 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb120/meshes/visual/base_link.dae"/>
         </geometry>
-        <xacro:material_abb_orange />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -113,7 +112,6 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb120/meshes/visual/link_1.dae"/>
         </geometry>
-        <xacro:material_abb_orange />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -136,7 +134,6 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb120/meshes/visual/link_2.dae"/>
         </geometry>
-        <xacro:material_abb_orange />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -159,7 +156,6 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb120/meshes/visual/link_3.dae"/>
         </geometry>
-        <xacro:material_abb_orange />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -182,7 +178,6 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb120/meshes/visual/link_4.dae"/>
         </geometry>
-        <xacro:material_abb_orange />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -205,7 +200,6 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb120/meshes/visual/link_5.dae"/>
         </geometry>
-        <xacro:material_abb_orange />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -228,7 +222,6 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb120/meshes/visual/link_6.dae"/>
         </geometry>
-        <xacro:material_abb_black />
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>

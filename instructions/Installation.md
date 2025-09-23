@@ -48,44 +48,30 @@ __PC Set-Up for Robot Simulation and Control in ROS2__
 7. Install ROS2 packages, which are required for ROS2-based Robot Simulation and Control:
 
     ```sh
-    # Rosdep, vcstool and colcon:
-    sudo apt install python3-rosdep
-    sudo apt install python3-vcstool
-    sudo apt install python3-colcon-common-extensions
+    # Install ROS 2 Development Tools:
+    sudo apt install ros-dev-tools
+    sudo apt install ros-humble-xacro
 
     # ROS2 Control + ROS2 Controllers:
     sudo apt install ros-humble-ros2-control
     sudo apt install ros-humble-ros2-controllers
     sudo apt install ros-humble-gripper-controllers
 
-    # Gazebo for ROS2 Humble:
-    sudo apt install gazebo
-    sudo apt install ros-humble-gazebo-ros2-control
-    sudo apt install ros-humble-gazebo-ros-pkgs
-
-    # xacro:
-    sudo apt install ros-humble-xacro
+    # Gz Fortress for ROS2 Humble:
+    sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+    sudo apt-get update
+    sudo apt-get install gz-fortress
+    
+    # Gz Fortress <-> ROS 2 Pairings:
+    sudo apt install ros-humble-ros-gz
+    sudo apt install ros-humble-gz-ros2-control
 
     # Install CycloneDDS RMW for ROS 2 Humble to fix cycle time issues in humble-moveit (temporary fix):
     sudo apt install ros-humble-rmw-cyclonedds-cpp 
     # Add the following statement into .bashrc file: 
     export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     ```   
-
-    (EXTRA STEP) -> Due to problems with URDF file processing for the newest version of ROS 2 Control-Gazebo plugin, Gazebo-ROS2-Control must be downgraded to the 0.4.6 version:
-
-    ```sh
-    # Uninstall Gazebo ROS2 Control:
-    sudo apt remove ros-humble-gazebo-ros2-control
-
-    # Download and install the 0.4.6 version:
-    cd ~/dev_ws/src
-    git clone https://github.com/ros-controls/gazebo_ros2_control.git
-    cd gazebo_ros2_control
-    git reset --hard 9a3736c # Commit for the 0.4.6 version!
-    cd ~/dev_ws
-    colcon build
-    ``` 
 
 __Download and install the required ROS 2 Packages for the Simulation and Control of Robot Arms__
 
@@ -114,19 +100,19 @@ __Download and install the required ROS 2 Packages for the Simulation and Contro
     ```sh
     # IFRA-Cranfield/IFRA_LinkAttacher:
     cd ~/dev_ws/src
-    git clone https://github.com/IFRA-Cranfield/IFRA_LinkAttacher.git
+    git clone https://github.com/IFRA-Cranfield/IFRA_LinkAttacher.git # NOT MIGRATED YET - only in Gazebo Classic.
     cd ~/dev_ws
     colcon build
     
     # IFRA-Cranfield/IFRA_ObjectPose:
     cd ~/dev_ws/src
-    git clone https://github.com/IFRA-Cranfield/IFRA_ObjectPose.git
+    git clone https://github.com/IFRA-Cranfield/IFRA_ObjectPose.git # NOT MIGRATED YET - only in Gazebo Classic.
     cd ~/dev_ws
     colcon build
 
     # IFRA-Cranfield/IFRA_LinkPose:
     cd ~/dev_ws/src
-    git clone https://github.com/IFRA-Cranfield/IFRA_LinkPose.git
+    git clone https://github.com/IFRA-Cranfield/IFRA_LinkPose.git # NOT MIGRATED YET - only in Gazebo Classic.
     cd ~/dev_ws
     colcon build
 
@@ -141,7 +127,7 @@ __Download and install ros2_SimRealRobotControl__
 
 ```sh
 cd ~/dev_ws/src
-git clone https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl
+git clone https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl # NOT MIGRATED YET - only in Gazebo Classic.
 cd ~/dev_ws
 colcon build
 ```   

@@ -58,8 +58,7 @@
   <xacro:unless value="${bringup}">
     
     <gazebo>
-      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-        <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
 
         <!-- IRB120 Controller -->
         <parameters>$(find ros2srrc_robots)/irb120/config/controller.yaml</parameters>

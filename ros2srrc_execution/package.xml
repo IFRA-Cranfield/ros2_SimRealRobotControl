@@ -22,9 +22,9 @@
   <depend>std_msgs</depend>
 
   <depend>ros2srrc_data</depend>
-  <build_depend>linkattacher_msgs</build_depend>
+  <!-- <build_depend>linkattacher_msgs</build_depend>
   <build_depend>abb_robot_msgs</build_depend>
-  <depend>ros2_robotiqgripper</depend>
+  <depend>ros2_robotiqgripper</depend> -->
 
   <depend>yaml-cpp</depend>
   <depend>ament_index_cpp</depend>
