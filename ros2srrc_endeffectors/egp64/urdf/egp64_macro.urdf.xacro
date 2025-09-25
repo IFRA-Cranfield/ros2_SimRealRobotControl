@@ -88,15 +88,14 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/egp64/meshes/egp64_BaseNoAdapter.dae" />
         </geometry>
-        <material name="blue">
-          <color rgba="0 0 1 1"/>
+        <material name="silver">
+          <color rgba="0.8 0.8 0.8 1"/>
         </material>
       </visual>
       <collision>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/egp64/meshes/egp64_BaseNoAdapter.dae" />
         </geometry>
-        <material name="blue"/>
       </collision>
     </link>
 
