@@ -133,7 +133,7 @@
       <axis xyz="0 0 1"/>
       <origin rpy="${pi} 0.0 0.0" xyz="0.05490451627 0.03060114443 0.0"/>
       <limit lower="-0.05" upper="0.80285" velocity="0.5" effort="1000"/>
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
     <!-- Robotiq: right_knuckle -->
@@ -163,7 +163,7 @@
       <axis xyz="0 0 1"/>
       <origin rpy="0.0 0.0 0.0" xyz="0.05490451627 -0.03060114443 0.0"/>
       <limit lower="-0.05" upper="0.80285" velocity="0.5" effort="1000"/>
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
     <!-- Robotiq: left_finger -->
@@ -191,7 +191,7 @@
       <parent link="robotiq_85_left_knuckle_link"/>
       <child link="robotiq_85_left_finger_link"/>
       <origin xyz="-0.00408552455 -0.03148604435 0.0" rpy="0 0 0" />
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
     <!-- Robotiq: right_finger -->
@@ -219,7 +219,7 @@
       <parent link="robotiq_85_right_knuckle_link"/>
       <child link="robotiq_85_right_finger_link"/>
       <origin xyz="-0.00408552455 -0.03148604435 0.0" rpy="0 0 0" />
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
     <!-- Robotiq: left_inner_knuckle -->
@@ -249,7 +249,7 @@
       <axis xyz="0 0 1"/>
       <origin xyz="0.06142 0.0127 0" rpy="${pi} 0.0 0.0" />
       <limit lower="-0.05" upper="0.80285" velocity="0.5" effort="1000"/>
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
     <!-- Robotiq: right_inner_knuckle -->
@@ -279,7 +279,7 @@
       <axis xyz="0 0 1"/>
       <origin xyz="0.06142 -0.0127 0" rpy="0 0 0"/>
       <limit lower="-0.05" upper="0.80285" velocity="0.5" effort="1000"/>
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
     <!-- Robotiq: left_finger_tip -->
@@ -309,7 +309,7 @@
       <axis xyz="0 0 1"/>
       <origin xyz="0.04303959807 -0.03759940821 0.0" rpy="0.0 0.0 0.0"/>
       <limit lower="-0.80285" upper="0.05" velocity="0.5" effort="1000"/>
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
     <!-- Robotiq: right_finger_tip -->
@@ -339,7 +339,7 @@
       <axis xyz="0 0 1"/>
       <origin rpy="0.0 0.0 0.0" xyz="0.04303959807 -0.03759940821  0.0"/>
       <limit lower="-0.80285" upper="0.05" velocity="0.5" effort="1000"/>
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
 
     <!-- SMALL CUBE FOR GRIPPER PLUGIN -->

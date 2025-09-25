@@ -79,6 +79,9 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/robotiq_hande_coupler.stl" />
         </geometry>
+        <material name="dark_grey">
+          <color rgba="0.2 0.2 0.2 1"/>
+        </material>
       </visual>
       <collision>
         <geometry>
@@ -139,13 +142,16 @@
       <inertial>
         <origin rpy="0 0 0" xyz="0.02262 -0.00759 0.00738"/>
         <mass value="0.03804"/>
-        <inertia ixx="13567E-9" ixy="1849E-9" ixz="3622E-9" iyy="15784E-9" iyz="3616E-9" izz="7478E-9"/>
+        <inertia ixx="1.3567e-05" ixy="0" ixz="0" iyy="1.5784e-05" iyz="0" izz="7.478e-06"/>
       </inertial>
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/finger_1.dae"/>
         </geometry>
+        <material name="dark_grey">
+          <color rgba="0.2 0.2 0.2 1"/>
+        </material>
       </visual>
       <collision>
         <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -154,10 +160,6 @@
         </geometry>
       </collision>
     </link>
-
-    <gazebo reference="robotiq_hande_left_finger">
-      <material>Gazebo/Grey</material>
-    </gazebo>
 
     <joint name="robotiq_hande_left_finger_joint" type="prismatic">
       <origin rpy="0 0 0" xyz="0.0 0.0 0.099"/>
@@ -172,13 +174,16 @@
       <inertial>
         <origin rpy="0 0 0" xyz="-0.02262 0.00759 0.00738"/>
         <mass value="0.03804"/>
-        <inertia ixx="13567E-9" ixy="1849E-9" ixz="3622E-9" iyy="15784E-9" iyz="3616E-9" izz="7478E-9"/>
+        <inertia ixx="1.3567e-05" ixy="0" ixz="0" iyy="1.5784e-05" iyz="0" izz="7.478e-06"/>
       </inertial>
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_hande/meshes/finger_2.dae"/>
         </geometry>
+        <material name="dark_grey">
+          <color rgba="0.2 0.2 0.2 1"/>
+        </material>
       </visual>
       <collision>
         <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -187,10 +192,6 @@
         </geometry>
       </collision>
     </link>
-
-    <gazebo reference="robotiq_hande_right_finger">
-      <material>Gazebo/Grey</material>
-    </gazebo>
 
     <joint name="robotiq_hande_right_finger_joint" type="prismatic">
       <origin rpy="0 0 0" xyz="0 0 0.099"/>
