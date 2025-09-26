@@ -135,5 +135,8 @@
       </spot>
     </light>
 
+    <!-- IFRA-Cranfield's LinkAttacher PLUGIN -->
+    <plugin filename="libgazebo_link_attacher.so" name="gz::sim::systems::GzLinkAttacher"/>
+
   </world>
 </sdf>
