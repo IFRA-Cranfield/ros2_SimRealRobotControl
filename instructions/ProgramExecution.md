@@ -48,7 +48,7 @@ Specifications:
 ```
 
 - Robot: Specifies the robot name, e.g. "irb120".
-- EndEffector: The name of the end-effector, currently -> "ParallelGripper", "VacuumGripper", "EGP64/ABB", "GPP5010NC/ABB", "vgr/ABB", "RobotiqHandE/UR".
+- EndEffector: The name of the end-effector, currently -> "ParallelGripper", "VacuumGripper" (TBD), "EGP64/ABB", "GPP5010NC/ABB", "vgr/ABB", "RobotiqHandE/UR".
 - EELink: The link of the end-effector to which objects are attached, e.g. "EE_egp64".
 - Objects: List of objects that can be attached to the end-effector during the program execution, e.g. ["BlueCube", "WhiteCube", "RedCube"].
 - None (without "") is the word to be used if there is no end-effector or object involved in the execution.
@@ -186,7 +186,7 @@ _End-Effector in Gazebo Simulator:_
         value: 0.0  # This value represents gripper CLOSING AVERAGE, [0, 100].
     ```
 
-- Parallel Gripper: These templates control the parallel gripper in a Gazebo simulation environment. The OPEN action fully opens the gripper, while the CLOSE action moves the gripper fingers toward each other to grasp an object. If the gripper is activated in a position where an object (defined in the _Specifications_ section) can be grasped, the LinkAttacher plugin in Gazebo is triggered, and the object is securely attached to the gripper, simulating a successful grasp in the virtual environment.
+- Parallel Gripper: These templates control the parallel gripper in a Gazebo simulation environment. The OPEN action fully opens the gripper, while the CLOSE action moves the gripper fingers toward each other to grasp an object.
 
     ```sh
     # Open Gripper:
@@ -204,7 +204,7 @@ _End-Effector in Gazebo Simulator:_
       Value: 0.0
       Delay: 0.0
     ```
-- Vacuum Gripper: These templates manage the vacuum gripper in a Gazebo simulation. The ACTIVATE action turns on the vacuum, allowing the gripper to attach to an object, while the DEACTIVATE action releases it. Similar to the parallel gripper, if the vacuum gripper is activated in a position where an object (specified in the _Specifications_ section) is present, the LinkAttacher plugin in Gazebo is engaged, ensuring the object is correctly grasped in the simulation.
+- Vacuum Gripper (TBD): These templates manage the vacuum gripper in a Gazebo simulation. The ACTIVATE action turns on the vacuum, allowing the gripper to attach to an object, while the DEACTIVATE action releases it.
 
     ```sh
     - Step: 0
@@ -236,7 +236,7 @@ _End-Effector in Real Robot (ABB):_
       Delay: 0.0
     ```
 
-- Vacuum Gripper: Similar to the Gazebo vacuum gripper templates, these are for real-world vacuum gripper control on an ABB robot. The ACTIVATE action starts the vacuum for object manipulation, and DEACTIVATE releases the object when necessary.
+- Vacuum Gripper, ABB Robot: Similar to the Gazebo vacuum gripper templates, these are for real-world vacuum gripper control on an ABB robot. The ACTIVATE action starts the vacuum for object manipulation, and DEACTIVATE releases the object when necessary.
 
     ```sh
     - Step: 0

@@ -33,17 +33,9 @@
 -->
 
 <sdf version="1.8">
-  <world name="GzWorld">
+  <world name="ros2srrc_GzWorld">
 
     <!-- Gz World - DEFAULT -->
-    <physics name="1ms" type="ignored">
-      <max_step_size>0.001</max_step_size>
-      <real_time_factor>1.0</real_time_factor>
-    </physics>
-    <plugin
-      filename="gz-sim-physics-system"
-      name="gz::sim::systems::Physics">
-    </plugin>
     <plugin
       filename="gz-sim-user-commands-system"
       name="gz::sim::systems::UserCommands">
@@ -51,6 +43,17 @@
     <plugin
       filename="gz-sim-scene-broadcaster-system"
       name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <!-- Physics -->
+    <physics type="ignored">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate>
+    </physics>
+
+    <plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system">
+      <engine>dartsim</engine>
     </plugin>
 
     <gravity>0 0 -9.8</gravity>
@@ -139,9 +142,6 @@
     <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
       <render_engine>ogre2</render_engine>
     </plugin>
-
-    <!-- IFRA-Cranfield's LinkAttacher PLUGIN -->
-    <plugin filename="libgazebo_link_attacher.so" name="gz::sim::systems::GzLinkAttacher"/>
 
   </world>
 </sdf>

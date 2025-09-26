@@ -47,7 +47,6 @@ from robot import RBT
 
 # IMPORT -> EE-Gz:
 sys.path.append(PATH_EEGz)
-from vacuumGripper import vacuumGR
 from parallelGripper import parallelGR
 
 # IMPORT -> EE:
@@ -174,12 +173,8 @@ def main(args=None):
         print("Not required.")
     
     elif seqRES["EEType"] == "ParallelGripper":
-        EEClient = parallelGR(seqRES["Objects"], seqRES["Robot"], seqRES["EELink"])
+        EEClient = parallelGR()
         print("Loaded -> ParallelGripper.")
-    
-    elif seqRES["EEType"] == "VacuumGripper":
-        EEClient = vacuumGR(seqRES["Objects"], seqRES["Robot"], seqRES["EELink"])
-        print("Loaded -> VacuumGripper.")
     
     elif seqRES["EEType"] == "EGP64/ABB":
         EEClient = SchunkGRIPPER()
@@ -337,13 +332,6 @@ def main(args=None):
                     RES = EEClient.CLOSE(x["Value"])
                 else:
                     RES = EEClient.OPEN()
-            
-            elif x["Type"] == "VacuumGripper":
-
-                if x["Action"] == "ACTIVATE":
-                    RES = EEClient.ACTIVATE()
-                else:
-                    RES = EEClient.DEACTIVATE()
 
             elif x["Type"] == "EGP64/ABB":
 

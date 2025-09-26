@@ -56,18 +56,13 @@ def main(args=None):
     # ============================ #
     # Get VARIABLES for CLIENT INIT:
 
-    # Environment variables:
-    OBJECTS = None
-    ROBOT = "ur3"
-    EE_link = "EE_robotiq_hande"
-
     # ACTION:
     ACTION = "CLOSE"
     VAL = 15.0
 
     # ================ #
     # Initialise CLIENT:
-    client = parallelGR(OBJECTS, ROBOT, EE_link)
+    client = parallelGR()
 
     # Execute:
     if ACTION == "CLOSE":
@@ -85,12 +80,6 @@ def main(args=None):
     rclpy.shutdown()
     print("CLOSING PROGRAM... BYE!")
     exit()
-
-    # ============= # 
-    # NOTE: The ROBOT, END-EFFECTOR and OBJECT(S) defined in this script which are the input to parallelGR() 
-    # have been tested on a UR robot with a Robotiq HandE gripper and different colored cubes, therefore 
-    # these might need to be adjusted if a different robot, end-effector or use-case is used.
-    # ============= #
 
 if __name__ == '__main__':
     main()

@@ -262,7 +262,16 @@ def generate_launch_description():
                 )
             )
 
-    # Gazebo TOPIC BRIDGE:
+    # SpawnEntity service bridge for world "ros2srrc_GzWorld":
+    gzSERVICE_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='gz_spawn_service_bridge',
+        arguments=['/world/ros2srrc_GzWorld/create@ros_gz_interfaces/srv/SpawnEntity'],
+        output='screen'
+    )
+
+    # Gazebo TOPIC BRIDGE for the camera:
     gzTOPIC_bridge = Node(
         package='ros_gz_image',
         executable='image_bridge',
@@ -276,6 +285,7 @@ def generate_launch_description():
 
     # Add ROS 2 Nodes to LaunchDescription() element:
     LD.add_action(gzSIM)
+    LD.add_action(gzSERVICE_bridge)
     LD.add_action(gzTOPIC_bridge)
     LD.add_action(node_robot_state_publisher)
     LD.add_action(spawn_entity)

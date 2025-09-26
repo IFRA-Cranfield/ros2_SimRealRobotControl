@@ -98,12 +98,6 @@ __Download and install the required ROS 2 Packages for the Simulation and Contro
 3. Import and install the following ROS2 Packages developed by IFRA-Cranfield:
 
     ```sh
-    # IFRA-Cranfield/IFRA_LinkAttacher:
-    cd ~/dev_ws/src
-    git clone https://github.com/IFRA-Cranfield/IFRA_LinkAttacher.git # NOT MIGRATED YET - only in Gazebo Classic.
-    cd ~/dev_ws
-    colcon build
-    
     # IFRA-Cranfield/IFRA_ObjectPose:
     cd ~/dev_ws/src
     git clone https://github.com/IFRA-Cranfield/IFRA_ObjectPose.git # NOT MIGRATED YET - only in Gazebo Classic.

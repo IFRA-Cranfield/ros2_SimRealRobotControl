@@ -32,73 +32,96 @@
 import argparse
 import os
 import xacro
-from ament_index_python.packages import get_package_share_directory
-from gazebo_msgs.srv import SpawnEntity
 import rclpy
+from rclpy.node import Node
+from ament_index_python.packages import get_package_share_directory
+
+# Gz (Fortress) service interface:
+from ros_gz_interfaces.srv import SpawnEntity 
+from geometry_msgs.msg import Pose
+
+# EntitySpawner CLASS:
+class GzEntitySpawner(Node):
+
+    def __init__(self, args):
+
+        super().__init__('ros2srrc_GzEntitySpawner')
+        self.args = args
+
+        self.service_name = '/world/ros2srrc_GzWorld/create'
+        self.get_logger().info(f'Connecting to `{self.service_name}` ...')
+        
+        self.cli = self.create_client(SpawnEntity, self.service_name)
+
+        if not self.cli.service_is_ready():
+            self.cli.wait_for_service()
+            self.get_logger().info('...connected!')
+
+    def build_urdf_string(self):
+        
+        urdf_file_path = os.path.join(
+            get_package_share_directory(self.args.package),
+            'urdf', 'objects', self.args.urdf
+        )
+        
+        x = xacro.process_file(urdf_file_path, mappings={"name": self.args.name})
+        return x.toxml()
+
+    def spawn(self):
+
+        req = SpawnEntity.Request()
+
+        req.entity_factory.name = self.args.name
+        req.entity_factory.allow_renaming = False 
+        req.entity_factory.relative_to = "world"
+
+        req.entity_factory.sdf = self.build_urdf_string()
+
+        pose = Pose()
+        pose.position.x = float(self.args.x)
+        pose.position.y = float(self.args.y)
+        pose.position.z = float(self.args.z)
+        # (orientation left at default 0,0,0,1)
+        req.entity_factory.pose = pose
+
+        self.get_logger().info(
+            f"Spawning `{self.args.name}` into world Gz Simulation at "
+            f"({self.args.x}, {self.args.y}, {self.args.z})"
+        )
+
+        future = self.cli.call_async(req)
+        rclpy.spin_until_future_complete(self, future)
+        if future.result() is not None:
+            if future.result().success:
+                self.get_logger().info('Spawn success.')
+            else:
+                self.get_logger().error('Spawn failed (service returned false).')
+        else:
+            raise RuntimeError(f'Exception calling service: {future.exception()}')
 
 def main():
 
-    # Get input arguments from user:
-    parser = argparse.ArgumentParser(description='Spawn object into our Gazebo world.')
-    parser.add_argument('--package', type=str, default='', help='Package where URDF/XACRO file is located.')
-    parser.add_argument('--urdf', type=str, default='', help='URDF of the object to spawn.')
-    parser.add_argument('--name', type=str, default='', help='Name of the object to spawn.')
-    parser.add_argument('--namespace', type=str, default='', help='ROS namespace to apply to the tf and plugins.')
-    parser.add_argument('--ns', type=bool, default=True, help='Whether to enable namespacing')
-    parser.add_argument('--x', type=float, default=0.0, help='the x component of the initial position [meters].')
-    parser.add_argument('--y', type=float, default=0.0, help='the y component of the initial position [meters].')
-    parser.add_argument('--z', type=float, default=0.0, help='the z component of the initial position [meters].')
-    
-    args, unknown = parser.parse_known_args()
+    parser = argparse.ArgumentParser(description='Spawn object into a Gazebo (Gz Fortress) world.')
+    parser.add_argument('--package', type=str, required=True, help='Package where URDF/XACRO file is located.')
+    parser.add_argument('--urdf', type=str, required=True, help='URDF/XACRO file name under /urdf/objects.')
+    parser.add_argument('--name', type=str, required=True, help='Name of the object to spawn.')
+    parser.add_argument('--x', type=float, default=0.0, help='Initial X [m].')
+    parser.add_argument('--y', type=float, default=0.0, help='Initial Y [m].')
+    parser.add_argument('--z', type=float, default=0.0, help='Initial Z [m].')
 
-    # Start node:
+    parser.add_argument('--namespace', type=str, default='', help='ROS namespace (handled in your URDF/SDF/plugins).')
+    parser.add_argument('--ns', type=bool, default=True, help='Whether to enable namespacing (no-op for the service).')
+
+    args, _ = parser.parse_known_args()
+
     rclpy.init()
-    node = rclpy.create_node('entity_spawner')
 
-    node.get_logger().info(
-        'Creating Service client to connect to `/spawn_entity`')
-    client = node.create_client(SpawnEntity, '/spawn_entity')
-
-    node.get_logger().info('Connecting to `/spawn_entity` service...')
-    if not client.service_is_ready():
-        client.wait_for_service()
-        node.get_logger().info('...connected!')
-
-    # Set data for request:
-    request = SpawnEntity.Request()
-    request.name = args.name
-
-    urdf_file_path = os.path.join(get_package_share_directory(args.package), 'urdf', 'objects', args.urdf) # It is assumed that the .urdf/.xacro file is located in /urdf/objects folder!
-    xacro_file = xacro.process_file(urdf_file_path, mappings={"name": args.name})
-    request.xml = xacro_file.toxml()
-
-    request.initial_pose.position.x = float(args.x)
-    request.initial_pose.position.y = float(args.y)
-    request.initial_pose.position.z = float(args.z)
-
-    if args.namespace is True:
-        node.get_logger().info('spawning `{}` on namespace `{}` at {}, {}, {}'.format(
-            args.name, args.namespace, args.x, args.y, args.z))
-
-        request.namespace = args.namespace
-        print(args.namespace)
-
-    else:
-        node.get_logger().info('spawning `{}` at {}, {}, {}'.format(
-            args.name, args.x, args.y, args.z))
-
-    node.get_logger().info('Spawning OBJECT using service: `/spawn_entity`')
-    future = client.call_async(request)
-    rclpy.spin_until_future_complete(node, future)
-    if future.result() is not None:
-        print('response: %r' % future.result())
-    else:
-        raise RuntimeError(
-            'exception while calling service: %r' % future.exception())
-
-    node.get_logger().info('Done! Shutting down node.')
-    node.destroy_node()
-    rclpy.shutdown()
+    node = GzEntitySpawner(args)
+    try:
+        node.spawn()
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
