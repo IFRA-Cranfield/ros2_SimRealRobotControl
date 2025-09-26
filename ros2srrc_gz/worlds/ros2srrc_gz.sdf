@@ -135,6 +135,11 @@
       </spot>
     </light>
 
+    <!-- Gz's SENSORS SYSTEM PLUGIN -->
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
     <!-- IFRA-Cranfield's LinkAttacher PLUGIN -->
     <plugin filename="libgazebo_link_attacher.so" name="gz::sim::systems::GzLinkAttacher"/>
 

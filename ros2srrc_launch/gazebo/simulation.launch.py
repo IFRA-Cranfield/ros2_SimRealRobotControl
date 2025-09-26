@@ -262,11 +262,21 @@ def generate_launch_description():
                 )
             )
 
+    # Gazebo TOPIC BRIDGE:
+    gzTOPIC_bridge = Node(
+        package='ros_gz_image',
+        executable='image_bridge',
+        name='camera_image_bridge',
+        arguments=['/camera/image_raw'],  # CAMERA TOPIC.
+        output='screen'
+    )
+
     # =============================================== #
     # ========== RETURN LAUNCH DESCRIPTION ========== #
 
     # Add ROS 2 Nodes to LaunchDescription() element:
     LD.add_action(gzSIM)
+    LD.add_action(gzTOPIC_bridge)
     LD.add_action(node_robot_state_publisher)
     LD.add_action(spawn_entity)
 
