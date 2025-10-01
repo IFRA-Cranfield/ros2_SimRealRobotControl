@@ -132,10 +132,10 @@
     <joint name="egp64_finger_left_joint" type="prismatic" >
       <parent link="egp64_gripper_base_link" />
       <child link="egp64_finger_left_link" />
-      <limit effort="1000" lower="-0.001" upper="0.04" velocity="0.2"/>
+      <limit effort="1000" lower="-0.0001" upper="0.027" velocity="0.2"/>
       <origin xyz="0.01483 -0.00782 0" rpy="0 0 0" />
       <axis xyz="-1 0 0" />
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.2" friction="0.05"/>
     </joint>
     
     <!-- LEFT FINGERTIP -->
@@ -194,10 +194,10 @@
     <joint name="egp64_finger_right_joint" type="prismatic" >
       <parent link="egp64_gripper_base_link" />
       <child link="egp64_finger_right_link" />
-      <limit effort="1000" lower="-0.001" upper="0.04" velocity="0.2"/>
+      <limit effort="1000" lower="-0.0001" upper="0.027" velocity="0.2"/>
       <origin xyz="-0.0153 -0.00602 0" rpy="0 0 0" />
       <axis xyz="1 0 0" />
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.2" friction="0.05"/>
     </joint>
     
     <!-- RIGHT FINGERTIP -->
