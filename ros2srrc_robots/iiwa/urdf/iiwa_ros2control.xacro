@@ -59,7 +59,7 @@
     <!-- 1. ROS2_CONTROL tag name: -->
     <!-- A. GAZEBO SIMULATION: -->
     <xacro:unless value="${bringup}">
-      <xacro:property name="name" value="GazeboSystem"/>
+      <xacro:property name="name" value="GazeboSimSystem"/>
     </xacro:unless>
     <!-- B. ROBOT BRINGUP: -->
     <xacro:if value="${bringup}">
@@ -72,7 +72,7 @@
       <!-- A. GAZEBO SIMULATION: -->
       <xacro:unless value="${bringup}">
         <hardware>
-          <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+          <plugin>gz_ros2_control/GazeboSimSystem</plugin>
         </hardware>
       </xacro:unless>
 
@@ -143,7 +143,7 @@
           <param name="max">1.3089</param>
         </command_interface>
         <state_interface name="position">
-          <param name="initial_value">0.0</param>
+          <param name="initial_value">-1.5708</param>
         </state_interface>
         <state_interface name="velocity"/>
       </joint>
@@ -175,7 +175,7 @@
           <param name="max">2.356</param>
         </command_interface>
         <state_interface name="position">
-          <param name="initial_value">0.0</param>
+          <param name="initial_value">1.5708</param>
         </state_interface>
         <state_interface name="velocity"/>
       </joint>
@@ -191,7 +191,7 @@
           <param name="max">2.356</param>
         </command_interface>
         <state_interface name="position">
-          <param name="initial_value">0.0</param>
+          <param name="initial_value">1.5708</param>
         </state_interface>
         <state_interface name="velocity"/>
       </joint>
