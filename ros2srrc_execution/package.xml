@@ -23,6 +23,7 @@
 
   <depend>ros2srrc_data</depend>
   <depend>ros2_robotiqgripper</depend>
+  <depend>abb_robot_msgs</depend>
 
   <depend>yaml-cpp</depend>
   <depend>ament_index_cpp</depend>

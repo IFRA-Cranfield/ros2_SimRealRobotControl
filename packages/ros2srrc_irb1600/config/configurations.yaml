@@ -1,0 +1,8 @@
+# ROS 2 Sim-to-Real Robot Control: ABB IRB-1600 Robot.
+Configurations:
+
+  - ID: "irb1600_1"
+    Name: "ABB IRB-1600 on top of Robot Stand."
+    urdf: "irb1600.urdf.xacro"
+    rob: "irb1600"
+    ee: "none"

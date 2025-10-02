@@ -58,6 +58,9 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/gpp5010nc/meshes/gpp5010nc_MainBody.dae" />
         </geometry>
+        <material name="silver">
+          <color rgba="0.8 0.8 0.8 1"/>
+        </material>
       </visual>
       <collision>
         <geometry>
@@ -95,10 +98,10 @@
     <joint name="gpp5010nc_finger_left_joint" type="prismatic" >
       <parent link="gpp5010nc_gripper_base_link" />
       <child link="gpp5010nc_finger_left_link" />
-      <limit effort="1000" lower="-0.001" upper="0.011" velocity="1.0"/>
+      <limit effort="1000" lower="-0.0001" upper="0.0101" velocity="1.0"/>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
       <axis xyz="0 -1 0" />
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.2" friction="0.05"/>
     </joint>
     
     <!-- RIGHT FINGER -->
@@ -124,10 +127,10 @@
     <joint name="gpp5010nc_finger_right_joint" type="prismatic" >
       <parent link="gpp5010nc_gripper_base_link" />
       <child link="gpp5010nc_finger_right_link" />
-      <limit effort="1000" lower="-0.001" upper="0.011" velocity="1.0"/>
+      <limit effort="1000" lower="-0.0001" upper="0.0101" velocity="1.0"/>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
       <axis xyz="0 1 0" />
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.2" friction="0.05"/>
     </joint>
 
     <gazebo reference="gpp5010nc_finger_right_link">

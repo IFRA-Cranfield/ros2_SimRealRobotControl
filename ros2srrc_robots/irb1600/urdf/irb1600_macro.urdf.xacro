@@ -193,7 +193,7 @@
       <inertial>
         <mass value="0.38"/>
         <origin xyz="0.0 0.0 0.0"/>
-        <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+          <inertia ixx="2.1e-04" ixy="0.0" ixz="0.0" iyy="2.1e-04" iyz="0.0" izz="3.0e-04"/>
       </inertial>
       <collision name="collision">
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -215,7 +215,7 @@
       <inertial>
         <mass value="0.08"/>
         <origin xyz="0.0 0.0 0.0"/>
-        <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+          <inertia ixx="2.2e-05" ixy="0.0" ixz="0.0" iyy="2.2e-05" iyz="0.0" izz="2.5e-05"/>
       </inertial>
       <collision name="collision">
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -241,7 +241,7 @@
       <parent link="base_link"/>
       <child link="link_1"/>
       <limit lower="-3.142" upper="3.142" effort="1000" velocity="3.142"/>
-      <dynamics damping="50.0" friction="1.0"/>
+      <dynamics damping="0.3" friction="0.0"/>
     </joint>
 
     <!-- joint_2 -->
@@ -251,7 +251,7 @@
       <parent link="link_1"/>
       <child link="link_2"/>
       <limit lower="-1.571" upper="2.094" effort="1000" velocity="3.142"/>
-      <dynamics damping="50.0" friction="1.0"/>
+      <dynamics damping="0.3" friction="0.0"/>
     </joint>
 
     <!-- joint_3 -->
@@ -261,7 +261,7 @@
       <parent link="link_2"/>
       <child link="link_3"/>
       <limit lower="-4.276" upper="1.134" effort="1000" velocity="3.228"/>
-      <dynamics damping="10.0" friction="1.0"/>
+      <dynamics damping="0.2" friction="0.0"/>
     </joint>
 
     <!-- joint_4 -->
@@ -271,7 +271,7 @@
       <parent link="link_3"/>
       <child link="link_4"/>
       <limit lower="-3.490" upper="3.490" effort="1000" velocity="6.719"/>
-      <dynamics damping="5.0" friction="1.0"/>
+      <dynamics damping="0.05" friction="0.0"/>
     </joint>
 
     <!-- joint_5 -->
@@ -281,7 +281,7 @@
       <parent link="link_4"/>
       <child link="link_5"/>
       <limit lower="-2.007" upper="2.007" effort="1000" velocity="6.981"/>
-      <dynamics damping="2.0" friction="1.0"/>
+      <dynamics damping="0.03" friction="0.0"/>
     </joint>
 
     <!-- joint_6 -->
@@ -291,7 +291,7 @@
       <parent link="link_5"/>
       <child link="link_6"/>
       <limit lower="-6.981" upper="6.981" effort="1000" velocity="8.028"/>
-      <dynamics damping="1.0" friction="1.0"/>
+      <dynamics damping="0.02" friction="0.0"/>
     </joint>
     <!-- end of joint list -->
 

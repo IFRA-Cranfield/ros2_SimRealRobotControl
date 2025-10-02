@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 
 <!-- 
 
@@ -32,42 +32,78 @@
 
 -->
 
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="irb1600" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:macro name="EE_ros2control" params="" >
+  <!-- PASS ARGUMENTS: -->
+  <xacro:arg name="bringup" default="false"/>
+  <xacro:property name="bringup" value="$(arg bringup)"/>
+  <xacro:arg name="robot_ip" default="0.0.0.0"/>
+  <xacro:property name="robot_ip" value="$(arg robot_ip)"/>
 
-    <!-- gpp5010nc_finger_left_joint -->
-    <joint name="gpp5010nc_finger_left_joint">
-      <command_interface name="position">
-        <param name="min">-0.0001</param>
-        <param name="max">0.0101</param>
-      </command_interface>
-      <command_interface name="velocity">
-        <param name="min">-1.0</param>
-        <param name="max">1.0</param>
-      </command_interface>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-    </joint>
+  <xacro:arg name="EE" default="false"/>
+  <xacro:property name="EE" value="$(arg EE)"/>
+  <xacro:arg name="EE_name" default="none"/>
+  <xacro:property name="EE_name" value="$(arg EE_name)"/>
 
-    <!-- gpp5010nc_finger_right_joint -->
-    <joint name="gpp5010nc_finger_right_joint">
-      <command_interface name="position">
-        <param name="min">-0.0001</param>
-        <param name="max">0.0101</param>
-      </command_interface>
-      <command_interface name="velocity">
-        <param name="min">-1.0</param>
-        <param name="max">1.0</param>
-      </command_interface>
-      <state_interface name="position">
-        <param name="initial_value">0.0</param>
-      </state_interface>
-      <state_interface name="velocity"/>
-    </joint>
+  <!-- Include XACRO-MACRO file of the IRB1600: -->
+  <xacro:include filename="$(find ros2srrc_robots)/irb1600/urdf/irb1600_macro.urdf.xacro"/>	
+  <xacro:irb1600 
+    bringup="${bringup}"
+    robot_ip="${robot_ip}"
+    EE="${EE}"
+    EE_name="${EE_name}"
+  />
 
-  </xacro:macro>
+  <!-- Load ROS 2 Gazebo Plugin -->
+  <xacro:unless value="${bringup}">
+    
+    <gazebo>
+      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+
+        <!-- IRB1600 Controller -->
+        <parameters>$(find ros2srrc_robots)/irb1600/config/controller.yaml</parameters>
+
+      </plugin>
+    </gazebo>
+
+  </xacro:unless>
+
+  <!-- World: LINK -->
+  <link name="world"/>
+  
+  <!-- Robot Stand: LINK -->
+  <link name='robot_stand'>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="10000"/>
+      <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+    </inertial>
+    <collision name='collision'>
+      <origin xyz="0 0 0" rpy=" 0 0 0"/> 
+      <geometry>
+        <box size = "1.5 1.5 0.5"/>
+      </geometry>
+    </collision>
+    <visual name='chassis_visual'>
+      <origin xyz="0 0 0" rpy=" 0 0 0"/>
+      <geometry>
+        <box size = "1.5 1.5 0.5"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Robot Stand: FIXED JOINT -->
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "robot_stand" />
+    <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <!-- Robot Stand: Robot+Stand JOINT -->
+  <joint name="stand_joint" type="fixed">
+    <parent link="robot_stand" />
+    <child link = "base_link" />
+    <origin xyz="0.0 0.0 0.255" rpy="0.0 0.0 0.0" /> 
+  </joint>
 
 </robot>
