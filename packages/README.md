@@ -189,8 +189,6 @@ Package name: ros2srrc_ur20
 Configurations:
 
 - ur20_1: UR20 on top of Robot Stand.
-- ur20_2: UR20 + Robotiq 2f-85 gripper on top of Robot Stand.
-- ur20_3: UR20 + Robotiq HandE gripper on top of Robot Stand.
 
 __KUKA LBR-iiwa__
 
