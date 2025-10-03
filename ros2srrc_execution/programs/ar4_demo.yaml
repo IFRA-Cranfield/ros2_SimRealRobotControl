@@ -1,0 +1,184 @@
+Specifications:
+  Robot: "ar4"
+  EndEffector: None
+  EELink: None
+  Objects: None
+
+Sequence: 
+  
+  - Step: 1
+    Name: "[AR4-Demo]: MoveJ - HomePosition."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint1: 0.0
+      joint2: 0.0
+      joint3: 0.0
+      joint4: 0.0
+      joint5: 0.0
+      joint6: 0.0
+      
+  - Step: 2
+    Name: "[AR4-Demo]: MoveR - Rotate Joint1 45.0 degrees."
+    Type: "MoveR"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint: "joint1"
+      value: 45.0
+
+  - Step: 3
+    Name: "[AR4-Demo]: MoveR - Rotate Joint1 -135.0 degrees."
+    Type: "MoveR"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint: "joint1"
+      value: -135.0
+
+  - Step: 4
+    Name: "[AR4-Demo]: MoveL - -0.1m in z axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: -0.1
+  
+  - Step: 5
+    Name: "[AR4-Demo]: MoveL - 0.1m in x axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.1
+      y: 0.0
+      z: 0.0
+
+  - Step: 6
+    Name: "[AR4-Demo]: MoveL - -0.1m in y axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: -0.1
+      z: 0.0
+
+  - Step: 7
+    Name: "[AR4-Demo]: MoveL - -0.1m in x axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: -0.1
+      y: 0.0
+      z: 0.0
+  
+  - Step: 8
+    Name: "[AR4-Demo]: MoveL - 0.1m in y axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.1
+      z: 0.0
+  
+  - Step: 9
+    Name: "[AR4-Demo]: MoveL - +0.1m in z axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: 0.1
+
+  - Step: 10
+    Name: "[AR4-Demo]: MoveJ - Back to HomePosition (J5:90)."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 1.0
+    Input:
+      joint1: 0.0
+      joint2: 0.0
+      joint3: 0.0
+      joint4: 0.0
+      joint5: 90.0
+      joint6: 0.0
+
+  - Step: 11
+    Name: "[AR4-Demo]: MoveL - -0.1m in z axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: -0.1
+
+  - Step: 12
+    Name: "[AR4-Demo]: MoveROT - 90.0 yaw rotation."
+    Type: "MoveROT"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      yaw: 90.0
+      pitch: 0.0
+      roll: 0.0
+
+  - Step: 13
+    Name: "[AR4-Demo]: MoveL - -0.1m in z axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: -0.1
+  
+  - Step: 14
+    Name: "[AR4-Demo]: MoveL - -0.15m in y axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: -0.15
+      z: 0.0
+
+  - Step: 15
+    Name: "[AR4-Demo]: MoveROT - -90.0 yaw rotation."
+    Type: "MoveROT"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      yaw: -90.0
+      pitch: 0.0
+      roll: 0.0
+
+  - Step: 16
+    Name: "[AR4-Demo]: MoveL - +0.2m in z axis."
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 1.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: 0.2
+
+  - Step: 17
+    Name: "[AR4-Demo]: MoveJ - Back to HomePosition."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint1: 0.0
+      joint2: 0.0
+      joint3: 0.0
+      joint4: 0.0
+      joint5: 0.0
+      joint6: 0.0

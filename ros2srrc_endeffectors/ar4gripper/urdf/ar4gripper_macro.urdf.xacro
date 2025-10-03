@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: April, 2023.                                                                   #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- XACRO-MACRO of AR4 GRIPPER: -->
+  <xacro:macro name="ar4gripper" params="bringup parent_link">
+
+    <xacro:unless value="${bringup}">  
+      
+      <!-- AR4 GRIPPER TRANSMISSION: -->
+      <xacro:include filename="$(find ros2srrc_endeffectors)/ar4gripper/urdf/ar4gripper_transmission.xacro" />
+      <xacro:ar4gripper_transmission />
+
+    </xacro:unless>
+
+    <!-- ***** AR4 ROBOT's GRIPPER .urdf SERIAL CHAIN ***** -->
+
+    <!-- GRIPPER BASE -->
+
+    <link name="gripper_base_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/ar4gripper/meshes/gripper_base_link.stl" />
+        </geometry>
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/ar4gripper/meshes/gripper_base_link.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="-0.00073621 -0.02341392 -0.00435302"/>
+        <mass value="0.08"/>
+        <inertia ixx="0.00002375" ixy="0.00000002" ixz="-0.00000017" iyy="0.00004082" iyz="-0.00000029" izz="0.00004254"/>
+      </inertial>
+    </link>
+
+    <joint name="gripper_base_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 1.5708 -1.5708"/>
+      <parent link="${parent_link}"/>
+      <child link="gripper_base_link"/>
+    </joint>
+
+    <!-- JAW-1 -->
+    
+    <link name="gripper_jaw1_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/ar4gripper/meshes/gripper_jaw1_link.stl" />
+        </geometry>
+        <material name="black">
+          <color rgba="0.0 0.0 0.0 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/ar4gripper/meshes/gripper_jaw1_link.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="-0.00435839 -0.00469536 0.00757141"/>
+        <mass value="0.01"/>
+        <inertia ixx="0.00000123" ixy="-0.00000004" ixz="0.00000012" iyy="0.00000115" iyz="0.00000016" izz="0.00000102"/>
+      </inertial>
+    </link>
+    
+    <joint name="gripper_jaw1_joint" type="prismatic">
+      <origin xyz="0.0 -0.036 0" rpy="0.0 0.0 0.0"/>
+      <parent link="gripper_base_link"/>
+      <child link="gripper_jaw1_link"/>
+      <axis xyz="-1 0 0"/>
+      <limit lower="-0.0001" upper="0.0141" effort="1000" velocity="1.0"/>
+      <dynamics damping="0.2" friction="0.05"/>
+    </joint>
+    
+    <!-- JAW-2 -->
+    
+    <link name="gripper_jaw2_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/ar4gripper/meshes/gripper_jaw2_link.stl" />
+        </geometry>
+        <material name="black">
+          <color rgba="0.0 0.0 0.0 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/ar4gripper/meshes/gripper_jaw2_link.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="-0.00423971 -0.00491236 0.00814582"/>
+        <mass value="0.01"/>
+        <inertia ixx="0.00000118" ixy="-0.00000004" ixz="0.00000013" iyy="0.00000110" iyz="0.00000013" izz="0.00000101"/>
+      </inertial>
+    </link>
+    
+    <joint name="gripper_jaw2_joint" type="prismatic">
+      <origin xyz="0.0 -0.036 0" rpy="0.0 ${-pi} 0.0"/>
+      <parent link="gripper_base_link"/>
+      <child link="gripper_jaw2_link"/>
+      <axis xyz="-1 0 0"/>
+      <limit lower="-0.0001" upper="0.0141" effort="1000" velocity="1.0"/>
+      <dynamics damping="0.2" friction="0.05"/>
+    </joint>
+
+    <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
+
+    <link name="EE_ar4gripper">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.00001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <box size= "0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="EE_ar4gripper_joint" type="fixed" >
+      <parent link="${parent_link}" />
+      <child link="EE_ar4gripper" />
+      <origin xyz="-0.055 0.0 0.0" rpy="0 0 0"/>
+    </joint>
+
+    <gazebo reference="EE_ar4gripper_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+    
+  </xacro:macro>
+</robot>

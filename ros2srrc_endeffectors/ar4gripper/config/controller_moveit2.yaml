@@ -1,0 +1,17 @@
+controller_names:
+  - ar4gripper_jaw1_controller
+  - ar4gripper_jaw2_controller
+
+ar4gripper_jaw1_controller:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - gripper_jaw1_joint
+
+ar4gripper_jaw2_controller:
+  action_ns: gripper_cmd
+  type: GripperCommand
+  default: true
+  joints:
+    - gripper_jaw2_joint

@@ -1,0 +1,361 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: April, 2023.                                                                   #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  The information, Robot Specifications and CAD files to build this urdf file for the  #
+#  Annin Robotics AR4-MK3 robot have been taken from the following public repo:         #
+#       - ar4_ros_driver (https://github.com/ycheng517/ar4_ros_driver)                  #
+#                                                                                       #
+#  AUTHOR:                                                                              #
+#       - Yifei Cheng - ycheng517@gmail.com                                             #
+#                                                                                       #
+#  Copyright (c) 2021 Dexter Ong                                                        #
+#  (ORIGINAL LICENSE) -> Licensed under the MIT License.                                #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #                                                      #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- XACRO-MACRO of AR4: -->
+  <xacro:macro name="ar4" params="bringup robot_ip EE EE_name">
+
+    <!-- AR4 TRANSMISSION: -->
+    <xacro:unless value="${bringup}">  
+      <xacro:include filename="$(find ros2srrc_robots)/ar4/urdf/ar4_transmission.xacro" />
+      <xacro:ar4_transmission />
+    </xacro:unless>
+
+    <!-- AR4 GAZEBO - ROS2_CONTROL: -->
+    <xacro:include filename="$(find ros2srrc_robots)/ar4/urdf/ar4_ros2control.xacro" />
+    <xacro:ar4_ros2control 
+      bringup="${bringup}"
+      robot_ip="${robot_ip}"
+      EE="${EE}"
+      EE_name="${EE_name}"
+    />
+
+    <!-- ***** AR4 ROBOT .urdf SERIAL CHAIN ***** -->
+
+    <!-- Link list: -->
+    <!-- base_link -->
+    <link name="base_link">
+      <inertial>
+        <origin rpy="0 0 0" xyz="-4.6941E-06 0.054174 0.038824"/>
+        <mass value="0.7102"/>
+        <inertia ixx="0.0039943" ixy="3.697E-07" ixz="-5.7364E-08" iyy="0.0014946" iyz="-0.00036051" izz="0.0042554"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/base_link.stl"/>
+        </geometry>
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/base_link.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- link_1 -->
+    <link name="link_1">
+      <inertial>
+        <origin rpy="0 0 0" xyz="-0.022706 0.04294 -0.12205"/>
+        <mass value="0.88065"/>
+        <inertia ixx="0.0034" ixy="0.00042296" ixz="-0.00089231" iyy="0.0041778" iyz="0.0010848" izz="0.0027077"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_1.stl"/>
+        </geometry>
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_1.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- link_2 -->
+    <link name="link_2">
+      <inertial>
+        <origin rpy="0 0 0" xyz="0.064818 -0.11189 -0.038671"/>
+        <mass value="0.57738"/>
+        <inertia ixx="0.0047312" ixy="0.0022624" ixz="0.00032144" iyy="0.0020836" iyz="-0.00056569" izz="0.0056129"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_2.stl"/>
+        </geometry>
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_2.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- link_3 -->
+    <link name="link_3">
+      <inertial>
+        <origin rpy="0 0 0" xyz="-0.00029765 -0.023661 -0.0019125"/>
+        <mass value="0.1787"/>
+        <inertia ixx="0.0001685" ixy="-2.7713E-05" ixz="5.6885E-06" iyy="0.00012865" iyz="2.9256E-05" izz="0.00020744"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_3.stl"/>
+        </geometry>
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_3.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- link_4 -->
+    <link name="link_4">
+      <inertial>
+        <origin rpy="0 0 0" xyz="-0.0016798 -0.00057319 -0.074404"/>
+        <mass value="0.34936"/>
+        <inertia ixx="0.0030532" ixy="-1.8615E-05" ixz="-7.0047E-05" iyy="0.0031033" iyz="-2.3301E-05" izz="0.00022264"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_4.stl"/>
+        </geometry>
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_4.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- link_5 -->
+    <link name="link_5">
+      <inertial>
+        <origin rpy="0 0 0" xyz="0.0015066 -1.3102E-05 -0.012585"/>
+        <mass value="0.11562"/>
+        <inertia ixx="5.5035E-05" ixy="-1.019E-08" ixz="-2.6243E-06" iyy="8.2921E-05" iyz="1.4437E-08" izz="5.2518E-05"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_5.stl"/>
+        </geometry>
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_5.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- link_6 -->
+    <link name="link_6">
+      <inertial>
+        <origin rpy="0 0 0" xyz="2.9287E-10 -1.6472E-09 0.0091432"/>
+        <mass value="0.013863"/>
+        <inertia ixx="1.3596E-06" ixy="3.0585E-13" ixz="5.7102E-14" iyy="1.7157E-06" iyz="6.3369E-09" izz="2.4332E-06"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_6.stl"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0.0 0.0 0.0 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_robots)/ar4/meshes/link_6.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <!-- end of link list -->
+
+    <!-- Joint list: -->
+    <!-- joint_1 -->
+    <joint name="joint_1" type="revolute">
+      <origin rpy="${pi} 0 0" xyz="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link_1"/>
+      <axis xyz="0 0 1"/>
+      <limit
+        lower="-2.9671"
+        upper="2.9671"
+        effort="1000.0"
+        velocity="1.0472"
+      />
+      <dynamics damping="0.3" friction="0.0"/>
+    </joint>
+
+    <!-- joint_2 -->
+    <joint name="joint_2" type="revolute">
+      <origin rpy="1.5708 0 -1.5708" xyz="0 0.0642 -0.16977"/>
+      <parent link="link_1"/>
+      <child link="link_2"/>
+      <axis xyz="0 0 -1"/>
+      <limit 
+        lower="-0.7330"
+        upper="1.5708"
+        effort="1000.0" 
+        velocity="1.0472"
+      />
+      <dynamics damping="0.3" friction="0.0"/>
+    </joint>
+
+    <!-- joint_3 -->
+    <joint name="joint_3" type="revolute">
+      <origin rpy="0 0 3.1416" xyz="0 -0.305 0.007"/>
+      <parent link="link_2"/>
+      <child link="link_3"/>
+      <axis xyz="0 0 -1"/>
+      <limit
+        lower="-1.5533"
+        upper="0.9076"
+        effort="1000.0"
+        velocity="1.0472"
+      />
+      <dynamics damping="0.2" friction="0.0"/>
+    </joint>
+
+    <!-- joint_4 -->
+    <joint name="joint_4" type="revolute">
+      <origin rpy="1.5708 0 -1.5708" xyz="0 0 0.0"/>
+      <parent link="link_3"/>
+      <child link="link_4"/>
+      <axis xyz="0 0 -1"/>
+      <limit
+        lower="-2.8798"
+        upper="2.8798"
+        effort="1000.0"
+        velocity="1.0472"
+      />
+      <dynamics damping="0.1" friction="0.0"/>
+    </joint>
+
+    <!-- joint_5 -->
+    <joint name="joint_5" type="revolute">
+      <origin rpy="${pi} 0 -1.5708" xyz="0 0 -0.22263"/>
+      <parent link="link_4"/>
+      <child link="link_5"/>
+      <axis xyz="1 0 0"/>
+      <limit
+        lower="-1.8326"
+        upper="1.8326"
+        effort="1000.0"
+        velocity="1.0472"
+      />
+      <dynamics damping="0.05" friction="0.0"/>
+    </joint>
+
+    <!-- joint_6 -->
+    <joint name="joint_6" type="revolute">
+      <origin rpy="0 0 3.1416" xyz="0.000 0 0.03625"/>
+      <parent link="link_5"/>
+      <child link="link_6"/>
+      <axis xyz="0 0 1"/>
+      <limit
+        lower="-2.7053"
+        upper="2.7053"
+        effort="1000.0"
+        velocity="1.0472"
+      />
+      <dynamics damping="0.01" friction="0.0"/>
+    </joint>
+    <!-- end of joint list -->
+
+    <!-- ROS-Industrial 'base' frame: base_link to ABB World Coordinates transform -->
+    <link name="base" />
+    <joint name="base_link-base" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="base"/>
+    </joint>
+
+    <!-- ROS-Industrial 'flange' frame: attachment point for EEF models -->
+    <link name="flange"/>
+    <joint type="fixed" name="joint_6-flange">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="link_6"/>
+      <child link="flange"/>
+    </joint>
+
+    <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
+    <link name="tool0" />
+    <joint name="link_6-tool0" type="fixed">
+      <origin xyz="0 0 0" rpy="0 ${radians(90)} 0" />
+      <parent link="flange" />
+      <child link="tool0" />
+    </joint>
+
+  </xacro:macro>
+</robot>

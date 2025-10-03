@@ -1,0 +1,33 @@
+joint_limits:
+  joint_1:
+    has_velocity_limits: true
+    max_velocity: 1.0472
+    has_acceleration_limits: true
+    max_acceleration: 0.5236
+  joint_2:
+    has_velocity_limits: true
+    max_velocity: 1.0472
+    has_acceleration_limits: true
+    max_acceleration: 0.5236
+  joint_3:
+    has_velocity_limits: true
+    max_velocity: 1.0472
+    has_acceleration_limits: true
+    max_acceleration: 0.5236
+  joint_4:
+    has_velocity_limits: true
+    max_velocity: 1.0472
+    has_acceleration_limits: true
+    max_acceleration: 0.5236
+  joint_5:
+    has_velocity_limits: true
+    max_velocity: 1.0472
+    has_acceleration_limits: true
+    max_acceleration: 0.5236
+  joint_6:
+    has_velocity_limits: true
+    max_velocity: 1.0472
+    has_acceleration_limits: true
+    max_acceleration: 0.5236
+
+# Values obtained from -> https://github.com/ycheng517/ar4_ros_driver/blob/main/annin_ar4_moveit_config/config/joint_limits.yaml
