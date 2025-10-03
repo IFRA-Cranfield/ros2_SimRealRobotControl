@@ -60,7 +60,7 @@
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
     <scene>
-      <grid>false</grid>
+      <grid>true</grid>
       <ambient>0.4 0.4 0.4 1</ambient>
       <background>0.7 0.7 0.7 1</background>
       <shadows>true</shadows>
@@ -120,7 +120,7 @@
     <!-- SUNLIGHT -->
     <light name='sunUTC' type='directional'>
       <pose>0 0 500 0 -0 0</pose>
-      <cast_shadows>true</cast_shadows>
+      <cast_shadows>false</cast_shadows>
       <intensity>1</intensity>
       <direction>0.001 0.625 -0.78</direction>
       <diffuse>0.904 0.904 0.904 1</diffuse>
