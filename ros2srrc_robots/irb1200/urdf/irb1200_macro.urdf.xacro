@@ -234,6 +234,7 @@
       <parent link="base_link"/>
       <child link="link_1"/>
       <limit effort="1000" lower="-2.967" upper="2.967" velocity="5.027"/>
+      <dynamics damping="1.0" friction="0.0"/>
     </joint>
 
     <!-- joint_2 -->
@@ -243,6 +244,7 @@
       <parent link="link_1"/>
       <child link="link_2"/>
       <limit effort="1000" lower="-1.745" upper="2.269" velocity="4.189"/>
+      <dynamics damping="0.5" friction="0.0"/>
     </joint>
 
     <!-- joint_3 -->
@@ -252,6 +254,7 @@
       <parent link="link_2"/>
       <child link="link_3"/>
       <limit effort="1000" lower="-3.491" upper="1.222" velocity="5.236"/>
+      <dynamics damping="0.3" friction="0.0"/>
     </joint>
 
     <!-- joint_4 -->
@@ -261,6 +264,7 @@
       <parent link="link_3"/>
       <child link="link_4"/>
       <limit effort="1000" lower="-4.712" upper="4.712" velocity="6.981"/>
+      <dynamics damping="0.1" friction="0.0"/>
     </joint>
 
     <!-- joint_5 -->
@@ -270,6 +274,7 @@
       <parent link="link_4"/>
       <child link="link_5"/>
       <limit effort="1000" lower="-2.269" upper="2.269" velocity="7.069"/>
+      <dynamics damping="0.05" friction="0.0"/>
     </joint>
 
     <!-- joint_6 -->
@@ -279,6 +284,7 @@
       <parent link="link_5"/>
       <child link="link_6"/>
       <limit effort="1000" lower="-6.98132" upper="6.98132" velocity="10.472"/>
+      <dynamics damping="0.05" friction="0.0"/>
     </joint>
     <!-- end of joint list -->
 

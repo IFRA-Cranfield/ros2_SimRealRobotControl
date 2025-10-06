@@ -265,6 +265,7 @@
       <child link="link_1"/>
       <axis xyz="0 0 1"/>
       <limit effort="320" lower="-2.9668" upper="2.9668" velocity="1.4834"/>
+      <dynamics damping="1.0" friction="0.0"/>
     </joint>
     <joint name="joint_2" type="revolute">
       <origin rpy="0 0 0" xyz="-0.00043624 0 0.36"/>
@@ -272,6 +273,7 @@
       <child link="link_2"/>
       <axis xyz="0 1 0"/>
       <limit effort="320" lower="-2.0942" upper="2.0942" velocity="1.4834"/>
+      <dynamics damping="1.0" friction="0.0"/>
     </joint>
     <joint name="joint_3" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -279,6 +281,7 @@
       <child link="link_3"/>
       <axis xyz="0 0 1"/>
       <limit effort="176" lower="-2.9668" upper="2.9668" velocity="1.7452"/>
+      <dynamics damping="1.0" friction="0.0"/>
     </joint>
     <joint name="joint_4" type="revolute">
       <origin rpy="0 0 0" xyz="0.00043624 0 0.42"/>
@@ -286,6 +289,7 @@
       <child link="link_4"/>
       <axis xyz="0 -1 0"/>
       <limit effort="176" lower="-2.0942" upper="2.0942" velocity="1.3089"/>
+      <dynamics damping="10.0" friction="1.0"/> <!-- High values of damping + friction were added, to avoid bac joint behaviour in GzFortress. -->
     </joint>
     <joint name="joint_5" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -293,6 +297,7 @@
       <child link="link_5"/>
       <axis xyz="0 0 1"/>
       <limit effort="110" lower="-2.9668" upper="2.9668" velocity="2.2688"/>
+      <dynamics damping="1.0" friction="0.0"/>
     </joint>
     <joint name="joint_6" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0.4"/>
@@ -300,6 +305,7 @@
       <child link="link_6"/>
       <axis xyz="0 1 0"/>
       <limit effort="40" lower="-2.0942" upper="2.0942" velocity="2.356"/>
+      <dynamics damping="1.0" friction="0.0"/>
     </joint>
     <joint name="joint_7" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -307,6 +313,7 @@
       <child link="link_7"/>
       <axis xyz="0 0 1"/>
       <limit effort="40" lower="-3.0541" upper="3.0541" velocity="2.356"/>
+      <dynamics damping="1.0" friction="0.0"/>
     </joint>
     <!-- end of joint list -->
 
