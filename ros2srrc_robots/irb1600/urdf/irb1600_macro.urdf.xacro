@@ -96,7 +96,9 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb1600/meshes/visual/base_link.stl"/>
         </geometry>
-        <xacro:material_abb_yellow />
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
       </visual>
     </link>
 
@@ -118,7 +120,9 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb1600/meshes/visual/link_1.stl"/>
         </geometry>
-        <xacro:material_abb_yellow />
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
       </visual>
     </link>
 
@@ -140,7 +144,9 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb1600/meshes/visual/link_2.stl"/>
         </geometry>
-        <xacro:material_abb_yellow />
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
       </visual>
     </link>
 
@@ -162,7 +168,9 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb1600/meshes/visual/link_3.stl"/>
         </geometry>
-        <xacro:material_abb_yellow />
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
       </visual>
     </link>
 
@@ -184,7 +192,9 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb1600/meshes/visual/link_4.stl"/>
         </geometry>
-        <xacro:material_abb_yellow />
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
       </visual>
     </link>
 
@@ -206,7 +216,9 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb1600/meshes/visual/link_5.stl"/>
         </geometry>
-        <xacro:material_abb_yellow />
+        <material name="silver">
+          <color rgba="0.75 0.75 0.75 1"/>
+        </material>
       </visual>
     </link>
 
@@ -228,7 +240,9 @@
         <geometry>
           <mesh filename="file://$(find ros2srrc_robots)/irb1600/meshes/visual/link_6.stl"/>
         </geometry>
-        <xacro:material_abb_yellow />
+        <material name="black">
+          <color rgba="0.0 0.0 0.0 1"/>
+        </material>
       </visual>
     </link>
     <!-- end of link list -->
