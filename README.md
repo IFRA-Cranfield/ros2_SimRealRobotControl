@@ -133,11 +133,12 @@ __VIDEO: Simulation and Control of a Universal Robots - UR3 using ROS2__
 
 For detailed information on installation, usage, and requirements, please refer to the following documentation files available in this repository:
 
-- [Installation.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/Installation.md): Instructions for setting up and installing the required dependencies.
-- [README.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/packages) inside the /packages folder: Specific details about individual ROS 2 packages and their configurations.
-- [ROS2EnvironmentLaunch.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/ROS2EnvironmentLaunch.md): Instructions for launching ROS 2 simulation and control environments.
-- [RobotOperation.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/RobotOperation.md): Steps to operate robots in both simulated and real environments.
-- [Program Execution.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/ProgramExecution.md): Guidelines for executing the programs in this repository.
+- [Installation.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/instructions/Installation.md): Instructions for setting up and installing the required dependencies.
+- [README.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/packages) inside the /packages folder: Specific details about individual ROS 2 packages and their configurations.
+- [ROS2EnvironmentLaunch.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/instructions/ROS2EnvironmentLaunch.md): Instructions for launching ROS 2 simulation and control environments.
+- [RobotOperation.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/instructions/RobotOperation.md): Steps to operate robots in both simulated and real environments.
+- [Program Execution.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/instructions/ProgramExecution.md): Guidelines for executing the programs in this repository.
+- [Gazebo-to-Gz Migration](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/instructions/Gazebo2Gz.md): Guidelines that have been followed to migrate the ROS 2 Packages from Gazebo Classic to Gz Fortress in ROS 2 Humble.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -160,6 +161,7 @@ The Simulation & Control packages of the following Robots are currently included
 - Universal Robots UR20.
 - KUKA LBR-iiwa.
 - Staubli RX-160.
+- Annin Robotics AR4 (MK3).
 
 The following end-effectors are supported in ros2srrc:
 
@@ -169,6 +171,7 @@ The following end-effectors are supported in ros2srrc:
 - Robotiq 2f-85 Parallel Gripper.
 - Custom Vacuum Gripper (Cranfield University).
 - Custom Vacuum Gripper (AMRC-Sheffield).
+- AR4's Parallel Gripper.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -268,5 +271,6 @@ Don't forget to give the project a star! Thanks you very much!
 * [ABB - ROS Repositories](http://wiki.ros.org/abb).
 * [ABB - ROS 2 Driver (PickNik Robotics)](https://github.com/PickNikRobotics/abb_ros2).
 * [Universal Robots - ROS 2 Driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver).
+* [AR4 ROS Driver](https://github.com/ycheng517/ar4_ros_driver).
 
 <p align="right">(<a href="#top">back to top</a>)</p>

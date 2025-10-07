@@ -206,3 +206,12 @@ Package name: ros2srrc_rx160
 Configurations:
 
 - rx160_1: Staubli RX-160 on top of Robot Stand.
+
+__Annin Robotics AR4 (MK3)__
+
+Package name: ros2srrc_ar4
+
+Configurations:
+
+- ar4_1: AR4 (MK3 version) on top of Robot Stand.
+- ar4_2: AR4 (MK3 version) with its Parallel Gripper on top of Robot Stand.

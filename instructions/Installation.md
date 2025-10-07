@@ -23,7 +23,7 @@ __PC Set-Up for Robot Simulation and Control in ROS2__
     ```
 
 3. Install ROS2 Humble:
-    - Follow instructions in: [ROS2 Humble Tutorials - Installation](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html).
+    - Follow instructions in: [ROS2 Humble Tutorials - Installation](https://docs.ros.org/en/humble-gzfortress/Installation/Ubuntu-Install-Debians.html).
     - Source the ROS2.0 Humble installation in the .bashrc file (hidden file in /home):
         ```sh
         source /opt/ros/humble/setup.bash
@@ -36,7 +36,7 @@ __PC Set-Up for Robot Simulation and Control in ROS2__
     sudo apt install ros-humble-moveit
     ```
 
-5. Modify the move_group_interface.h script: A small improvement of the move_group_interface.h file has been developed in order to execute the Robot/Gripper triggers in this repository. Both the upgraded file and the instructions of how to implement it can be found here: [move_group_interface_improved.h](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/include)
+5. Modify the move_group_interface.h script: A small improvement of the move_group_interface.h file has been developed in order to execute the Robot/Gripper triggers in this repository. Both the upgraded file and the instructions of how to implement it can be found here: [move_group_interface_improved.h](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/include)
 
 6. Create and configure the ROS2.0 Humble ~/dev_ws environment/workspace:
     - Follow instructions in: [ROS2 Humble Tutorials - Create a ROS2 Workspace](https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html).
@@ -100,19 +100,12 @@ __Download and install the required ROS 2 Packages for the Simulation and Contro
     ```sh
     # IFRA-Cranfield/IFRA_ObjectPose:
     cd ~/dev_ws/src
-    git clone https://github.com/IFRA-Cranfield/IFRA_ObjectPose.git # NOT MIGRATED YET - only in Gazebo Classic.
-    cd ~/dev_ws
-    colcon build
-
-    # IFRA-Cranfield/IFRA_LinkPose:
-    cd ~/dev_ws/src
-    git clone https://github.com/IFRA-Cranfield/IFRA_LinkPose.git # NOT MIGRATED YET - only in Gazebo Classic.
-    cd ~/dev_ws
-    colcon build
+    git clone -b humble-gzfortress https://github.com/IFRA-Cranfield/IFRA_ObjectPose.git
 
     # IFRA-Cranfield/ros2_RobotiqGripper:
-    cd ~/dev_ws/src
     git clone https://github.com/IFRA-Cranfield/ros2_RobotiqGripper.git
+    
+    # Build the workspace:
     cd ~/dev_ws
     colcon build
     ```
@@ -121,7 +114,7 @@ __Download and install ros2_SimRealRobotControl__
 
 ```sh
 cd ~/dev_ws/src
-git clone https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl # NOT MIGRATED YET - only in Gazebo Classic.
+git clone -b humble-gzfortress https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl 
 cd ~/dev_ws
 colcon build
 ```   

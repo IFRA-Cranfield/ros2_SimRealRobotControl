@@ -92,8 +92,8 @@ ros2 topic echo /Robpose
 
 ### EXTRA: Spawn Object to a Gazebo Environment
 
-The SpawnObject.py script allows users to spawn objects into the Gazebo simulation environment. The objects must be defined in a .urdf file and placed in the appropriate package folder (/urdf/objects folder inside the specified package).
+The SpawnObject.py script allows users to spawn objects into the Gazebo simulation environment. The objects must be defined in a .sdf file and placed in the appropriate package folder (/sdf folder inside the specified package). 
 
 ```sh
-ros2 run ros2srrc_execution SpawnObject.py --package "{}" --urdf "{}.urdf" --name "{}" --x {} --y {} --z {}
+ros2 run ros2srrc_execution SpawnObject.py --package "{}" --sdf "{}.sdf" --name "{}" --x {} --y {} --z {}
 ```
