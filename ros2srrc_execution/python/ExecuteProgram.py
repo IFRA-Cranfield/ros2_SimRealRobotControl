@@ -89,8 +89,6 @@ def getSEQUENCE(packageNAME, yamlNAME):
     RESULT["Sequence"] = seqYAML["Sequence"]
     RESULT["Robot"] = seqYAML["Specifications"]["Robot"]
     RESULT["EEType"] = seqYAML["Specifications"]["EndEffector"]
-    RESULT["EELink"] = seqYAML["Specifications"]["EELink"]
-    RESULT["Objects"] = seqYAML["Specifications"]["Objects"]
     RESULT["Success"] = True
     
     return(RESULT)

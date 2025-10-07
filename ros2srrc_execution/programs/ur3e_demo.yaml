@@ -1,8 +1,6 @@
 Specifications:
   Robot: "ur3e"
   EndEffector: None
-  EELink: None
-  Objects: None
 
 Sequence: 
   

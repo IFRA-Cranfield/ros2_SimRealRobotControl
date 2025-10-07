@@ -41,8 +41,6 @@
 Specifications:
   Robot: ""
   EndEffector: "" # None if not required.
-  EELink: "" # None if not required.
-  Objects: "" # None if not required.
 
 Sequence: 
   - Step: 0
