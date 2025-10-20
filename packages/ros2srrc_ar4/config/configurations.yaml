@@ -1,0 +1,14 @@
+# ROS 2 Sim-to-Real Robot Control: Annin Robotics AR4 Robot.
+Configurations:
+
+  - ID: "ar4_1"
+    Name: "AR4 (MK3 version) on top of Robot Stand."
+    urdf: "ar4.urdf.xacro"
+    rob: "ar4"
+    ee: "none"
+
+  - ID: "ar4_2"
+    Name: "AR4 (MK3 version) with its Parallel Gripper on top of Robot Stand."
+    urdf: "ar4_ar4gripper.urdf.xacro"
+    rob: "ar4"
+    ee: "ar4gripper"

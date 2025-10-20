@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: April, 2023.                                                                   #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  The information, Robot Specifications and CAD files to build this urdf file for the  #
+#  Annin Robotics AR4-MK3 robot have been taken from the following public repo:         #
+#       - ar4_ros_driver (https://github.com/ycheng517/ar4_ros_driver)                  #
+#                                                                                       #
+#  AUTHOR:                                                                              #
+#       - Yifei Cheng - ycheng517@gmail.com                                             #
+#                                                                                       #
+#  Copyright (c) 2021 Dexter Ong                                                        #
+#  (ORIGINAL LICENSE) -> Licensed under the MIT License.                                #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #                                                      #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+-->
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="ar4_ros2control" params="bringup robot_ip EE EE_name" >
+
+    <!-- 1. ROS2_CONTROL tag name: -->
+    <!-- A. GAZEBO SIMULATION: -->
+    <xacro:unless value="${bringup}">
+      <xacro:property name="name" value="GazeboSystem"/>
+    </xacro:unless>
+    <!-- B. ROBOT BRINGUP: 
+    <xacro:if value="${bringup}">
+      
+    </xacro:if> -->
+
+    <!-- 3. Load ROS2_CONTROL: -->
+    <ros2_control name="${name}" type="system">
+
+      <!-- A. GAZEBO SIMULATION: -->
+      <xacro:unless value="${bringup}">
+        <hardware>
+          <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+        </hardware>
+      </xacro:unless>
+
+      <!-- B. ROBOT BRINGUP: 
+      <xacro:if value="${bringup}">
+        <hardware>
+          
+        </hardware>
+      </xacro:if> -->
+
+      <!-- ar4_joint1 -->
+      <joint name="joint_1">
+        <command_interface name="position">
+          <param name="min">-2.9671</param>
+          <param name="max">2.9671</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-1.0472</param>
+          <param name="max">1.0472</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- ar4_joint2 -->
+      <joint name="joint_2">
+        <command_interface name="position">
+          <param name="min">-1.91986</param>
+          <param name="max">1.5708</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-0.7330</param>
+          <param name="max">1.0472</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- ar4_joint3 -->
+      <joint name="joint_3">
+        <command_interface name="position">
+          <param name="min">-1.5533</param>
+          <param name="max">0.9076</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-1.0472</param>
+          <param name="max">1.0472</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- ar4_joint4 -->
+      <joint name="joint_4">
+        <command_interface name="position">
+          <param name="min">-2.8798</param>
+          <param name="max">2.8798</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-1.0472</param>
+          <param name="max">1.0472</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- ar4_joint5 -->
+      <joint name="joint_5">
+        <command_interface name="position">
+          <param name="min">-1.8326</param>
+          <param name="max">1.8326</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-1.0472</param>
+          <param name="max">1.0472</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- ar4_joint6 -->
+      <joint name="joint_6">
+        <command_interface name="position">
+          <param name="min">-2.7053</param> 
+          <param name="max">2.7053</param> 
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-1.0472</param>
+          <param name="max">1.0472</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- END EFFECTOR -->
+      <xacro:unless value="${bringup}">
+        <xacro:if value="${EE}">
+          <xacro:include filename="$(find ros2srrc_endeffectors)/${EE_name}/urdf/${EE_name}_ros2control.xacro" />
+          <xacro:EE_ros2control />
+        </xacro:if>
+      </xacro:unless>
+
+    </ros2_control>
+
+    <xacro:unless value="${bringup}">
+
+      <gazebo reference="base_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="link_1">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="link_2">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="link_3">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="link_4">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="link_5">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="link_6">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+    
+      <gazebo reference="end_effector_frame_fixed_joint">
+        <preserveFixedJoint>true</preserveFixedJoint>
+        <!-- For compatibility with SDFormat < 4.4 -->
+        <disableFixedJointLumping>true</disableFixedJointLumping>
+      </gazebo>
+
+    </xacro:unless>
+
+  </xacro:macro>
+
+</robot>

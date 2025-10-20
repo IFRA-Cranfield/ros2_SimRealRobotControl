@@ -1,0 +1,5 @@
+# ROS 2 Sim-to-Real Robot Control -> END-EFFECTOR SPECIFICATIONS (AR4-GRIPPER)
+Limits:
+  Max: 0.014
+  Min: 0.00
+JointsVector: [1.0, 1.0]

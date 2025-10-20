@@ -1,0 +1,13 @@
+joint_limits:
+  gripper_jaw1_joint:
+    has_velocity_limits: true
+    max_velocity: 0.05
+    has_acceleration_limits: true
+    max_acceleration: 0.1
+  gripper_jaw2_joint:
+    has_velocity_limits: true
+    max_velocity: 0.05
+    has_acceleration_limits: true
+    max_acceleration: 0.1
+
+# Values taken from -> https://github.com/ycheng517/ar4_ros_driver/blob/main/annin_ar4_moveit_config/config/joint_limits.yaml

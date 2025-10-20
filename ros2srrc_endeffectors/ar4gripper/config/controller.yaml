@@ -1,0 +1,18 @@
+controller_manager:
+  ros__parameters:
+
+    update_rate: 250 #Hz
+
+    ar4gripper_jaw1_controller:
+      type: position_controllers/GripperActionController
+
+    ar4gripper_jaw2_controller:
+      type: position_controllers/GripperActionController
+
+ar4gripper_jaw1_controller:
+  ros__parameters:
+    joint: gripper_jaw1_joint
+
+ar4gripper_jaw2_controller:
+  ros__parameters:
+    joint: gripper_jaw2_joint

@@ -1,0 +1,7 @@
+cartesian_limits:
+  max_trans_vel: 0.05 # m/s
+  max_trans_acc: 0.01 # m/s^2
+  max_trans_dec: -0.01 # m/s^2
+  max_rot_vel: 0.08727 # 5 deg/s
+
+# Values obtained from -> https://github.com/ycheng517/ar4_ros_driver/blob/main/annin_ar4_moveit_config/config/joint_limits.yaml
