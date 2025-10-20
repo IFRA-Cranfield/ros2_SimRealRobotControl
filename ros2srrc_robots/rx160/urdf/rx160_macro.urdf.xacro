@@ -83,7 +83,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/base_link.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/base_link.dae"/>
         </geometry>
         <material name="base_link_material">
           <color rgba="1.0 0.607843137255 0.0 1.0"/>
@@ -107,7 +107,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_1.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_1.dae"/>
         </geometry>
         <material name="link_1_material">
           <color rgba="1.0 0.607843137255 0.0 1.0"/>
@@ -131,7 +131,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_2.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_2.dae"/>
         </geometry>
         <material name="link_2_material">
           <color rgba="1.0 0.607843137255 0.0 1.0"/>
@@ -155,7 +155,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_3.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_3.dae"/>
         </geometry>
         <material name="link_3_material">
           <color rgba="1.0 0.607843137255 0.0 1.0"/>
@@ -179,7 +179,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_4.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_4.dae"/>
         </geometry>
         <material name="link_4_material">
           <color rgba="1.0 0.607843137255 0.0 1.0"/>
@@ -203,7 +203,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_5.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_5.dae"/>
         </geometry>
         <material name="link_5_material">
           <color rgba="0.529411764706 0.521568627451 0.505882352941 1.0"/>
@@ -227,7 +227,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_6.stl"/>
+          <mesh filename="file://$(find ros2srrc_robots)/rx160/meshes/visual/link_6.dae"/>
         </geometry>
         <material name="link_6_material">
           <color rgba="0.529411764706 0.521568627451 0.505882352941 1.0"/>
