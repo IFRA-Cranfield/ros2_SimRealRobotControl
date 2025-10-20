@@ -48,10 +48,9 @@ __PC Set-Up for Robot Simulation and Control in ROS2__
 7. Install ROS2 packages, which are required for ROS2-based Robot Simulation and Control:
 
     ```sh
-    # Rosdep, vcstool and colcon:
-    sudo apt install python3-rosdep
-    sudo apt install python3-vcstool
-    sudo apt install python3-colcon-common-extensions
+    # Install ROS 2 Development Tools:
+    sudo apt install ros-dev-tools
+    sudo apt install ros-humble-xacro
 
     # ROS2 Control + ROS2 Controllers:
     sudo apt install ros-humble-ros2-control
@@ -115,24 +114,17 @@ __Download and install the required ROS 2 Packages for the Simulation and Contro
     # IFRA-Cranfield/IFRA_LinkAttacher:
     cd ~/dev_ws/src
     git clone https://github.com/IFRA-Cranfield/IFRA_LinkAttacher.git
-    cd ~/dev_ws
-    colcon build
     
     # IFRA-Cranfield/IFRA_ObjectPose:
-    cd ~/dev_ws/src
     git clone https://github.com/IFRA-Cranfield/IFRA_ObjectPose.git
-    cd ~/dev_ws
-    colcon build
 
     # IFRA-Cranfield/IFRA_LinkPose:
-    cd ~/dev_ws/src
     git clone https://github.com/IFRA-Cranfield/IFRA_LinkPose.git
-    cd ~/dev_ws
-    colcon build
 
     # IFRA-Cranfield/ros2_RobotiqGripper:
-    cd ~/dev_ws/src
     git clone https://github.com/IFRA-Cranfield/ros2_RobotiqGripper.git
+    
+    # Build:
     cd ~/dev_ws
     colcon build
     ```
