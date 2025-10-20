@@ -77,9 +77,13 @@
       <joint name="egp64_finger_left_joint" value="0" />
       <joint name="egp64_finger_right_joint" value="0" />
   </group_state>
-  <group_state name="gripper_close" group="egp64">
-      <joint name="egp64_finger_left_joint" value="0.01" />
-      <joint name="egp64_finger_right_joint" value="0.01" />
+  <group_state name="gripper_close_HALF" group="egp64">
+      <joint name="egp64_finger_left_joint" value="0.0135" />
+      <joint name="egp64_finger_right_joint" value="0.0135" />
+  </group_state>
+  <group_state name="gripper_close_FULL" group="egp64">
+      <joint name="egp64_finger_left_joint" value="0.027" />
+      <joint name="egp64_finger_right_joint" value="0.027" />
   </group_state>
   <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
   <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->

@@ -39,8 +39,8 @@
     <!-- egp64_finger_left_joint -->
     <joint name="egp64_finger_left_joint">
       <command_interface name="position">
-        <param name="min">-0.001</param>
-        <param name="max">0.04</param>
+        <param name="min">-0.0001</param>
+        <param name="max">0.0271</param>
       </command_interface>
       <command_interface name="velocity">
         <param name="min">-0.2</param>
@@ -55,8 +55,8 @@
     <!-- egp64_finger_right_joint -->
     <joint name="egp64_finger_right_joint">
       <command_interface name="position">
-        <param name="min">-0.001</param>
-        <param name="max">0.04</param>
+        <param name="min">-0.0001</param>
+        <param name="max">0.0271</param>
       </command_interface>
       <command_interface name="velocity">
         <param name="min">-0.2</param>
