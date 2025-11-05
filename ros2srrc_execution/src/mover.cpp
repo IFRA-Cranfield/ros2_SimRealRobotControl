@@ -39,8 +39,8 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 
 // Include MoveIt!2:
-#include <moveit/move_group_interface/move_group_interface_improved.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/planning_scene_interface/planning_scene_interface.hpp>
 
 // Include the move ROS2 ACTION:
 #include "ros2srrc_data/action/move.hpp"
@@ -64,10 +64,8 @@ MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP,
 
     // 2. CALCULATIONS:
     // Obtain current joint values:
-    for (int i=0; i<JP.size(); i++){
-        
+    for (std::size_t i = 0; i < JP.size(); ++i){
         CURRENT.push_back(JP[i] * (1/k));
-
     };
 
     // Joint Limits:
@@ -101,8 +99,7 @@ MoveRSTRUCT MoveRAction (ros2srrc_data::msg::Joint GOAL, std::vector<double> JP,
 
     // 3. SET TARGET and RETURN:
     if (LimitsOK && inputOK){
-        
-        for (int i=0; i<JP.size(); i++){
+        for (std::size_t i = 0; i < JP.size(); ++i){
             JP[i] = CURRENT[i] * k;
         };
 

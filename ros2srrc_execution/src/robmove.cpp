@@ -38,17 +38,23 @@
 #include "ros2srrc_data/action/robmove.hpp"
 
 // Include MoveIt!2:
-#include <moveit/move_group_interface/move_group_interface_improved.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/planning_scene_interface/planning_scene_interface.hpp>
+
+// For result codes:
+#include "moveit_msgs/msg/move_it_error_codes.hpp"
+
+#include <memory>
+#include <string>
 
 // Declaration of GLOBAL VARIABLE --> MoveIt!2 Interface:
-moveit::planning_interface::MoveGroupInterface move_group_interface_ROB;
+std::unique_ptr<moveit::planning_interface::MoveGroupInterface> move_group_interface_ROB;
 
 // Declaration of GLOBAL VARIABLE --> ROBOT PARAMETER:
 std::string param_ROB = "none";
 
 // Declaration of GLOBAL VARIABLE --> RES:
-auto RES = "none";
+std::string RES = "none";
 
 // =============================================================================== //
 //  PARAM -> ROBOT:
@@ -71,7 +77,7 @@ private:
 moveit::planning_interface::MoveGroupInterface::Plan plan_ROB() {
     
     moveit::planning_interface::MoveGroupInterface::Plan my_plan;
-    bool success = (move_group_interface_ROB.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    bool success = (move_group_interface_ROB->plan(my_plan) == moveit_msgs::msg::MoveItErrorCodes::SUCCESS);
 
     // Execute the plan
     if (success)
@@ -133,7 +139,7 @@ private:
     rclcpp_action::CancelResponse handle_cancel(const std::shared_ptr<GoalHandle> goal_handle)
     {
         RCLCPP_INFO(this->get_logger(), "Received a cancel request.");
-        move_group_interface_ROB.stop();
+        move_group_interface_ROB->stop();
         (void)goal_handle;
         return rclcpp_action::CancelResponse::ACCEPT;
     }
@@ -142,7 +148,7 @@ private:
     {
 
         // 0. INFORMATION -> Current Robot Pose:
-        auto CP_INFO = move_group_interface_ROB.getCurrentPose();
+        auto CP_INFO = move_group_interface_ROB->getCurrentPose();
         RCLCPP_INFO(get_logger(), "INFORMATION -> Current Robot Pose:");
         RCLCPP_INFO(get_logger(), "POSITION -> (x: %.3f, y: %.3f, z: %.3f)", CP_INFO.pose.position.x, CP_INFO.pose.position.y, CP_INFO.pose.position.z);
         RCLCPP_INFO(get_logger(), "ORIENTATION -> (qx: %.3f, qy: %.3f, qz: %.3f, qw: %.3f)", CP_INFO.pose.orientation.x, CP_INFO.pose.orientation.y, CP_INFO.pose.orientation.z, CP_INFO.pose.orientation.w);
@@ -157,7 +163,7 @@ private:
 
         moveit::planning_interface::MoveGroupInterface::Plan MyPlan;
         
-        auto CURRENT_POSE = move_group_interface_ROB.getCurrentPose();
+        auto CURRENT_POSE = move_group_interface_ROB->getCurrentPose();
 
         geometry_msgs::msg::Pose TARGET_POSE;
         TARGET_POSE.position.x = GOAL->x;
@@ -168,16 +174,16 @@ private:
         TARGET_POSE.orientation.z = GOAL->qz;
         TARGET_POSE.orientation.w = GOAL->qw;
 
-        move_group_interface_ROB.setPoseTarget(TARGET_POSE);
+        move_group_interface_ROB->setPoseTarget(TARGET_POSE);
 
-        move_group_interface_ROB.setPlannerId(GOAL->type);
-        move_group_interface_ROB.setMaxVelocityScalingFactor(GOAL->speed);
+        move_group_interface_ROB->setPlannerId(GOAL->type);
+        move_group_interface_ROB->setMaxVelocityScalingFactor(GOAL->speed);
 
         MyPlan = plan_ROB();
 
         if (RES == "PLANNING: OK"){
 
-            bool ExecSUCCESS = (move_group_interface_ROB.execute(MyPlan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+            bool ExecSUCCESS = (move_group_interface_ROB->execute(MyPlan) == moveit_msgs::msg::MoveItErrorCodes::SUCCESS);
 
             if (goal_handle->is_canceling()) {
                 RCLCPP_INFO(this->get_logger(), "ROBOT MOVEMENT (%s) has been CANCELED.", GOAL->type.c_str());
@@ -238,11 +244,11 @@ int main(int argc, char **argv)
     // MoveGroupInterface_ROB:
     using moveit::planning_interface::MoveGroupInterface;
     auto ROBname = param_ROB + "_arm";
-    move_group_interface_ROB = MoveGroupInterface(MoveIt2_NODE, ROBname);
-    move_group_interface_ROB.setPlanningPipelineId("move_group");
+    move_group_interface_ROB = std::make_unique<MoveGroupInterface>(MoveIt2_NODE, ROBname);
+    move_group_interface_ROB->setPlanningPipelineId("pilz_industrial_motion_planner");
 
-    move_group_interface_ROB.setMaxVelocityScalingFactor(1.0);
-    move_group_interface_ROB.setMaxAccelerationScalingFactor(1.0);
+    move_group_interface_ROB->setMaxVelocityScalingFactor(1.0);
+    move_group_interface_ROB->setMaxAccelerationScalingFactor(1.0);
     
     RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
 

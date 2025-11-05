@@ -40,7 +40,7 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 
 // Include MoveIt!2:
-#include <moveit/move_group_interface/move_group_interface_improved.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
 // Include the move ROS2 ACTION:

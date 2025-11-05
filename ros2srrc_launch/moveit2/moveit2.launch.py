@@ -186,14 +186,11 @@ def generate_launch_description():
 
     # ROS 2 Gz Clock:
     clock_bridge = Node(
-    package="ros_gz_bridge",
-    executable="parameter_bridge",
-    name="gz_clock_bridge",
-    output="screen",
-    arguments=[
-        "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"
-    ],
-)
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
+        output="screen",
+    )
 
     # ***** ROBOT DESCRIPTION ***** #
     # Robot Description file package:
@@ -313,7 +310,7 @@ def generate_launch_description():
     kinematics_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/kinematics.yaml")
     robot_description_kinematics = {"robot_description_kinematics": kinematics_yaml}
 
-    # joint_limits.yaml file:
+    # joint_limits.yaml file & pilz_cartesian_limits.yaml file:
     if (EE == "false") or (EE == "true-NOctr"):
         joint_limits_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/joint_limits.yaml")
     else:
@@ -322,19 +319,30 @@ def generate_launch_description():
         joint_limits_yaml = {}
         joint_limits_yaml["joint_limits"] = YAML_ROB | YAML_EE
     
-    joint_limits = {'robot_description_planning': joint_limits_yaml}
+    pilz_cartesian_limits_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/pilz_cartesian_limits.yaml")
 
-    # pilz_planning_pipeline_config.yaml file:
-    pilz_planning_pipeline_config = {
-        "move_group": {
-            "planning_plugin": "pilz_industrial_motion_planner/CommandPlanner",
-            "request_adapters": """ """,
-            "start_state_max_bounds_error": 0.1,
-            "default_planner_config": "PTP",
+    robot_description_planning = {
+        'robot_description_planning': {
+            **(joint_limits_yaml or {}),          
+            **(pilz_cartesian_limits_yaml or {}), 
         }
     }
-    pilz_cartesian_limits_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/pilz_cartesian_limits.yaml")
-    pilz_cartesian_limits = {'robot_description_planning': pilz_cartesian_limits_yaml}
+
+    # pilz_planning_pipeline_config.yaml file:
+    planning_pipelines = {
+        "planning_pipelines": ["pilz_industrial_motion_planner"],  # default-only list is fine
+        "planning_pipeline": "pilz_industrial_motion_planner",     # legacy top-level; harmless
+    }
+
+    # Namespace block for the pilz pipeline (Jazzy expects `planning_plugins`, plural):
+    pilz_planning_pipeline_config = {
+        "pilz_industrial_motion_planner": {
+            "planning_plugins": ["pilz_industrial_motion_planner/CommandPlanner"],
+            "default_planner_config": "PTP",
+            "start_state_max_bounds_error": 0.1,
+            # "request_adapters": [],  # optional
+        }
+    }
 
     # MoveIt!2 Controllers:
     if (EE == "false") or (EE == "true-NOctr"):
@@ -364,9 +372,9 @@ def generate_launch_description():
         "publish_transforms_updates": True,
     }
     move_group_capabilities = {
-        "capabilities": """pilz_industrial_motion_planner/MoveGroupSequenceAction \
-            pilz_industrial_motion_planner/MoveGroupSequenceService"""
-    }
+        "capabilities": "pilz_industrial_motion_planner/MoveGroupSequenceAction "
+                        "pilz_industrial_motion_planner/MoveGroupSequenceService"
+    }   
 
     # MoveGroup Node:
     run_move_group_node = Node(
@@ -376,12 +384,11 @@ def generate_launch_description():
         parameters=[
             robot_description,
             robot_description_semantic,
-            kinematics_yaml,
+            robot_description_kinematics,
+            robot_description_planning,
             
-            pilz_planning_pipeline_config,
-
-            joint_limits,
-            pilz_cartesian_limits,
+            planning_pipelines,
+            pilz_planning_pipeline_config, 
 
             trajectory_execution,
             moveit_controllers,
@@ -407,18 +414,20 @@ def generate_launch_description():
         parameters=[
             robot_description,
             robot_description_semantic,
-            kinematics_yaml,
+            robot_description_kinematics,
+            robot_description_planning,
             
-            pilz_planning_pipeline_config,
-
-            joint_limits,
-            pilz_cartesian_limits,
+            planning_pipelines,
+            pilz_planning_pipeline_config, 
 
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
             move_group_capabilities,
             {"use_sim_time": True},
+
+            {"move_group/planning_plugin": "pilz_industrial_motion_planner"},
+            {"move_group/default_planner_config": "PTP"},
         ]
     )
 
@@ -433,7 +442,7 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": CONFIGURATION["ee"]}, {"ENV_PARAM": "gazebo"}],
+            parameters=[robot_description, robot_description_semantic, robot_description_kinematics, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": CONFIGURATION["ee"]}, {"ENV_PARAM": "gazebo"}],
         )
 
     else:
@@ -443,7 +452,7 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": "none"}, {"ENV_PARAM": "gazebo"}],
+            parameters=[robot_description, robot_description_semantic, robot_description_kinematics, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": "none"}, {"ENV_PARAM": "gazebo"}],
         )
 
     # RobMove and RobPose:
@@ -452,14 +461,14 @@ def generate_launch_description():
         package="ros2srrc_execution",
         executable="robmove",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}],
+        parameters=[robot_description, robot_description_semantic, robot_description_kinematics, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}],
     )
     RobPoseInterface = Node(
         name="robpose",
         package="ros2srrc_execution",
         executable="robpose",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}],
+        parameters=[robot_description, robot_description_semantic, robot_description_kinematics, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}],
     )
     
     # =============================================== #

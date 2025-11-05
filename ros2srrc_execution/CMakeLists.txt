@@ -44,9 +44,6 @@ find_package(ament_index_cpp REQUIRED)
 # REQUIRED to -> ABB:
 find_package(abb_robot_msgs REQUIRED)
 
-# REQUIRED to -> Robotiq:
-find_package(ros2_robotiqgripper REQUIRED)
-
 # Add include directories:
 include_directories(include)
 

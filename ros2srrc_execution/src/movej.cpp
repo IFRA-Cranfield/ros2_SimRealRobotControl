@@ -39,8 +39,8 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 
 // Include MoveIt!2:
-#include <moveit/move_group_interface/move_group_interface_improved.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/planning_scene_interface/planning_scene_interface.hpp>
 
 // Include the move ROS2 ACTION:
 #include "ros2srrc_data/action/move.hpp"
@@ -78,7 +78,7 @@ MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> 
     // 2. CALCULATIONS -> Joint Limits:
     auto LimitsOK = true;
     std::vector<std::string> jointLIST;
-    for (int i=0; i<JP.size(); i++){
+    for (std::size_t i = 0; i < JP.size(); ++i){
         
         if (GOAL[i] <= SPECIFICATIONS.robot_max[i] && GOAL[i] >= SPECIFICATIONS.robot_min[i]) {
         // Do nothing, check complete.
@@ -92,7 +92,7 @@ MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> 
     // 3. SET TARGET and RETURN:
     if (LimitsOK == true){
 
-        for (int i=0; i<JP.size(); i++){
+        for (std::size_t i = 0; i < JP.size(); ++i){
             JP[i] = GOAL[i] * k;
         };
 
@@ -102,8 +102,8 @@ MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> 
     } else {
 
         std::string OUTPUT = "[";
-        for (int k=0; k<jointLIST.size(); k++){
-            OUTPUT = OUTPUT + jointLIST[k] + ", ";
+        for (std::size_t idx = 0; idx < jointLIST.size(); ++idx){
+            OUTPUT = OUTPUT + jointLIST[idx] + ", ";
         };
         OUTPUT.pop_back();
         OUTPUT.pop_back();

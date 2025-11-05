@@ -41,14 +41,14 @@
 using namespace std::chrono_literals;
 
 // Include MoveIt!2:
-#include <moveit/move_group_interface/move_group_interface_improved.h>
-#include <moveit/planning_scene_interface/planning_scene_interface.h>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/planning_scene_interface/planning_scene_interface.hpp>
 
 // Include the Robpose ROS2 Message:
 #include "ros2srrc_data/msg/robpose.hpp"
 
 // Declaration of GLOBAL VARIABLE --> MoveIt!2 Interface:
-moveit::planning_interface::MoveGroupInterface move_group_interface_ROB;
+std::unique_ptr<moveit::planning_interface::MoveGroupInterface> move_group_interface_ROB;
 
 // Declaration of GLOBAL VARIABLE --> ROBOT PARAMETER:
 std::string param_ROB = "none";
@@ -72,7 +72,7 @@ private:
 };
 
 // =============================================================================== //
-//  PARAM -> ROBOT:
+//  PUB -> ROBOT POSE:
 
 class RobPose_PUB : public rclcpp::Node
 {
@@ -88,8 +88,7 @@ private:
 
   void timer_callback()
   {
-
-    auto CP_INFO = move_group_interface_ROB.getCurrentPose();
+    auto CP_INFO = move_group_interface_ROB->getCurrentPose();
 
     POSE.x = CP_INFO.pose.position.x;
     POSE.y = CP_INFO.pose.position.y;
@@ -100,13 +99,11 @@ private:
     POSE.qw = CP_INFO.pose.orientation.w;
 
     publisher_->publish(POSE);
-
   }
 
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<ros2srrc_data::msg::Robpose>::SharedPtr publisher_;
   size_t count_;
-
 };
 
 // ===================================================================================== //
@@ -115,7 +112,6 @@ private:
 
 int main(int argc, char **argv)
 {
-
     // Initialise MAIN NODE:
     rclcpp::init(argc, argv);
 
@@ -127,7 +123,9 @@ int main(int argc, char **argv)
 
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
     auto name = "ros2srrc_RobPose";
-    auto const MoveIt2_NODE = std::make_shared<rclcpp::Node>(name, rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
+    auto const MoveIt2_NODE = std::make_shared<rclcpp::Node>(
+        name,
+        rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
     rclcpp::executors::SingleThreadedExecutor executor; 
     executor.add_node(MoveIt2_NODE);
     std::thread([&executor]() { executor.spin(); }).detach();
@@ -135,14 +133,15 @@ int main(int argc, char **argv)
     // MoveGroupInterface_ROB:
     using moveit::planning_interface::MoveGroupInterface;
     auto ROBname = param_ROB + "_arm";
-    move_group_interface_ROB = MoveGroupInterface(MoveIt2_NODE, ROBname);
+    move_group_interface_ROB = std::make_unique<MoveGroupInterface>(MoveIt2_NODE, ROBname);
 
-    RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
+    RCLCPP_INFO(node_LOGGER->get_logger(),
+                "MoveGroupInterface object created for ROBOT: %s",
+                param_ROB.c_str());
 
     // SPIN PUBLISHER:
     rclcpp::spin(std::make_shared<RobPose_PUB>());
 
     rclcpp::shutdown();
     return 0;
-
 }
