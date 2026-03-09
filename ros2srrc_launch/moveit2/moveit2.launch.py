@@ -262,9 +262,13 @@ def generate_launch_description():
     # *** PLANNING CONTEXT *** #
     # Robot description, SRDF:
     if (EE == "false"):
-        robot_description_semantic_config = load_file("ros2srrc_moveit", "config/" + CONFIGURATION["rob"] + ".srdf")
+        srdf_file = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config", CONFIGURATION["rob"] + ".srdf")
     else:
-        robot_description_semantic_config = load_file("ros2srrc_moveit", "config/" + CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".srdf")
+        srdf_file = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config", CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".srdf")
+
+    srdf_doc = xacro.parse(open(srdf_file))
+    xacro.process_doc(srdf_doc, mappings={"prefix": ""})
+    robot_description_semantic_config = srdf_doc.toxml()
     
     robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config}
 
