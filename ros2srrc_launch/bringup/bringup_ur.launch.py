@@ -203,6 +203,8 @@ def generate_launch_description():
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
 
+        "prefix": "",
+
         "robot_ip": robot_ip,
         "bringup": "true",
 

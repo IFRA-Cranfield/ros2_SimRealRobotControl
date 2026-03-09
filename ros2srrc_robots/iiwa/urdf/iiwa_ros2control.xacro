@@ -54,7 +54,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="iiwa_ros2control" params="bringup robot_ip EE EE_name" >
+  <xacro:macro name="iiwa_ros2control" params="bringup robot_ip EE EE_name prefix" >
 
     <!-- 1. ROS2_CONTROL tag name: -->
     <!-- A. GAZEBO SIMULATION: -->
@@ -85,7 +85,7 @@
       </xacro:if>
 
       <!-- iiwa_joint1 -->
-      <joint name="joint_1">
+      <joint name="${prefix}joint_1">
         <command_interface name="position">
           <param name="min">-2.9668</param>
           <param name="max">2.9668</param>
@@ -101,7 +101,7 @@
       </joint>
 
       <!-- iiwa_joint2 -->
-      <joint name="joint_2">
+      <joint name="${prefix}joint_2">
         <command_interface name="position">
           <param name="min">-2.0942</param>
           <param name="max">2.0942</param>
@@ -117,7 +117,7 @@
       </joint>
 
       <!-- iiwa_joint3 -->
-      <joint name="joint_3">
+      <joint name="${prefix}joint_3">
         <command_interface name="position">
           <param name="min">-2.9668</param>
           <param name="max">2.9668</param>
@@ -133,7 +133,7 @@
       </joint>
 
       <!-- iiwa_joint4 -->
-      <joint name="joint_4">
+      <joint name="${prefix}joint_4">
         <command_interface name="position">
           <param name="min">-2.0942</param>
           <param name="max">2.0942</param>
@@ -149,7 +149,7 @@
       </joint>
 
       <!-- iiwa_joint5 -->
-      <joint name="joint_5">
+      <joint name="${prefix}joint_5">
         <command_interface name="position">
           <param name="min">-2.9668</param>       
           <param name="max">2.9668</param>
@@ -165,7 +165,7 @@
       </joint>
 
       <!-- iiwa_joint6 -->
-      <joint name="joint_6">
+      <joint name="${prefix}joint_6">
         <command_interface name="position">
           <param name="min">-2.0942</param> 
           <param name="max">2.0942</param> 
@@ -181,7 +181,7 @@
       </joint>
 
       <!-- iiwa_joint7 -->
-      <joint name="joint_7">
+      <joint name="${prefix}joint_7">
         <command_interface name="position">
           <param name="min">-3.0541</param> 
           <param name="max">3.0541</param> 
@@ -200,7 +200,7 @@
       <xacro:unless value="${bringup}">
         <xacro:if value="${EE}">
           <xacro:include filename="$(find ros2srrc_endeffectors)/${EE_name}/urdf/${EE_name}_ros2control.xacro" />
-          <xacro:EE_ros2control />
+          <xacro:EE_ros2control prefix="" />
         </xacro:if>
       </xacro:unless>
 
@@ -208,32 +208,32 @@
 
     <xacro:unless value="${bringup}">
 
-      <gazebo reference="base_link">
+      <gazebo reference="${prefix}base_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="link_1">
+      <gazebo reference="${prefix}link_1">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="link_2">
+      <gazebo reference="${prefix}link_2">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="link_3">
+      <gazebo reference="${prefix}link_3">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="link_4">
+      <gazebo reference="${prefix}link_4">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="link_5">
+      <gazebo reference="${prefix}link_5">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="link_6">
+      <gazebo reference="${prefix}link_6">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="link_7">
+      <gazebo reference="${prefix}link_7">
         <selfCollide>false</selfCollide>
       </gazebo>
     
-      <gazebo reference="end_effector_frame_fixed_joint">
+      <gazebo reference="${prefix}end_effector_frame_fixed_joint">
         <preserveFixedJoint>true</preserveFixedJoint>
         <!-- For compatibility with SDFormat < 4.4 -->
         <disableFixedJointLumping>true</disableFixedJointLumping>

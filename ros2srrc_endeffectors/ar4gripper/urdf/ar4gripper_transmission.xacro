@@ -34,34 +34,34 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="ar4gripper_transmission" params="">
+  <xacro:macro name="ar4gripper_transmission" params="prefix">
 
-    <transmission name="ar4gripper_jaw1_trans">
+    <transmission name="${prefix}ar4gripper_jaw1_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="gripper_jaw1_joint">
+      <joint name="${prefix}gripper_jaw1_joint">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="ar4gripper_jaw1_motor">
+      <actuator name="${prefix}ar4gripper_jaw1_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-    <transmission name="ar4gripper_jaw2_trans">
+    <transmission name="${prefix}ar4gripper_jaw2_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="gripper_jaw2_joint">
+      <joint name="${prefix}gripper_jaw2_joint">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="ar4gripper_jaw2_motor">
+      <actuator name="${prefix}ar4gripper_jaw2_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <gazebo reference="gripper_base_link">
+    <gazebo reference="${prefix}gripper_base_link">
       <selfCollide>false</selfCollide>
     </gazebo>
-    <gazebo reference="gripper_jaw1_link">
+    <gazebo reference="${prefix}gripper_jaw1_link">
       <selfCollide>false</selfCollide>
     </gazebo>
-    <gazebo reference="gripper_jaw2_link">
+    <gazebo reference="${prefix}gripper_jaw2_link">
       <selfCollide>false</selfCollide>
     </gazebo>  
 

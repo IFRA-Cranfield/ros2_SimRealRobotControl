@@ -35,20 +35,20 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- XACRO-MACRO of Robotiq 2f-85: -->
-  <xacro:macro name="robotiq_2f85" params="bringup parent_link">
+  <xacro:macro name="robotiq_2f85" params="bringup parent_link prefix">
 
     <xacro:unless value="${bringup}">  
       
       <!-- Robotiq 2f-85 TRANSMISSION: -->
       <xacro:include filename="$(find ros2srrc_endeffectors)/robotiq_2f85/urdf/robotiq_2f85_transmission.xacro" />
-      <xacro:robotiq_2f85_transmission />
+      <xacro:robotiq_2f85_transmission prefix="${prefix}" />
 
     </xacro:unless>
 
     <!-- ***** Robotiq 2f-85 GRIPPER .urdf SERIAL CHAIN ***** -->
 
     <!-- Robotiq: coupler -->
-    <link name="robotiq_coupler">
+    <link name="${prefix}robotiq_coupler">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f85/meshes/robotiq_85_coupler.stl" />
@@ -67,20 +67,20 @@
       </inertial>
     </link>
 
-    <joint name="robotiq_coupler_joint" type="fixed">
+    <joint name="${prefix}robotiq_coupler_joint" type="fixed">
       <origin xyz="0 0 0.004" rpy="0 0 ${-pi/2.0}" />
       <parent link="${parent_link}"/>
-      <child link="robotiq_coupler"/>
+      <child link="${prefix}robotiq_coupler"/>
     </joint>
 
-    <gazebo reference="robotiq_coupler">
+    <gazebo reference="${prefix}robotiq_coupler">
       <mu1>0.9</mu1>
       <mu2>0.9</mu2>
       <material>Gazebo/Black</material>
     </gazebo>
 
     <!-- Robotiq: base_link -->
-    <link name="robotiq_85_base_link">
+    <link name="${prefix}robotiq_85_base_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f85/meshes/visual/robotiq_85_base_link.dae"/>
@@ -100,14 +100,14 @@
       </inertial>
     </link>
 
-    <joint name="robotiq_85_base_joint" type="fixed">
+    <joint name="${prefix}robotiq_85_base_joint" type="fixed">
       <origin xyz="0 0 0.004" rpy="0 ${-pi/2} ${pi}"/>
-      <parent link="robotiq_coupler"/>
-      <child link="robotiq_85_base_link"/>
+      <parent link="${prefix}robotiq_coupler"/>
+      <child link="${prefix}robotiq_85_base_link"/>
     </joint>
 
     <!-- Robotiq: left_knuckle -->
-    <link name="robotiq_85_left_knuckle_link">
+    <link name="${prefix}robotiq_85_left_knuckle_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f85/meshes/visual/robotiq_85_knuckle_link.dae"/>
@@ -127,9 +127,9 @@
       </inertial>
     </link>
 
-    <joint name="robotiq_85_left_knuckle_joint" type="revolute">
-      <parent link="robotiq_85_base_link"/>
-      <child link="robotiq_85_left_knuckle_link"/>
+    <joint name="${prefix}robotiq_85_left_knuckle_joint" type="revolute">
+      <parent link="${prefix}robotiq_85_base_link"/>
+      <child link="${prefix}robotiq_85_left_knuckle_link"/>
       <axis xyz="0 0 1"/>
       <origin rpy="${pi} 0.0 0.0" xyz="0.05490451627 0.03060114443 0.0"/>
       <limit lower="-0.05" upper="0.80285" velocity="0.5" effort="1000"/>
@@ -137,7 +137,7 @@
     </joint>
 
     <!-- Robotiq: right_knuckle -->
-    <link name="robotiq_85_right_knuckle_link">
+    <link name="${prefix}robotiq_85_right_knuckle_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f85/meshes/visual/robotiq_85_knuckle_link.dae"/>
@@ -157,9 +157,9 @@
       </inertial>
     </link>
 
-    <joint name="robotiq_85_right_knuckle_joint" type="continuous">
-      <parent link="robotiq_85_base_link"/>
-      <child link="robotiq_85_right_knuckle_link"/>
+    <joint name="${prefix}robotiq_85_right_knuckle_joint" type="continuous">
+      <parent link="${prefix}robotiq_85_base_link"/>
+      <child link="${prefix}robotiq_85_right_knuckle_link"/>
       <axis xyz="0 0 1"/>
       <origin rpy="0.0 0.0 0.0" xyz="0.05490451627 -0.03060114443 0.0"/>
       <limit lower="-0.05" upper="0.80285" velocity="0.5" effort="1000"/>
@@ -167,7 +167,7 @@
     </joint>
 
     <!-- Robotiq: left_finger -->
-    <link name="robotiq_85_left_finger_link">
+    <link name="${prefix}robotiq_85_left_finger_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f85/meshes/visual/robotiq_85_finger_link.dae"/>
@@ -187,15 +187,15 @@
       </inertial>
     </link>
 
-    <joint name="robotiq_85_left_finger_joint" type="fixed">
-      <parent link="robotiq_85_left_knuckle_link"/>
-      <child link="robotiq_85_left_finger_link"/>
+    <joint name="${prefix}robotiq_85_left_finger_joint" type="fixed">
+      <parent link="${prefix}robotiq_85_left_knuckle_link"/>
+      <child link="${prefix}robotiq_85_left_finger_link"/>
       <origin xyz="-0.00408552455 -0.03148604435 0.0" rpy="0 0 0" />
       <dynamics damping="1.0" friction="1.0"/>
     </joint>
 
     <!-- Robotiq: right_finger -->
-    <link name="robotiq_85_right_finger_link">
+    <link name="${prefix}robotiq_85_right_finger_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f85/meshes/visual/robotiq_85_finger_link.dae"/>
@@ -215,15 +215,15 @@
       </inertial>
     </link>
 
-    <joint name="robotiq_85_right_finger_joint" type="fixed">
-      <parent link="robotiq_85_right_knuckle_link"/>
-      <child link="robotiq_85_right_finger_link"/>
+    <joint name="${prefix}robotiq_85_right_finger_joint" type="fixed">
+      <parent link="${prefix}robotiq_85_right_knuckle_link"/>
+      <child link="${prefix}robotiq_85_right_finger_link"/>
       <origin xyz="-0.00408552455 -0.03148604435 0.0" rpy="0 0 0" />
       <dynamics damping="1.0" friction="1.0"/>
     </joint>
 
     <!-- Robotiq: left_inner_knuckle -->
-    <link name="robotiq_85_left_inner_knuckle_link">
+    <link name="${prefix}robotiq_85_left_inner_knuckle_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f85/meshes/visual/robotiq_85_inner_knuckle_link.dae"/>
@@ -243,9 +243,9 @@
       </inertial>
     </link>
 
-    <joint name="robotiq_85_left_inner_knuckle_joint" type="continuous">
-      <parent link="robotiq_85_base_link"/>
-      <child link="robotiq_85_left_inner_knuckle_link"/>
+    <joint name="${prefix}robotiq_85_left_inner_knuckle_joint" type="continuous">
+      <parent link="${prefix}robotiq_85_base_link"/>
+      <child link="${prefix}robotiq_85_left_inner_knuckle_link"/>
       <axis xyz="0 0 1"/>
       <origin xyz="0.06142 0.0127 0" rpy="${pi} 0.0 0.0" />
       <limit lower="-0.05" upper="0.80285" velocity="0.5" effort="1000"/>
@@ -253,7 +253,7 @@
     </joint>
 
     <!-- Robotiq: right_inner_knuckle -->
-    <link name="robotiq_85_right_inner_knuckle_link">
+    <link name="${prefix}robotiq_85_right_inner_knuckle_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f85/meshes/visual/robotiq_85_inner_knuckle_link.dae"/>
@@ -273,9 +273,9 @@
       </inertial>
     </link>
 
-    <joint name="robotiq_85_right_inner_knuckle_joint" type="continuous">
-      <parent link="robotiq_85_base_link"/>
-      <child link="robotiq_85_right_inner_knuckle_link"/>
+    <joint name="${prefix}robotiq_85_right_inner_knuckle_joint" type="continuous">
+      <parent link="${prefix}robotiq_85_base_link"/>
+      <child link="${prefix}robotiq_85_right_inner_knuckle_link"/>
       <axis xyz="0 0 1"/>
       <origin xyz="0.06142 -0.0127 0" rpy="0 0 0"/>
       <limit lower="-0.05" upper="0.80285" velocity="0.5" effort="1000"/>
@@ -283,7 +283,7 @@
     </joint>
 
     <!-- Robotiq: left_finger_tip -->
-    <link name="robotiq_85_left_finger_tip_link">
+    <link name="${prefix}robotiq_85_left_finger_tip_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f85/meshes/visual/robotiq_85_finger_tip_link.dae"/>
@@ -303,9 +303,9 @@
       </inertial>
     </link> 
 
-    <joint name="robotiq_85_left_finger_tip_joint" type="continuous">
-      <parent link="robotiq_85_left_inner_knuckle_link"/>
-      <child link="robotiq_85_left_finger_tip_link"/>
+    <joint name="${prefix}robotiq_85_left_finger_tip_joint" type="continuous">
+      <parent link="${prefix}robotiq_85_left_inner_knuckle_link"/>
+      <child link="${prefix}robotiq_85_left_finger_tip_link"/>
       <axis xyz="0 0 1"/>
       <origin xyz="0.04303959807 -0.03759940821 0.0" rpy="0.0 0.0 0.0"/>
       <limit lower="-0.80285" upper="0.05" velocity="0.5" effort="1000"/>
@@ -313,7 +313,7 @@
     </joint>
 
     <!-- Robotiq: right_finger_tip -->
-    <link name="robotiq_85_right_finger_tip_link">
+    <link name="${prefix}robotiq_85_right_finger_tip_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f85/meshes/visual/robotiq_85_finger_tip_link.dae"/>
@@ -333,9 +333,9 @@
       </inertial>
     </link>
 
-    <joint name="robotiq_85_right_finger_tip_joint" type="continuous">
-      <parent link="robotiq_85_right_inner_knuckle_link"/>
-      <child link="robotiq_85_right_finger_tip_link"/>
+    <joint name="${prefix}robotiq_85_right_finger_tip_joint" type="continuous">
+      <parent link="${prefix}robotiq_85_right_inner_knuckle_link"/>
+      <child link="${prefix}robotiq_85_right_finger_tip_link"/>
       <axis xyz="0 0 1"/>
       <origin rpy="0.0 0.0 0.0" xyz="0.04303959807 -0.03759940821  0.0"/>
       <limit lower="-0.80285" upper="0.05" velocity="0.5" effort="1000"/>
@@ -344,7 +344,7 @@
 
     <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
 
-    <link name="EE_robotiq_2f85">
+    <link name="${prefix}EE_robotiq_2f85">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <mass value="0.00001" />
@@ -357,13 +357,13 @@
       </visual>
     </link>
 
-    <joint name="EE_robotiq_2f85_joint" type="fixed" >
-      <parent link="robotiq_85_base_link" />
-      <child link="EE_robotiq_2f85" />
+    <joint name="${prefix}EE_robotiq_2f85_joint" type="fixed" >
+      <parent link="${prefix}robotiq_85_base_link" />
+      <child link="${prefix}EE_robotiq_2f85" />
       <origin xyz="0.128 0.0 0.0" rpy="0 0 0"/>
     </joint>
 
-    <gazebo reference="EE_robotiq_2f85_joint">
+    <gazebo reference="${prefix}EE_robotiq_2f85_joint">
       <preserveFixedJoint>true</preserveFixedJoint>
     </gazebo>
     

@@ -34,10 +34,10 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="EE_ros2control" params="" >
+  <xacro:macro name="EE_ros2control" params="prefix" >
 
     <!-- gripper_jaw1_joint -->
-    <joint name="gripper_jaw1_joint">
+    <joint name="${prefix}gripper_jaw1_joint">
       <command_interface name="position">
         <param name="min">-0.0001</param>
         <param name="max">0.0141</param>
@@ -49,7 +49,7 @@
     </joint>
 
     <!-- gripper_jaw2_joint -->
-    <joint name="gripper_jaw2_joint">
+    <joint name="${prefix}gripper_jaw2_joint">
       <command_interface name="position">
         <param name="min">-0.0001</param>
         <param name="max">0.0141</param>

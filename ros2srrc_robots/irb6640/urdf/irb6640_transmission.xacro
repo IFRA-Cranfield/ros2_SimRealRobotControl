@@ -54,84 +54,84 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="irb6640_transmission" params="">
+  <xacro:macro name="irb6640_transmission" params="prefix">
 
-    <transmission name="joint_1_trans">
+    <transmission name="${prefix}joint_1_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_1">
+      <joint name="${prefix}joint_1">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="joint_1_motor">
+      <actuator name="${prefix}joint_1_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="joint_2_trans">
+    <transmission name="${prefix}joint_2_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_2">
+      <joint name="${prefix}joint_2">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="joint_2_motor">
+      <actuator name="${prefix}joint_2_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="joint_3_trans">
+    <transmission name="${prefix}joint_3_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_3">
+      <joint name="${prefix}joint_3">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="joint_3_motor">
+      <actuator name="${prefix}joint_3_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="joint_4_trans">
+    <transmission name="${prefix}joint_4_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_4">
+      <joint name="${prefix}joint_4">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="joint_4_motor">
+      <actuator name="${prefix}joint_4_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="joint_5_trans">
+    <transmission name="${prefix}joint_5_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_5">
+      <joint name="${prefix}joint_5">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="joint_5_motor">
+      <actuator name="${prefix}joint_5_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="joint_6_trans">
+    <transmission name="${prefix}joint_6_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_6">
+      <joint name="${prefix}joint_6">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="joint_6_motor">
+      <actuator name="${prefix}joint_6_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="joint_cylinder_trans">
+    <transmission name="${prefix}joint_cylinder_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_cylinder">
+      <joint name="${prefix}joint_cylinder">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="joint_cylinder_motor">
+      <actuator name="${prefix}joint_cylinder_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="joint_piston_trans">
+    <transmission name="${prefix}joint_piston_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_piston">
+      <joint name="${prefix}joint_piston">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="joint_piston_motor">
+      <actuator name="${prefix}joint_piston_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>

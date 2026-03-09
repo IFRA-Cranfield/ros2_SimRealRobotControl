@@ -101,7 +101,7 @@ public:
 
         action_server_ = rclcpp_action::create_server<Robmove>(
             this,
-            "/Robmove",
+            "Robmove",
             std::bind(&ActionServer::handle_goal, this, std::placeholders::_1, std::placeholders::_2),
             std::bind(&ActionServer::handle_cancel, this, std::placeholders::_1),
             std::bind(&ActionServer::handle_accepted, this, std::placeholders::_1)

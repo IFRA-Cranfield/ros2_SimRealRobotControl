@@ -35,12 +35,12 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- XACRO-MACRO of LS-VacuumGripper: -->
-  <xacro:macro name="ls_vgr" params="bringup parent_link">
+  <xacro:macro name="ls_vgr" params="bringup parent_link prefix">
 
     <!-- ***** LS-VacuumGripper .urdf SERIAL CHAIN ***** -->
 
     <!-- Vacuum Gripper: Body -->
-    <link name="ls_vgr_link">
+    <link name="${prefix}ls_vgr_link">
       <inertial>
         <mass value="0.2"/>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
@@ -57,15 +57,15 @@
         </geometry>
       </visual>
     </link>
-    <joint name="ls_vgr_joint" type="fixed">
+    <joint name="${prefix}ls_vgr_joint" type="fixed">
       <parent link="${parent_link}"/>
-      <child link="ls_vgr_link"/>
+      <child link="${prefix}ls_vgr_link"/>
       <origin xyz="0.0 0.0 0.0" rpy="0 -1.5708 0" />
     </joint>
 
     <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
 
-    <link name="EE_ls_vgr">
+    <link name="${prefix}EE_ls_vgr">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <mass value="0.00001" />
@@ -78,13 +78,13 @@
       </visual>
     </link>
 
-    <joint name="EE_vgr_joint" type="fixed" >
-      <parent link="ls_vgr_link" />
-      <child link="EE_ls_vgr" />
+    <joint name="${prefix}EE_vgr_joint" type="fixed" >
+      <parent link="${prefix}ls_vgr_link" />
+      <child link="${prefix}EE_ls_vgr" />
       <origin xyz="0.065 0.0 0.1" rpy="0 0 0"/>
     </joint>
 
-    <gazebo reference="EE_vgr_joint">
+    <gazebo reference="${prefix}EE_vgr_joint">
       <preserveFixedJoint>true</preserveFixedJoint>
     </gazebo>
     

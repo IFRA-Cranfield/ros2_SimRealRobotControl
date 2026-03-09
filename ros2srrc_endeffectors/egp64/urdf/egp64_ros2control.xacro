@@ -34,10 +34,10 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="EE_ros2control" params="" >
+  <xacro:macro name="EE_ros2control" params="prefix" >
 
     <!-- egp64_finger_left_joint -->
-    <joint name="egp64_finger_left_joint">
+    <joint name="${prefix}egp64_finger_left_joint">
       <command_interface name="position">
         <param name="min">-0.0001</param>
         <param name="max">0.0271</param>
@@ -53,7 +53,7 @@
     </joint>
 
     <!-- egp64_finger_right_joint -->
-    <joint name="egp64_finger_right_joint">
+    <joint name="${prefix}egp64_finger_right_joint">
       <command_interface name="position">
         <param name="min">-0.0001</param>
         <param name="max">0.0271</param>

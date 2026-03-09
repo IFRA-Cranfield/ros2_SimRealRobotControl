@@ -54,74 +54,74 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="iiwa_transmission" params="">
+  <xacro:macro name="iiwa_transmission" params="prefix">
 
-    <transmission name="iiwa_joint1_trans">
+    <transmission name="${prefix}iiwa_joint1_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_1">
+      <joint name="${prefix}joint_1">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="iiwa_joint1_motor">
+      <actuator name="${prefix}iiwa_joint1_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="iiwa_joint2_trans">
+    <transmission name="${prefix}iiwa_joint2_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_2">
+      <joint name="${prefix}joint_2">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="iiwa_joint2_motor">
+      <actuator name="${prefix}iiwa_joint2_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="iiwa_joint3_trans">
+    <transmission name="${prefix}iiwa_joint3_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_3">
+      <joint name="${prefix}joint_3">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="iiwa_joint3_motor">
+      <actuator name="${prefix}iiwa_joint3_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="iiwa_joint4_trans">
+    <transmission name="${prefix}iiwa_joint4_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_4">
+      <joint name="${prefix}joint_4">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="iiwa_joint4_motor">
+      <actuator name="${prefix}iiwa_joint4_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="iiwa_joint5_trans">
+    <transmission name="${prefix}iiwa_joint5_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_5">
+      <joint name="${prefix}joint_5">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="iiwa_joint5_motor">
+      <actuator name="${prefix}iiwa_joint5_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="iiwa_joint6_trans">
+    <transmission name="${prefix}iiwa_joint6_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_6">
+      <joint name="${prefix}joint_6">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="iiwa_joint6_motor">
+      <actuator name="${prefix}iiwa_joint6_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="iiwa_joint7_trans">
+    <transmission name="${prefix}iiwa_joint7_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_7">
+      <joint name="${prefix}joint_7">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="iiwa_joint7_motor">
+      <actuator name="${prefix}iiwa_joint7_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>

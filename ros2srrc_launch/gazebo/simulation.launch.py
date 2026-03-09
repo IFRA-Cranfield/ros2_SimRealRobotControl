@@ -195,6 +195,7 @@ def generate_launch_description():
     xacro.process_doc(doc, mappings={
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
+        "prefix": "",
     })
     
     # EE -> Controller file needed?

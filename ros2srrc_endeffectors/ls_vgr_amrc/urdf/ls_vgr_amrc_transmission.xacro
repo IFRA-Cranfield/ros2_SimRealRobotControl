@@ -34,9 +34,9 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="egp64_transmission" params="">
+  <xacro:macro name="egp64_transmission" params="prefix">
 
-    <gazebo reference="ls_vgr_amrc_link">
+    <gazebo reference="${prefix}ls_vgr_amrc_link">
       <selfCollide>false</selfCollide>
     </gazebo> 
 

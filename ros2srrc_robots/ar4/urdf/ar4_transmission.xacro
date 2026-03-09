@@ -39,7 +39,7 @@
 #  (ORIGINAL LICENSE) -> Licensed under the MIT License.                                #
 #                                                                                       #
 #  CHANGES MADE:                                                                        #
-#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #                                                      #
+#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #                                                      
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -51,64 +51,64 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="ar4_transmission" params="">
+  <xacro:macro name="ar4_transmission" params="prefix">
 
-    <transmission name="ar4_joint1_trans">
+    <transmission name="${prefix}ar4_joint1_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_1">
+      <joint name="${prefix}joint_1">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="ar4_joint1_motor">
+      <actuator name="${prefix}ar4_joint1_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="ar4_joint2_trans">
+    <transmission name="${prefix}ar4_joint2_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_2">
+      <joint name="${prefix}joint_2">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="ar4_joint2_motor">
+      <actuator name="${prefix}ar4_joint2_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="ar4_joint3_trans">
+    <transmission name="${prefix}ar4_joint3_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_3">
+      <joint name="${prefix}joint_3">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="ar4_joint3_motor">
+      <actuator name="${prefix}ar4_joint3_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="ar4_joint4_trans">
+    <transmission name="${prefix}ar4_joint4_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_4">
+      <joint name="${prefix}joint_4">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="ar4_joint4_motor">
+      <actuator name="${prefix}ar4_joint4_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="ar4_joint5_trans">
+    <transmission name="${prefix}ar4_joint5_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_5">
+      <joint name="${prefix}joint_5">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="ar4_joint5_motor">
+      <actuator name="${prefix}ar4_joint5_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="ar4_joint6_trans">
+    <transmission name="${prefix}ar4_joint6_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint_6">
+      <joint name="${prefix}joint_6">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="ar4_joint6_motor">
+      <actuator name="${prefix}ar4_joint6_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>

@@ -34,34 +34,34 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="gpp5010nc_transmission" params="">
+  <xacro:macro name="gpp5010nc_transmission" params="prefix">
 
-    <transmission name="gpp5010nc_left_finger_trans">
+    <transmission name="${prefix}gpp5010nc_left_finger_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="gpp5010nc_finger_left_joint">
+      <joint name="${prefix}gpp5010nc_finger_left_joint">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="gpp5010nc_left_finger_motor">
+      <actuator name="${prefix}gpp5010nc_left_finger_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-    <transmission name="gpp5010nc_right_finger_trans">
+    <transmission name="${prefix}gpp5010nc_right_finger_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="gpp5010nc_finger_right_joint">
+      <joint name="${prefix}gpp5010nc_finger_right_joint">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="gpp5010nc_right_finger_motor">
+      <actuator name="${prefix}gpp5010nc_right_finger_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission> 
 
-    <gazebo reference="gpp5010nc_gripper_base_link">
+    <gazebo reference="${prefix}gpp5010nc_gripper_base_link">
       <selfCollide>false</selfCollide>
     </gazebo>
-    <gazebo reference="gpp5010nc_finger_left_link">
+    <gazebo reference="${prefix}gpp5010nc_finger_left_link">
       <selfCollide>false</selfCollide>
     </gazebo>
-    <gazebo reference="gpp5010nc_finger_right_link">
+    <gazebo reference="${prefix}gpp5010nc_finger_right_link">
       <selfCollide>false</selfCollide>
     </gazebo>
 

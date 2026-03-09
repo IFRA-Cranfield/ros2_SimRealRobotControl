@@ -34,10 +34,10 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="EE_ros2control" params="" >
+  <xacro:macro name="EE_ros2control" params="prefix" >
 
     <!-- gpp5010nc_finger_left_joint -->
-    <joint name="gpp5010nc_finger_left_joint">
+    <joint name="${prefix}gpp5010nc_finger_left_joint">
       <command_interface name="position">
         <param name="min">-0.001</param>
         <param name="max">0.011</param>
@@ -53,7 +53,7 @@
     </joint>
 
     <!-- gpp5010nc_finger_right_joint -->
-    <joint name="gpp5010nc_finger_right_joint">
+    <joint name="${prefix}gpp5010nc_finger_right_joint">
       <command_interface name="position">
         <param name="min">-0.001</param>
         <param name="max">0.011</param>

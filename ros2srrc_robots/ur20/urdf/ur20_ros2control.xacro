@@ -126,7 +126,7 @@
   <xacro:arg name="tf_prefix" default=""/>
   <xacro:property name="tf_prefix" value="$(arg tf_prefix)"/>
 
-  <xacro:macro name="ur20_ros2control" params="bringup robot_ip EE EE_name script_filename input_recipe_filename output_recipe_filename" >
+  <xacro:macro name="ur20_ros2control" params="bringup robot_ip EE EE_name script_filename input_recipe_filename output_recipe_filename prefix" >
 
     <!-- ROS2_CONTROL tag name: -->
     <!-- A. GAZEBO SIMULATION: -->
@@ -192,7 +192,7 @@
       </xacro:if>
 
       <!-- SHOULDER PAN JOINT -->
-      <joint name="shoulder_pan_joint">
+      <joint name="${prefix}shoulder_pan_joint">
         <command_interface name="position">
           <param name="min">${-6.2832}</param> <!-- -360 degrees -->
           <param name="max">${6.2832}</param>  <!-- 360 degrees -->
@@ -213,7 +213,7 @@
       </joint>
 
       <!-- SHOULDER LIFT JOINT -->
-      <joint name="shoulder_lift_joint">
+      <joint name="${prefix}shoulder_lift_joint">
         <command_interface name="position">
           <param name="min">${-6.2832}</param> <!-- -360 degrees -->
           <param name="max">${6.2832}</param>  <!-- 360 degrees -->
@@ -234,7 +234,7 @@
       </joint>
 
       <!-- ELBOW JOINT -->
-      <joint name="elbow_joint">
+      <joint name="${prefix}elbow_joint">
         <command_interface name="position">
           <param name="min">${-3.1416}</param> <!-- -180 degrees -->
           <param name="max">${3.1416}</param>  <!-- 180 degrees -->
@@ -255,7 +255,7 @@
       </joint>
 
       <!-- WRIST1 JOINT -->
-      <joint name="wrist_1_joint">
+      <joint name="${prefix}wrist_1_joint">
         <command_interface name="position">
           <param name="min">${-6.2832}</param> <!-- -360 degrees -->
           <param name="max">${6.2832}</param>  <!-- 360 degrees -->
@@ -276,7 +276,7 @@
       </joint>
 
       <!-- WRIST2 JOINT -->
-      <joint name="wrist_2_joint">
+      <joint name="${prefix}wrist_2_joint">
         <command_interface name="position">
           <param name="min">${-6.2832}</param> <!-- -360 degrees -->
           <param name="max">${6.2832}</param>  <!-- 360 degrees -->
@@ -297,7 +297,7 @@
       </joint>
 
       <!-- WRIST3 JOINT -->
-      <joint name="wrist_3_joint">
+      <joint name="${prefix}wrist_3_joint">
         <command_interface name="position">
           <param name="min">${-6.2832}</param> <!-- -360 degrees -->
           <param name="max">${6.2832}</param>  <!-- 360 degrees -->
@@ -321,7 +321,7 @@
       <xacro:unless value="${bringup}">
         <xacro:if value="${EE}">
           <xacro:include filename="$(find ros2srrc_endeffectors)/${EE_name}/urdf/${EE_name}_ros2control.xacro" />
-          <xacro:EE_ros2control />
+          <xacro:EE_ros2control prefix="" />
         </xacro:if>
       </xacro:unless>
 
@@ -329,26 +329,26 @@
 
     <xacro:unless value="${bringup}">
 
-      <gazebo reference="shoulder_link">
+      <gazebo reference="${prefix}shoulder_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="upper_arm_link">
+      <gazebo reference="${prefix}upper_arm_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="forearm_link">
+      <gazebo reference="${prefix}forearm_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="wrist_1_link">
+      <gazebo reference="${prefix}wrist_1_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="wrist_3_link">
+      <gazebo reference="${prefix}wrist_3_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="wrist_2_link">
+      <gazebo reference="${prefix}wrist_2_link">
         <selfCollide>false</selfCollide>
       </gazebo>
     
-      <gazebo reference="end_effector_frame_fixed_joint">
+      <gazebo reference="${prefix}end_effector_frame_fixed_joint">
         <preserveFixedJoint>true</preserveFixedJoint>
         <!-- For compatibility with SDFormat < 4.4 -->
         <disableFixedJointLumping>true</disableFixedJointLumping>
