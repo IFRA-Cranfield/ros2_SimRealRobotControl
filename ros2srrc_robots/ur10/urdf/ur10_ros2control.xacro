@@ -131,11 +131,11 @@
     <!-- ROS2_CONTROL tag name: -->
     <!-- A. GAZEBO SIMULATION: -->
     <xacro:unless value="${bringup}">
-      <xacro:property name="name" value="GazeboSystem"/>
+      <xacro:property name="name" value="${prefix}GazeboSystem"/>
     </xacro:unless>
     <!-- B. ROBOT BRINGUP: -->
     <xacro:if value="${bringup}">
-      <xacro:property name="name" value="ur10"/>
+      <xacro:property name="name" value="${prefix}ur10"/>
     </xacro:if>
 
     <!-- Load ROS2_CONTROL: -->
@@ -321,7 +321,7 @@
       <xacro:unless value="${bringup}">
         <xacro:if value="${EE}">
           <xacro:include filename="$(find ros2srrc_endeffectors)/${EE_name}/urdf/${EE_name}_ros2control.xacro" />
-          <xacro:EE_ros2control prefix="" />
+          <xacro:EE_ros2control prefix="${prefix}" />
         </xacro:if>
       </xacro:unless>
 
