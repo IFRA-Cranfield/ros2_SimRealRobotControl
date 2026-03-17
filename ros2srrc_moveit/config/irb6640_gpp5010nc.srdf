@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<robot name="irb6640" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="name" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- Input parameter: NAME -->
+  <xacro:arg name="name" default="irb6640" />
   <!-- Input parameter: PREFIX -->
   <xacro:arg name="prefix" default="" />
   <xacro:property name="prefix" value="$(arg prefix)" />
 
   <!-- Planning Group: ROBOT ARM -->
-  <group name="irb6640_arm">
+  <group name="${prefix}irb6640_arm">
     <chain base_link="${prefix}base_link" tip_link="${prefix}EE_gpp5010nc" />
   </group>
 
-  <group_state group="irb6640_arm" name="all_zero">
+  <group_state group="${prefix}irb6640_arm" name="all_zero">
     <joint name="${prefix}joint_1" value="0" />
     <joint name="${prefix}joint_2" value="0" />
     <joint name="${prefix}joint_3" value="0" />
@@ -51,20 +53,20 @@
   <disable_collisions link1="${prefix}link_6" link2="${prefix}link_piston" reason="Never" />
 
   <!-- Planning Group: END EFFECTOR-->
-  <group name="gpp5010nc">
+  <group name="${prefix}gpp5010nc">
     <joint name="${prefix}gpp5010nc_finger_left_joint" />
     <joint name="${prefix}gpp5010nc_finger_right_joint" />
   </group>
 
-  <group_state name="gripper_close_FULL" group="gpp5010nc">
+  <group_state name="gripper_close_FULL" group="${prefix}gpp5010nc">
     <joint name="${prefix}gpp5010nc_finger_left_joint" value="0.01" />
     <joint name="${prefix}gpp5010nc_finger_right_joint" value="0.01" />
   </group_state>
-  <group_state name="gripper_close_HALF" group="gpp5010nc">
+  <group_state name="gripper_close_HALF" group="${prefix}gpp5010nc">
     <joint name="${prefix}gpp5010nc_finger_left_joint" value="0.005" />
     <joint name="${prefix}gpp5010nc_finger_right_joint" value="0.005" />
   </group_state>
-  <group_state name="gripper_open" group="gpp5010nc">
+  <group_state name="gripper_open" group="${prefix}gpp5010nc">
     <joint name="${prefix}gpp5010nc_finger_left_joint" value="0" />
     <joint name="${prefix}gpp5010nc_finger_right_joint" value="0" />
   </group_state>

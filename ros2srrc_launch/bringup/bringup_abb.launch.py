@@ -160,11 +160,6 @@ def generate_launch_description():
         print("Closing... BYE!")
         exit()   
 
-    # === INPUT ARGUMENT: PREFIX === #
-    PREFIX = AssignArgument("prefix")
-    if PREFIX is None:
-        PREFIX = ""
-
     if CONFIGURATION["ee"] == "none":
         EE = "false"
     else: 
@@ -195,7 +190,7 @@ def generate_launch_description():
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
 
-        "prefix": PREFIX,
+        "prefix": "",
 
         "robot_ip": robot_ip,
         "bringup": "true"
@@ -256,7 +251,8 @@ def generate_launch_description():
         srdf_file = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config", CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".srdf")
 
     srdf_doc = xacro.parse(open(srdf_file))
-    xacro.process_doc(srdf_doc, mappings={"prefix": PREFIX})
+    xacro.process_doc(srdf_doc, mappings={"prefix": "", "name": CONFIGURATION["rob"]})
+    srdf_doc.documentElement.setAttribute("name", CONFIGURATION["rob"])
     robot_description_semantic_config = srdf_doc.toxml()
     
     robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config}

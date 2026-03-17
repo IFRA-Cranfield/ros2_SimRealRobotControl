@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<robot name="irb120" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="name" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- Input parameter: NAME -->
+  <xacro:arg name="name" default="irb120" />
   <!-- Input parameter: PREFIX -->
   <xacro:arg name="prefix" default="" />
   <xacro:property name="prefix" value="$(arg prefix)" />
 
   <!-- Planning Group: ROBOT ARM -->
-  <group name="irb120_arm">
+  <group name="${prefix}irb120_arm">
     <chain base_link="${prefix}base_link" tip_link="${prefix}EE_egp64" />
   </group>
 
-  <group_state group="irb120_arm" name="all_zero">
+  <group_state group="${prefix}irb120_arm" name="all_zero">
     <joint name="${prefix}joint_1" value="0" />
     <joint name="${prefix}joint_2" value="0" />
     <joint name="${prefix}joint_3" value="0" />
@@ -36,20 +38,20 @@
   <disable_collisions link1="${prefix}link_5" link2="${prefix}link_6" reason="Adjacent" />
 
   <!-- Planning Group: END EFFECTOR-->
-  <group name="egp64">
+  <group name="${prefix}egp64">
     <joint name="${prefix}egp64_finger_left_joint" />
     <joint name="${prefix}egp64_finger_right_joint" />
   </group>
 
-  <group_state name="gripper_open" group="egp64">
+  <group_state name="gripper_open" group="${prefix}egp64">
     <joint name="${prefix}egp64_finger_left_joint" value="0" />
     <joint name="${prefix}egp64_finger_right_joint" value="0" />
   </group_state>
-  <group_state name="gripper_close_HALF" group="egp64">
+  <group_state name="gripper_close_HALF" group="${prefix}egp64">
     <joint name="${prefix}egp64_finger_left_joint" value="0.0135" />
     <joint name="${prefix}egp64_finger_right_joint" value="0.0135" />
   </group_state>
-  <group_state name="gripper_close_FULL" group="egp64">
+  <group_state name="gripper_close_FULL" group="${prefix}egp64">
     <joint name="${prefix}egp64_finger_left_joint" value="0.027" />
     <joint name="${prefix}egp64_finger_right_joint" value="0.027" />
   </group_state>

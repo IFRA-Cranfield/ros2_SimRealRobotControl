@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<robot name="ur10" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="name" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- Input parameter: NAME -->
+  <xacro:arg name="name" default="ur10" />
   <!-- Input parameter: PREFIX -->
   <xacro:arg name="prefix" default="" />
   <xacro:property name="prefix" value="$(arg prefix)" />
 
   <!-- Planning Group: ROBOT ARM -->
-  <group name="ur10_arm">
+  <group name="${prefix}ur10_arm">
     <chain base_link="${prefix}base_link" tip_link="${prefix}EE_robotiq_2f85" />
   </group>
 
   <!-- Planning Group: END EFFECTOR-->
-  <group name="robotiq_2f85">
+  <group name="${prefix}robotiq_2f85">
     <joint name="${prefix}robotiq_coupler_joint" />
     <joint name="${prefix}robotiq_85_base_joint" />
     <joint name="${prefix}robotiq_85_left_knuckle_joint" />
@@ -25,7 +27,7 @@
     <joint name="${prefix}robotiq_85_right_finger_tip_joint" />
   </group>
 
-  <group_state group="ur10_arm" name="home">
+  <group_state group="${prefix}ur10_arm" name="home">
     <joint name="${prefix}elbow_joint" value="0" />
     <joint name="${prefix}shoulder_lift_joint" value="-1.5707" />
     <joint name="${prefix}shoulder_pan_joint" value="0" />
@@ -33,7 +35,7 @@
     <joint name="${prefix}wrist_2_joint" value="0" />
     <joint name="${prefix}wrist_3_joint" value="0" />
   </group_state>
-  <group_state group="ur10_arm" name="up">
+  <group_state group="${prefix}ur10_arm" name="up">
     <joint name="${prefix}elbow_joint" value="0" />
     <joint name="${prefix}shoulder_lift_joint" value="-1.5707" />
     <joint name="${prefix}shoulder_pan_joint" value="0" />
@@ -41,7 +43,7 @@
     <joint name="${prefix}wrist_2_joint" value="0" />
     <joint name="${prefix}wrist_3_joint" value="0" />
   </group_state>
-  <group_state name="GripperOpen" group="robotiq_2f85">
+  <group_state name="GripperOpen" group="${prefix}robotiq_2f85">
     <joint name="${prefix}robotiq_85_left_knuckle_joint" value="0" />
     <joint name="${prefix}robotiq_85_right_knuckle_joint" value="0" />
     <joint name="${prefix}robotiq_85_left_inner_knuckle_joint" value="0" />
@@ -49,7 +51,7 @@
     <joint name="${prefix}robotiq_85_left_finger_tip_joint" value="0" />
     <joint name="${prefix}robotiq_85_right_finger_tip_joint" value="0" />
   </group_state>
-  <group_state name="GripperCloseHALF" group="robotiq_2f85">
+  <group_state name="GripperCloseHALF" group="${prefix}robotiq_2f85">
     <joint name="${prefix}robotiq_85_left_knuckle_joint" value="0.5" />
     <joint name="${prefix}robotiq_85_right_knuckle_joint" value="0.5" />
     <joint name="${prefix}robotiq_85_left_inner_knuckle_joint" value="0.5" />
@@ -57,7 +59,7 @@
     <joint name="${prefix}robotiq_85_left_finger_tip_joint" value="-0.5" />
     <joint name="${prefix}robotiq_85_right_finger_tip_joint" value="-0.5" />
   </group_state>
-  <group_state name="GripperCloseFULL" group="robotiq_2f85">
+  <group_state name="GripperCloseFULL" group="${prefix}robotiq_2f85">
     <joint name="${prefix}robotiq_85_left_knuckle_joint" value="0.8" />
     <joint name="${prefix}robotiq_85_right_knuckle_joint" value="0.8" />
     <joint name="${prefix}robotiq_85_left_inner_knuckle_joint" value="0.8" />

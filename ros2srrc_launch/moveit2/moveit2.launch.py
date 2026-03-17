@@ -267,7 +267,8 @@ def generate_launch_description():
         srdf_file = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config", CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".srdf")
 
     srdf_doc = xacro.parse(open(srdf_file))
-    xacro.process_doc(srdf_doc, mappings={"prefix": ""})
+    xacro.process_doc(srdf_doc, mappings={"prefix": "", "name": CONFIGURATION["rob"]})
+    srdf_doc.documentElement.setAttribute("name", CONFIGURATION["rob"])
     robot_description_semantic_config = srdf_doc.toxml()
     
     robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config}
