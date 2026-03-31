@@ -2,16 +2,16 @@
 
 ## ros2srrc: Multi-Arm
 
-This folder contains the required launch files and support utilities to launch, manage, and operate a multi-arm robot environment in ROS 2, specifically for ROS 2 Humble in this branch, using Gazebo Classic and MoveIt! 2.
+This folder contains the required launch files and support utilities to launch, manage, and operate a multi-arm robot environment in ROS 2, specifically for ROS 2 Humble in this branch, using Gazebo Fortress / GZ Sim and MoveIt! 2.
 
 It also includes the __ma_examples__ ROS 2 package, which contains example multi-arm configurations, their combined URDFs, and the configuration file that defines each example setup.
 
 ## Included Packages
 
-- [`ros2srrc_multiarm`](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/multi-arm/ros2srrc_multiarm): multi-arm launch files and helper scripts.
-- [`ros2srrc_ma_examples`](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/multi-arm/ros2srrc_ma_examples): example combined URDFs and configuration definitions.
+- [`ros2srrc_multiarm`](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/multi-arm/ros2srrc_multiarm): multi-arm launch files and helper scripts.
+- [`ros2srrc_ma_examples`](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/multi-arm/ros2srrc_ma_examples): example combined URDFs and configuration definitions.
 
-The currently available examples are defined in [`configurations.yaml`](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/blob/humble/multi-arm/ros2srrc_ma_examples/config/configurations.yaml), and the combined URDFs are stored in [`urdf/`](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/multi-arm/ros2srrc_ma_examples/urdf).
+The currently available examples are defined in [`configurations.yaml`](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/blob/humble-gzfortress/multi-arm/ros2srrc_ma_examples/config/configurations.yaml), and the combined URDFs are stored in [`urdf/`](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/multi-arm/ros2srrc_ma_examples/urdf).
 
 ## How It Works
 
@@ -37,7 +37,7 @@ Program execution by sequence has not been implemented yet for the multi-arm env
 
 ## Launch
 
-Launch a multi-arm MoveIt! 2 + Gazebo Classic environment:
+Launch a multi-arm MoveIt! 2 + Gazebo Fortress / GZ Sim environment:
 
 ```bash
 ros2 launch ros2srrc_multiarm dualarm_moveit2.launch.py package:=ros2srrc_ma_examples config:=multiarm_1

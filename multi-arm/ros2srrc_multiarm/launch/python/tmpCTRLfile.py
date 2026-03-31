@@ -31,7 +31,7 @@
 # tmpCTRLfile.py:
 # Utilities to generate a temporary ROS 2 control YAML file for any number of
 # robots and optional end-effectors. The output file is intended to be used by
-# the Gazebo ROS 2 control plugin, for example:
+# the GZ ROS 2 control plugin, for example:
 #   /tmp/multiarm_controller.yaml
 
 # [SHORT NOTE]: This file has been generated using CODEX.
@@ -261,7 +261,7 @@ def create_tmp_controller_file(
             ee_yaml = _load_yaml_file(ee_yaml_path)
             _merge_prefixed_controller_yaml(output_yaml, ee_yaml, prefix)
 
-    # The launch file can point Gazebo directly to this generated file:
+    # The launch file can point GZ Sim directly to this generated file:
     output_path = Path(output_dir) / "multiarm_controller.yaml"
     output_path.parent.mkdir(parents=True, exist_ok=True)
 

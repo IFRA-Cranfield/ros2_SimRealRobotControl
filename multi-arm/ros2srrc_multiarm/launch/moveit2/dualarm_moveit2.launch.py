@@ -29,7 +29,7 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # moveit2.launch.py:
-# Launch file for the (2) ROBOT's GAZEBO SIMULATION + MoveIt!2 Framework in ROS 2 Humble:
+# Launch file for the (2) ROBOT's GZ SIM / Gazebo Fortress simulation + MoveIt!2 Framework in ROS 2 Humble:
 
 # Import libraries:
 import os, sys, xacro, yaml
@@ -208,22 +208,38 @@ def generate_launch_description():
 
     # ========== CELL INFORMATION ========== #
     print("")
-    print("===== GAZEBO + MoveIt!2: Robot Simulation (" + PACKAGE_NAME + ") =====")
+    print("===== GZ SIM + MoveIt!2: Robot Simulation (" + PACKAGE_NAME + ") =====")
     print("Robot configuration:")
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["name"])
     print("")
     
-    # ***** GAZEBO ***** #   
-    # DECLARE Gazebo WORLD file:
-    world_gazebo = os.path.join(
-        get_package_share_directory('ros2srrc_gazebo'),
+    # ***** GZ SIM ***** #
+    # DECLARE GZ SIM WORLD file:
+    world_gz = os.path.join(
+        get_package_share_directory('ros2srrc_gz'),
         'worlds',
-        'ros2srrc_gazebo.world')
-    # DECLARE Gazebo LAUNCH file:
-    gazebo = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
-                launch_arguments={'world': world_gazebo}.items(),
-            )
+        'ros2srrc_gz.sdf')
+    # DECLARE GZ SIM LAUNCH file:
+    gzSIM = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]
+        ),
+        launch_arguments={
+            'gz_args': f'-r -v 1 "{world_gz}"',
+            'on_exit_shutdown': 'true'
+        }.items(),
+    )
+
+    # ROS 2 Gz Clock:
+    clock_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        name="gz_clock_bridge",
+        output="screen",
+        arguments=[
+            "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"
+        ],
+    )
 
     # ***** ROBOT DESCRIPTION ***** #
     # Robot Description file package:
@@ -309,10 +325,18 @@ def generate_launch_description():
         ]
     )
 
-    # SPAWN ROBOT TO GAZEBO:
-    spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
-                        arguments=['-topic', 'robot_description','-entity', CONFIGURATION["ID"]],
-                        output='both')
+    # SPAWN ROBOT TO GZ SIM:
+    spawn_entity = Node(
+        package='ros_gz_sim',
+        executable='create',
+        arguments=[
+            '-topic', 'robot_description',
+            '-name', CONFIGURATION["ID"],
+            '-x', '0',
+            '-y', '0',
+            '-z', '0',
+        ],
+        output='both')
 
     # ***** CONTROLLERS ***** #
     # Joint STATE BROADCASTER:
@@ -359,6 +383,15 @@ def generate_launch_description():
                     arguments=[CONFIGURATION["ROB2_id"] + "_" + x, "-c", "/controller_manager"],
                 )
             )
+
+    # SpawnEntity service bridge for world "ros2srrc_GzWorld":
+    gzSERVICE_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='gz_spawn_service_bridge',
+        arguments=['/world/ros2srrc_GzWorld/create@ros_gz_interfaces/srv/SpawnEntity'],
+        output='screen'
+    )
 
     # =============================================== #
     # ================== MoveIt!2 =================== #
@@ -612,7 +645,7 @@ def generate_launch_description():
     # Move:
     if EE_1 == "true":
         MoveInterface_1 = Node(
-            name="move",
+            name="move_" + CONFIGURATION["ROB1_id"],
             package="ros2srrc_execution",
             executable="move",
             output="screen",
@@ -630,7 +663,7 @@ def generate_launch_description():
         )
     else:
         MoveInterface_1 = Node(
-            name="move",
+            name="move_" + CONFIGURATION["ROB1_id"],
             package="ros2srrc_execution",
             executable="move",
             output="screen",
@@ -649,7 +682,7 @@ def generate_launch_description():
 
     if EE_2 == "true":
         MoveInterface_2 = Node(
-            name="move",
+            name="move_" + CONFIGURATION["ROB2_id"],
             package="ros2srrc_execution",
             executable="move",
             output="screen",
@@ -667,7 +700,7 @@ def generate_launch_description():
         )
     else:
         MoveInterface_2 = Node(
-            name="move",
+            name="move_" + CONFIGURATION["ROB2_id"],
             package="ros2srrc_execution",
             executable="move",
             output="screen",
@@ -686,7 +719,7 @@ def generate_launch_description():
 
     # RobMove:
     RobMoveInterface_1 = Node(
-        name="robmove",
+        name="robmove_" + CONFIGURATION["ROB1_id"],
         package="ros2srrc_execution",
         executable="robmove",
         output="screen",
@@ -700,7 +733,7 @@ def generate_launch_description():
                     ],
     )
     RobMoveInterface_2 = Node(
-        name="robmove",
+        name="robmove_" + CONFIGURATION["ROB2_id"],
         package="ros2srrc_execution",
         executable="robmove",
         output="screen",
@@ -716,7 +749,7 @@ def generate_launch_description():
 
     # RobPose:
     RobPoseInterface_1 = Node(
-        name="robpose",
+        name="robpose_" + CONFIGURATION["ROB1_id"],
         package="ros2srrc_execution",
         executable="robpose",
         output="screen",
@@ -730,7 +763,7 @@ def generate_launch_description():
                     ],
     )
     RobPoseInterface_2 = Node(
-        name="robpose",
+        name="robpose_" + CONFIGURATION["ROB2_id"],
         package="ros2srrc_execution",
         executable="robpose",
         output="screen",
@@ -748,7 +781,9 @@ def generate_launch_description():
     # ========== RETURN LAUNCH DESCRIPTION ========== #
 
     # Add ROS 2 Nodes to LaunchDescription() element:
-    LD.add_action(gazebo)
+    LD.add_action(gzSIM)
+    LD.add_action(clock_bridge)
+    LD.add_action(gzSERVICE_bridge)
     LD.add_action(node_robot_state_publisher)
     LD.add_action(spawn_entity)
 
