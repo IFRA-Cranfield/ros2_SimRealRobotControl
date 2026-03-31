@@ -34,9 +34,9 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="EE_ros2control" params="" >
+  <xacro:macro name="EE_ros2control" params="prefix" >
 
-    <joint name="robotiq_hande_left_finger_joint">
+    <joint name="${prefix}robotiq_hande_left_finger_joint">
       <command_interface name="position">
         <param name="min">-0.0001</param>
         <param name="max">0.0251</param>
@@ -52,7 +52,7 @@
       <state_interface name="effort"/>
     </joint>
 
-    <joint name="robotiq_hande_right_finger_joint">
+    <joint name="${prefix}robotiq_hande_right_finger_joint">
       <command_interface name="position">
         <param name="min">-0.0001</param>
         <param name="max">0.0251</param>

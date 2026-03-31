@@ -32,7 +32,7 @@
 
 -->
 
-<robot name="ur3e" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="ur20" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- PASS ARGUMENTS: -->
   <xacro:arg name="bringup" default="false"/>
@@ -48,7 +48,7 @@
   <xacro:arg name="prefix" default=""/>
   <xacro:property name="prefix" value="$(arg prefix)"/>
 
-  <!-- UR3e Control ARGUMENTS -->
+  <!-- ur20 Control ARGUMENTS -->
   <xacro:arg name="script_filename" default="none"/>
   <xacro:property name="script_filename" value="$(arg script_filename)"/>
   <xacro:arg name="input_recipe_filename" default="none"/>
@@ -56,9 +56,9 @@
   <xacro:arg name="output_recipe_filename" default="none"/>
   <xacro:property name="output_recipe_filename" value="$(arg output_recipe_filename)"/>
 
-  <!-- Include XACRO-MACRO file of the UR3e: -->
-  <xacro:include filename="$(find ros2srrc_robots)/ur3e/urdf/ur3e_macro.urdf.xacro"/>	
-  <xacro:ur3e 
+  <!-- Include XACRO-MACRO file of the ur20: -->
+  <xacro:include filename="$(find ros2srrc_robots)/ur20/urdf/ur20_macro.urdf.xacro"/>	
+  <xacro:ur20 
     bringup="${bringup}"
     robot_ip="${robot_ip}"
     EE="${EE}"
@@ -70,8 +70,8 @@
     prefix="${prefix}" />
 
   <!-- Include XACRO-MACRO file of the Robotiq 2f-85: -->
-  <xacro:include filename="$(find ros2srrc_endeffectors)/robotiq_hande/urdf/robotiq_hande_macro.urdf.xacro"/>	
-  <xacro:robotiq_hande
+  <xacro:include filename="$(find ros2srrc_endeffectors)/robotiq_2f85/urdf/robotiq_2f85_macro.urdf.xacro"/>	
+  <xacro:robotiq_2f85 
     bringup="${bringup}"
     parent_link="${prefix}tool0"
     prefix="${prefix}" />
@@ -82,8 +82,8 @@
     <gazebo>
       <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
 
-        <!-- UR3e Controller -->
-        <parameters>$(find ros2srrc_robots)/ur3e/config/controller.yaml</parameters>
+        <!-- ur20 Controller -->
+        <parameters>$(find ros2srrc_robots)/ur20/config/controller.yaml</parameters>
 
         <!-- End-Effector Controller (if needed) -->
         <parameters>$(find ros2srrc_endeffectors)/${EE_name}/config/controller.yaml</parameters>

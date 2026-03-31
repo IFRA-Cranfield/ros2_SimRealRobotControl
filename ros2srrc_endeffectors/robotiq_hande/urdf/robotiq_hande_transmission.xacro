@@ -34,35 +34,35 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="robotiq_hande_transmission" params="">
+  <xacro:macro name="robotiq_hande_transmission" params="prefix">
 
-    <transmission name="robotiq_hande_left_finger_trans">
+    <transmission name="${prefix}robotiq_hande_left_finger_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="robotiq_hande_left_finger_joint">
+      <joint name="${prefix}robotiq_hande_left_finger_joint">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="robotiq_hande_left_finger_motor">
+      <actuator name="${prefix}robotiq_hande_left_finger_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <transmission name="robotiq_hande_right_finger_trans">
+    <transmission name="${prefix}robotiq_hande_right_finger_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="robotiq_hande_right_finger_joint">
+      <joint name="${prefix}robotiq_hande_right_finger_joint">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="robotiq_hande_right_finger_motor">
+      <actuator name="${prefix}robotiq_hande_right_finger_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
 
-    <gazebo reference="robotiq_hande_base_link">
+    <gazebo reference="${prefix}robotiq_hande_base_link">
       <selfCollide>false</selfCollide>
     </gazebo>
-    <gazebo reference="robotiq_hande_left_finger">
+    <gazebo reference="${prefix}robotiq_hande_left_finger">
       <selfCollide>false</selfCollide>
     </gazebo>
-    <gazebo reference="robotiq_hande_right_finger">
+    <gazebo reference="${prefix}robotiq_hande_right_finger">
       <selfCollide>false</selfCollide>
     </gazebo>
 

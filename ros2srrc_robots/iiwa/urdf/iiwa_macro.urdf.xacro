@@ -55,12 +55,13 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- XACRO-MACRO of KUKA LBR-IIWA: -->
-  <xacro:macro name="iiwa" params="bringup robot_ip EE EE_name">
+  <xacro:macro name="iiwa" params="bringup robot_ip EE EE_name prefix">
 
     <!-- KUKA LBR-IIWA TRANSMISSION: -->
     <xacro:unless value="${bringup}">  
       <xacro:include filename="$(find ros2srrc_robots)/iiwa/urdf/iiwa_transmission.xacro" />
-      <xacro:iiwa_transmission />
+      <xacro:iiwa_transmission
+      prefix="${prefix}" />
     </xacro:unless>
 
     <!-- KUKA LBR-IIWA GAZEBO - ROS2_CONTROL: -->
@@ -70,7 +71,7 @@
       robot_ip="${robot_ip}"
       EE="${EE}"
       EE_name="${EE_name}"
-    />
+      prefix="${prefix}" />
 
     <!-- ***** KUKA LBR-IIWA ROBOT .urdf SERIAL CHAIN ***** -->
 
@@ -105,7 +106,7 @@
     -->
 
     <!-- Link list: -->
-    <link name="base_link">
+    <link name="${prefix}base_link">
       <visual>
         <origin rpy="0.0 0 0" xyz="0 0 0"/>
         <geometry>
@@ -124,7 +125,7 @@
         <inertia ixx="0.05"  ixy="0"  ixz="0" iyy="0.06" iyz="0" izz="0.03" />
       </inertial>
     </link>
-    <link name="link_1">
+    <link name="${prefix}link_1">
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
@@ -143,7 +144,7 @@
         <inertia ixx="0.1"  ixy="0"  ixz="0" iyy="0.09" iyz="0" izz="0.02" />
       </inertial>
     </link>
-    <link name="link_2">
+    <link name="${prefix}link_2">
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
@@ -162,7 +163,7 @@
         <inertia ixx="0.05"  ixy="0"  ixz="0" iyy="0.018" iyz="0" izz="0.044" />
       </inertial>
     </link>
-    <link name="link_3">
+    <link name="${prefix}link_3">
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
@@ -181,7 +182,7 @@
         <inertia ixx="0.08"  ixy="0"  ixz="0" iyy="0.075" iyz="0" izz="0.01" />
       </inertial>
     </link>
-    <link name="link_4">
+    <link name="${prefix}link_4">
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
@@ -200,7 +201,7 @@
         <inertia ixx="0.03"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.029" />
       </inertial>
     </link>
-    <link name="link_5">
+    <link name="${prefix}link_5">
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
@@ -219,7 +220,7 @@
         <inertia ixx="0.02"  ixy="0"  ixz="0" iyy="0.018" iyz="0" izz="0.005" />
       </inertial>
     </link>
-    <link name="link_6">
+    <link name="${prefix}link_6">
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
@@ -238,7 +239,7 @@
         <inertia ixx="0.025"  ixy="0"  ixz="0" iyy="0.0136" iyz="0" izz="0.0247" />
       </inertial>
     </link>
-    <link name="link_7">
+    <link name="${prefix}link_7">
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
@@ -259,58 +260,58 @@
     </link>
 
     <!-- Joint list: -->
-    <joint name="joint_1" type="revolute">
+    <joint name="${prefix}joint_1" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0"/>
-      <parent link="base_link"/>
-      <child link="link_1"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}link_1"/>
       <axis xyz="0 0 1"/>
       <limit effort="320" lower="-2.9668" upper="2.9668" velocity="1.4834"/>
       <dynamics damping="1.0" friction="0.0"/>
     </joint>
-    <joint name="joint_2" type="revolute">
+    <joint name="${prefix}joint_2" type="revolute">
       <origin rpy="0 0 0" xyz="-0.00043624 0 0.36"/>
-      <parent link="link_1"/>
-      <child link="link_2"/>
+      <parent link="${prefix}link_1"/>
+      <child link="${prefix}link_2"/>
       <axis xyz="0 1 0"/>
       <limit effort="320" lower="-2.0942" upper="2.0942" velocity="1.4834"/>
       <dynamics damping="1.0" friction="0.0"/>
     </joint>
-    <joint name="joint_3" type="revolute">
+    <joint name="${prefix}joint_3" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0"/>
-      <parent link="link_2"/>
-      <child link="link_3"/>
+      <parent link="${prefix}link_2"/>
+      <child link="${prefix}link_3"/>
       <axis xyz="0 0 1"/>
       <limit effort="176" lower="-2.9668" upper="2.9668" velocity="1.7452"/>
       <dynamics damping="1.0" friction="0.0"/>
     </joint>
-    <joint name="joint_4" type="revolute">
+    <joint name="${prefix}joint_4" type="revolute">
       <origin rpy="0 0 0" xyz="0.00043624 0 0.42"/>
-      <parent link="link_3"/>
-      <child link="link_4"/>
+      <parent link="${prefix}link_3"/>
+      <child link="${prefix}link_4"/>
       <axis xyz="0 -1 0"/>
       <limit effort="176" lower="-2.0942" upper="2.0942" velocity="1.3089"/>
       <dynamics damping="10.0" friction="1.0"/> <!-- High values of damping + friction were added, to avoid bac joint behaviour in GzFortress. -->
     </joint>
-    <joint name="joint_5" type="revolute">
+    <joint name="${prefix}joint_5" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0"/>
-      <parent link="link_4"/>
-      <child link="link_5"/>
+      <parent link="${prefix}link_4"/>
+      <child link="${prefix}link_5"/>
       <axis xyz="0 0 1"/>
       <limit effort="110" lower="-2.9668" upper="2.9668" velocity="2.2688"/>
       <dynamics damping="1.0" friction="0.0"/>
     </joint>
-    <joint name="joint_6" type="revolute">
+    <joint name="${prefix}joint_6" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0.4"/>
-      <parent link="link_5"/>
-      <child link="link_6"/>
+      <parent link="${prefix}link_5"/>
+      <child link="${prefix}link_6"/>
       <axis xyz="0 1 0"/>
       <limit effort="40" lower="-2.0942" upper="2.0942" velocity="2.356"/>
       <dynamics damping="1.0" friction="0.0"/>
     </joint>
-    <joint name="joint_7" type="revolute">
+    <joint name="${prefix}joint_7" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0"/>
-      <parent link="link_6"/>
-      <child link="link_7"/>
+      <parent link="${prefix}link_6"/>
+      <child link="${prefix}link_7"/>
       <axis xyz="0 0 1"/>
       <limit effort="40" lower="-3.0541" upper="3.0541" velocity="2.356"/>
       <dynamics damping="1.0" friction="0.0"/>
@@ -318,19 +319,19 @@
     <!-- end of joint list -->
 
     <!-- ROS-Industrial 'base' frame: base_link to Fanuc World Coordinates transform -->
-    <link name="base" />
-    <joint name="base_link-base" type="fixed">
+    <link name="${prefix}base" />
+    <joint name="${prefix}base_link-base" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="base_link"/>
-      <child link="base"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base"/>
     </joint>
 
     <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
-    <link name="tool0" />
-    <joint name="joint_7-tool0" type="fixed">
+    <link name="${prefix}tool0" />
+    <joint name="${prefix}joint_7-tool0" type="fixed">
       <origin xyz="0 0 0.126" rpy="0 0 0" />
-      <parent link="link_7" />
-      <child link="tool0" />
+      <parent link="${prefix}link_7" />
+      <child link="${prefix}tool0" />
       <axis xyz="0 0 0" />
     </joint>
 

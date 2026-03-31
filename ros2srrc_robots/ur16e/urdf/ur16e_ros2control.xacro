@@ -126,16 +126,16 @@
   <xacro:arg name="tf_prefix" default=""/>
   <xacro:property name="tf_prefix" value="$(arg tf_prefix)"/>
 
-  <xacro:macro name="ur16e_ros2control" params="bringup robot_ip EE EE_name script_filename input_recipe_filename output_recipe_filename" >
+  <xacro:macro name="ur16e_ros2control" params="bringup robot_ip EE EE_name script_filename input_recipe_filename output_recipe_filename prefix" >
 
     <!-- ROS2_CONTROL tag name: -->
     <!-- A. GAZEBO SIMULATION: -->
     <xacro:unless value="${bringup}">
-      <xacro:property name="name" value="GazeboSimSystem"/>
+      <xacro:property name="name" value="${prefix}GazeboSimSystem"/>
     </xacro:unless>
     <!-- B. ROBOT BRINGUP: -->
     <xacro:if value="${bringup}">
-      <xacro:property name="name" value="ur16e"/>
+      <xacro:property name="name" value="${prefix}ur16e"/>
     </xacro:if>
 
     <!-- Load ROS2_CONTROL: -->
@@ -163,7 +163,7 @@
           <param name="reverse_ip">${reverse_ip}</param>
           <param name="script_command_port">${script_command_port}</param>
           <param name="trajectory_port">${trajectory_port}</param>
-          <param name="tf_prefix">${tf_prefix}</param>
+          <param name="tf_prefix">${prefix}${tf_prefix}</param>
           <param name="non_blocking_read">${non_blocking_read}</param>
           <param name="servoj_gain">${servoj_gain}</param>
           <param name="servoj_lookahead_time">${servoj_lookahead_time}</param>
@@ -180,7 +180,7 @@
           <param name="keep_alive_count">${keep_alive_count}</param>
         </hardware>
 
-        <sensor name="tcp_fts_sensor">
+        <sensor name="${prefix}tcp_fts_sensor">
           <state_interface name="force.x"/>
           <state_interface name="force.y"/>
           <state_interface name="force.z"/>
@@ -192,7 +192,7 @@
       </xacro:if>
 
       <!-- SHOULDER PAN JOINT -->
-      <joint name="shoulder_pan_joint">
+      <joint name="${prefix}shoulder_pan_joint">
         <command_interface name="position">
           <param name="min">${-2*pi}</param>
           <param name="max">${2*pi}</param>
@@ -213,7 +213,7 @@
       </joint>
 
       <!-- SHOULDER LIFT JOINT -->
-      <joint name="shoulder_lift_joint">
+      <joint name="${prefix}shoulder_lift_joint">
         <command_interface name="position">
           <param name="min">${-2*pi}</param>
           <param name="max">${2*pi}</param>
@@ -234,7 +234,7 @@
       </joint>
 
       <!-- ELBOW JOINT -->
-      <joint name="elbow_joint">
+      <joint name="${prefix}elbow_joint">
         <command_interface name="position">
           <param name="min">${-pi}</param>
           <param name="max">${pi}</param>
@@ -255,7 +255,7 @@
       </joint>
 
       <!-- WRIST1 JOINT -->
-      <joint name="wrist_1_joint">
+      <joint name="${prefix}wrist_1_joint">
         <command_interface name="position">
           <param name="min">${-2*pi}</param>
           <param name="max">${2*pi}</param>
@@ -276,7 +276,7 @@
       </joint>
 
       <!-- WRIST2 JOINT -->
-      <joint name="wrist_2_joint">
+      <joint name="${prefix}wrist_2_joint">
         <command_interface name="position">
           <param name="min">${-2*pi}</param>
           <param name="max">${2*pi}</param>
@@ -297,7 +297,7 @@
       </joint>
 
       <!-- WRIST3 JOINT -->
-      <joint name="wrist_3_joint">
+      <joint name="${prefix}wrist_3_joint">
         <command_interface name="position">
           <param name="min">${-2*pi}</param>
           <param name="max">${2*pi}</param>
@@ -321,7 +321,7 @@
       <xacro:unless value="${bringup}">
         <xacro:if value="${EE}">
           <xacro:include filename="$(find ros2srrc_endeffectors)/${EE_name}/urdf/${EE_name}_ros2control.xacro" />
-          <xacro:EE_ros2control />
+          <xacro:EE_ros2control prefix="${prefix}" />
         </xacro:if>
       </xacro:unless>
 
@@ -329,22 +329,22 @@
 
     <xacro:unless value="${bringup}">
 
-      <gazebo reference="shoulder_link">
+      <gazebo reference="${prefix}shoulder_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="upper_arm_link">
+      <gazebo reference="${prefix}upper_arm_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="forearm_link">
+      <gazebo reference="${prefix}forearm_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="wrist_1_link">
+      <gazebo reference="${prefix}wrist_1_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="wrist_3_link">
+      <gazebo reference="${prefix}wrist_3_link">
         <selfCollide>false</selfCollide>
       </gazebo>
-      <gazebo reference="wrist_2_link">
+      <gazebo reference="${prefix}wrist_2_link">
         <selfCollide>false</selfCollide>
       </gazebo>
     

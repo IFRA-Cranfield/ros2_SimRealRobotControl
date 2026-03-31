@@ -34,40 +34,40 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="egp64_transmission" params="">
+  <xacro:macro name="egp64_transmission" params="prefix">
 
-    <transmission name="egp64_left_finger_trans">
+    <transmission name="${prefix}egp64_left_finger_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="egp64_finger_left_joint">
+      <joint name="${prefix}egp64_finger_left_joint">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="egp64_left_finger_motor">
+      <actuator name="${prefix}egp64_left_finger_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-    <transmission name="egp64_right_finger_trans">
+    <transmission name="${prefix}egp64_right_finger_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <joint name="egp64_finger_right_joint">
+      <joint name="${prefix}egp64_finger_right_joint">
         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       </joint>
-      <actuator name="egp64_right_finger_motor">
+      <actuator name="${prefix}egp64_right_finger_motor">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission> 
 
-    <gazebo reference="egp64_gripper_base_link">
+    <gazebo reference="${prefix}egp64_gripper_base_link">
       <selfCollide>false</selfCollide>
     </gazebo>
-    <gazebo reference="egp64_finger_left_link">
+    <gazebo reference="${prefix}egp64_finger_left_link">
       <selfCollide>false</selfCollide>
     </gazebo>
-    <gazebo reference="egp64_fingertip_left_link">
+    <gazebo reference="${prefix}egp64_fingertip_left_link">
       <selfCollide>false</selfCollide>
     </gazebo>  
-    <gazebo reference="egp64_finger_right_link">
+    <gazebo reference="${prefix}egp64_finger_right_link">
       <selfCollide>false</selfCollide>
     </gazebo>
-    <gazebo reference="egp64_fingertip_right_link">
+    <gazebo reference="${prefix}egp64_fingertip_right_link">
       <selfCollide>false</selfCollide>
     </gazebo> 
 
