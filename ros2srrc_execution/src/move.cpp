@@ -65,10 +65,10 @@
 #include "ros2srrc_data/msg/ypr.hpp"
 #include "ros2srrc_data/msg/specs.hpp"
 
-// Declaration of GLOBAL VARIABLES --> ROBOT / END-EFFECTOR / ENVIRONMENT PARAMETERS:
+// Declaration of GLOBAL VARIABLES --> ROBOT / END-EFFECTOR / MoveGroup_NS PARAMETERS:
 std::string param_ROB = "none";
 std::string param_EE = "none";
-std::string param_ENV = "none";
+std::string param_mgNS = "";
 
 // Declaration of GLOBAL VARIABLES --> MoveIt!2 Interface:
 moveit::planning_interface::MoveGroupInterface move_group_interface_ROB;
@@ -86,7 +86,7 @@ ros2srrc_data::msg::Specs robotSPECS;
 ros2srrc_data::msg::Specs eeSPECS;
 
 // ======================================================================================================================== //
-// ==================== PARAM: ROBOT + END-EFFECTOR ==================== //
+// ==================== PARAM: ROBOT + END-EFFECTOR + MoveGroup_NS ==================== //
 
 class ros2_RobotParam : public rclcpp::Node
 {
@@ -108,6 +108,18 @@ public:
         this->declare_parameter("EE_PARAM", "none");
         param_EE = this->get_parameter("EE_PARAM").get_parameter_value().get<std::string>();
         RCLCPP_INFO(this->get_logger(), "EE_PARAM received -> %s", param_EE.c_str());
+    }
+private:
+};
+
+class ros2_mgNSParam : public rclcpp::Node
+{
+public:
+    ros2_mgNSParam() : Node("ros2_mgNSParam") 
+    {
+        this->declare_parameter("move_group_ns", "");
+        param_mgNS = this->get_parameter("move_group_ns").get_parameter_value().get<std::string>();
+        RCLCPP_INFO(this->get_logger(), "mgNS_PARAM received -> %s", param_mgNS.c_str());
     }
 private:
 };
@@ -167,12 +179,12 @@ public:
     using GoalHandle = rclcpp_action::ServerGoalHandle<Move>;
 
     explicit ActionServer(const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
-    : Node("MOVE_INTERFACE", options)
+    : Node("ros2srrc_Move_" + param_mgNS, options)
     {
 
         action_server_ = rclcpp_action::create_server<Move>(
             this,
-            "/Move",
+            param_mgNS + "/Move",
             std::bind(&ActionServer::handle_goal, this, std::placeholders::_1, std::placeholders::_2),
             std::bind(&ActionServer::handle_cancel, this, std::placeholders::_1),
             std::bind(&ActionServer::handle_accepted, this, std::placeholders::_1));
@@ -224,7 +236,7 @@ private:
         if (param_ROB != "none"){
             move_group_interface_ROB.stop();
         }
-        if (param_EE != "none" && param_ENV != "bringup"){
+        if (param_EE != "none"){
             move_group_interface_EE.stop();
         }
 
@@ -435,11 +447,13 @@ int main(int argc, char ** argv)
 
     auto node_LOGGER = std::make_shared<rclcpp::Node>("MOVE_INTERFACE_log");
 
-    // Obtain ROBOT + END-EFFECTOR + ENVIRONMENT parameters:
+    // Obtain ROBOT + END-EFFECTOR + MG_NS parameters:
     auto node_PARAM_ROB = std::make_shared<ros2_RobotParam>();
     rclcpp::spin_some(node_PARAM_ROB);
     auto node_PARAM_EE = std::make_shared<ros2_EEParam>();
     rclcpp::spin_some(node_PARAM_EE);
+    auto node_PARAM_mgNS = std::make_shared<ros2_mgNSParam>();
+    rclcpp::spin_some(node_PARAM_mgNS);
 
     // DEFINE -> RobotSPECS + eeSPECS variables:
     // Robot SPECIFICATIONS:
@@ -469,32 +483,44 @@ int main(int argc, char ** argv)
 
     // CREATE -> MoveGroupInterface(s):
     using moveit::planning_interface::MoveGroupInterface;
+
+    std::string prefix = "";
+    if (param_mgNS != ""){
+        prefix = param_mgNS + "_";
+    }
+
     // 1. ROBOT:
     if (param_ROB != "none"){
-        auto name = param_ROB + "_arm";
+        auto name = prefix + param_ROB + "_arm";
         
-        move_group_interface_ROB = MoveGroupInterface(node2, name);
+        MoveGroupInterface::Options opts(name, "robot_description", param_mgNS);
+        move_group_interface_ROB = MoveGroupInterface(node2, opts);
         move_group_interface_ROB.setPlanningPipelineId("move_group");
 
         move_group_interface_ROB.setMaxVelocityScalingFactor(1.0);
         move_group_interface_ROB.setMaxAccelerationScalingFactor(1.0);
 
         joint_model_group_ROB = move_group_interface_ROB.getCurrentState()->getJointModelGroup(name);
-        RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
+        RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for ROBOT: %s", name.c_str());
     }
     // 2. END-EFFECTOR:
     if (param_EE != "none"){
-        move_group_interface_EE = MoveGroupInterface(node2, param_EE);
+        auto name_EE = prefix + param_EE;
+        
+        MoveGroupInterface::Options opts_EE(name_EE, "robot_description", param_mgNS);
+        move_group_interface_EE = MoveGroupInterface(node2, opts_EE);
         move_group_interface_EE.setPlanningPipelineId("move_group");
+        
         move_group_interface_EE.setMaxVelocityScalingFactor(1.0);
         move_group_interface_EE.setMaxAccelerationScalingFactor(1.0);
-        joint_model_group_EE = move_group_interface_EE.getCurrentState()->getJointModelGroup(param_EE);
-        RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for END-EFFECTOR: %s", param_EE.c_str());
+        
+        joint_model_group_EE = move_group_interface_EE.getCurrentState()->getJointModelGroup(name_EE);
+        RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for END-EFFECTOR: %s", name_EE.c_str());
     }
 
     // CREATE -> PlanningSceneInterface:
     using moveit::planning_interface::PlanningSceneInterface;
-    auto planning_scene_interface = PlanningSceneInterface();
+    auto planning_scene_interface = PlanningSceneInterface(param_mgNS);
 
     // Declare and spin ACTION SERVER:
     auto action_server = std::make_shared<ActionServer>();
