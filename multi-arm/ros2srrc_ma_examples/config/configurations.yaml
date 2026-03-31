@@ -1,0 +1,47 @@
+# ROS 2 Sim-to-Real Robot Control: Multi-Arm Examples.
+Configurations:
+
+  - ID: "multiarm_1"
+
+    name: "UR3 and UR5 on top of 2 different Robot Stands."
+    urdf: "multiarm_1.urdf.xacro"
+
+    ROB_1: 
+      id: "rob1"
+      rob: "ur3"
+      ee: "none"
+
+    ROB_2:
+      id: "rob2"
+      rob: "ur5"
+      ee: "none"
+
+  - ID: "multiarm_2"
+
+    name: "UR3 w/ Robotiq Hand-E gripper and UR5 w/ Robotiq 2f-85 gripper on top of 2 different Robot Stands."
+    urdf: "multiarm_2.urdf.xacro"
+
+    ROB_1: 
+      id: "rob1"
+      rob: "ur3"
+      ee: "robotiq_hande"
+
+    ROB_2:
+      id: "rob2"
+      rob: "ur5"
+      ee: "robotiq_2f85"
+
+  - ID: "multiarm_3"
+
+    name: "2 different ABB IRB-120 Robots (w/ Schunk EGP-64 Grippers) on top of 2 different Robot Stands."
+    urdf: "multiarm_3.urdf.xacro"
+
+    ROB_1: 
+      id: "rob1"
+      rob: "irb120"
+      ee: "egp64"
+
+    ROB_2:
+      id: "rob2"
+      rob: "irb120"
+      ee: "egp64"
