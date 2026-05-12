@@ -44,6 +44,7 @@ install(
     ls_vgr_amrc
     
     robotiq_2f85
+    robotiq_2f140
     robotiq_hande
 
     ar4gripper

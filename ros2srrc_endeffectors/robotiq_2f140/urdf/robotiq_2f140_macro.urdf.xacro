@@ -1,0 +1,406 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: April, 2023.                                                                   #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- XACRO-MACRO of Robotiq 2f-140: -->
+  <xacro:macro name="robotiq_2f140" params="bringup parent_link prefix">
+
+    <xacro:unless value="${bringup}">  
+      
+      <!-- Robotiq 2f-140 TRANSMISSION: -->
+      <xacro:include filename="$(find ros2srrc_endeffectors)/robotiq_2f140/urdf/robotiq_2f140_transmission.xacro" />
+      <xacro:robotiq_2f140_transmission prefix="${prefix}" />
+
+    </xacro:unless>
+
+    <!-- ***** Robotiq 2f-140 GRIPPER .urdf SERIAL CHAIN ***** -->
+
+    <!-- Robotiq: coupler -->
+    <link name="${prefix}robotiq_coupler">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/robotiq_coupler.stl" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/robotiq_coupler.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="2.073e-05   1.45286e-03  -1.1049e-03" rpy="0 0 0" />
+        <mass value="0.168" />
+        <inertia ixx="6.69695624e-05" ixy="5.21511788e-09" ixz="-2.74383009e-08" 
+                iyy="7.85088161e-05" iyz="5.41105193e-07" izz="1.41819717e-04"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_coupler_joint" type="fixed">
+      <origin xyz="0 0 0.004" rpy="0 0 ${-pi/2.0}" />
+      <parent link="${parent_link}"/>
+      <child link="${prefix}robotiq_coupler"/>
+    </joint>
+
+    <gazebo reference="${prefix}robotiq_coupler">
+      <mu1>0.9</mu1>
+      <mu2>0.9</mu2>
+      <material>Gazebo/Black</material>
+    </gazebo>
+
+    <!-- Robotiq: base_link -->
+    <link name="${prefix}robotiq_140_base_link">
+      <inertial>
+        <origin xyz="8.625E-08 -4.6583E-06 0.03145" rpy="0 0 0" />
+        <mass value="0.22652" />
+        <inertia ixx="0.00020005" ixy="-4.2442E-10" ixz="-2.9069E-10" iyy="0.00017832" iyz="-3.4402E-08" izz="0.00013478" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/visual/robotiq_140_base_link.stl"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.1 0.1 0.1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/collision/robotiq_140_base_link.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}robotiq_140_base_joint" type="fixed">
+      <origin xyz="0 0 0.004" rpy="0 0 ${pi}"/>
+      <parent link="${prefix}robotiq_coupler"/>
+      <child link="${prefix}robotiq_140_base_link"/>
+    </joint>
+
+    <!-- Robotiq: left_knuckle -->
+    <link name="${prefix}robotiq_140_left_knuckle_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/visual/robotiq_140_knuckle_link.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/collision/robotiq_140_knuckle_link.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="-0.000200000000003065 0.0199435877845359 0.0292245259211331" rpy="0 0 0" />
+        <mass value="0.00853198276973456" />
+        <inertia
+            ixx="2.89328108496468E-06"
+            ixy="-1.57935047237397E-19"
+            ixz="-1.93980378593255E-19"
+            iyy="1.86719750325683E-06"
+            iyz="-1.21858577871576E-06"
+            izz="1.21905238907251E-06" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_140_left_knuckle_joint" type="continuous">
+      <parent link="${prefix}robotiq_140_base_link"/>
+      <child link="${prefix}robotiq_140_left_knuckle_link"/>
+      <axis xyz="-1 0 0"/>
+      <origin xyz="0 -0.030601 0.054905" rpy="${pi / 2 + .725} 0 0" />
+      <limit lower="-0.005" upper="0.705" velocity="2.0" effort="1000" />
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+
+    <!-- Robotiq: right_knuckle -->
+    <link name="${prefix}robotiq_140_right_knuckle_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/visual/robotiq_140_knuckle_link.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/collision/robotiq_140_knuckle_link.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="-0.000200000000003065 0.0199435877845359 0.0292245259211331" rpy="0 0 0" />
+        <mass value="0.00853198276973456" />
+        <inertia
+            ixx="2.89328108496468E-06"
+            ixy="-1.57935047237397E-19"
+            ixz="-1.93980378593255E-19"
+            iyy="1.86719750325683E-06"
+            iyz="-1.21858577871576E-06"
+            izz="1.21905238907251E-06" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_140_right_knuckle_joint" type="continuous">
+      <parent link="${prefix}robotiq_140_base_link"/>
+      <child link="${prefix}robotiq_140_right_knuckle_link"/>
+      <axis xyz="1 0 0"/>
+      <origin xyz="0 0.030601 0.054905" rpy="${pi / 2 + .725} 0 ${pi}" />
+      <limit lower="-0.705" upper="0.005" velocity="2.0" effort="1000" />
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+
+    <!-- Robotiq: left_finger -->
+    <link name="${prefix}robotiq_140_left_finger_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/visual/robotiq_140_finger_link.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/collision/robotiq_140_finger_link.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.00030115855001899 0.0373907951953854 -0.0208027427000385" rpy="0 0 0" />
+        <mass value="0.022614240507152" />
+        <inertia
+            ixx="1.52518312458174E-05"
+            ixy="9.76583423954399E-10"
+            ixz="-5.43838577022588E-10"
+            iyy="6.17694243867776E-06"
+            iyz="6.78636130740228E-06"
+            izz="1.16494917907219E-05" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_140_left_finger_joint" type="fixed">
+      <parent link="${prefix}robotiq_140_left_knuckle_link"/>
+      <child link="${prefix}robotiq_140_left_finger_link"/>
+      <origin xyz="0 0.01821998610742 0.0260018192872234" rpy="0 0 0" />
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+
+    <!-- Robotiq: right_finger -->
+    <link name="${prefix}robotiq_140_right_finger_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/visual/robotiq_140_finger_link.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/collision/robotiq_140_finger_link.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.00030115855001899 0.0373907951953854 -0.0208027427000385" rpy="0 0 0" />
+        <mass value="0.022614240507152" />
+        <inertia
+            ixx="1.52518312458174E-05"
+            ixy="9.76583423954399E-10"
+            ixz="-5.43838577022588E-10"
+            iyy="6.17694243867776E-06"
+            iyz="6.78636130740228E-06"
+            izz="1.16494917907219E-05" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_140_right_finger_joint" type="fixed">
+      <parent link="${prefix}robotiq_140_right_knuckle_link"/>
+      <child link="${prefix}robotiq_140_right_finger_link"/>
+      <origin xyz="0 0.01821998610742 0.0260018192872234" rpy="0 0 0" />
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+
+    <!-- Robotiq: left_inner_knuckle -->
+    <link name="${prefix}robotiq_140_left_inner_knuckle_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/visual/robotiq_140_inner_knuckle_link.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/collision/robotiq_140_inner_knuckle_link.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.000123011831763771 0.0507850843201817 0.00103968640075166" rpy="0 0 0" />
+        <mass value="0.0271177346495152" />
+        <inertia
+            ixx="2.61910379223783E-05"
+            ixy="-2.43616858946494E-07"
+            ixz="-6.37789906117123E-09"
+            iyy="2.8270243746167E-06"
+            iyz="-5.37200748039765E-07"
+            izz="2.83695868220296E-05" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_140_left_inner_knuckle_joint" type="continuous">
+      <parent link="${prefix}robotiq_140_base_link"/>
+      <child link="${prefix}robotiq_140_left_inner_knuckle_link"/>
+      <axis xyz="1 0 0"/>
+      <origin xyz="0 -0.0127 0.06142" rpy="${pi / 2 + .725} 0 0"/>
+      <limit lower="-0.705" upper="0.005" velocity="2.0" effort="1000"/>
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+
+    <!-- Robotiq: right_inner_knuckle -->
+    <link name="${prefix}robotiq_140_right_inner_knuckle_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/visual/robotiq_140_inner_knuckle_link.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/collision/robotiq_140_inner_knuckle_link.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.000123011831763771 0.0507850843201817 0.00103968640075166" rpy="0 0 0" />
+        <mass value="0.0271177346495152" />
+        <inertia
+            ixx="2.61910379223783E-05"
+            ixy="-2.43616858946494E-07"
+            ixz="-6.37789906117123E-09"
+            iyy="2.8270243746167E-06"
+            iyz="-5.37200748039765E-07"
+            izz="2.83695868220296E-05" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_140_right_inner_knuckle_joint" type="continuous">
+      <parent link="${prefix}robotiq_140_base_link"/>
+      <child link="${prefix}robotiq_140_right_inner_knuckle_link"/>
+      <axis xyz="1 0 0"/>
+      <origin xyz="0 0.0127 0.06142" rpy="${pi / 2 + .725} 0 ${-pi}"/>
+      <limit lower="-0.705" upper="0.005" velocity="2.0" effort="1000"/>
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+
+    <!-- Robotiq: left_finger_tip -->
+    <link name="${prefix}robotiq_140_left_finger_tip_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/visual/robotiq_140_finger_tip_link.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/collision/robotiq_140_finger_tip_link.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.000299999999999317 0.0160078233491243 -0.0136945669206257" rpy="0 0 0" />
+        <mass value="0.0104003125914103" />
+        <inertia
+            ixx="2.71909453810972E-06"
+            ixy="1.35402465472579E-21"
+            ixz="-7.1817349065269E-22"
+            iyy="7.69100314106116E-07"
+            iyz="6.74715432769696E-07"
+            izz="2.30315190420171E-06" />
+      </inertial>
+    </link> 
+
+    <joint name="${prefix}robotiq_140_left_finger_tip_joint" type="continuous">
+      <parent link="${prefix}robotiq_140_left_finger_link"/>
+      <child link="${prefix}robotiq_140_left_finger_tip_link"/>
+      <axis xyz="1 0 0"/>
+      <origin xyz="0 0.0817554015893473 -0.0282203446692936" rpy="-0.725 0 0"/>
+      <limit lower="-0.005" upper="0.705" velocity="2.0" effort="1000"/>
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+
+    <!-- Robotiq: right_finger_tip -->
+    <link name="${prefix}robotiq_140_right_finger_tip_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/visual/robotiq_140_finger_tip_link.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_2f140/meshes/collision/robotiq_140_finger_tip_link.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.000299999999999317 0.0160078233491243 -0.0136945669206257" rpy="0 0 0" />
+        <mass value="0.0104003125914103" />
+        <inertia
+            ixx="2.71909453810972E-06"
+            ixy="1.35402465472579E-21"
+            ixz="-7.1817349065269E-22"
+            iyy="7.69100314106116E-07"
+            iyz="6.74715432769696E-07"
+            izz="2.30315190420171E-06" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_140_right_finger_tip_joint" type="continuous">
+      <parent link="${prefix}robotiq_140_right_finger_link"/>
+      <child link="${prefix}robotiq_140_right_finger_tip_link"/>
+      <axis xyz="1 0 0"/>
+      <origin xyz="0 0.0817554015893473 -0.0282203446692936" rpy="-0.725 0 0"/>
+      <limit lower="-0.005" upper="0.705" velocity="2.0" effort="1000"/>
+      <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+
+    <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
+
+    <link name="${prefix}EE_robotiq_2f140">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.00001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <box size= "0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="${prefix}EE_robotiq_2f140_joint" type="fixed" >
+      <parent link="${prefix}robotiq_140_base_link" />
+      <child link="${prefix}EE_robotiq_2f140" />
+      <origin xyz="0.128 0.0 0.0" rpy="0 0 0"/>
+    </joint>
+
+    <gazebo reference="${prefix}EE_robotiq_2f140_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+    
+  </xacro:macro>
+</robot>
