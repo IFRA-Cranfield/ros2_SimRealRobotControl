@@ -52,20 +52,20 @@
     <joint name="${prefix}robotiq_140_right_finger_tip_joint" value="0" />
   </group_state>
   <group_state name="GripperCloseHALF" group="${prefix}robotiq_2f140">
-    <joint name="${prefix}robotiq_140_left_knuckle_joint" value="0.5" />
-    <joint name="${prefix}robotiq_140_right_knuckle_joint" value="0.5" />
-    <joint name="${prefix}robotiq_140_left_inner_knuckle_joint" value="0.5" />
-    <joint name="${prefix}robotiq_140_right_inner_knuckle_joint" value="0.5" />
-    <joint name="${prefix}robotiq_140_left_finger_tip_joint" value="-0.5" />
-    <joint name="${prefix}robotiq_140_right_finger_tip_joint" value="-0.5" />
+    <joint name="${prefix}robotiq_140_left_knuckle_joint" value="0.35" />
+    <joint name="${prefix}robotiq_140_right_knuckle_joint" value="-0.35" />
+    <joint name="${prefix}robotiq_140_left_inner_knuckle_joint" value="-0.35" />
+    <joint name="${prefix}robotiq_140_right_inner_knuckle_joint" value="-0.35" />
+    <joint name="${prefix}robotiq_140_left_finger_tip_joint" value="0.35" />
+    <joint name="${prefix}robotiq_140_right_finger_tip_joint" value="0.35" />
   </group_state>
   <group_state name="GripperCloseFULL" group="${prefix}robotiq_2f140">
-    <joint name="${prefix}robotiq_140_left_knuckle_joint" value="0.8" />
-    <joint name="${prefix}robotiq_140_right_knuckle_joint" value="0.8" />
-    <joint name="${prefix}robotiq_140_left_inner_knuckle_joint" value="0.8" />
-    <joint name="${prefix}robotiq_140_right_inner_knuckle_joint" value="0.8" />
-    <joint name="${prefix}robotiq_140_left_finger_tip_joint" value="-0.8" />
-    <joint name="${prefix}robotiq_140_right_finger_tip_joint" value="-0.8" />
+    <joint name="${prefix}robotiq_140_left_knuckle_joint" value="0.7" />
+    <joint name="${prefix}robotiq_140_right_knuckle_joint" value="-0.7" />
+    <joint name="${prefix}robotiq_140_left_inner_knuckle_joint" value="-0.7" />
+    <joint name="${prefix}robotiq_140_right_inner_knuckle_joint" value="-0.7" />
+    <joint name="${prefix}robotiq_140_left_finger_tip_joint" value="0.7" />
+    <joint name="${prefix}robotiq_140_right_finger_tip_joint" value="0.7" />
   </group_state>
 
   <virtual_joint child_link="${prefix}base_link" name="${prefix}virtual_joint" parent_frame="world" type="fixed" />
