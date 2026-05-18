@@ -356,11 +356,11 @@ def generate_launch_description():
     )
 
     # RVIZ:
-    rviz_base = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config")
-    if EE == "false":
-        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + ".rviz")
-    else:
-        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".rviz")
+    rviz_full_config = os.path.join(
+        get_package_share_directory("ros2srrc_moveit"),
+        "config",
+        "ros2srrc.rviz",
+    )
 
     rviz_node_full = Node(
         package="rviz2",
