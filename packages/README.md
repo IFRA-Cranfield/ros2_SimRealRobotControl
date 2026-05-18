@@ -112,6 +112,15 @@ Configurations:
 - irb6640_1: ABB IRB-6640 on top of Robot Stand.
 - irb6640_2: ABB IRB-6640 + Zimmer GP5010NC-00-A Parallel Gripper on top of Robot Stand.
 
+__Annin Robotics AR4__
+
+Package name: ros2srrc_ar4
+
+Configurations:
+
+- ar4_1: AR4 (MK3 version) on top of Robot Stand.
+- ar4_2: AR4 (MK3 version) with its Parallel Gripper on top of Robot Stand.
+
 __Universal Robots UR3__
 
 Package name: ros2srrc_ur3
@@ -161,6 +170,7 @@ Configurations:
 - ur10_1: UR10 on top of Robot Stand.
 - ur10_2: UR10 + Robotiq 2f-85 gripper on top of Robot Stand.
 - ur10_3: UR10 + Robotiq HandE gripper on top of Robot Stand.
+- ur10_4: UR10 + Robotiq 2f-140 gripper on top of Robot Stand.
 
 __Universal Robots UR10e__
 
@@ -171,6 +181,7 @@ Configurations:
 - ur10e_1: UR10e on top of Robot Stand.
 - ur10e_2: UR10e + Robotiq 2f-85 gripper on top of Robot Stand.
 - ur10e_3: UR10e + Robotiq HandE gripper on top of Robot Stand.
+- ur10e_4: UR10e + Robotiq 2f-140 gripper on top of Robot Stand.
 
 __Universal Robots UR16e__
 
