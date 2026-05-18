@@ -137,7 +137,7 @@ For detailed information on installation, usage, and requirements, please refer 
 - [README.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/packages) inside the /packages folder: Specific details about individual ROS 2 packages and their configurations.
 - [ROS2EnvironmentLaunch.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/ROS2EnvironmentLaunch.md): Instructions for launching ROS 2 simulation and control environments.
 - [RobotOperation.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/RobotOperation.md): Steps to operate robots in both simulated and real environments.
-- [Program Execution.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/ProgramExecution.md): Guidelines for executing the programs in this repository.
+- [ProgramExecution.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/ProgramExecution.md): Guidelines for executing the programs in this repository.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -150,6 +150,7 @@ The Simulation & Control packages of the following Robots are currently included
 - ABB IRB-1200.
 - ABB IRB-1600.
 - ABB IRB-6640.
+- Annin Robotics AR4.
 - Universal Robots UR3.
 - Universal Robots UR3e.
 - Universal Robots UR5.
@@ -168,6 +169,7 @@ The following end-effectors are supported in ros2srrc:
 - Robotiq HandE Parallel Gripper.
 - Robotiq 2f-85 Parallel Gripper.
 - Robotiq 2f-140 Parallel Gripper.
+- Annin Robotics AR4 Parallel Gripper.
 - Custom Vacuum Gripper (Cranfield University).
 - Custom Vacuum Gripper (AMRC-Sheffield).
 
@@ -181,7 +183,7 @@ This repo contains only a few number of robots, end-effectors and simulation env
 The exact same thing for the ROS2 Robot Actions/Triggers: A few number of robot movements have been implemented, therefore please do let us know if you have any ideas of a potential Robot motions for our repo!
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. If you have a suggestion that would make this better, or you find a solution to any of the issues/improvements presented above, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks you very much!
+Don't forget to give the project a star! Thank you very much!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

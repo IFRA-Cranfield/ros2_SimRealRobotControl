@@ -9,7 +9,7 @@ The main purpose of these packages is to serve as reference examples for buildin
 - A _configuration_ file that defines the different layouts and configurations of your robot cell.
 - The robot cell’s URDF files, together with CAD files of the cell or any relevant objects.
 
-This modular approach is possible because all robot- and end-effector-specific data is already centralized in the top-level /robots and /endeffectors folders of this repository. Whenever you design a new robot cell, you simply reference these standardized definitions—without duplicating data or parameters.
+This modular approach is possible because all robot- and end-effector-specific data is already centralized in the top-level /ros2srrc_robots and /ros2srrc_endeffectors folders of this repository. Whenever you design a new robot cell, you simply reference these standardized definitions—without duplicating data or parameters.
 
 If you are looking for more advanced examples that go beyond the simple robot-on-stand setup (e.g., full cell CAD models or specific applications), you can explore:
 
@@ -53,7 +53,7 @@ ROS 2 Package folder structure:
     - irb120.urdf.xacro: URDF for the base robot.
     - irb120_egp64.urdf.xacro: URDF for the robot with the Schunk EGP-64 gripper.
 
-    In these URDF files, the standard urdf files of both the robot and the end-effector (located within the __/robots__ and __/endeffectors__ folders of this repository) are loaded and linked. This approach allows the usage of single URDF files for raw robots and end-effectors in multiple configurations, enhancing scalability, modularity and reusability.
+    In these URDF files, the standard urdf files of both the robot and the end-effector (located within the __/ros2srrc_robots__ and __/ros2srrc_endeffectors__ folders of this repository) are loaded and linked. This approach allows the usage of single URDF files for raw robots and end-effectors in multiple configurations, enhancing scalability, modularity and reusability.
 
 __NOTE: Controller Parameters, Key Specifications and MoveIt!2 Config Files__
 
@@ -62,7 +62,7 @@ One important feature of the ros2srrc repository is its modular architecture, wh
 - Robot-specific parameters: Properties such as joint limits, inertia, and dynamics for robots like the ABB IRB-120 are already set up.
 - End-effector-specific parameters: Specifications such as gripper dimensions, actuation constraints, and grasping capabilities for end effectors like the Schunk EGP-64 Gripper are also included.
 
-In addition, the _.rviz_ and _.srdf_ files required for MoveIt!2 configuration have been standardised for every robot+end-effector combination, and included inside the ros2srrc_moveit package.
+In addition, the _.rviz_ and _.srdf_ files required for MoveIt!2 configuration have been standardised for every robot or robot+end-effector combination, and included inside the ros2srrc_moveit package. Some URDF variants that share the same robot and end-effector can reuse the same MoveIt!2 configuration files.
 
 Features of this modular setup:
 

@@ -1,6 +1,6 @@
 # IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
 
-## ros2srrc-gazebo package
+## ros2srrc_gazebo package
 
 The ros2srrc_gazebo package contains all the standard Gazebo world files (.world) used in the ros2_SimRealRobotControl framework. By centralizing these environments in a single package, robot cell packages can reference them directly without needing to duplicate world files, ensuring consistency, modularity, and easier maintenance across the repository.
 

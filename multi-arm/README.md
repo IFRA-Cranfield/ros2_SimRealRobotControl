@@ -4,7 +4,7 @@
 
 This folder contains the required launch files and support utilities to launch, manage, and operate a multi-arm robot environment in ROS 2, specifically for ROS 2 Humble in this branch, using Gazebo Classic and MoveIt! 2.
 
-It also includes the __ma_examples__ ROS 2 package, which contains example multi-arm configurations, their combined URDFs, and the configuration file that defines each example setup.
+It also includes the __ros2srrc_ma_examples__ ROS 2 package, which contains example multi-arm configurations, their combined URDFs, and the configuration file that defines each example setup.
 
 ## Included Packages
 
@@ -37,10 +37,22 @@ Program execution by sequence has not been implemented yet for the multi-arm env
 
 ## Launch
 
+Launch a dual-arm Gazebo-only simulation:
+
+```bash
+ros2 launch ros2srrc_multiarm dualarm_simulation.launch.py package:=ros2srrc_ma_examples config:=multiarm_1
+```
+
 Launch a multi-arm MoveIt! 2 + Gazebo Classic environment:
 
 ```bash
 ros2 launch ros2srrc_multiarm dualarm_moveit2.launch.py package:=ros2srrc_ma_examples config:=multiarm_1
+```
+
+Launch a dual-arm real-robot bringup environment:
+
+```bash
+ros2 launch ros2srrc_multiarm dualarm_bringup.launch.py package:=ros2srrc_ma_examples config:=multiarm_1
 ```
 
 Other example configurations currently available are:

@@ -1,6 +1,6 @@
 # IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
 
-## ros2srrc-moveit package
+## ros2srrc_moveit package
 
 Within ros2_SimRealRobotControl, the MoveIt!2 framework is responsible for kinematic control, motion planning, and collision detection of the robots.
 
