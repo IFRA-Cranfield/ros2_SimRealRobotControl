@@ -395,7 +395,7 @@
     <joint name="${prefix}EE_robotiq_2f140_joint" type="fixed" >
       <parent link="${prefix}robotiq_140_base_link" />
       <child link="${prefix}EE_robotiq_2f140" />
-      <origin xyz="0.128 0.0 0.0" rpy="0 0 0"/>
+      <origin xyz="0.0 0.0 0.17" rpy="0 0 0"/>
     </joint>
 
     <gazebo reference="${prefix}EE_robotiq_2f140_joint">
