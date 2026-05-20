@@ -29,7 +29,7 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # bringup.launch.py:
-# Launch file for the Robot's BRINGUP ROS 2 DRIVER + MoveIt!2 Framework in ROS2 Humble:
+# Launch file for robot bringup with the ROS 2 driver + MoveIt!2 framework in ROS 2 Humble:
 
 # Import libraries:
 import os, sys, xacro, yaml
@@ -72,14 +72,14 @@ def AssignArgument(ARGUMENT):
 
 # GET CONFIGURATION from YAML:
 def GetCONFIG(CONFIGURATION, PKG_PATH):
-    
+
     RESULT = {"Success": False, "ID": "", "Name": "", "urdf": "", "ee": ""}
-    
+
     YAML_PATH = PKG_PATH + "/config/configurations.yaml"
-    
+
     if not os.path.exists(YAML_PATH):
         return (RESULT)
-    
+
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
@@ -97,12 +97,12 @@ def GetCONFIG(CONFIGURATION, PKG_PATH):
 
 # GET EE-Controllers LIST:
 def GetEEctr(EEName):
-    
+
     RESULT = []
 
     PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
     YAML_PATH = PATH + "/controller_moveit2.yaml"
-    
+
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
@@ -125,7 +125,7 @@ def generate_launch_description():
         print("ERROR: robot_ip INPUT ARGUMENT has not been defined. Please try again.")
         print("Closing... BYE!")
         exit()
-    
+
     # === INPUT ARGUMENT: ROS 2 PACKAGE === #
     PACKAGE_NAME = AssignArgument("package")
     if PACKAGE_NAME != None:
@@ -135,7 +135,7 @@ def generate_launch_description():
         print("ERROR: package INPUT ARGUMENT has not been defined. Please try again.")
         print("Closing... BYE!")
         exit()
-        
+
     # CHECK if -> PACKAGE EXISTS, and GET PATH:
     try:
         PKG_PATH = get_package_share_directory(PACKAGE_NAME)
@@ -149,7 +149,7 @@ def generate_launch_description():
         print("ERROR: The defined ROS 2 Package name is not valid. Please try again.")
         print("Closing... BYE!")
         exit()
-    
+
     # === INPUT ARGUMENT: CONFIGURATION === #
     CONFIG = AssignArgument("config")
     CONFIGURATION = GetCONFIG(CONFIG, PKG_PATH)
@@ -158,11 +158,11 @@ def generate_launch_description():
         print("")
         print("ERROR: config INPUT ARGUMENT has not been correctly defined. Please try again.")
         print("Closing... BYE!")
-        exit()   
+        exit()
 
     if CONFIGURATION["ee"] == "none":
         EE = "false"
-    else: 
+    else:
         EE = "true"
 
     # ========== CELL INFORMATION ========== #
@@ -173,7 +173,7 @@ def generate_launch_description():
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["Name"])
     print("")
 
-    # UR_ROBOT_DRIVER variables: 
+    # UR_ROBOT_DRIVER variables:
     urcl_path = os.path.join(get_package_share_directory('ur_client_library'))
     script_filename = os.path.join(urcl_path,
                               'resources',
@@ -193,12 +193,12 @@ def generate_launch_description():
     xacro_file = os.path.join(robot_description_path,'urdf',CONFIGURATION["urdf"])
     # Generate ROBOT_DESCRIPTION variable:
     doc = xacro.parse(open(xacro_file))
-    
+
     if CONFIGURATION["ee"] == "none":
         EE = "false"
-    else: 
+    else:
         EE = "true"
-    
+
     xacro.process_doc(doc, mappings={
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
@@ -212,7 +212,7 @@ def generate_launch_description():
         "input_recipe_filename": input_recipe_filename,
         "output_recipe_filename": output_recipe_filename,
     })
-    
+
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
 
@@ -276,7 +276,7 @@ def generate_launch_description():
         arguments=["scaled_joint_trajectory_controller", "-c", "/controller_manager"],
     )
 
-    # *********************** MoveIt!2 *********************** #   
+    # *********************** MoveIt!2 *********************** #
 
     # *** PLANNING CONTEXT *** #
     # Robot description, SRDF:
@@ -348,7 +348,7 @@ def generate_launch_description():
             robot_description,
             robot_description_semantic,
             kinematics_yaml,
-            
+
             pilz_planning_pipeline_config,
 
             joint_limits,
@@ -361,7 +361,7 @@ def generate_launch_description():
         ],
     )
 
-    # RVIZ:
+    # RViz:
     rviz_full_config = os.path.join(
         get_package_share_directory("ros2srrc_moveit"),
         "config",
@@ -378,7 +378,7 @@ def generate_launch_description():
             robot_description,
             robot_description_semantic,
             kinematics_yaml,
-            
+
             pilz_planning_pipeline_config,
 
             joint_limits,
@@ -434,7 +434,7 @@ def generate_launch_description():
     # Add ROS 2 Nodes to LaunchDescription() element:
     LD.add_action(node_robot_state_publisher)
     LD.add_action(static_tf)
-    
+
     LD.add_action(ros2_control_node)
     LD.add_action(io_and_status_controller_spawner)
     LD.add_action(joint_state_broadcaster_spawner)
@@ -449,7 +449,7 @@ def generate_launch_description():
         OnProcessExit(
             target_action = scaled_joint_trajectory_controller_spawner,
             on_exit = [
-                
+
                 # MoveIt!2:
                 TimerAction(
                     period=2.0,
@@ -458,7 +458,7 @@ def generate_launch_description():
                         run_move_group_node,
                     ]
                 ),
-                
+
                 ]
             )
         )
@@ -468,7 +468,7 @@ def generate_launch_description():
         OnProcessExit(
             target_action = scaled_joint_trajectory_controller_spawner,
             on_exit = [
-                
+
                 # Interfaces:
                 TimerAction(
                     period=5.0,
@@ -478,7 +478,7 @@ def generate_launch_description():
                         RobPoseInterface,
                     ]
                 ),
-                
+
                 ]
             )
         )

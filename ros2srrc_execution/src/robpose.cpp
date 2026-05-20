@@ -30,7 +30,7 @@
 
 // RobPose.cpp:
 
-// Required to include ROS2 (C++):
+// Required to include ROS 2 (C++):
 #include "rclcpp/rclcpp.hpp"
 
 // Required for timer:
@@ -44,7 +44,7 @@ using namespace std::chrono_literals;
 #include <moveit/move_group_interface/move_group_interface_improved.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
-// Include the Robpose ROS2 Message:
+// Include the Robpose ROS 2 Message:
 #include "ros2srrc_data/msg/robpose.hpp"
 
 // Declaration of GLOBAL VARIABLE --> MoveIt!2 Interface:

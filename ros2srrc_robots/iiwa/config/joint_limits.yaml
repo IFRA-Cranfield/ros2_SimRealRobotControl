@@ -35,6 +35,6 @@ joint_limits:
     has_acceleration_limits: true
     max_acceleration: 5.0
 
-# Joint VELOCITY LIMITS have been taken from the ROBOT's URDF.
-# Joint ACCELERATIOJ LIMITS have been taken from ICube-Robotics' iiwa_ros2 repository:
+# Joint VELOCITY LIMITS have been taken from the robot's URDF.
+# Joint ACCELERATION LIMITS have been taken from ICube-Robotics' iiwa_ros2 repository:
 # Link: https://github.com/ICube-Robotics/iiwa_ros2/blob/main/iiwa_description/moveit2/iiwa_joint_limits.yaml

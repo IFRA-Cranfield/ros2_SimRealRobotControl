@@ -70,7 +70,7 @@
     output_recipe_filename="${output_recipe_filename}"
     prefix="${prefix}" />
 
-  <!-- Include XACRO-MACRO file of the Robotiq 2f-85: -->
+  <!-- Include XACRO-MACRO file of the Robotiq HandE: -->
   <xacro:include filename="$(find ros2srrc_endeffectors)/robotiq_hande/urdf/robotiq_hande_macro.urdf.xacro"/>	
   <xacro:robotiq_hande
     bringup="${bringup}"

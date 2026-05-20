@@ -28,11 +28,11 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 UR10-Robot .urdf files in this ROS2    #
-#  repository has been taken from the following resources:                              #
-#       - Universal Robots ROS2 Description:                                            #
+#  Some of the information used to build the ROS 2 UR10-Robot .urdf files in this       #
+#  ROS 2 repository has been taken from the following resources:                        #
+#       - Universal Robots ROS 2 Description:                                           #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Description          #
-#       - Universal Robots ROS2 Gazebo Simulation:                                      #
+#       - Universal Robots ROS 2 Gazebo Simulation:                                     #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation    #
 #                                                                                       #
 #  AUTHORS:                                                                             #
@@ -61,7 +61,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- UR_ROBOT_DRIVER PARAMETRES: -->
+  <!-- UR robot driver parameters: -->
   
   <xacro:arg name="headless_mode" default="false"/>
   <xacro:property name="headless_mode" value="$(arg headless_mode)"/>
@@ -128,8 +128,8 @@
 
   <xacro:macro name="ur10_ros2control" params="bringup robot_ip EE EE_name script_filename input_recipe_filename output_recipe_filename prefix" >
 
-    <!-- ROS2_CONTROL tag name: -->
-    <!-- A. GAZEBO SIMULATION: -->
+    <!-- ros2_control tag name: -->
+    <!-- A. GZ Sim simulation: -->
     <xacro:unless value="${bringup}">
       <xacro:property name="name" value="${prefix}GazeboSimSystem"/>
     </xacro:unless>
@@ -138,10 +138,10 @@
       <xacro:property name="name" value="${prefix}ur10"/>
     </xacro:if>
 
-    <!-- Load ROS2_CONTROL: -->
+    <!-- Load ros2_control: -->
     <ros2_control name="${name}" type="system">
 
-      <!-- A. GAZEBO SIMULATION: -->
+      <!-- A. GZ Sim simulation: -->
       <xacro:unless value="${bringup}">
         <hardware>
           <plugin>gz_ros2_control/GazeboSimSystem</plugin>

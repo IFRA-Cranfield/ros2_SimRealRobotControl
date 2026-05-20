@@ -29,18 +29,18 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # robot.py
-# This CLIENT executes Robot Movements, by calling the following ROS2 Actions:
+# This CLIENT executes Robot Movements, by calling the following ROS 2 actions:
 #   - /Robmove allows the user to move the robot to a specific End-Effector pose. 
 #   - /Move allows the user to execute a specific robot movement: Cartesian-Space, Joint-Space, Single Joint, Rotation... 
 
 # ===== IMPORT REQUIRED COMPONENTS ===== #
 # System:
 import time
-# Required to include ROS2 and its components:
+# Required to include ROS 2 and its components:
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
-# Import /Move and /RobMove ROS2 Actions:
+# Import /Move and /RobMove ROS 2 actions:
 from ros2srrc_data.action import Move
 from ros2srrc_data.action import Robmove
   
@@ -60,8 +60,8 @@ class RobMoveCLIENT(Node):
         super().__init__('ros2srrc_RobMove_Client')
         self._action_client = ActionClient(self, Robmove, 'Robmove')
 
-        print("[CLIENT - robot.py]: Initialising ROS2 /RobMove Action Client!")
-        print("[CLIENT - robot.py]: Waiting for /Robmove ROS2 ActionServer to be available...")
+        print("[CLIENT - robot.py]: Initialising ROS 2 /RobMove Action Client!")
+        print("[CLIENT - robot.py]: Waiting for /Robmove ROS 2 action server to be available...")
         self._action_client.wait_for_server()
         print("[CLIENT - robot.py]: /Robmove ACTION SERVER detected, ready!")
         print("")
@@ -113,8 +113,8 @@ class MoveCLIENT(Node):
         super().__init__('ros2srrc_Move_Client')
         self._action_client = ActionClient(self, Move, 'Move')
 
-        print("[CLIENT - robot.py]: Initialising ROS2 /Move Action Client!")
-        print("[CLIENT - robot.py]: Waiting for /Move ROS2 ActionServer to be available...")
+        print("[CLIENT - robot.py]: Initialising ROS 2 /Move Action Client!")
+        print("[CLIENT - robot.py]: Waiting for /Move ROS 2 action server to be available...")
         self._action_client.wait_for_server()
         print("[CLIENT - robot.py]: /Move ACTION SERVER detected, ready!")
         print("")

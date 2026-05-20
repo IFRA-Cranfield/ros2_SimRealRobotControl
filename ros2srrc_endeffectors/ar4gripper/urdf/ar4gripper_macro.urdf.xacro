@@ -45,7 +45,7 @@
 
     </xacro:unless>
 
-    <!-- ***** AR4 ROBOT's GRIPPER .urdf SERIAL CHAIN ***** -->
+    <!-- ***** AR4 robot's GRIPPER .urdf SERIAL CHAIN ***** -->
 
     <!-- GRIPPER BASE -->
 

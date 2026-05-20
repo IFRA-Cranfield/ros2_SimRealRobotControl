@@ -8,13 +8,13 @@ Configurations:
     ee: "none"
 
   - ID: "ur20_2"
-    Name: "ur20 + Robotiq 2f-85 gripper on top of Robot Stand."
+    Name: "UR20 + Robotiq 2f-85 gripper on top of Robot Stand."
     urdf: "ur20_robotiq_2f85.urdf.xacro"
     rob: "ur20"
     ee: "robotiq_2f85"
 
   - ID: "ur20_3"
-    Name: "ur20 + Robotiq HandE gripper on top of Robot Stand."
+    Name: "UR20 + Robotiq HandE gripper on top of Robot Stand."
     urdf: "ur20_robotiq_hande.urdf.xacro"
     rob: "ur20"
     ee: "robotiq_hande"

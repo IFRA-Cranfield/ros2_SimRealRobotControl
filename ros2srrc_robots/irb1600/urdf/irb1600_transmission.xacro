@@ -28,8 +28,8 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 ABB-IRB1600 .urdf files in this ROS2   #
-#  repository has been taken from the following resource:                               #
+#  Some of the information used to build the ROS 2 ABB-IRB1600 .urdf files in this      #
+#  ROS 2 repository has been taken from the following resource:                         #
 #       - abb_experimental (https://github.com/ros-industrial/abb_experimental)         #
 #                                                                                       #
 #  AUTHORS:                                                                             #

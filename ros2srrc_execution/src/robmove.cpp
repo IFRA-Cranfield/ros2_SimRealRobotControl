@@ -30,11 +30,11 @@
 
 // RobMove.cpp:
 
-// Required to include ROS2 and ROS2 Action Server:
+// Required to include ROS 2 and ROS 2 action Server:
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
-// Include the /Robmove ROS2 Action:
+// Include the /Robmove ROS 2 action:
 #include "ros2srrc_data/action/robmove.hpp"
 
 // Include MoveIt!2:
@@ -101,7 +101,7 @@ moveit::planning_interface::MoveGroupInterface::Plan plan_ROB() {
 };
 
 // =============================================================================== //
-// ROS2 Action Server to move the ROBOT:
+// ROS 2 action Server to move the ROBOT:
 
 class ActionServer : public rclcpp::Node
 {

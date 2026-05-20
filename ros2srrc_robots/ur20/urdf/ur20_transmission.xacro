@@ -29,11 +29,11 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 ur20-Robot .urdf files in this ROS2    #
-#  repository has been taken from the following resources:                              #
-#       - Universal Robots ROS2 Description:                                            #
+#  Some of the information used to build the ROS 2 ur20-Robot .urdf files in this       #
+#  ROS 2 repository has been taken from the following resources:                        #
+#       - Universal Robots ROS 2 Description:                                           #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Description          #
-#       - Universal Robots ROS2 Gazebo Simulation:                                      #
+#       - Universal Robots ROS 2 Gazebo Simulation:                                     #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation    #
 #                                                                                       #
 #  AUTHORS:                                                                             #

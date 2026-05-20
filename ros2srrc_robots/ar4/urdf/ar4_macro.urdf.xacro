@@ -39,7 +39,7 @@
 #  (ORIGINAL LICENSE) -> Licensed under the MIT License.                                #
 #                                                                                       #
 #  CHANGES MADE:                                                                        #
-#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #                                                      #
+#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -60,7 +60,7 @@
       <xacro:ar4_transmission prefix="${prefix}"/>
     </xacro:unless>
 
-    <!-- AR4 GAZEBO - ROS2_CONTROL: -->
+    <!-- AR4 GZ Sim - ros2_control: -->
     <xacro:include filename="$(find ros2srrc_robots)/ar4/urdf/ar4_ros2control.xacro" />
     <xacro:ar4_ros2control 
       bringup="${bringup}"

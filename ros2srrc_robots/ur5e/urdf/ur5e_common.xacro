@@ -28,11 +28,11 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 UR5e-Robot .urdf files in this ROS2    #
-#  repository has been taken from the following resources:                              #
-#       - Universal Robots ROS2 Description:                                            #
+#  Some of the information used to build the ROS 2 UR5e-Robot .urdf files in this       #
+#  ROS 2 repository has been taken from the following resources:                        #
+#       - Universal Robots ROS 2 Description:                                           #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Description          #
-#       - Universal Robots ROS2 Gazebo Simulation:                                      #
+#       - Universal Robots ROS 2 Gazebo Simulation:                                     #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation    #
 #                                                                                       #
 #  AUTHORS:                                                                             #
@@ -82,7 +82,7 @@
           - visual_parameters.yaml 
           -->
 
-    <!-- JOINTS LIMIT PARAMETERS* -->
+    <!-- JOINT LIMIT PARAMETERS* -->
     <xacro:property name="shoulder_pan_lower_limit" value="-6.2832" scope="parent"/>
     <xacro:property name="shoulder_pan_upper_limit" value="6.2832" scope="parent"/>
     <xacro:property name="shoulder_pan_velocity_limit" value="3.1416" scope="parent"/>

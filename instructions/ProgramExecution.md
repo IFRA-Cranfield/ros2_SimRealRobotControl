@@ -1,4 +1,4 @@
-# IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
+# IFRA-Cranfield: ROS 2 Sim-to-Real Robot Control
 
 ## Program Execution: Instructions
 
@@ -12,7 +12,7 @@ ExecuteProgram.py is a Python script designed to automate the execution of stati
 
 Upon invocation, the script reads the specified program file (e.g., PROGRAM_NAME.yaml), __which must be located in the /programs folder of any ROS 2 package__. Each step of the program outlines a particular action, such as moving joints to a specific position (MoveJ), rotating a joint by a defined angle (MoveR), or translating the robot's end-effector in space (MoveL). The script processes these commands in the order they are listed, executing the movement at the given speed, applying any necessary delays, and controlling other components like grippers or external devices, based on the provided inputs.
 
-ExecuteProgram.py also uses the "Specifications" section of the YAML file to ensure it is configured correctly to control the designated robot, end-effector. It selects the appropriate Python clients to control these components based on the robot and other hardware specifications. In essence, the script acts as a central execution engine, translating high-level descriptions of robotic tasks into low-level commands that can be executed in real time.
+ExecuteProgram.py also uses the "Specifications" section of the YAML file to ensure it is configured correctly to control the designated robot and end-effector. It selects the appropriate Python clients to control these components based on the robot and other hardware specifications. In essence, the script acts as a central execution engine, translating high-level descriptions of robotic tasks into low-level commands that can be executed in real time.
 
 __COMMAND -> PROGRAM EXECUTION__
 
@@ -29,7 +29,7 @@ __PROGRAM STRUCTURE__
 
 The structure of the .yaml file (program) is divided into two main sections:
 
-- _SPECIFICATIONS_ define the essential components required for program execution, including the robot's name and the end-effector (if any).This section ensures that the script knows which hardware and software components are being used.
+- _SPECIFICATIONS_ define the essential components required for program execution, including the robot's name and the end-effector (if any). This section ensures that the script knows which hardware and software components are being used.
 
 - _SEQUENCE_ outlines the step-by-step actions to be performed by the robot. Each step contains details such as the movement type (e.g., MoveJ, MoveL), speed, delay, and the specific inputs needed for the action (e.g., joint angles or positional values). The steps are executed in the order they are listed, forming the program's sequence of operations.
 
@@ -42,11 +42,11 @@ __templates.yaml__ is a reference file that provides predefined action templates
 ```sh
 Specifications:
   Robot: ""
-  EndEffector: "" 
+  EndEffector: ""
 ```
 
 - Robot: Specifies the robot name, e.g. "irb120".
-- EndEffector: The name of the end-effector, e.g "egp64".
+- EndEffector: The name of the end-effector, e.g. "egp64".
 
 #### Action Definition
 
@@ -167,9 +167,9 @@ _Robot Movements:_
         qw: 0.0
     ```
 
-_End-Effector in Gazebo Simulator:_
+_End-Effector in Gazebo Fortress / GZ Sim:_
 
-- MoveG: This template is designed for parallel gripper control in Gazebo, allowing the user to define a gripper’s closing value as a percentage (0-100). It controls the gripper’s grip strength, typically used in pick-and-place tasks involving object manipulation. This command simply controls the open/close action of the gripper.
+- MoveG: This template is designed for parallel gripper control in Gazebo Fortress / GZ Sim, allowing the user to define a gripper’s closing value as a percentage (0-100). It controls the gripper’s grip strength, typically used in pick-and-place tasks involving object manipulation. This command simply controls the open/close action of the gripper.
 
     ```sh
     - Step: 0
@@ -181,11 +181,11 @@ _End-Effector in Gazebo Simulator:_
         value: 0.0  # This value represents gripper CLOSING AVERAGE, [0, 100].
     ```
 
-- Parallel Gripper: These templates control the parallel gripper in a Gazebo simulation environment. The OPEN action fully opens the gripper, while the CLOSE action moves the gripper fingers toward each other to grasp an object.
+- Parallel Gripper: These templates control the parallel gripper in a Gazebo Fortress / GZ Sim environment. The OPEN action fully opens the gripper, while the CLOSE action moves the gripper fingers toward each other to grasp an object.
 
     ```sh
     # Open Gripper:
-    - Step: 0 
+    - Step: 0
       Name: "Please type the name of your program step here."
       Type: "ParallelGripper"
       Action: "OPEN"
@@ -199,7 +199,7 @@ _End-Effector in Gazebo Simulator:_
       Value: 0.0
       Delay: 0.0
     ```
-- Vacuum Gripper (not implemented in Gz Fortress yet): These templates manage the vacuum gripper in a Gazebo simulation. The ACTIVATE action turns on the vacuum, allowing the gripper to attach to an object, while the DEACTIVATE action releases it.
+- Vacuum Gripper (not implemented in Gazebo Fortress / GZ Sim yet): These templates manage the vacuum gripper in simulation. The ACTIVATE action turns on the vacuum, allowing the gripper to attach to an object, while the DEACTIVATE action releases it.
 
     ```sh
     - Step: 0
@@ -231,7 +231,7 @@ _End-Effector in Real Robot (ABB):_
       Delay: 0.0
     ```
 
-- Vacuum Gripper, ABB Robot: Similar to the Gazebo vacuum gripper templates, these are for real-world vacuum gripper control on an ABB robot. The ACTIVATE action starts the vacuum for object manipulation, and DEACTIVATE releases the object when necessary.
+- Vacuum Gripper, ABB Robot: Similar to the simulated vacuum gripper templates, these are for real-world vacuum gripper control on an ABB robot. The ACTIVATE action starts the vacuum for object manipulation, and DEACTIVATE releases the object when necessary.
 
     ```sh
     - Step: 0
@@ -251,4 +251,4 @@ _End-Effector in Real Robot (UR):_
       Type: "RobotiqHandE/UR"
       Action: "OPEN"
       Delay: 0.0
-    ``` 
+    ```

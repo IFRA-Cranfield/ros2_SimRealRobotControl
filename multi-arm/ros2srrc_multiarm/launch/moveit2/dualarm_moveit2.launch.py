@@ -29,7 +29,7 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # moveit2.launch.py:
-# Launch file for the (2) ROBOT's GZ SIM / Gazebo Fortress simulation + MoveIt!2 Framework in ROS 2 Humble:
+# Launch file for a dual-arm GZ Sim / Gazebo Fortress simulation + MoveIt!2 framework in ROS 2 Humble:
 
 # Import libraries:
 import os, sys, xacro, yaml
@@ -67,7 +67,7 @@ def load_yaml(package_name, file_path):
     except EnvironmentError:
         # parent of IOError, OSError *and* WindowsError where available.
         return None
-    
+
 # PREFIX - Kinematics.yaml:
 def PrefixKinematicsKeys(kinematics_yaml, prefix):
     # Top-level keys are planning group names (e.g. ur3_arm)
@@ -112,14 +112,14 @@ def AssignArgument(ARGUMENT):
 
 # GET CONFIGURATION from YAML:
 def GetCONFIG(CONFIGURATION, PKG_PATH):
-    
+
     RESULT = {"Success": False, "ID": "", "Name": "", "urdf": "", "ee": ""}
-    
+
     YAML_PATH = PKG_PATH + "/config/configurations.yaml"
-    
+
     if not os.path.exists(YAML_PATH):
         return (RESULT)
-    
+
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
@@ -127,7 +127,7 @@ def GetCONFIG(CONFIGURATION, PKG_PATH):
 
         if x["ID"] == CONFIGURATION:
             RESULT["Success"] = True
-            
+
             RESULT["ID"] = x["ID"]
             RESULT["name"] = x["name"]
             RESULT["urdf"] = x["urdf"]
@@ -144,12 +144,12 @@ def GetCONFIG(CONFIGURATION, PKG_PATH):
 
 # GET EE-Controllers LIST:
 def GetEEctr(EEName):
-    
+
     RESULT = []
 
     PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
     YAML_PATH = PATH + "/controller_moveit2.yaml"
-    
+
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
@@ -160,18 +160,18 @@ def GetEEctr(EEName):
 
 # CHECK if CONTROLLER file exists for EE:
 def EEctrlEXISTS(EEName):
-    
+
     PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
     YAML_PATH = PATH + "/controller.yaml"
-    
+
     RES = os.path.exists(YAML_PATH)
     return(RES)
 
 # ========== **GENERATE LAUNCH DESCRIPTION** ========== #
 def generate_launch_description():
-    
+
     LD = LaunchDescription()
-    
+
     # === INPUT ARGUMENT: ROS 2 PACKAGE === #
     PACKAGE_NAME = AssignArgument("package")
     if PACKAGE_NAME != None:
@@ -181,7 +181,7 @@ def generate_launch_description():
         print("ERROR: package INPUT ARGUMENT has not been defined. Please try again.")
         print("Closing... BYE!")
         exit()
-        
+
     # CHECK if -> PACKAGE EXISTS, and GET PATH:
     try:
         PKG_PATH = get_package_share_directory(PACKAGE_NAME)
@@ -195,7 +195,7 @@ def generate_launch_description():
         print("ERROR: The defined ROS 2 Package name is not valid. Please try again.")
         print("Closing... BYE!")
         exit()
-    
+
     # === INPUT ARGUMENT: CONFIGURATION === #
     CONFIG = AssignArgument("config")
     CONFIGURATION = GetCONFIG(CONFIG, PKG_PATH)
@@ -204,22 +204,22 @@ def generate_launch_description():
         print("")
         print("ERROR: config INPUT ARGUMENT has not been correctly defined. Please try again.")
         print("Closing... BYE!")
-        exit()   
+        exit()
 
     # ========== CELL INFORMATION ========== #
     print("")
-    print("===== GZ SIM + MoveIt!2: Robot Simulation (" + PACKAGE_NAME + ") =====")
+    print("===== GZ Sim + MoveIt!2: Dual-Arm Robot Simulation (" + PACKAGE_NAME + ") =====")
     print("Robot configuration:")
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["name"])
     print("")
-    
-    # ***** GZ SIM ***** #
-    # DECLARE GZ SIM WORLD file:
+
+    # ***** GZ Sim ***** #
+    # DECLARE GZ Sim WORLD file:
     world_gz = os.path.join(
         get_package_share_directory('ros2srrc_gz'),
         'worlds',
         'ros2srrc_gz.sdf')
-    # DECLARE GZ SIM LAUNCH file:
+    # DECLARE GZ Sim LAUNCH file:
     gzSIM = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]
@@ -248,7 +248,7 @@ def generate_launch_description():
     xacro_file = os.path.join(robot_description_path,'urdf',CONFIGURATION["urdf"])
     # Generate ROBOT_DESCRIPTION variable:
     doc = xacro.parse(open(xacro_file))
-    
+
     # END-EFFECTOR(s) -> Check if defined, and set xacro arguments:
     if CONFIGURATION["ROB1_ee"] == "none":
         EE_1 = "false"
@@ -275,7 +275,7 @@ def generate_launch_description():
             E2 = "none"
     EES = [E1, E2]
     PREFIXES = [CONFIGURATION["ROB1_id"] + "_", CONFIGURATION["ROB2_id"] + "_"]
-    
+
     TMP_CONTROLLER_PATH = CreateTMPControllerFile(ROBOTS, EES, PREFIXES)
     TMP_RVIZ_PATH_1 = CreateTMPRVizFile(
         CONFIGURATION["ROB1_rob"],
@@ -289,20 +289,20 @@ def generate_launch_description():
         CONFIGURATION["ROB2_id"] + "_",
         CONFIGURATION["ROB2_id"],
     )
-    
+
     # PROCESS xacro file with ROBOT and EE information:
     xacro.process_doc(doc, mappings={
 
         "EE_1": EE_1,
         "EE_name_1": CONFIGURATION["ROB1_ee"],
         "prefix_1": CONFIGURATION["ROB1_id"] + "_",
-    
+
         "EE_2": EE_2,
         "EE_name_2": CONFIGURATION["ROB2_ee"],
         "prefix_2": CONFIGURATION["ROB2_id"] + "_",
 
     })
-    
+
     # END-EFFECTOR(s) -> Check if CONTROLLER file exists for EE, and set EE variable for LAUNCH DESCRIPTION:
     if EE_1 == "true":
         if EEctrlEXISTS(CONFIGURATION["ROB1_ee"]) == False:
@@ -310,7 +310,7 @@ def generate_launch_description():
     if EE_2 == "true":
         if EEctrlEXISTS(CONFIGURATION["ROB2_ee"]) == False:
             EE_2 = "true-NOctr"
-    
+
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
 
@@ -325,7 +325,7 @@ def generate_launch_description():
         ]
     )
 
-    # SPAWN ROBOT TO GZ SIM:
+    # SPAWN ROBOTS IN GZ Sim:
     spawn_entity = Node(
         package='ros_gz_sim',
         executable='create',
@@ -416,7 +416,7 @@ def generate_launch_description():
     srdf_doc_1.documentElement.setAttribute("name", CONFIGURATION["ID"])
     robot_description_semantic_config_1 = srdf_doc_1.toxml()
     robot_description_semantic_1 = {"robot_description_semantic": robot_description_semantic_config_1}
-    
+
     srdf_doc_2 = xacro.parse(open(srdf_file_2))
     xacro.process_doc(srdf_doc_2, mappings={"prefix": CONFIGURATION["ROB2_id"] + "_", "name": CONFIGURATION["ID"]})
     srdf_doc_2.documentElement.setAttribute("name", CONFIGURATION["ID"])
@@ -446,7 +446,7 @@ def generate_launch_description():
         YAML_EE_2 = load_yaml("ros2srrc_endeffectors", CONFIGURATION["ROB2_ee"] + "/config/joint_limits.yaml")["joint_limits"]
         joint_limits_yaml_2 = {}
         joint_limits_yaml_2["joint_limits"] = YAML_ROB_2 | YAML_EE_2
-    
+
     # Process joint_limits for MoveIt!2:
     joint_limits_yaml_1 = PrefixJointLimits(joint_limits_yaml_1, CONFIGURATION["ROB1_id"] + "_")
     joint_limits_yaml_2 = PrefixJointLimits(joint_limits_yaml_2, CONFIGURATION["ROB2_id"] + "_")
@@ -482,7 +482,7 @@ def generate_launch_description():
             MERGED_1[C] = RAW_1[C]
         for C in RAW_EE_1["controller_names"]:
             MERGED_1[C] = RAW_EE_1[C]
-    
+
     # Get controller.yaml for Robot2:
     RAW_2 = load_yaml("ros2srrc_robots", CONFIGURATION["ROB2_rob"] + "/config/controller_moveit2.yaml")
     if (EE_2 == "false") or (EE_2 == "true-NOctr"):
@@ -506,7 +506,7 @@ def generate_launch_description():
         CONFIGURATION["ROB2_id"] + "_",
         use_absolute_controller_names=True
     )
-    
+
     # Process MoveIt!2 controllers:
     moveit_controllers_1 = {
         "moveit_simple_controller_manager": moveit_simple_controllers_yaml_1,
@@ -552,7 +552,7 @@ def generate_launch_description():
             robot_description,
             robot_description_semantic_1,
             kinematics_yaml_1,
-            
+
             pilz_planning_pipeline_config,
 
             joint_limits_1,
@@ -581,7 +581,7 @@ def generate_launch_description():
             robot_description,
             robot_description_semantic_2,
             kinematics_yaml_2,
-            
+
             pilz_planning_pipeline_config,
 
             joint_limits_2,
@@ -649,15 +649,15 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, 
-                        robot_description_semantic_1, 
-                        kinematics_yaml_1, 
-    
-                        {"use_sim_time": True}, 
-                        {"ROB_PARAM": CONFIGURATION["ROB1_rob"]}, 
-                        {"EE_PARAM": CONFIGURATION["ROB1_ee"]}, 
-                        {"move_group_ns": CONFIGURATION["ROB1_id"]}, 
-                        
+            parameters=[robot_description,
+                        robot_description_semantic_1,
+                        kinematics_yaml_1,
+
+                        {"use_sim_time": True},
+                        {"ROB_PARAM": CONFIGURATION["ROB1_rob"]},
+                        {"EE_PARAM": CONFIGURATION["ROB1_ee"]},
+                        {"move_group_ns": CONFIGURATION["ROB1_id"]},
+
                         {"ENV_PARAM": "gazebo"}
                         ],
         )
@@ -667,14 +667,14 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, 
-                        robot_description_semantic_1, 
-                        kinematics_yaml_1, 
-    
-                        {"use_sim_time": True}, 
-                        {"ROB_PARAM": CONFIGURATION["ROB1_rob"]}, 
+            parameters=[robot_description,
+                        robot_description_semantic_1,
+                        kinematics_yaml_1,
+
+                        {"use_sim_time": True},
+                        {"ROB_PARAM": CONFIGURATION["ROB1_rob"]},
                         {"EE_PARAM": "none"},
-                        {"move_group_ns": CONFIGURATION["ROB1_id"]},  
+                        {"move_group_ns": CONFIGURATION["ROB1_id"]},
 
                         {"ENV_PARAM": "gazebo"}
                         ],
@@ -686,14 +686,14 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, 
-                        robot_description_semantic_2, 
-                        kinematics_yaml_2, 
-    
-                        {"use_sim_time": True}, 
-                        {"ROB_PARAM": CONFIGURATION["ROB2_rob"]}, 
-                        {"EE_PARAM": CONFIGURATION["ROB2_ee"]}, 
-                        {"move_group_ns": CONFIGURATION["ROB2_id"]},  
+            parameters=[robot_description,
+                        robot_description_semantic_2,
+                        kinematics_yaml_2,
+
+                        {"use_sim_time": True},
+                        {"ROB_PARAM": CONFIGURATION["ROB2_rob"]},
+                        {"EE_PARAM": CONFIGURATION["ROB2_ee"]},
+                        {"move_group_ns": CONFIGURATION["ROB2_id"]},
 
                         {"ENV_PARAM": "gazebo"}
                         ],
@@ -704,14 +704,14 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, 
-                        robot_description_semantic_2, 
-                        kinematics_yaml_2, 
-    
-                        {"use_sim_time": True}, 
-                        {"ROB_PARAM": CONFIGURATION["ROB2_rob"]}, 
-                        {"EE_PARAM": "none"}, 
-                        {"move_group_ns": CONFIGURATION["ROB2_id"]},  
+            parameters=[robot_description,
+                        robot_description_semantic_2,
+                        kinematics_yaml_2,
+
+                        {"use_sim_time": True},
+                        {"ROB_PARAM": CONFIGURATION["ROB2_rob"]},
+                        {"EE_PARAM": "none"},
+                        {"move_group_ns": CONFIGURATION["ROB2_id"]},
 
                         {"ENV_PARAM": "gazebo"}
                         ],
@@ -723,13 +723,13 @@ def generate_launch_description():
         package="ros2srrc_execution",
         executable="robmove",
         output="screen",
-        parameters=[robot_description, 
-                    robot_description_semantic_1, 
-                    kinematics_yaml_1, 
-                    
-                    {"use_sim_time": True}, 
+        parameters=[robot_description,
+                    robot_description_semantic_1,
+                    kinematics_yaml_1,
+
+                    {"use_sim_time": True},
                     {"ROB_PARAM": CONFIGURATION["ROB1_rob"]},
-                    {"move_group_ns": CONFIGURATION["ROB1_id"]},  
+                    {"move_group_ns": CONFIGURATION["ROB1_id"]},
                     ],
     )
     RobMoveInterface_2 = Node(
@@ -737,13 +737,13 @@ def generate_launch_description():
         package="ros2srrc_execution",
         executable="robmove",
         output="screen",
-        parameters=[robot_description, 
-                    robot_description_semantic_2, 
-                    kinematics_yaml_2, 
-                    
-                    {"use_sim_time": True}, 
+        parameters=[robot_description,
+                    robot_description_semantic_2,
+                    kinematics_yaml_2,
+
+                    {"use_sim_time": True},
                     {"ROB_PARAM": CONFIGURATION["ROB2_rob"]},
-                    {"move_group_ns": CONFIGURATION["ROB2_id"]}, 
+                    {"move_group_ns": CONFIGURATION["ROB2_id"]},
                     ],
     )
 
@@ -753,13 +753,13 @@ def generate_launch_description():
         package="ros2srrc_execution",
         executable="robpose",
         output="screen",
-        parameters=[robot_description, 
-                    robot_description_semantic_1, 
-                    kinematics_yaml_1, 
-                    
-                    {"use_sim_time": True}, 
+        parameters=[robot_description,
+                    robot_description_semantic_1,
+                    kinematics_yaml_1,
+
+                    {"use_sim_time": True},
                     {"ROB_PARAM": CONFIGURATION["ROB1_rob"]},
-                    {"move_group_ns": CONFIGURATION["ROB1_id"]}, 
+                    {"move_group_ns": CONFIGURATION["ROB1_id"]},
                     ],
     )
     RobPoseInterface_2 = Node(
@@ -767,13 +767,13 @@ def generate_launch_description():
         package="ros2srrc_execution",
         executable="robpose",
         output="screen",
-        parameters=[robot_description, 
-                    robot_description_semantic_2, 
-                    kinematics_yaml_2, 
-                    
-                    {"use_sim_time": True}, 
+        parameters=[robot_description,
+                    robot_description_semantic_2,
+                    kinematics_yaml_2,
+
+                    {"use_sim_time": True},
                     {"ROB_PARAM": CONFIGURATION["ROB2_rob"]},
-                    {"move_group_ns": CONFIGURATION["ROB2_id"]}, 
+                    {"move_group_ns": CONFIGURATION["ROB2_id"]},
                     ],
     )
 

@@ -1,20 +1,20 @@
-# IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
+# IFRA-Cranfield: ROS 2 Sim-to-Real Robot Control
 
 ## ROS 2 Environment Launch: Instructions
 
 The ros2srrc_launch package contains various ROS 2 launch files that execute different robot environments for simulation, testing, and real robot control. Below are the commands to launch these environments depending on the purpose:
 
-__Gazebo Simulation Environment (simulation.launch.py)__
+__GZ Sim Environment (simulation.launch.py)__
 
-Launches a basic Gazebo simulation of the robot with a pre-configured setup (such as the robot's cell and end-effector). This environment is ideal for verifying the CAD models and the correctness of the built simulation world.
+Launches a basic Gazebo Fortress / GZ Sim environment of the robot with a pre-configured setup (such as the robot's cell and end-effector). This environment is ideal for verifying the CAD models and the correctness of the simulation world.
 
 ```sh
 ros2 launch ros2srrc_launch simulation.launch.py package:=<PACKAGE_NAME> config:=<CONFIG_NAME>
 ```
 
-__Gazebo Simulation Environment + MoveIt!2 Framework (moveit2.launch.py)__
+__GZ Sim Environment + MoveIt!2 Framework (moveit2.launch.py)__
 
-This command launches the Gazebo simulation along with the MoveIt!2 framework, enabling the robot to be controlled, monitored, and operated through MoveIt!2. It also loads RVIZ for visualization and gives access to the custom ROS 2 tools (/Move, /RobMove, /RobPose) for robot manipulation and monitoring.
+This command launches the Gazebo Fortress / GZ Sim environment along with the MoveIt!2 framework, enabling the robot to be controlled, monitored, and operated through MoveIt!2. It also loads RViz for visualization and gives access to the custom ROS 2 tools (/Move, /Robmove, /Robpose) for robot manipulation and monitoring.
 
 ```sh
 ros2 launch ros2srrc_launch moveit2.launch.py package:=<PACKAGE_NAME> config:=<CONFIG_NAME>
@@ -22,7 +22,7 @@ ros2 launch ros2srrc_launch moveit2.launch.py package:=<PACKAGE_NAME> config:=<C
 
 __Real Robot Bringup + MoveIt!2 Framework (bringup.launch.py)__
 
-This launches the ROS 2 driver for controlling a physical robot using the MoveIt!2 framework, along with the ROS 2tools (/Move, /RobMove, /RobPose). The IP address of the robot is required to connect to it. The specific launch file varies depending on the type of robot (e.g., ABB or UR).
+This launches the ROS 2 driver for controlling a physical robot using the MoveIt!2 framework, along with the ROS 2 tools (/Move, /Robmove, /Robpose). The IP address of the robot is required to connect to it. The specific launch file varies depending on the type of robot (e.g., ABB or UR).
 
 ```sh
 ros2 launch ros2srrc_launch bringup.launch.py package:=<PACKAGE_NAME> config:=<CONFIG_NAME> robot_ip:=<ROBOT_IP>

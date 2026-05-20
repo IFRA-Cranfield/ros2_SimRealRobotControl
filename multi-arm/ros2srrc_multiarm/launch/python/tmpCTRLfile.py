@@ -62,7 +62,7 @@ def _message(text):
 # Try to resolve the database folder from the current workspace so this also
 # works before the package has been installed/sourced through ROS 2:
 def _find_directory_in_workspace(directory_name):
-    
+
     current_file = Path(__file__).resolve()
     candidates = [Path.cwd().resolve(), current_file.parent]
     candidates.extend(Path.cwd().resolve().parents)
@@ -84,10 +84,10 @@ def _find_directory_in_workspace(directory_name):
         )
     )
 
-# Prefer the installed ROS 2 package share path, but fall back to the 
+# Prefer the installed ROS 2 package share path, but fall back to the
 # local source workspace during development:
 def _get_database_root(package_name, directory_name):
-    
+
     if get_package_share_directory is not None:
         try:
             return Path(get_package_share_directory(package_name))
@@ -132,12 +132,12 @@ def _get_ee_controller_yaml_path(ee_name):
     return controller_yaml_path
 
 def _prefix_joint_fields(value, prefix):
-    
+
     if isinstance(value, dict):
         prefixed_value = {}
-        
+
         for key, item in value.items():
-            
+
             # Controller YAMLs only need joint-related names to be rewritten:
             if key == "joint" and isinstance(item, str):
                 prefixed_value[key] = prefix + item
@@ -155,10 +155,10 @@ def _prefix_joint_fields(value, prefix):
     return value
 
 def _merge_prefixed_controller_yaml(output_yaml, source_yaml, prefix):
-    
+
     # Add the controller entries under controller_manager, skipping the common
     # sections that must appear only once in the merged file:
-    
+
     manager_parameters = source_yaml.get("controller_manager", {}).get("ros__parameters", {})
     if not isinstance(manager_parameters, dict):
         raise ValueError(_message("Invalid controller_manager.ros__parameters section."))
@@ -200,7 +200,7 @@ def _merge_prefixed_controller_yaml(output_yaml, source_yaml, prefix):
         )
 
 def _validate_inputs(robot_names, ee_names, prefixes):
-   
+
     # These three arrays describe one logical robot entry per index:
     if not robot_names:
         raise ValueError(_message("At least one robot must be provided."))
@@ -231,10 +231,10 @@ def create_tmp_controller_file(
     output_dir="/tmp",
     update_rate=250,
 ):
-    
+
     # Build one merged controller YAML containing all robot arm controllers and,
     # when present, all end-effector controllers:
-    
+
     _validate_inputs(robot_names, ee_names, prefixes)
 
     output_yaml = {
@@ -249,7 +249,7 @@ def create_tmp_controller_file(
     }
 
     for robot_name, ee_name, prefix in zip(robot_names, ee_names, prefixes):
-        
+
         # Every robot contributes its joint trajectory controller block:
         robot_yaml_path = _get_robot_controller_yaml_path(robot_name)
         robot_yaml = _load_yaml_file(robot_yaml_path)

@@ -29,6 +29,6 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # bringup.launch.py:
-# Launch file for the (2) ROBOT's BRINGUP + MoveIt!2 Framework in ROS 2 Humble:
+# Launch file for dual-arm bringup + MoveIt!2 framework in ROS 2 Humble:
 
 # TBD.

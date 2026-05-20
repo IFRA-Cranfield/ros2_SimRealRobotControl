@@ -29,7 +29,7 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # simulation.launch.py:
-# Launch file for the (2) ROBOT's GZ SIM / Gazebo Fortress simulation in ROS 2 Humble:
+# Launch file for a dual-arm GZ Sim / Gazebo Fortress simulation in ROS 2 Humble:
 
 # Import libraries:
 import os, sys, xacro, yaml
@@ -79,14 +79,14 @@ def AssignArgument(ARGUMENT):
 
 # GET CONFIGURATION from YAML:
 def GetCONFIG(CONFIGURATION, PKG_PATH):
-    
+
     RESULT = {"Success": False, "ID": "", "Name": "", "urdf": "", "ee": ""}
-    
+
     YAML_PATH = PKG_PATH + "/config/configurations.yaml"
-    
+
     if not os.path.exists(YAML_PATH):
         return (RESULT)
-    
+
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
@@ -94,7 +94,7 @@ def GetCONFIG(CONFIGURATION, PKG_PATH):
 
         if x["ID"] == CONFIGURATION:
             RESULT["Success"] = True
-            
+
             RESULT["ID"] = x["ID"]
             RESULT["name"] = x["name"]
             RESULT["urdf"] = x["urdf"]
@@ -111,12 +111,12 @@ def GetCONFIG(CONFIGURATION, PKG_PATH):
 
 # GET EE-Controllers LIST:
 def GetEEctr(EEName):
-    
+
     RESULT = []
 
     PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
     YAML_PATH = PATH + "/controller_moveit2.yaml"
-    
+
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
@@ -127,18 +127,18 @@ def GetEEctr(EEName):
 
 # CHECK if CONTROLLER file exists for EE:
 def EEctrlEXISTS(EEName):
-    
+
     PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
     YAML_PATH = PATH + "/controller.yaml"
-    
+
     RES = os.path.exists(YAML_PATH)
     return(RES)
 
 # ========== **GENERATE LAUNCH DESCRIPTION** ========== #
 def generate_launch_description():
-    
+
     LD = LaunchDescription()
-    
+
     # === INPUT ARGUMENT: ROS 2 PACKAGE === #
     PACKAGE_NAME = AssignArgument("package")
     if PACKAGE_NAME != None:
@@ -148,7 +148,7 @@ def generate_launch_description():
         print("ERROR: package INPUT ARGUMENT has not been defined. Please try again.")
         print("Closing... BYE!")
         exit()
-        
+
     # CHECK if -> PACKAGE EXISTS, and GET PATH:
     try:
         PKG_PATH = get_package_share_directory(PACKAGE_NAME)
@@ -162,7 +162,7 @@ def generate_launch_description():
         print("ERROR: The defined ROS 2 Package name is not valid. Please try again.")
         print("Closing... BYE!")
         exit()
-    
+
     # === INPUT ARGUMENT: CONFIGURATION === #
     CONFIG = AssignArgument("config")
     CONFIGURATION = GetCONFIG(CONFIG, PKG_PATH)
@@ -171,22 +171,22 @@ def generate_launch_description():
         print("")
         print("ERROR: config INPUT ARGUMENT has not been correctly defined. Please try again.")
         print("Closing... BYE!")
-        exit()   
+        exit()
 
     # ========== CELL INFORMATION ========== #
     print("")
-    print("===== GZ SIM: Robot Simulation (" + PACKAGE_NAME + ") =====")
+    print("===== GZ Sim: Dual-Arm Robot Simulation (" + PACKAGE_NAME + ") =====")
     print("Robot configuration:")
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["name"])
     print("")
-    
-    # ***** GZ SIM ***** #
-    # DECLARE GZ SIM WORLD file:
+
+    # ***** GZ Sim ***** #
+    # DECLARE GZ Sim WORLD file:
     world_gz = os.path.join(
         get_package_share_directory('ros2srrc_gz'),
         'worlds',
         'ros2srrc_gz.sdf')
-    # DECLARE GZ SIM LAUNCH file:
+    # DECLARE GZ Sim LAUNCH file:
     gzSIM = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]
@@ -204,7 +204,7 @@ def generate_launch_description():
     xacro_file = os.path.join(robot_description_path,'urdf',CONFIGURATION["urdf"])
     # Generate ROBOT_DESCRIPTION variable:
     doc = xacro.parse(open(xacro_file))
-    
+
     # END-EFFECTOR(s) -> Check if defined, and set xacro arguments:
     if CONFIGURATION["ROB1_ee"] == "none":
         EE_1 = "false"
@@ -232,20 +232,20 @@ def generate_launch_description():
     EES = [E1, E2]
     PREFIXES = [CONFIGURATION["ROB1_id"] + "_", CONFIGURATION["ROB2_id"] + "_"]
     TMP_CONTROLLER_PATH = CreateTMPControllerFile(ROBOTS, EES, PREFIXES)
-    
+
     # PROCESS xacro file with ROBOT and EE information:
     xacro.process_doc(doc, mappings={
 
         "EE_1": EE_1,
         "EE_name_1": CONFIGURATION["ROB1_ee"],
         "prefix_1": CONFIGURATION["ROB1_id"] + "_",
-    
+
         "EE_2": EE_2,
         "EE_name_2": CONFIGURATION["ROB2_ee"],
         "prefix_2": CONFIGURATION["ROB2_id"] + "_",
 
     })
-    
+
     # END-EFFECTOR(s) -> Check if CONTROLLER file exists for EE, and set EE variable for LAUNCH DESCRIPTION:
     if EE_1 == "true":
         if EEctrlEXISTS(CONFIGURATION["ROB1_ee"]) == False:
@@ -253,7 +253,7 @@ def generate_launch_description():
     if EE_2 == "true":
         if EEctrlEXISTS(CONFIGURATION["ROB2_ee"]) == False:
             EE_2 = "true-NOctr"
-    
+
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
 
@@ -268,7 +268,7 @@ def generate_launch_description():
         ]
     )
 
-    # SPAWN ROBOT TO GZ SIM:
+    # SPAWN ROBOTS IN GZ Sim:
     spawn_entity = Node(
         package='ros_gz_sim',
         executable='create',

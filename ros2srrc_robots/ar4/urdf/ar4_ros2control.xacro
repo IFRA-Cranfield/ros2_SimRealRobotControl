@@ -39,7 +39,7 @@
 #  (ORIGINAL LICENSE) -> Licensed under the MIT License.                                #
 #                                                                                       #
 #  CHANGES MADE:                                                                        #
-#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #                                                      #
+#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -53,8 +53,8 @@
 
   <xacro:macro name="ar4_ros2control" params="bringup robot_ip EE EE_name prefix" >
 
-    <!-- 1. ROS2_CONTROL tag name: -->
-    <!-- A. GAZEBO SIMULATION: -->
+    <!-- 1. ros2_control tag name: -->
+    <!-- A. GZ Sim simulation: -->
     <xacro:unless value="${bringup}">
       <xacro:property name="name" value="${prefix}GazeboSimSystem"/>
     </xacro:unless>
@@ -63,10 +63,10 @@
       
     </xacro:if> -->
 
-    <!-- 3. Load ROS2_CONTROL: -->
+    <!-- 3. Load ros2_control: -->
     <ros2_control name="${name}" type="system">
 
-      <!-- A. GAZEBO SIMULATION: -->
+      <!-- A. GZ Sim simulation: -->
       <xacro:unless value="${bringup}">
         <hardware>
           <plugin>gz_ros2_control/GazeboSimSystem</plugin>

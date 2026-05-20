@@ -32,7 +32,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-# REQUIRED to -> Load END-EFFECTOR DATABASE:
+# Required to load the end-effector database:
 install(
   DIRECTORY 
     
