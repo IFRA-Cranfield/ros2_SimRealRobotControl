@@ -19,6 +19,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
+
     - Acceleration_Scaling_Factor: 0.7
       Class: moveit_rviz_plugin/MotionPlanning
       Enabled: true
@@ -59,7 +60,7 @@ Visualization Manager:
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
-        Planning Group: ur3_arm
+        Planning Group: ""
         Query Goal State: true
         Query Start State: false
         Show Workspace: false
@@ -81,6 +82,7 @@ Visualization Manager:
         Show Robot Visual: true
       Value: true
       Velocity_Scaling_Factor: 0.7
+
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -101,25 +103,17 @@ Visualization Manager:
     Current:
       Class: rviz_default_plugins/Orbit
       Distance: 2.5
-      Enable Stereo Rendering:
-        Stereo Eye Separation: 0.05999999865889549
-        Stereo Focal Distance: 1
-        Swap Stereo Eyes: false
-        Value: false
       Focal Point:
         X: 0
         Y: 0
         Z: 0.4
-      Focal Shape Fixed Size: true
-      Focal Shape Size: 0.05000000074505806
-      Invert Z Axis: false
       Name: Current View
-      Near Clip Distance: 0.009999999776482582
       Pitch: 0.6000000238418579
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
       Yaw: 0.800000011920929
     Saved: ~
+
 Window Geometry:
   Displays:
     collapsed: false

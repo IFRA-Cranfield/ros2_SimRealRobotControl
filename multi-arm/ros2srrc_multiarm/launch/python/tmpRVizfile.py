@@ -109,13 +109,8 @@ def _load_yaml_file(yaml_path):
 def _get_template_rviz_path(robot_name, ee_name):
 
     moveit_root = _get_database_root("ros2srrc_moveit", "ros2srrc_moveit")
+    rviz_path = moveit_root / "config" / "ros2srrc.rviz"
 
-    if isinstance(ee_name, str) and ee_name.lower() != "none":
-        template_name = f"{robot_name}_{ee_name}.rviz"
-    else:
-        template_name = f"{robot_name}.rviz"
-
-    rviz_path = moveit_root / "config" / template_name
     if not rviz_path.exists():
         raise FileNotFoundError(
             _message(f"RViz template file not found: '{rviz_path}'.")

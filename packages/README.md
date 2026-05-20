@@ -62,7 +62,7 @@ One important feature of the ros2srrc repository is its modular architecture, wh
 - Robot-specific parameters: Properties such as joint limits, inertia, and dynamics for robots like the ABB IRB-120 are already set up.
 - End-effector-specific parameters: Specifications such as gripper dimensions, actuation constraints, and grasping capabilities for end effectors like the Schunk EGP-64 Gripper are also included.
 
-In addition, the _.rviz_ and _.srdf_ files required for MoveIt!2 configuration have been standardised for every robot+end-effector combination, and included inside the ros2srrc_moveit package.
+In addition, the _.srdf_ files required for MoveIt!2 configuration have been standardised for every robot+end-effector combination, and included inside the ros2srrc_moveit package. RViz uses the shared robot-agnostic `ros2srrc.rviz` configuration from that same package.
 
 Features of this modular setup:
 
