@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -39,7 +39,7 @@
 #  (ORIGINAL LICENSE) -> Licensed under the MIT License.                                #
 #                                                                                       #
 #  CHANGES MADE:                                                                        #
-#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #                                                      #
+#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -53,30 +53,30 @@
 
   <xacro:macro name="ar4_ros2control" params="bringup robot_ip EE EE_name prefix" >
 
-    <!-- 1. ROS2_CONTROL tag name: -->
-    <!-- A. GAZEBO SIMULATION: -->
+    <!-- 1. ros2_control tag name: -->
+    <!-- A. Gazebo simulation: -->
     <xacro:unless value="${bringup}">
       <xacro:property name="name" value="${prefix}GazeboSystem"/>
     </xacro:unless>
-    <!-- B. ROBOT BRINGUP: 
+    <!-- B. ROBOT BRINGUP:
     <xacro:if value="${bringup}">
-      
+
     </xacro:if> -->
 
-    <!-- 3. Load ROS2_CONTROL: -->
+    <!-- 3. Load ros2_control: -->
     <ros2_control name="${name}" type="system">
 
-      <!-- A. GAZEBO SIMULATION: -->
+      <!-- A. Gazebo simulation: -->
       <xacro:unless value="${bringup}">
         <hardware>
           <plugin>gazebo_ros2_control/GazeboSystem</plugin>
         </hardware>
       </xacro:unless>
 
-      <!-- B. ROBOT BRINGUP: 
+      <!-- B. ROBOT BRINGUP:
       <xacro:if value="${bringup}">
         <hardware>
-          
+
         </hardware>
       </xacro:if> -->
 
@@ -163,8 +163,8 @@
       <!-- ar4_joint6 -->
       <joint name="${prefix}joint_6">
         <command_interface name="position">
-          <param name="min">-2.7053</param> 
-          <param name="max">2.7053</param> 
+          <param name="min">-2.7053</param>
+          <param name="max">2.7053</param>
         </command_interface>
         <command_interface name="velocity">
           <param name="min">-1.0472</param>
@@ -209,7 +209,7 @@
       <gazebo reference="${prefix}link_6">
         <selfCollide>false</selfCollide>
       </gazebo>
-    
+
       <gazebo reference="${prefix}end_effector_frame_fixed_joint">
         <preserveFixedJoint>true</preserveFixedJoint>
         <!-- For compatibility with SDFormat < 4.4 -->

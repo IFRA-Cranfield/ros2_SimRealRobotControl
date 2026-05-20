@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -28,8 +28,8 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the LBR-IIWA robot .urdf files in this ROS2    #
-#  repository has been taken from the following resource:                               #
+#  Some of the information used to build the LBR-IIWA robot .urdf files in this ROS 2   #
+#  has been taken from the following resource:                                          #
 #       - ros-industrial https://github.com/ros-industrial/kuka_experimental            #
 #                                                                                       #
 #  AUTHORS:                                                                             #
@@ -42,7 +42,7 @@
 #                                                                                       #
 #  CHANGES MADE:                                                                        #
 #  The original files contain the .urdf information of the robot for ROS1, and these    #
-#  have been modified for ROS2.                                                         #
+#  have been modified for ROS 2.                                                        #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -58,14 +58,14 @@
   <xacro:macro name="iiwa" params="bringup robot_ip EE EE_name prefix">
 
     <!-- KUKA LBR-IIWA TRANSMISSION: -->
-    <xacro:unless value="${bringup}">  
+    <xacro:unless value="${bringup}">
       <xacro:include filename="$(find ros2srrc_robots)/iiwa/urdf/iiwa_transmission.xacro" />
       <xacro:iiwa_transmission prefix="${prefix}" />
     </xacro:unless>
 
-    <!-- KUKA LBR-IIWA GAZEBO - ROS2_CONTROL: -->
+    <!-- KUKA LBR-IIWA Gazebo - ros2_control: -->
     <xacro:include filename="$(find ros2srrc_robots)/iiwa/urdf/iiwa_ros2control.xacro" />
-    <xacro:iiwa_ros2control 
+    <xacro:iiwa_ros2control
       bringup="${bringup}"
       robot_ip="${robot_ip}"
       EE="${EE}"
@@ -254,7 +254,7 @@
       </collision>
       <inertial>
         <origin xyz="0 0 0.02" rpy="0 0 0"/>
-        <mass value="1.5"/> 
+        <mass value="1.5"/>
         <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01" />
       </inertial>
     </link>

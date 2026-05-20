@@ -35,14 +35,14 @@
 # ===== IMPORT REQUIRED COMPONENTS ===== #
 # System functions and classes:
 import sys, os, time
-# Required to include ROS2 and its components:
+# Required to include ROS 2 and its components:
 import rclpy
 from rclpy.node import Node
 from ament_index_python.packages import get_package_share_directory
-# Import LinkAttacher (ROS2 SRV):
+# Import LinkAttacher (ROS 2 SRV):
 from linkattacher_msgs.srv import AttachLink
 from linkattacher_msgs.srv import DetachLink
-# Import ROS2 messages:
+# Import ROS 2 messages:
 from std_msgs.msg import String
 from ros2srrc_data.msg import Action
 from ros2srrc_data.msg import Robpose
@@ -104,9 +104,9 @@ class ObjPOSE(Node):
         T = time.time() + 0.50
         while time.time() < T:
             rclpy.spin_once(self, timeout_sec=0.50)
-        
+
         return(OBJECTS)
-    
+
 # =============================================================================== #
 # Robot(EE) Pose SUBSCRIBER:
 
@@ -136,9 +136,9 @@ class eePOSE(Node):
         T = time.time() + 0.50
         while time.time() < T:
             rclpy.spin_once(self)
-        
+
         return(EEPose)
-    
+
 # =============================================================================== #
 # LinkAttacher SERVICE CLIENT:
 
@@ -153,12 +153,12 @@ class LinkAttacher_Client(Node):
 
         print("[CLIENT - vacuumGripper.py]: Initialising /ATTACHLINK and /DETACHLINK ROS 2 Service Clients.")
 
-        while not self.AttachClient.wait_for_service(timeout_sec=1.0): 
-            print("[CLIENT - vacuumGripper.py]: /ATTACHLINK ROS2 Service not still available, waiting...")
-        print("[CLIENT - vacuumGripper.py]: /ATTACHLINK ROS2 Service ready.")
-        while not self.DetachClient.wait_for_service(timeout_sec=1.0): 
-            print("[CLIENT - vacuumGripper.py]: /DETACHLINK ROS2 Service not still available, waiting...")
-        print("[CLIENT - vacuumGripper.py]: /DETACHLINK ROS2 Service ready.")
+        while not self.AttachClient.wait_for_service(timeout_sec=1.0):
+            print("[CLIENT - vacuumGripper.py]: /ATTACHLINK ROS 2 Service not still available, waiting...")
+        print("[CLIENT - vacuumGripper.py]: /ATTACHLINK ROS 2 Service ready.")
+        while not self.DetachClient.wait_for_service(timeout_sec=1.0):
+            print("[CLIENT - vacuumGripper.py]: /DETACHLINK ROS 2 Service not still available, waiting...")
+        print("[CLIENT - vacuumGripper.py]: /DETACHLINK ROS 2 Service ready.")
 
         print("")
 
@@ -217,7 +217,7 @@ class LinkAttacher():
                         print("[CLIENT - vacuumGripper.py]: /ATTACHLINK unuccessful -> " + str(AttachRES.message))
                         print("")
                         return(False)
-                    
+
     def DETACH(self, NAME):
 
         global AttachCheck
@@ -244,20 +244,20 @@ class LinkAttacher():
                         print("[CLIENT - vacuumGripper.py]: /DETACHLINK unuccessful -> " + str(DetachRES.message))
                         print("")
                         return(False)
-                    
+
 # =============================================================================== #
 # vacuumGR class, to ACTIVATE/DEACTIVATE the Vacuum Gripper in Gazebo:
 
 class vacuumGR():
 
     def __init__(self, ObjectList, ROBOT, EE):
-        
+
         self.OLCheck = False
         if ObjectList != None:
             self.OLCheck = True
 
         if self.OLCheck:
-            
+
             # Initialise OBJECTS variable:
             for x in ObjectList:
                 OBJ = ObjectPose()
@@ -272,9 +272,9 @@ class vacuumGR():
             self.LinkAttacher = LinkAttacher(ROBOT, EE)
 
     def ACTIVATE(self):
-        
+
         T_start = time.time()
-        
+
         # Initialise -> RES:
         RES = {
             "Message": "",
@@ -301,11 +301,11 @@ class vacuumGR():
                 print("[CLIENT - vacuumGripper.py]: EEPose.z -> " + str(EEPose.z) + " / ObjectPose.z -> " + str(x.z))
                 print("")
 
-                if (EEPose.x - 0.01 > x.x) or (EEPose.x + 0.01 < x.x): 
+                if (EEPose.x - 0.01 > x.x) or (EEPose.x + 0.01 < x.x):
                     Check = False
-                if (EEPose.y - 0.01 > x.y) or (EEPose.y + 0.01 < x.y): 
+                if (EEPose.y - 0.01 > x.y) or (EEPose.y + 0.01 < x.y):
                     Check = False
-                if (EEPose.z - 0.01 > x.z) or (EEPose.z + 0.01 < x.z): 
+                if (EEPose.z - 0.01 > x.z) or (EEPose.z + 0.01 < x.z):
                     Check = False
 
                 if Check == True:
@@ -314,7 +314,7 @@ class vacuumGR():
 
             # LinkAttacher:
             if Check:
-                
+
                 AttRES = self.LinkAttacher.ATTACH(objNAME)
                 if AttRES:
                     RES["Message"] = "Vacuum activated, object->" + objNAME + " attached."
@@ -331,7 +331,7 @@ class vacuumGR():
                 RES["Success"] = True
                 print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
                 print("")
-            
+
         T_end = time.time()
         T = round((T_end - T_start), 4)
         RES["ExecTime"] = T
@@ -339,7 +339,7 @@ class vacuumGR():
         return(RES)
 
     def DEACTIVATE(self):
-        
+
         T_start = time.time()
 
         # Initialise -> RES:
@@ -348,14 +348,14 @@ class vacuumGR():
             "Success": False,
             "ExecTime": -1.0
         }
-         
+
         print("[CLIENT - vacuumGripper.py]: EXECUTION REQUEST -> DEACTIVATE VACUUM.")
         print("")
 
         if self.OLCheck:
-        
+
             # CHECK if --> There is any object currently grasped:
-            global AttachCheck 
+            global AttachCheck
             objNAME = AttachCheck.NAME
 
             if AttachCheck.ATTACHED:
@@ -367,7 +367,7 @@ class vacuumGR():
                     RES["Success"] = True
                     print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
                     print("")
-                else: 
+                else:
                     RES["Message"] = "Vacuum deactivated, object->" + objNAME + " not detached, LinkAttacher plugin failed."
                     print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
                     print("")
@@ -377,13 +377,13 @@ class vacuumGR():
                 RES["Success"] = True
                 print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
                 print("")
-                
+
         else:
             RES["Message"] = "Vacuum deactivated, no objects."
             RES["Success"] = True
             print("[CLIENT - vacuumGripper.py]: " + RES["Message"])
             print("")
-            
+
         T_end = time.time()
         T = round((T_end - T_start), 4)
         RES["ExecTime"] = T

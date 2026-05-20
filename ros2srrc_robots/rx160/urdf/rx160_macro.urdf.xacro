@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -28,8 +28,8 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 STAUBLI RX-160 .urdf files in this    #
-#  ROS2 repository has been taken from the following resource:                          #
+#  Some of the information used to build the ROS 2 STAUBLI RX-160 .urdf files in this   #
+#  ROS 2 repository has been taken from the following resource:                         #
 #       - ros-industrial/staubli (https://github.com/ros-industrial/staubli)            #
 #                                                                                       #
 #  AUTHORS:                                                                             #
@@ -40,7 +40,7 @@
 #                                                                                       #
 #  CHANGES MADE:                                                                        #
 #  The original files contain the .urdf information of the robot for ROS1, and these    #
-#  have been modified for ROS2.                                                         #
+#  have been modified for ROS 2.                                                        #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -56,14 +56,14 @@
   <xacro:macro name="rx160" params="bringup robot_ip EE EE_name prefix">
 
     <!-- STAUBLI RX-160 TRANSMISSION: -->
-    <xacro:unless value="${bringup}">  
+    <xacro:unless value="${bringup}">
       <xacro:include filename="$(find ros2srrc_robots)/rx160/urdf/rx160_transmission.xacro" />
       <xacro:rx160_transmission prefix="${prefix}" />
     </xacro:unless>
 
-    <!-- STAUBLI RX-160 GAZEBO - ROS2_CONTROL: -->
+    <!-- STAUBLI RX-160 Gazebo - ros2_control: -->
     <xacro:include filename="$(find ros2srrc_robots)/rx160/urdf/rx160_ros2control.xacro" />
-    <xacro:rx160_ros2control 
+    <xacro:rx160_ros2control
       bringup="${bringup}"
       robot_ip="${robot_ip}"
       EE="${EE}"

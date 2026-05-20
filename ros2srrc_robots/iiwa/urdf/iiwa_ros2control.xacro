@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -28,8 +28,8 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the LBR-IIWA robot .urdf files in this ROS2    #
-#  repository has been taken from the following resource:                               #
+#  Some of the information used to build the LBR-IIWA robot .urdf files in this ROS 2   #
+#  has been taken from the following resource:                                          #
 #       - ros-industrial https://github.com/ros-industrial/kuka_experimental            #
 #                                                                                       #
 #  AUTHORS:                                                                             #
@@ -42,7 +42,7 @@
 #                                                                                       #
 #  CHANGES MADE:                                                                        #
 #  The original files contain the .urdf information of the robot for ROS1, and these    #
-#  have been modified for ROS2.                                                         #
+#  have been modified for ROS 2.                                                        #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -56,8 +56,8 @@
 
   <xacro:macro name="iiwa_ros2control" params="bringup robot_ip EE EE_name prefix" >
 
-    <!-- 1. ROS2_CONTROL tag name: -->
-    <!-- A. GAZEBO SIMULATION: -->
+    <!-- 1. ros2_control tag name: -->
+    <!-- A. Gazebo simulation: -->
     <xacro:unless value="${bringup}">
       <xacro:property name="name" value="${prefix}GazeboSystem"/>
     </xacro:unless>
@@ -66,10 +66,10 @@
       <xacro:property name="name" value="${prefix}TBD"/>
     </xacro:if>
 
-    <!-- 3. Load ROS2_CONTROL: -->
+    <!-- 3. Load ros2_control: -->
     <ros2_control name="${name}" type="system">
 
-      <!-- A. GAZEBO SIMULATION: -->
+      <!-- A. Gazebo simulation: -->
       <xacro:unless value="${bringup}">
         <hardware>
           <plugin>gazebo_ros2_control/GazeboSystem</plugin>
@@ -151,7 +151,7 @@
       <!-- iiwa_joint5 -->
       <joint name="${prefix}joint_5">
         <command_interface name="position">
-          <param name="min">-2.9668</param>       
+          <param name="min">-2.9668</param>
           <param name="max">2.9668</param>
         </command_interface>
         <command_interface name="velocity">
@@ -167,8 +167,8 @@
       <!-- iiwa_joint6 -->
       <joint name="${prefix}joint_6">
         <command_interface name="position">
-          <param name="min">-2.0942</param> 
-          <param name="max">2.0942</param> 
+          <param name="min">-2.0942</param>
+          <param name="max">2.0942</param>
         </command_interface>
         <command_interface name="velocity">
           <param name="min">-2.356</param>
@@ -183,8 +183,8 @@
       <!-- iiwa_joint7 -->
       <joint name="${prefix}joint_7">
         <command_interface name="position">
-          <param name="min">-3.0541</param> 
-          <param name="max">3.0541</param> 
+          <param name="min">-3.0541</param>
+          <param name="max">3.0541</param>
         </command_interface>
         <command_interface name="velocity">
           <param name="min">-2.356</param>
@@ -232,7 +232,7 @@
       <gazebo reference="${prefix}link_7">
         <selfCollide>false</selfCollide>
       </gazebo>
-    
+
       <gazebo reference="${prefix}end_effector_frame_fixed_joint">
         <preserveFixedJoint>true</preserveFixedJoint>
         <!-- For compatibility with SDFormat < 4.4 -->

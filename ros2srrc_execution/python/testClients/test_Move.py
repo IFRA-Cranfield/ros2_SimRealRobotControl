@@ -35,11 +35,11 @@
 # ===== IMPORT REQUIRED COMPONENTS ===== #
 # System functions and classes:
 import sys, os
-# Required to include ROS2 and its components:
+# Required to include ROS 2 and its components:
 import rclpy
 from ament_index_python.packages import get_package_share_directory
 
-# IMPORT ROS2 Custom Messages:
+# IMPORT ROS 2 Custom Messages:
 from ros2srrc_data.msg import Action
 from ros2srrc_data.msg import Joint
 from ros2srrc_data.msg import Joints
@@ -58,7 +58,7 @@ from robot import RBT
 # ===================================================================== #
 
 def main(args=None):
-    
+
     rclpy.init(args=args)
 
     # Initialise class:

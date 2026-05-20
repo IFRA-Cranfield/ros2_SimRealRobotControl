@@ -42,10 +42,10 @@
 #include <moveit/move_group_interface/move_group_interface_improved.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
-// Include the move ROS2 ACTION:
+// Include the move ROS 2 ACTION:
 #include "ros2srrc_data/action/move.hpp"
 
-// Include the ROS2 MSG messages:
+// Include the ROS 2 MSG messages:
 #include "ros2srrc_data/msg/joints.hpp"
 
 // Declaration of GLOBAL VARIABLES --> CONSTANT VALUES for angle transformation (DEG->RAD):
@@ -54,7 +54,7 @@ const double k = pi/180.0;
 
 // MoveJ:
 MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> JP, ros2srrc_data::msg::Specs SPECIFICATIONS){
-    
+
     MoveJSTRUCT RESULT;
 
     // 1. Obtain variables -> Convert to VECTOR:
@@ -79,7 +79,7 @@ MoveJSTRUCT MoveJAction (ros2srrc_data::msg::Joints JOINTS, std::vector<double> 
     auto LimitsOK = true;
     std::vector<std::string> jointLIST;
     for (int i=0; i<JP.size(); i++){
-        
+
         if (GOAL[i] <= SPECIFICATIONS.robot_max[i] && GOAL[i] >= SPECIFICATIONS.robot_min[i]) {
         // Do nothing, check complete.
         } else {

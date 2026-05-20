@@ -28,7 +28,7 @@
 # You can cite our work with the following statement:
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
-# Generic ROS2 Python library:
+# Generic ROS 2 Python library:
 import rclpy
 from rclpy.node import Node
 
@@ -45,10 +45,10 @@ class CreateSubscriber(Node):
         super().__init__("r3m_SUBSCRIBER")
         # Declare SUBSCRIBER:
         self.subscription = self.create_subscription(
-            JointState,                                                                                                           
-            "joint_states",                                                            
-            self.listener_callback,                                                   
-            10)                                                             
+            JointState,
+            "joint_states",
+            self.listener_callback,
+            10)
         self.subscription # Prevent unused variable warning.
 
     def listener_callback(self, MSG):
@@ -68,7 +68,7 @@ class CreateSubscriber(Node):
                 J5 = MSG.position[j] * k
             if (MSG.name[j] == "wrist_3_joint" or MSG.name[j] == "joint_6"):
                 J6 = MSG.position[j] * k
-        
+
         RESULT = "JointValues are -> 'joint1': " + str(round(J1, 4)) + ", 'joint2': " + str(round(J2, 4)) + ", 'joint3': " + str(round(J3, 4)) + ", 'joint4': " + str(round(J4, 4)) + ", 'joint5': " + str(round(J5, 4)) + ", 'joint6': " + str(round(J6, 4))
         print(RESULT)
 
@@ -91,7 +91,7 @@ def main(args=None):
     print("ros2srrc_execution --> GET ROBOT STATE")
     print("Python script -> RobotState.py")
     print("")
-  
+
     JointValues_node = CreateSubscriber()
     rclpy.spin_once(JointValues_node)
     JointValues_node.destroy_node

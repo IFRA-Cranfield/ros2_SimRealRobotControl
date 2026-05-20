@@ -35,7 +35,7 @@
 # ===== IMPORT REQUIRED COMPONENTS ===== #
 # System functions and classes:
 import sys, os
-# Required to include ROS2 and its components:
+# Required to include ROS 2 and its components:
 import rclpy
 from ament_index_python.packages import get_package_share_directory
 
@@ -50,7 +50,7 @@ from parallelGripper import parallelGR
 # ===================================================================== #
 
 def main(args=None):
-    
+
     rclpy.init(args=args)
 
     # ============================ #
@@ -80,15 +80,15 @@ def main(args=None):
 
     print("[TEST-pGRIPPER-Gz]: Action executed! -> Requested: " + ACTION)
     print("[TEST-pGRIPPER-Gz]: Result -> " + RES["Message"])
-    print("") 
+    print("")
 
     rclpy.shutdown()
     print("CLOSING PROGRAM... BYE!")
     exit()
 
-    # ============= # 
-    # NOTE: The ROBOT, END-EFFECTOR and OBJECT(S) defined in this script which are the input to parallelGR() 
-    # have been tested on a UR robot with a Robotiq HandE gripper and different colored cubes, therefore 
+    # ============= #
+    # NOTE: The ROBOT, END-EFFECTOR and OBJECT(S) defined in this script which are the input to parallelGR()
+    # have been tested on a UR robot with a Robotiq HandE gripper and different colored cubes, therefore
     # these might need to be adjusted if a different robot, end-effector or use-case is used.
     # ============= #
 

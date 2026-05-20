@@ -1,4 +1,4 @@
-# IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
+# IFRA-Cranfield: ROS 2 Sim-to-Real Robot Control
 
 ## Robot Simulation & Control: Standard ROS 2 Packages for different Robot Manipulators
 
@@ -49,7 +49,7 @@ ROS 2 Package folder structure:
     - ee: End effector (if applicable).
 
 - _/urdf_: Contains the URDF (Unified Robot Description Format) files. These files describe the robot's physical properties (joints, links, dimensions) and include references to the robot and end effector models. The URDF defines the geometry, sensors, and controllers of the robot in the simulation environment. Examples:
-    
+
     - irb120.urdf.xacro: URDF for the base robot.
     - irb120_egp64.urdf.xacro: URDF for the robot with the Schunk EGP-64 gripper.
 

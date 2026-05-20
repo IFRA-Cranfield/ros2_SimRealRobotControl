@@ -42,10 +42,10 @@
 #include <moveit/move_group_interface/move_group_interface_improved.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
-// Include the move ROS2 ACTION:
+// Include the move ROS 2 ACTION:
 #include "ros2srrc_data/action/move.hpp"
 
-// Include the ROS2 MSG messages:
+// Include the ROS 2 MSG messages:
 #include "ros2srrc_data/msg/xyz.hpp"
 
 // MoveL:

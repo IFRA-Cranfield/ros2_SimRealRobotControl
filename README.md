@@ -1,6 +1,6 @@
 <div id="top"></div>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -36,7 +36,7 @@
 
   README.md TEMPLATE obtined from:
       https://github.com/othneildrew/Best-README-Template
-      AUTHOR: OTHNEIL DREW 
+      AUTHOR: OTHNEIL DREW
 
 -->
 
@@ -109,7 +109,7 @@ Centre for Robotics and Assembly:
 - Facebook: https://www.facebook.com/cranfieldunirobotics/
 - YouTube: https://www.youtube.com/@CranfieldRobotics
 - LinkedIn: https://www.linkedin.com/company/cranfieldrobotics/
-- Website: https://www.cranfield.ac.uk/centres/centre-for-robotics-and-assembly 
+- Website: https://www.cranfield.ac.uk/centres/centre-for-robotics-and-assembly
 
 
 ### ros2_SimRealRobotControl Repository
@@ -118,11 +118,11 @@ The IFRA-Cranfield/ros2_SimRealRobotControl GitHub repository is a comprehensive
 
 This repository is ideal for robotics researchers and developers who want to streamline the process of setting up robot environments for simulation and real-world tasks. It supports both Gazebo-based simulation for testing robot setups and MoveIt!2 for controlling robots in either virtual or physical environments. By organizing key robot and end-effector parameters in a modular way, it offers a flexible approach that makes it easy to switch between different robots, configurations, or tasks, accelerating both development and testing processes in industrial automation, robotics research, and advanced manufacturing systems.
 
-__VIDEO: Simulation and Control of an ABB-IRB120 using ROS2__
+__VIDEO: Simulation and Control of an ABB-IRB120 using ROS 2__
 
 [![Alt text](https://img.youtube.com/vi/qaowbdYvG2M/0.jpg)](https://www.youtube.com/watch?v=qaowbdYvG2M)
 
-__VIDEO: Simulation and Control of a Universal Robots - UR3 using ROS2__
+__VIDEO: Simulation and Control of a Universal Robots - UR3 using ROS 2__
 
 [![Alt text](https://img.youtube.com/vi/grhYzt0wf8c/0.jpg)](https://www.youtube.com/watch?v=grhYzt0wf8c)
 
@@ -135,7 +135,7 @@ For detailed information on installation, usage, and requirements, please refer 
 
 - [Installation.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/Installation.md): Instructions for setting up and installing the required dependencies.
 - [README.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/packages) inside the /packages folder: Specific details about individual ROS 2 packages and their configurations.
-- [ROS2EnvironmentLaunch.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/ROS2EnvironmentLaunch.md): Instructions for launching ROS 2 simulation and control environments.
+- [ROS 2EnvironmentLaunch.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/ROS 2EnvironmentLaunch.md): Instructions for launching ROS 2 simulation and control environments.
 - [RobotOperation.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/RobotOperation.md): Steps to operate robots in both simulated and real environments.
 - [ProgramExecution.md](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble/instructions/ProgramExecution.md): Guidelines for executing the programs in this repository.
 
@@ -180,7 +180,7 @@ The following end-effectors are supported in ros2srrc:
 
 This repo contains only a few number of robots, end-effectors and simulation environments (layouts). Please do let us know if you wish to include a specific robot/end-effector or application into ros2_SimRealRobotControl!
 
-The exact same thing for the ROS2 Robot Actions/Triggers: A few number of robot movements have been implemented, therefore please do let us know if you have any ideas of a potential Robot motions for our repo!
+The exact same thing for the ROS 2 Robot Actions/Triggers: A few number of robot movements have been implemented, therefore please do let us know if you have any ideas of a potential Robot motions for our repo!
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. If you have a suggestion that would make this better, or you find a solution to any of the issues/improvements presented above, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thank you very much!
@@ -195,7 +195,7 @@ Don't forget to give the project a star! Thank you very much!
   <br />
   Created on behalf of the IFRA Group at Cranfield University, United Kingdom
   <br />
-  E-mail: IFRA@cranfield.ac.uk 
+  E-mail: IFRA@cranfield.ac.uk
   <br />
   <br />
   Licensed under the Apache-2.0 License.
@@ -256,7 +256,7 @@ Don't forget to give the project a star! Thank you very much!
   <br />
   LinkedIn: https://www.linkedin.com/in/phil-webb-64283223/
   <br />
-  Profile: https://www.cranfield.ac.uk/people/professor-phil-webb-746415 
+  Profile: https://www.cranfield.ac.uk/people/professor-phil-webb-746415
   <br />
 </p>
 

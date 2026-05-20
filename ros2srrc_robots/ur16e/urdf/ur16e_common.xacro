@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -28,11 +28,11 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 UR16e-Robot .urdf files in this ROS2    #
-#  repository has been taken from the following resources:                              #
-#       - Universal Robots ROS2 Description:                                            #
+#  Some of the information used to build these ROS 2 UR16e-Robot .urdf files            #
+#  has been taken from the following resources:                                         #
+#       - Universal Robots ROS 2 Description:                                           #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Description          #
-#       - Universal Robots ROS2 Gazebo Simulation:                                      #
+#       - Universal Robots ROS 2 Gazebo Simulation:                                     #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation    #
 #                                                                                       #
 #  AUTHORS:                                                                             #
@@ -72,14 +72,14 @@
   </xacro:macro>
 
   <xacro:macro name="ur16e_common">
-    
+
     <!-- ***** PARAMETER VALUES ***** -->
     <!-- All parameter values have been taken from the following .yaml files, located in the Universal_Robots_ROS2_Description GitHub repository:
           * (LINK): https://github.com/UniversalRobots/Universal_Robots_ROS2_Description/tree/ros2/config/ur16e
           - default_kinematics.yaml
           - joint_limits.yaml
           - physical_parameters.yaml
-          - visual_parameters.yaml 
+          - visual_parameters.yaml
           -->
 
     <!-- JOINTS LIMIT PARAMETERS -->
@@ -87,27 +87,27 @@
     <xacro:property name="shoulder_pan_upper_limit" value="6.2832" scope="parent"/>
     <xacro:property name="shoulder_pan_velocity_limit" value="2.0942" scope="parent"/>
     <xacro:property name="shoulder_pan_effort_limit" value="330.0" scope="parent"/>
-    
+
     <xacro:property name="shoulder_lift_lower_limit" value="-6.2832" scope="parent"/>
     <xacro:property name="shoulder_lift_upper_limit" value="6.2832" scope="parent"/>
     <xacro:property name="shoulder_lift_velocity_limit" value="2.0942" scope="parent"/>
     <xacro:property name="shoulder_lift_effort_limit" value="330.0" scope="parent"/>
-    
+
     <xacro:property name="elbow_joint_lower_limit" value="-3.1416" scope="parent"/>
     <xacro:property name="elbow_joint_upper_limit" value="3.1416" scope="parent"/>
     <xacro:property name="elbow_joint_velocity_limit" value="3.1416" scope="parent"/>
     <xacro:property name="elbow_joint_effort_limit" value="150.0" scope="parent"/>
-    
+
     <xacro:property name="wrist_1_lower_limit" value="-6.2832" scope="parent"/>
     <xacro:property name="wrist_1_upper_limit" value="6.2832" scope="parent"/>
     <xacro:property name="wrist_1_velocity_limit" value="3.1416" scope="parent"/>
     <xacro:property name="wrist_1_effort_limit" value="56.0" scope="parent"/>
-    
+
     <xacro:property name="wrist_2_lower_limit" value="-6.2832" scope="parent"/>
     <xacro:property name="wrist_2_upper_limit" value="6.2832" scope="parent"/>
     <xacro:property name="wrist_2_velocity_limit" value="3.1416" scope="parent"/>
     <xacro:property name="wrist_2_effort_limit" value="56.0" scope="parent"/>
-    
+
     <xacro:property name="wrist_3_lower_limit" value="-6.2832" scope="parent"/>
     <xacro:property name="wrist_3_upper_limit" value="6.2832" scope="parent"/>
     <xacro:property name="wrist_3_velocity_limit" value="3.1416" scope="parent"/>
@@ -181,22 +181,22 @@
     <!-- link inertia parameter -->
     <xacro:property name="base_inertia_radius" value="0.075" scope="parent"/>
     <xacro:property name="base_inertia_length" value="0.038" scope="parent"/>
-    
+
     <xacro:property name="shoulder_inertia_radius" value="0.075" scope="parent"/>
     <xacro:property name="shoulder_inertia_length" value="0.178" scope="parent"/>
-    
+
     <xacro:property name="upperarm_inertia_radius" value="0.075" scope="parent"/>
-    <xacro:property name="upperarm_inertia_length" value="0.075" scope="parent"/> 
-    
+    <xacro:property name="upperarm_inertia_length" value="0.075" scope="parent"/>
+
     <xacro:property name="forearm_inertia_radius" value="0.075" scope="parent"/>
     <xacro:property name="forearm_inertia_length" value="0.36" scope="parent"/>
-    
+
     <xacro:property name="wrist_1_inertia_radius" value="0.075" scope="parent"/>
     <xacro:property name="wrist_1_inertia_length" value="0.12" scope="parent"/>
-    
+
     <xacro:property name="wrist_2_inertia_radius" value="0.075" scope="parent"/>
     <xacro:property name="wrist_2_inertia_length" value="0.12" scope="parent"/>
-    
+
     <xacro:property name="wrist_3_inertia_radius" value="0.045" scope="parent"/>
     <xacro:property name="wrist_3_inertia_length" value="0.05" scope="parent"/>
     <!-- center of mass -->
@@ -217,9 +217,9 @@
     <xacro:property name="wrist_1_visual_offset" value="-0.135" scope="parent"/>
     <xacro:property name="wrist_2_visual_offset" value="-0.12" scope="parent"/>
     <xacro:property name="wrist_3_visual_offset" value="-0.1168" scope="parent"/>
-    
+
     <!--KINEMATICS HASH-->
     <xacro:property name="kinematics_hash" value="calib_1935737212149401527" scope="parent"/>
   </xacro:macro>
-  
+
 </robot>

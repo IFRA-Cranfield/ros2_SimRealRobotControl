@@ -30,11 +30,11 @@
 
 // RobMove.cpp:
 
-// Required to include ROS2 and ROS2 Action Server:
+// Required to include ROS 2 and ROS 2 Action Server:
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
-// Include the /Robmove ROS2 Action:
+// Include the /Robmove ROS 2 Action:
 #include "ros2srrc_data/action/robmove.hpp"
 
 // Include MoveIt!2:
@@ -57,7 +57,7 @@ auto RES = "none";
 class ros2_RobotParam : public rclcpp::Node
 {
 public:
-    ros2_RobotParam() : Node("ros2_RobotParam") 
+    ros2_RobotParam() : Node("ros2_RobotParam")
     {
         this->declare_parameter("ROB_PARAM", "none");
         param_ROB = this->get_parameter("ROB_PARAM").get_parameter_value().get<std::string>();
@@ -69,7 +69,7 @@ private:
 class ros2_mgNSParam : public rclcpp::Node
 {
 public:
-    ros2_mgNSParam() : Node("ros2_mgNSParam") 
+    ros2_mgNSParam() : Node("ros2_mgNSParam")
     {
         this->declare_parameter("move_group_ns", "");
         param_mgNS = this->get_parameter("move_group_ns").get_parameter_value().get<std::string>();
@@ -82,7 +82,7 @@ private:
 // MoveIt!2 -> MoveGroupInterface/Plan function:
 
 moveit::planning_interface::MoveGroupInterface::Plan plan_ROB() {
-    
+
     moveit::planning_interface::MoveGroupInterface::Plan my_plan;
     bool success = (move_group_interface_ROB.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
@@ -101,7 +101,7 @@ moveit::planning_interface::MoveGroupInterface::Plan plan_ROB() {
 };
 
 // =============================================================================== //
-// ROS2 Action Server to move the ROBOT:
+// ROS 2 Action Server to move the ROBOT:
 
 class ActionServer : public rclcpp::Node
 {
@@ -159,7 +159,7 @@ private:
         RCLCPP_INFO(get_logger(), "INFORMATION -> Current Robot Pose:");
         RCLCPP_INFO(get_logger(), "POSITION -> (x: %.3f, y: %.3f, z: %.3f)", CP_INFO.pose.position.x, CP_INFO.pose.position.y, CP_INFO.pose.position.z);
         RCLCPP_INFO(get_logger(), "ORIENTATION -> (qx: %.3f, qy: %.3f, qz: %.3f, qw: %.3f)", CP_INFO.pose.orientation.x, CP_INFO.pose.orientation.y, CP_INFO.pose.orientation.z, CP_INFO.pose.orientation.w);
-        
+
         // 1. OBTAIN INPUT PARAMETERS:
         const auto GOAL = goal_handle->get_goal();
 
@@ -169,7 +169,7 @@ private:
         // 3. Robot Movement -> EXECUTION:
 
         moveit::planning_interface::MoveGroupInterface::Plan MyPlan;
-        
+
         auto CURRENT_POSE = move_group_interface_ROB.getCurrentPose();
 
         geometry_msgs::msg::Pose TARGET_POSE;
@@ -198,8 +198,8 @@ private:
                 RESULT->message = "RobMove: CANCELED";
                 goal_handle->canceled(RESULT);
                 return;
-            } 
-            
+            }
+
             if (ExecSUCCESS){
                 RCLCPP_INFO(this->get_logger(), "ROBOT MOVEMENT (%s) successfully executed.", GOAL->type.c_str());
                 RESULT->success = true;
@@ -234,7 +234,7 @@ int main(int argc, char **argv)
 
     // Initialise MAIN NODE:
     rclcpp::init(argc, argv);
-    
+
     auto node_LOGGER = std::make_shared<rclcpp::Node>("MOVE_INTERFACE_log");
 
     // Obtain ROBOT + MG_NS parameters:
@@ -246,7 +246,7 @@ int main(int argc, char **argv)
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
     auto name = "ros2srrc_RobMove";
     auto const MoveIt2_NODE = std::make_shared<rclcpp::Node>(name, rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
-    rclcpp::executors::SingleThreadedExecutor executor; 
+    rclcpp::executors::SingleThreadedExecutor executor;
     executor.add_node(MoveIt2_NODE);
     std::thread([&executor]() { executor.spin(); }).detach();
 
@@ -254,7 +254,7 @@ int main(int argc, char **argv)
     if (param_mgNS != ""){
         prefix = param_mgNS + "_";
     }
-    
+
     // MoveGroupInterface_ROB:
     using moveit::planning_interface::MoveGroupInterface;
     auto ROBname = prefix + param_ROB + "_arm";
@@ -266,7 +266,7 @@ int main(int argc, char **argv)
 
     move_group_interface_ROB.setMaxVelocityScalingFactor(1.0);
     move_group_interface_ROB.setMaxAccelerationScalingFactor(1.0);
-    
+
     RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for ROBOT: %s", ROBname.c_str());
 
     // CREATE -> PlanningSceneInterface:

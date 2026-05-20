@@ -35,11 +35,11 @@
 # ===== IMPORT REQUIRED COMPONENTS ===== #
 # System functions and classes:
 import sys, os
-# Required to include ROS2 and its components:
+# Required to include ROS 2 and its components:
 import rclpy
 from ament_index_python.packages import get_package_share_directory
 
-# IMPORT ROS2 Custom Messages:
+# IMPORT ROS 2 Custom Messages:
 from ros2srrc_data.msg import Robpose
 
 # IMPORT Python classes:
@@ -53,7 +53,7 @@ from robot import RBT
 # ===================================================================== #
 
 def main(args=None):
-    
+
     rclpy.init(args=args)
 
     client = RBT()
@@ -66,7 +66,7 @@ def main(args=None):
     # Define -> SPEED:
     Speed = 1.0
 
-    # Define -> POSE:     
+    # Define -> POSE:
     InputPose = Robpose()
     InputPose.x = 0.0
     InputPose.y = 0.25
@@ -90,7 +90,7 @@ def main(args=None):
     # Define -> SPEED:
     Speed = 0.1
 
-    # Define -> POSE:     
+    # Define -> POSE:
     InputPose = Robpose()
     InputPose.x = 0.0
     InputPose.y = 0.25
@@ -110,8 +110,8 @@ def main(args=None):
     print("CLOSING PROGRAM... BYE!")
     exit()
 
-    # ============= # 
-    # NOTE: The Robot Poses defined in this script which are the input to RobMove have been tested on a UR3, 
+    # ============= #
+    # NOTE: The Robot Poses defined in this script which are the input to RobMove have been tested on a UR3,
     # therefore these might need to be adjusted if a different robot is used.
     # ============= #
 

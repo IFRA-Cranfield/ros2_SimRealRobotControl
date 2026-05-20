@@ -31,7 +31,7 @@
 # ===== IMPORT REQUIRED COMPONENTS ===== #
 # System functions and classes:
 import sys, os, yaml, time
-# Required to include ROS2 and its components:
+# Required to include ROS 2 and its components:
 import rclpy
 from ament_index_python.packages import get_package_share_directory
 
@@ -57,7 +57,7 @@ from schunk_abb import SchunkGRIPPER
 from robotiq_ur import RobotiqGRIPPER
 from vgr_abb import vgrABB
 
-# IMPORT ROS2 Custom Messages:
+# IMPORT ROS 2 Custom Messages:
 from ros2srrc_data.msg import Action
 from ros2srrc_data.msg import Joint
 from ros2srrc_data.msg import Joints
@@ -70,7 +70,7 @@ from ros2srrc_data.msg import Robpose
 # =================================== CLASSES/FUNCTIONS =================================== #
 # ========================================================================================= #
 
-# ========================================================================================= #           
+# ========================================================================================= #
 # Get SEQUENCE from {program}.yaml file:
 def getSEQUENCE(packageNAME, yamlNAME):
 
@@ -82,7 +82,7 @@ def getSEQUENCE(packageNAME, yamlNAME):
     if not os.path.exists(yamlPATH):
         RESULT["Success"] = False
         return(RESULT)
-    
+
     # Get sequence from YAML:
     with open(yamlPATH, 'r') as YAML:
         seqYAML = yaml.safe_load(YAML)
@@ -93,10 +93,10 @@ def getSEQUENCE(packageNAME, yamlNAME):
     RESULT["EELink"] = seqYAML["Specifications"]["EELink"]
     RESULT["Objects"] = seqYAML["Specifications"]["Objects"]
     RESULT["Success"] = True
-    
+
     return(RESULT)
 
-# ========================================================================================= #           
+# ========================================================================================= #
 # EVALUATE INPUT ARGUMENTS:
 def AssignArgument(ARGUMENT):
     ARGUMENTS = sys.argv
@@ -109,7 +109,7 @@ def AssignArgument(ARGUMENT):
 # ========================================= MAIN ========================================== #
 # ========================================================================================= #
 def main(args=None):
-    
+
     rclpy.init(args=args)
 
     # PRINT - INIT:
@@ -155,7 +155,7 @@ def main(args=None):
     for x in SEQUENCE:
         print("   - Step Number " + str(x["Step"]) + ":")
         print("     " + x["Name"])
-    
+
     print("")
     print("============================================================")
     print("Loading Robot+EndEffector Python Clients...")
@@ -166,21 +166,21 @@ def main(args=None):
     RobotClient = RBT()
     print("Loaded.")
     print("")
-    
+
     print("END-EFFECTOR:")
-    
+
     if seqRES["EEType"] == "None":
         EEClient = None
         print("Not required.")
-    
+
     elif seqRES["EEType"] == "ParallelGripper":
         EEClient = parallelGR(seqRES["Objects"], seqRES["Robot"], seqRES["EELink"])
         print("Loaded -> ParallelGripper.")
-    
+
     elif seqRES["EEType"] == "VacuumGripper":
         EEClient = vacuumGR(seqRES["Objects"], seqRES["Robot"], seqRES["EELink"])
         print("Loaded -> VacuumGripper.")
-    
+
     elif seqRES["EEType"] == "EGP64/ABB":
         EEClient = SchunkGRIPPER()
         print("Loaded -> EGP64/ABB.")
@@ -192,7 +192,7 @@ def main(args=None):
     elif seqRES["EEType"] == "vgr/ABB":
         EEClient = vgrABB()
         print("Loaded -> vgr/ABB.")
-    
+
     elif seqRES["EEType"] == "RobotiqHandE/UR":
         EEClient = RobotiqGRIPPER()
         print("Loaded -> RobotiqHandE/UR.")
@@ -209,7 +209,7 @@ def main(args=None):
 
     # ==== EXECUTE PROGRAM, STEP BY STEP ===== #
     for x in SEQUENCE:
-        
+
         try:
 
             print("============================================================")
@@ -337,7 +337,7 @@ def main(args=None):
                     RES = EEClient.CLOSE(x["Value"])
                 else:
                     RES = EEClient.OPEN()
-            
+
             elif x["Type"] == "VacuumGripper":
 
                 if x["Action"] == "ACTIVATE":
@@ -380,7 +380,7 @@ def main(args=None):
 
             # CHECK if STEP EXECUTION WAS SUCCESSFUL:
             print("")
-            
+
             if RES["Success"] == False:
                 print("ERROR: Execution FAILED!")
                 print("Message -> " + RES["Message"])
@@ -392,18 +392,18 @@ def main(args=None):
                 print("Execution SUCCESSFUL!")
                 print("Message -> " + RES["Message"])
                 print("")
-                
+
             # ADD -> DELAY:
             if x["Delay"] != 0.0:
                 print("Requested a waitTime of " + str(x["Delay"]) + " seconds.")
                 time.sleep(x["Delay"])
                 print("")
-                
+
         except KeyboardInterrupt:
-            
+
             # CANCEL ANY ONGOING ROBOT MOVEMENTS:
             RobotClient.CANCEL()
-            
+
             print("Sequence execution manually interrupted and cancelled.")
             print("Closing... BYE!")
             exit()

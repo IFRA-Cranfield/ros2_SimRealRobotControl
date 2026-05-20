@@ -29,7 +29,7 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # simulation.launch.py:
-# Launch file for the ROBOT's GAZEBO SIMULATION in ROS2 Humble:
+# Launch file for the robot's Gazebo simulation in ROS 2 Humble:
 
 # Import libraries:
 import os, sys, xacro, yaml
@@ -73,14 +73,14 @@ def AssignArgument(ARGUMENT):
 
 # GET CONFIGURATION from YAML:
 def GetCONFIG(CONFIGURATION, PKG_PATH):
-    
+
     RESULT = {"Success": False, "ID": "", "Name": "", "urdf": "", "ee": ""}
-    
+
     YAML_PATH = PKG_PATH + "/config/configurations.yaml"
-    
+
     if not os.path.exists(YAML_PATH):
         return (RESULT)
-    
+
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
@@ -98,12 +98,12 @@ def GetCONFIG(CONFIGURATION, PKG_PATH):
 
 # GET EE-Controllers LIST:
 def GetEEctr(EEName):
-    
+
     RESULT = []
 
     PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
     YAML_PATH = PATH + "/controller_moveit2.yaml"
-    
+
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
@@ -114,18 +114,18 @@ def GetEEctr(EEName):
 
 # CHECK if CONTROLLER file exists for EE:
 def EEctrlEXISTS(EEName):
-    
+
     PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
     YAML_PATH = PATH + "/controller.yaml"
-    
+
     RES = os.path.exists(YAML_PATH)
     return(RES)
 
 # ========== **GENERATE LAUNCH DESCRIPTION** ========== #
 def generate_launch_description():
-    
+
     LD = LaunchDescription()
-    
+
     # === INPUT ARGUMENT: ROS 2 PACKAGE === #
     PACKAGE_NAME = AssignArgument("package")
     if PACKAGE_NAME != None:
@@ -135,7 +135,7 @@ def generate_launch_description():
         print("ERROR: package INPUT ARGUMENT has not been defined. Please try again.")
         print("Closing... BYE!")
         exit()
-        
+
     # CHECK if -> PACKAGE EXISTS, and GET PATH:
     try:
         PKG_PATH = get_package_share_directory(PACKAGE_NAME)
@@ -149,7 +149,7 @@ def generate_launch_description():
         print("ERROR: The defined ROS 2 Package name is not valid. Please try again.")
         print("Closing... BYE!")
         exit()
-    
+
     # === INPUT ARGUMENT: CONFIGURATION === #
     CONFIG = AssignArgument("config")
     CONFIGURATION = GetCONFIG(CONFIG, PKG_PATH)
@@ -158,16 +158,16 @@ def generate_launch_description():
         print("")
         print("ERROR: config INPUT ARGUMENT has not been correctly defined. Please try again.")
         print("Closing... BYE!")
-        exit()   
+        exit()
 
     # ========== CELL INFORMATION ========== #
     print("")
-    print("===== GAZEBO: Robot Simulation (" + PACKAGE_NAME + ") =====")
+    print("===== Gazebo: Robot Simulation (" + PACKAGE_NAME + ") =====")
     print("Robot configuration:")
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["Name"])
     print("")
-    
-    # ***** GAZEBO ***** #   
+
+    # ***** Gazebo ***** #
     # DECLARE Gazebo WORLD file:
     world_gazebo = os.path.join(
         get_package_share_directory('ros2srrc_gazebo'),
@@ -186,23 +186,23 @@ def generate_launch_description():
     xacro_file = os.path.join(robot_description_path,'urdf',CONFIGURATION["urdf"])
     # Generate ROBOT_DESCRIPTION variable:
     doc = xacro.parse(open(xacro_file))
-    
+
     if CONFIGURATION["ee"] == "none":
         EE = "false"
     else:
         EE = "true"
-    
+
     xacro.process_doc(doc, mappings={
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
         "prefix": "",
     })
-    
+
     # EE -> Controller file needed?
     if EE == "true":
         if EEctrlEXISTS(CONFIGURATION["ee"]) == False:
             EE = "true-NOctr"
-    
+
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
 
@@ -217,7 +217,7 @@ def generate_launch_description():
         ]
     )
 
-    # SPAWN ROBOT TO GAZEBO:
+    # SPAWN ROBOT TO Gazebo:
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description','-entity', CONFIGURATION["rob"]],
                         output='both')

@@ -1,4 +1,4 @@
-# IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
+# IFRA-Cranfield: ROS 2 Sim-to-Real Robot Control
 
 ## Program Execution: Instructions
 
@@ -22,7 +22,7 @@ To execute a program, use the following command:
 ros2 run ros2srrc_execution ExecuteProgram.py package:="PACKAGE_NAME" program:="PROGRAM_NAME"
 ```
 
-- PACKAGE_NAME: The name of the ROS 2 Package where your program is located (inside the /programs folder).
+- PACKAGE_NAME: The name of the ROS 2 package where your program is located (inside the /programs folder).
 - PROGRAM_NAME: The name of the program you want to execute (without the .yaml extension).
 
 __PROGRAM STRUCTURE__
@@ -42,9 +42,9 @@ __templates.yaml__ is a reference file that provides predefined action templates
 ```sh
 Specifications:
   Robot: ""
-  EndEffector: "" 
-  EELink: "" 
-  Objects: "" 
+  EndEffector: ""
+  EELink: ""
+  Objects: ""
 ```
 
 - Robot: Specifies the robot name, e.g. "irb120".
@@ -172,7 +172,7 @@ _Robot Movements:_
         qw: 0.0
     ```
 
-_End-Effector in Gazebo Simulator:_
+_End-Effector in Gazebo Classic:_
 
 - MoveG: This template is designed for parallel gripper control in Gazebo, allowing the user to define a gripper’s closing value as a percentage (0-100). It controls the gripper’s grip strength, typically used in pick-and-place tasks involving object manipulation. This command simply controls the open/close action of the gripper.
 
@@ -190,7 +190,7 @@ _End-Effector in Gazebo Simulator:_
 
     ```sh
     # Open Gripper:
-    - Step: 0 
+    - Step: 0
       Name: "Please type the name of your program step here."
       Type: "ParallelGripper"
       Action: "OPEN"
@@ -256,4 +256,4 @@ _End-Effector in Real Robot (UR):_
       Type: "RobotiqHandE/UR"
       Action: "OPEN"
       Delay: 0.0
-    ``` 
+    ```

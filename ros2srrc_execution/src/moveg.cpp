@@ -42,7 +42,7 @@
 #include <moveit/move_group_interface/move_group_interface_improved.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
-// Include the move ROS2 ACTION:
+// Include the move ROS 2 ACTION:
 #include "ros2srrc_data/action/move.hpp"
 
 // ROS 2 MSG -> SPECIFICATIONS:
@@ -61,7 +61,7 @@ MoveGSTRUCT MoveGAction (double VAL, std::vector<double> JP, ros2srrc_data::msg:
 
     // 1. CALCULATIONS -> Check VALUE is between 0 and 100:
     if (VAL < 0 || VAL > 100){
-        
+
         RESULT.RES = "Gripper INPUT VALUE is not correct! It should be [0, 100]. Try again.";
         RESULT.JP = JP;
 

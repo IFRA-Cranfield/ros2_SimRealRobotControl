@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -28,8 +28,8 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 ABB-IRB6640 .urdf files in this ROS2   #
-#  repository has been taken from the following resource:                               #
+#  Some of the information used to build these ROS 2 ABB-IRB6640 .urdf files            #
+#  has been taken from the following resource:                                          #
 #       - abb_experimental (https://github.com/ros-industrial/abb_experimental)         #
 #                                                                                       #
 #  AUTHORS:                                                                             #
@@ -42,7 +42,7 @@
 #                                                                                       #
 #  CHANGES MADE:                                                                        #
 #  The original files contain the .urdf information of the robot for ROS1, and these    #
-#  have been modified for ROS2.                                                         #
+#  have been modified for ROS 2.                                                        #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -58,14 +58,14 @@
   <xacro:macro name="irb6640" params="bringup robot_ip EE EE_name prefix">
 
     <!-- ABB-IRB6640 TRANSMISSION: -->
-    <xacro:unless value="${bringup}">  
+    <xacro:unless value="${bringup}">
       <xacro:include filename="$(find ros2srrc_robots)/irb6640/urdf/irb6640_transmission.xacro" />
       <xacro:irb6640_transmission prefix="${prefix}" />
     </xacro:unless>
 
-    <!-- ABB-IRB6640 GAZEBO - ROS2_CONTROL: -->
+    <!-- ABB-IRB6640 Gazebo - ros2_control: -->
     <xacro:include filename="$(find ros2srrc_robots)/irb6640/urdf/irb6640_ros2control.xacro" />
-    <xacro:irb6640_ros2control 
+    <xacro:irb6640_ros2control
       bringup="${bringup}"
       robot_ip="${robot_ip}"
       EE="${EE}"
@@ -89,7 +89,7 @@
             - Moments of inertia taken at the output coordinate system -> <inertia>
 
         (values taken in -> kg and m)
-        
+
     -->
 
     <!-- LINK LIST -->
@@ -273,7 +273,7 @@
         </geometry>
       </collision>
     </link>
-    
+
     <!-- end of link list -->
 
     <!-- joint list -->

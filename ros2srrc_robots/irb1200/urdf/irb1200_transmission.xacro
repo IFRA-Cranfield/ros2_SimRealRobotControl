@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -28,8 +28,8 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 ABB-IRB1200 .urdf files in this ROS2   #
-#  repository has been taken from the following resource:                               #
+#  Some of the information used to build these ROS 2 ABB-IRB1200 .urdf files            #
+#  has been taken from the following resource:                                          #
 #       - abb_experimental (https://github.com/ros-industrial/abb_experimental)         #
 #                                                                                       #
 #  AUTHORS:                                                                             #
@@ -42,7 +42,7 @@
 #                                                                                       #
 #  CHANGES MADE:                                                                        #
 #  The original files contain the .urdf information of the robot for ROS1, and these    #
-#  have been modified for ROS2.                                                         #
+#  have been modified for ROS 2.                                                        #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 

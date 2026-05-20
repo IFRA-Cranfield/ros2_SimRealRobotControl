@@ -32,14 +32,14 @@
 # This CLIENT operates the Robotiq Gripper connected to the UR Robot through ROS 2.
 
 # ===== IMPORT REQUIRED COMPONENTS ===== #
-# Required to include ROS2 and its components:
+# Required to include ROS 2 and its components:
 import rclpy
 from rclpy.node import Node
-# Import ROS2 Services:
+# Import ROS 2 Services:
 from ros2_robotiqgripper.srv import RobotiqGripper
 
 # =============================================================================== #
-# Robotiq Gripper - ROS2 Service Client:
+# Robotiq Gripper - ROS 2 Service Client:
 
 class ServiceClient(Node):
 
@@ -94,7 +94,7 @@ class RobotiqGRIPPER():
             rclpy.spin_once(self.CLIENT)
 
             if self.CLIENT.future.done():
-                
+
                 try:
                     OpenRES = self.CLIENT.future.result()
 
@@ -117,7 +117,7 @@ class RobotiqGRIPPER():
     def CLOSE(self):
 
         print('[CLIENT - robotiq_ur.py]: Sending request -> CLOSE GRIPPER.')
-        
+
         # Initialise RESULT:
         RES = {}
         RES["Success"] = False
@@ -131,7 +131,7 @@ class RobotiqGRIPPER():
             rclpy.spin_once(self.CLIENT)
 
             if self.CLIENT.future.done():
-                
+
                 try:
                     CloseRES = self.CLIENT.future.result()
 

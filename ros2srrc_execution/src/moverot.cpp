@@ -42,10 +42,10 @@
 #include <moveit/move_group_interface/move_group_interface_improved.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
-// Include the move ROS2 ACTION:
+// Include the move ROS 2 ACTION:
 #include "ros2srrc_data/action/move.hpp"
 
-// Include the ROS2 MSG messages:
+// Include the ROS 2 MSG messages:
 #include "ros2srrc_data/msg/ypr.hpp"
 
 // Declaration of GLOBAL VARIABLES --> CONSTANT VALUES for angle transformation (DEG->RAD):
@@ -79,7 +79,7 @@ geometry_msgs::msg::Pose MoveROTAction(ros2srrc_data::msg::Ypr GOAL, geometry_ms
     double w = Aw*Bw - Ax*Bx - Ay*By - Az*Bz;
     double x = Aw*Bx + Ax*Bw + Ay*Bz - Az*By;
     double y = Aw*By - Ax*Bz + Ay*Bw + Az*Bx;
-    double z = Aw*Bz + Ax*By - Ay*Bx + Az*Bw; 
+    double z = Aw*Bz + Ax*By - Ay*Bx + Az*Bw;
 
     // TARGET POSE:
     TARGET_POSE.position.x = POSE.pose.position.x;

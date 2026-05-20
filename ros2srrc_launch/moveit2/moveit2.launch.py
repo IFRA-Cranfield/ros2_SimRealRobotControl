@@ -29,7 +29,7 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # moveit2.launch.py:
-# Launch file for the Robot's GAZEBO SIMULATION + MoveIt!2 Framework in ROS2 Humble:
+# Launch file for the robot's Gazebo simulation + MoveIt!2 framework in ROS 2 Humble:
 
 # Import libraries:
 import os, sys, xacro, yaml
@@ -73,14 +73,14 @@ def AssignArgument(ARGUMENT):
 
 # GET CONFIGURATION from YAML:
 def GetCONFIG(CONFIGURATION, PKG_PATH):
-    
+
     RESULT = {"Success": False, "ID": "", "Name": "", "urdf": "", "ee": ""}
-    
+
     YAML_PATH = PKG_PATH + "/config/configurations.yaml"
-    
+
     if not os.path.exists(YAML_PATH):
         return (RESULT)
-    
+
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
@@ -98,12 +98,12 @@ def GetCONFIG(CONFIGURATION, PKG_PATH):
 
 # GET EE-Controllers LIST:
 def GetEEctr(EEName):
-    
+
     RESULT = []
 
     PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
     YAML_PATH = PATH + "/controller_moveit2.yaml"
-    
+
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
@@ -114,10 +114,10 @@ def GetEEctr(EEName):
 
 # CHECK if CONTROLLER file exists for EE:
 def EEctrlEXISTS(EEName):
-    
+
     PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
     YAML_PATH = PATH + "/controller.yaml"
-    
+
     RES = os.path.exists(YAML_PATH)
     return(RES)
 
@@ -125,7 +125,7 @@ def EEctrlEXISTS(EEName):
 def generate_launch_description():
 
     LD = LaunchDescription()
-    
+
     # === INPUT ARGUMENT: ROS 2 PACKAGE === #
     PACKAGE_NAME = AssignArgument("package")
     if PACKAGE_NAME != None:
@@ -135,7 +135,7 @@ def generate_launch_description():
         print("ERROR: package INPUT ARGUMENT has not been defined. Please try again.")
         print("Closing... BYE!")
         exit()
-        
+
     # CHECK if -> PACKAGE EXISTS, and GET PATH:
     try:
         PKG_PATH = get_package_share_directory(PACKAGE_NAME)
@@ -149,7 +149,7 @@ def generate_launch_description():
         print("ERROR: The defined ROS 2 Package name is not valid. Please try again.")
         print("Closing... BYE!")
         exit()
-    
+
     # === INPUT ARGUMENT: CONFIGURATION === #
     CONFIG = AssignArgument("config")
     CONFIGURATION = GetCONFIG(CONFIG, PKG_PATH)
@@ -158,16 +158,16 @@ def generate_launch_description():
         print("")
         print("ERROR: config INPUT ARGUMENT has not been correctly defined. Please try again.")
         print("Closing... BYE!")
-        exit()   
+        exit()
 
     # ========== CELL INFORMATION ========== #
     print("")
-    print("===== GAZEBO: Robot Simulation + MoveIt!2 Framework (" + PACKAGE_NAME + ") =====")
+    print("===== Gazebo: Robot Simulation + MoveIt!2 Framework (" + PACKAGE_NAME + ") =====")
     print("Robot configuration:")
     print(CONFIGURATION["ID"] + " -> " + CONFIGURATION["Name"])
     print("")
-    
-    # ***** GAZEBO ***** #   
+
+    # ***** Gazebo ***** #
     # DECLARE Gazebo WORLD file:
     world_gazebo = os.path.join(
         get_package_share_directory('ros2srrc_gazebo'),
@@ -186,23 +186,23 @@ def generate_launch_description():
     xacro_file = os.path.join(robot_description_path,'urdf',CONFIGURATION["urdf"])
     # Generate ROBOT_DESCRIPTION variable:
     doc = xacro.parse(open(xacro_file))
-    
+
     if CONFIGURATION["ee"] == "none":
         EE = "false"
-    else: 
+    else:
         EE = "true"
-    
+
     xacro.process_doc(doc, mappings={
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
         "prefix": "",
     })
-    
+
     # EE -> Controller file needed?
     if EE == "true":
         if EEctrlEXISTS(CONFIGURATION["ee"]) == False:
             EE = "true-NOctr"
-    
+
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
 
@@ -224,7 +224,7 @@ def generate_launch_description():
         arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "base_link"],
     )
 
-    # SPAWN ROBOT TO GAZEBO:
+    # SPAWN ROBOT TO Gazebo:
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description', '-entity', CONFIGURATION["rob"]],
                         output='both')
@@ -257,7 +257,7 @@ def generate_launch_description():
                 )
             )
 
-    # *********************** MoveIt!2 *********************** #   
+    # *********************** MoveIt!2 *********************** #
 
     # *** PLANNING CONTEXT *** #
     # Robot description, SRDF:
@@ -270,7 +270,7 @@ def generate_launch_description():
     xacro.process_doc(srdf_doc, mappings={"prefix": "", "name": CONFIGURATION["rob"]})
     srdf_doc.documentElement.setAttribute("name", CONFIGURATION["rob"])
     robot_description_semantic_config = srdf_doc.toxml()
-    
+
     robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config}
 
     # Kinematics.yaml file:
@@ -285,7 +285,7 @@ def generate_launch_description():
         YAML_EE = load_yaml("ros2srrc_endeffectors", CONFIGURATION["ee"] + "/config/joint_limits.yaml")["joint_limits"]
         joint_limits_yaml = {}
         joint_limits_yaml["joint_limits"] = YAML_ROB | YAML_EE
-    
+
     joint_limits = {'robot_description_planning': joint_limits_yaml}
 
     # pilz_planning_pipeline_config.yaml file:
@@ -341,7 +341,7 @@ def generate_launch_description():
             robot_description,
             robot_description_semantic,
             kinematics_yaml,
-            
+
             pilz_planning_pipeline_config,
 
             joint_limits,
@@ -355,7 +355,7 @@ def generate_launch_description():
         ],
     )
 
-    # RVIZ:
+    # RViz:
     rviz_full_config = os.path.join(
         get_package_share_directory("ros2srrc_moveit"),
         "config",
@@ -372,7 +372,7 @@ def generate_launch_description():
             robot_description,
             robot_description_semantic,
             kinematics_yaml,
-            
+
             pilz_planning_pipeline_config,
 
             joint_limits,
@@ -410,7 +410,7 @@ def generate_launch_description():
             parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": "none"}, {"ENV_PARAM": "gazebo"}],
         )
 
-    # RobMove and RobPose:
+    # Robmove and Robpose:
     RobMoveInterface = Node(
         name="robmove",
         package="ros2srrc_execution",
@@ -425,7 +425,7 @@ def generate_launch_description():
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}],
     )
-    
+
     # =============================================== #
     # ========== RETURN LAUNCH DESCRIPTION ========== #
 
@@ -473,7 +473,7 @@ def generate_launch_description():
         OnProcessExit(
             target_action = spawn_entity,
             on_exit = [
-                
+
                 # MoveIt!2:
                 TimerAction(
                     period=2.0,
@@ -482,7 +482,7 @@ def generate_launch_description():
                         run_move_group_node,
                     ]
                 ),
-                
+
                 ]
             )
         )
@@ -492,7 +492,7 @@ def generate_launch_description():
         OnProcessExit(
             target_action = spawn_entity,
             on_exit = [
-                
+
                 # Interfaces:
                 TimerAction(
                     period=5.0,
@@ -502,7 +502,7 @@ def generate_launch_description():
                         RobPoseInterface,
                     ]
                 ),
-                
+
                 ]
             )
         )

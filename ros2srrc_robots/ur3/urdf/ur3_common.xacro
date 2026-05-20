@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -28,11 +28,11 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 UR3-Robot .urdf files in this ROS2    #
-#  repository has been taken from the following resources:                              #
-#       - Universal Robots ROS2 Description:                                            #
+#  Some of the information used to build the ROS 2 UR3-Robot .urdf files in this ROS 2  #
+#  has been taken from the following resources:                                         #
+#       - Universal Robots ROS 2 Description:                                           #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Description          #
-#       - Universal Robots ROS2 Gazebo Simulation:                                      #
+#       - Universal Robots ROS 2 Gazebo Simulation:                                     #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation    #
 #                                                                                       #
 #  AUTHORS:                                                                             #
@@ -72,14 +72,14 @@
   </xacro:macro>
 
   <xacro:macro name="ur3_common">
-    
+
     <!-- ***** PARAMETER VALUES ***** -->
     <!-- All parameter values have been taken from the following .yaml files, located in the Universal_Robots_ROS2_Description GitHub repository:
           * (LINK): https://github.com/UniversalRobots/Universal_Robots_ROS2_Description/tree/ros2/config/ur3
           - default_kinematics.yaml
           - joint_limits.yaml
           - physical_parameters.yaml
-          - visual_parameters.yaml 
+          - visual_parameters.yaml
           -->
 
     <!-- JOINTS LIMIT PARAMETERS -->
@@ -206,7 +206,7 @@
     <xacro:property name="wrist_1_visual_offset" value="-0.085" scope="parent"/>
     <xacro:property name="wrist_2_visual_offset" value="-0.085" scope="parent"/>
     <xacro:property name="wrist_3_visual_offset" value="-0.082" scope="parent"/>
-    
+
     <!-- KINEMATICS HASH -->
     <xacro:property name="kinematics_hash" value="calib_604802427893924187" scope="parent"/>
   </xacro:macro>

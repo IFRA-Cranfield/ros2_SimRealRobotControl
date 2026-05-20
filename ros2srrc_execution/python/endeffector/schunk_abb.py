@@ -32,14 +32,14 @@
 # This CLIENT operates the Schunk Gripper connected to the ABB Robot through ROS 2.
 
 # ===== IMPORT REQUIRED COMPONENTS ===== #
-# Required to include ROS2 and its components:
+# Required to include ROS 2 and its components:
 import rclpy
 from rclpy.node import Node
-# Import ROS2 Services:
+# Import ROS 2 Services:
 from abb_robot_msgs.srv import SetIOSignal
 
 # =============================================================================== #
-# ABB Robot I/O - ROS2 Service Client:
+# ABB Robot I/O - ROS 2 Service Client:
 
 class SchunkGRIPPER(Node):
 

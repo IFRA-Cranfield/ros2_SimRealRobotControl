@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -47,7 +47,7 @@
 
   <xacro:arg name="prefix" default=""/>
   <xacro:property name="prefix" value="$(arg prefix)"/>
-  
+
   <!-- UR3e Control ARGUMENTS -->
   <xacro:arg name="script_filename" default="none"/>
   <xacro:property name="script_filename" value="$(arg script_filename)"/>
@@ -57,8 +57,8 @@
   <xacro:property name="output_recipe_filename" value="$(arg output_recipe_filename)"/>
 
   <!-- Include XACRO-MACRO file of the UR3e: -->
-  <xacro:include filename="$(find ros2srrc_robots)/ur3e/urdf/ur3e_macro.urdf.xacro"/>	
-  <xacro:ur3e 
+  <xacro:include filename="$(find ros2srrc_robots)/ur3e/urdf/ur3e_macro.urdf.xacro"/>
+  <xacro:ur3e
     bringup="${bringup}"
     robot_ip="${robot_ip}"
     EE="${EE}"
@@ -70,8 +70,8 @@
     prefix="${prefix}"
   />
 
-  <!-- Include XACRO-MACRO file of the Robotiq 2f-85: -->
-  <xacro:include filename="$(find ros2srrc_endeffectors)/robotiq_hande/urdf/robotiq_hande_macro.urdf.xacro"/>	
+  <!-- Include XACRO-MACRO file of the Robotiq HandE: -->
+  <xacro:include filename="$(find ros2srrc_endeffectors)/robotiq_hande/urdf/robotiq_hande_macro.urdf.xacro"/>
   <xacro:robotiq_hande
     bringup="${bringup}"
     parent_link="${prefix}tool0"
@@ -80,7 +80,7 @@
 
   <!-- Load ROS 2 Gazebo Plugin -->
   <xacro:unless value="${bringup}">
-    
+
     <gazebo>
       <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
         <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
@@ -98,7 +98,7 @@
 
   <!-- World: LINK -->
   <link name="world"/>
-  
+
   <!-- Robot Stand: LINK -->
   <link name='${prefix}robot_stand'>
     <inertial>
@@ -107,7 +107,7 @@
       <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01" />
     </inertial>
     <collision name='collision'>
-      <origin xyz="0 0 0" rpy=" 0 0 0"/> 
+      <origin xyz="0 0 0" rpy=" 0 0 0"/>
       <geometry>
         <box size = "0.2 0.2 0.5"/>
       </geometry>
@@ -131,7 +131,7 @@
   <joint name="${prefix}stand_joint" type="fixed">
     <parent link= "${prefix}robot_stand" />
     <child link = "${prefix}base_link" />
-    <origin xyz="0.0 0.0 0.255" rpy="0.0 0.0 0.0" /> 
+    <origin xyz="0.0 0.0 0.255" rpy="0.0 0.0 0.0" />
   </joint>
 
 </robot>

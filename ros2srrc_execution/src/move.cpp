@@ -54,10 +54,10 @@
 #include <moveit/move_group_interface/move_group_interface_improved.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
-// Include the move ROS2 ACTION:
+// Include the move ROS 2 ACTION:
 #include "ros2srrc_data/action/move.hpp"
 
-// Include the ROS2 MSG messages:
+// Include the ROS 2 MSG messages:
 #include "ros2srrc_data/msg/joint.hpp"
 #include "ros2srrc_data/msg/joints.hpp"
 #include "ros2srrc_data/msg/xyz.hpp"
@@ -91,7 +91,7 @@ ros2srrc_data::msg::Specs eeSPECS;
 class ros2_RobotParam : public rclcpp::Node
 {
 public:
-    ros2_RobotParam() : Node("ros2_RobotParam") 
+    ros2_RobotParam() : Node("ros2_RobotParam")
     {
         this->declare_parameter("ROB_PARAM", "none");
         param_ROB = this->get_parameter("ROB_PARAM").get_parameter_value().get<std::string>();
@@ -103,7 +103,7 @@ private:
 class ros2_EEParam : public rclcpp::Node
 {
 public:
-    ros2_EEParam() : Node("ros2_EEParam") 
+    ros2_EEParam() : Node("ros2_EEParam")
     {
         this->declare_parameter("EE_PARAM", "none");
         param_EE = this->get_parameter("EE_PARAM").get_parameter_value().get<std::string>();
@@ -115,7 +115,7 @@ private:
 class ros2_mgNSParam : public rclcpp::Node
 {
 public:
-    ros2_mgNSParam() : Node("ros2_mgNSParam") 
+    ros2_mgNSParam() : Node("ros2_mgNSParam")
     {
         this->declare_parameter("move_group_ns", "");
         param_mgNS = this->get_parameter("move_group_ns").get_parameter_value().get<std::string>();
@@ -131,7 +131,7 @@ private:
 // ===== PLAN ===== //
 // ROBOT:
 moveit::planning_interface::MoveGroupInterface::Plan plan_ROB() {
-    
+
     moveit::planning_interface::MoveGroupInterface::Plan my_plan;
     bool success = (move_group_interface_ROB.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
@@ -150,7 +150,7 @@ moveit::planning_interface::MoveGroupInterface::Plan plan_ROB() {
 };
 // END-EFFECTOR:
 moveit::planning_interface::MoveGroupInterface::Plan plan_EE() {
-    
+
     moveit::planning_interface::MoveGroupInterface::Plan my_plan;
     bool success = (move_group_interface_EE.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
@@ -165,7 +165,7 @@ moveit::planning_interface::MoveGroupInterface::Plan plan_EE() {
         RES = "PLANNING: ERROR (EE)";
         return(my_plan);
     }
-    
+
 };
 
 
@@ -193,7 +193,7 @@ public:
 
 private:
     rclcpp_action::Server<Move>::SharedPtr action_server_;
-    
+
     // ACCEPT GOAL and NOTIFY which ACTION is going to be exectuted:
     rclcpp_action::GoalResponse handle_goal(
         const rclcpp_action::GoalUUID & uuid,
@@ -211,7 +211,7 @@ private:
         }
         // *** REST OF THE ACTIONS HERE *** //
 
-        return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE; 
+        return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
     }
 
     // No idea about what this function does:
@@ -222,7 +222,7 @@ private:
             [this, goal_handle]() {
                 execute(goal_handle);
             }).detach();
-        
+
     }
 
     // Function that cancels the goal request:
@@ -257,19 +257,19 @@ private:
 
         // ===== ACTION EXECUTION ===== //
         moveit::planning_interface::MoveGroupInterface::Plan MyPlan;
-        
+
         if (action == "MoveJ" && param_ROB != "none"){
-            
+
             // 1. Define JP VECTOR:
             std::vector<double> JP;
             moveit::core::RobotStatePtr current_state = move_group_interface_ROB.getCurrentState(10);
             current_state->copyJointGroupPositions(joint_model_group_ROB, JP);
-            
+
             // 2. CALL MoveJAction for CALCULATIONS:
             MoveJSTRUCT MoveJRES = MoveJAction(goal->movej, JP, robotSPECS);
             JP = MoveJRES.JP;
             move_group_interface_ROB.setJointValueTarget(JP);
-            
+
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
             move_group_interface_ROB.setPlannerId("PTP");
@@ -282,14 +282,14 @@ private:
             }
 
         } else if (action == "MoveL" && param_ROB != "none"){
-            
+
             // 1. Define POSE VECTOR:
             auto POSE = move_group_interface_ROB.getCurrentPose();
-            
+
             // 2. CALL MoveLAction for CALCULATIONS:
             auto TARGET_POSE = MoveLAction(goal->movel, POSE);
             move_group_interface_ROB.setPoseTarget(TARGET_POSE);
-            
+
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
             move_group_interface_ROB.setPlannerId("LIN");
@@ -303,12 +303,12 @@ private:
             std::vector<double> JP;
             moveit::core::RobotStatePtr current_state = move_group_interface_ROB.getCurrentState(10);
             current_state->copyJointGroupPositions(joint_model_group_ROB, JP);
-            
+
             // 2. CALL MoveRAction for CALCULATIONS:
             MoveRSTRUCT MoveRRES = MoveRAction(goal->mover, JP, robotSPECS);
             JP = MoveRRES.JP;
             move_group_interface_ROB.setJointValueTarget(JP);
-            
+
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
             move_group_interface_ROB.setPlannerId("PTP");
@@ -321,39 +321,39 @@ private:
             }
 
         } else if (action == "MoveROT" && param_ROB != "none"){
-            
+
             // 1. Define POSE VECTOR:
             auto POSE = move_group_interface_ROB.getCurrentPose();
-            
+
             // 2. CALL MoveROTAction for CALCULATIONS:
             auto TARGET_POSE = MoveROTAction(goal->moverot, POSE);
             move_group_interface_ROB.setPoseTarget(TARGET_POSE);
-            
+
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
             move_group_interface_ROB.setPlannerId("PTP");
 
             // 4. PLAN:
             MyPlan = plan_ROB();
-        
+
         } else if (action == "MoveRP" && param_ROB != "none"){
-            
+
             // 1. Define POSE VECTOR:
             auto POSE = move_group_interface_ROB.getCurrentPose();
-            
+
             // 2. CALL MoveRPAction for CALCULATIONS:
             auto TARGET_POSE = MoveRPAction(goal->moverp, POSE);
             move_group_interface_ROB.setPoseTarget(TARGET_POSE);
-            
+
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_ROB.setMaxVelocityScalingFactor(goal->speed);
             move_group_interface_ROB.setPlannerId("PTP");
 
             // 4. PLAN:
             MyPlan = plan_ROB();
-        
+
         } else if (action == "MoveG" && param_EE != "none"){
-            
+
             // 1. Define JP VECTOR:
             std::vector<double> JP;
             moveit::core::RobotStatePtr current_state = move_group_interface_EE.getCurrentState(10);
@@ -363,7 +363,7 @@ private:
             MoveGSTRUCT MoveGRES = MoveGAction(goal->moveg, JP, eeSPECS);
             JP = MoveGRES.JP;
             move_group_interface_EE.setJointValueTarget(JP);
-            
+
             // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
             move_group_interface_EE.setMaxVelocityScalingFactor(goal->speed);
             move_group_interface_EE.setPlannerId("PTP");
@@ -374,7 +374,7 @@ private:
             } else {
                 RES = MoveGRES.RES;
             }
-        
+
         }
 
         // EXECUTE:
@@ -387,8 +387,8 @@ private:
                 result->result = action + ":CANCELED";
                 goal_handle->canceled(result);
                 return;
-            } 
-            
+            }
+
             if (ExecSUCCESS){
                 RCLCPP_INFO(this->get_logger(), "%s - %s: Movement executed!", param_ROB.c_str(), action.c_str());
                 result->result = action + ":SUCCESS";
@@ -412,7 +412,7 @@ private:
                 result->result = action + ":SUCCESS";
                 goal_handle->succeed(result);
             }
-            
+
         } else if (RES == "PLANNING: ERROR"){
             RCLCPP_INFO(this->get_logger(), "%s - %s: Planning failed!", param_ROB.c_str(), action.c_str());
             result->result = action + ":FAILED. Reason -> Planning failed.";
@@ -477,7 +477,7 @@ int main(int argc, char ** argv)
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
     auto name = "ros2srrc_move";
     auto const node2 = std::make_shared<rclcpp::Node>(name, rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
-    rclcpp::executors::SingleThreadedExecutor executor; 
+    rclcpp::executors::SingleThreadedExecutor executor;
     executor.add_node(node2);
     std::thread([&executor]() { executor.spin(); }).detach();
 
@@ -492,7 +492,7 @@ int main(int argc, char ** argv)
     // 1. ROBOT:
     if (param_ROB != "none"){
         auto name = prefix + param_ROB + "_arm";
-        
+
         MoveGroupInterface::Options opts(name, "robot_description", param_mgNS);
         move_group_interface_ROB = MoveGroupInterface(node2, opts);
         move_group_interface_ROB.setPlanningPipelineId("move_group");
@@ -506,14 +506,14 @@ int main(int argc, char ** argv)
     // 2. END-EFFECTOR:
     if (param_EE != "none"){
         auto name_EE = prefix + param_EE;
-        
+
         MoveGroupInterface::Options opts_EE(name_EE, "robot_description", param_mgNS);
         move_group_interface_EE = MoveGroupInterface(node2, opts_EE);
         move_group_interface_EE.setPlanningPipelineId("move_group");
-        
+
         move_group_interface_EE.setMaxVelocityScalingFactor(1.0);
         move_group_interface_EE.setMaxAccelerationScalingFactor(1.0);
-        
+
         joint_model_group_EE = move_group_interface_EE.getCurrentState()->getJointModelGroup(name_EE);
         RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for END-EFFECTOR: %s", name_EE.c_str());
     }

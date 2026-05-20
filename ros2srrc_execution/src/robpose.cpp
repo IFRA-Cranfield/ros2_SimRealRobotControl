@@ -30,7 +30,7 @@
 
 // RobPose.cpp:
 
-// Required to include ROS2 (C++):
+// Required to include ROS 2 (C++):
 #include "rclcpp/rclcpp.hpp"
 
 // Required for timer:
@@ -44,7 +44,7 @@ using namespace std::chrono_literals;
 #include <moveit/move_group_interface/move_group_interface_improved.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
-// Include the Robpose ROS2 Message:
+// Include the Robpose ROS 2 Message:
 #include "ros2srrc_data/msg/robpose.hpp"
 
 // Declaration of GLOBAL VARIABLE --> MoveIt!2 Interface:
@@ -55,7 +55,7 @@ std::string param_ROB = "none";
 std::string param_mgNS = "";
 
 // Declaration of GLOBAL VARIABLE --> ROBOT POSE:
-ros2srrc_data::msg::Robpose POSE; 
+ros2srrc_data::msg::Robpose POSE;
 
 // =============================================================================== //
 //  PARAM -> ROBOT, MoveGroup_Namespace:
@@ -63,7 +63,7 @@ ros2srrc_data::msg::Robpose POSE;
 class ros2_RobotParam : public rclcpp::Node
 {
 public:
-    ros2_RobotParam() : Node("ros2_RobotParam") 
+    ros2_RobotParam() : Node("ros2_RobotParam")
     {
         this->declare_parameter("ROB_PARAM", "none");
         param_ROB = this->get_parameter("ROB_PARAM").get_parameter_value().get<std::string>();
@@ -75,7 +75,7 @@ private:
 class ros2_mgNSParam : public rclcpp::Node
 {
 public:
-    ros2_mgNSParam() : Node("ros2_mgNSParam") 
+    ros2_mgNSParam() : Node("ros2_mgNSParam")
     {
         this->declare_parameter("move_group_ns", "");
         param_mgNS = this->get_parameter("move_group_ns").get_parameter_value().get<std::string>();
@@ -133,7 +133,7 @@ int main(int argc, char **argv)
     rclcpp::init(argc, argv);
 
     auto node_LOGGER = std::make_shared<rclcpp::Node>("MOVE_INTERFACE_log");
-    
+
     // Obtain ROBOT + MG_NS parameters:
     auto node_PARAM_ROB = std::make_shared<ros2_RobotParam>();
     rclcpp::spin_some(node_PARAM_ROB);
@@ -143,7 +143,7 @@ int main(int argc, char **argv)
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
     auto name = "ros2srrc_RobPose";
     auto const MoveIt2_NODE = std::make_shared<rclcpp::Node>(name, rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
-    rclcpp::executors::SingleThreadedExecutor executor; 
+    rclcpp::executors::SingleThreadedExecutor executor;
     executor.add_node(MoveIt2_NODE);
     std::thread([&executor]() { executor.spin(); }).detach();
 

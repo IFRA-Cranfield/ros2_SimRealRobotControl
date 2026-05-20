@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -39,7 +39,7 @@
 #  (ORIGINAL LICENSE) -> Licensed under the MIT License.                                #
 #                                                                                       #
 #  CHANGES MADE:                                                                        #
-#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #                                                      #
+#  The ROS 2 Robot URDF files have been adapted to the ros2srrc repo structure.         #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -55,14 +55,14 @@
   <xacro:macro name="ar4" params="bringup robot_ip EE EE_name prefix">
 
     <!-- AR4 TRANSMISSION: -->
-    <xacro:unless value="${bringup}">  
+    <xacro:unless value="${bringup}">
       <xacro:include filename="$(find ros2srrc_robots)/ar4/urdf/ar4_transmission.xacro" />
       <xacro:ar4_transmission prefix="${prefix}" />
     </xacro:unless>
 
-    <!-- AR4 GAZEBO - ROS2_CONTROL: -->
+    <!-- AR4 Gazebo - ros2_control: -->
     <xacro:include filename="$(find ros2srrc_robots)/ar4/urdf/ar4_ros2control.xacro" />
-    <xacro:ar4_ros2control 
+    <xacro:ar4_ros2control
       bringup="${bringup}"
       robot_ip="${robot_ip}"
       EE="${EE}"
@@ -264,10 +264,10 @@
       <parent link="${prefix}link_1"/>
       <child link="${prefix}link_2"/>
       <axis xyz="0 0 -1"/>
-      <limit 
+      <limit
         lower="-0.7330"
         upper="1.5708"
-        effort="1000.0" 
+        effort="1000.0"
         velocity="1.0472"
       />
       <dynamics damping="0.3" friction="0.0"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- 
+<!--
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
@@ -28,11 +28,11 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 UR10e-Robot .urdf files in this ROS2    #
-#  repository has been taken from the following resources:                              #
-#       - Universal Robots ROS2 Description:                                            #
+#  Some of the information used to build these ROS 2 UR10e-Robot .urdf files            #
+#  has been taken from the following resources:                                         #
+#       - Universal Robots ROS 2 Description:                                           #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Description          #
-#       - Universal Robots ROS2 Gazebo Simulation:                                      #
+#       - Universal Robots ROS 2 Gazebo Simulation:                                     #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation    #
 #                                                                                       #
 #  AUTHORS:                                                                             #
@@ -60,7 +60,7 @@
 -->
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  
+
   <!-- Include UR10e ROBOT SPECIFICATIONS: -->
   <xacro:include filename="$(find ros2srrc_robots)/ur10e/urdf/ur10e_common.xacro"/>
 
@@ -71,14 +71,14 @@
     <xacro:ur10e_common/>
 
     <!-- UR10e TRANSMISSION: -->
-    <xacro:unless value="${bringup}">  
+    <xacro:unless value="${bringup}">
       <xacro:include filename="$(find ros2srrc_robots)/ur10e/urdf/ur10e_transmission.xacro" />
       <xacro:ur10e_transmission prefix="${prefix}" />
     </xacro:unless>
 
-    <!-- UR10e GAZEBO - ROS2_CONTROL: -->
+    <!-- UR10e Gazebo - ros2_control: -->
     <xacro:include filename="$(find ros2srrc_robots)/ur10e/urdf/ur10e_ros2control.xacro" />
-    <xacro:ur10e_ros2control 
+    <xacro:ur10e_ros2control
       bringup="${bringup}"
       robot_ip="${robot_ip}"
       EE="${EE}"
