@@ -216,6 +216,7 @@ def generate_launch_description():
     xacro.process_doc(doc, mappings={
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
+        "prefix": "",
     })
     
     # EE -> Controller file needed?
@@ -308,9 +309,14 @@ def generate_launch_description():
     # *** PLANNING CONTEXT *** #
     # Robot description, SRDF:
     if (EE == "false"):
-        robot_description_semantic_config = load_file("ros2srrc_moveit", "config/" + CONFIGURATION["rob"] + ".srdf")
+        srdf_file = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config", CONFIGURATION["rob"] + ".srdf")
     else:
-        robot_description_semantic_config = load_file("ros2srrc_moveit", "config/" + CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".srdf")
+        srdf_file = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config", CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".srdf")
+
+    srdf_doc = xacro.parse(open(srdf_file))
+    xacro.process_doc(srdf_doc, mappings={"prefix": "", "name": CONFIGURATION["rob"]})
+    srdf_doc.documentElement.setAttribute("name", CONFIGURATION["rob"])
+    robot_description_semantic_config = srdf_doc.toxml()
     
     robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config}
 
@@ -394,11 +400,11 @@ def generate_launch_description():
     )
 
     # RVIZ:
-    rviz_base = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config")
-    if EE == "false":
-        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + ".rviz")
-    else:
-        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".rviz")
+    rviz_full_config = os.path.join(
+        get_package_share_directory("ros2srrc_moveit"),
+        "config",
+        "ros2srrc.rviz",
+    )
 
     rviz_node_full = Node(
         package="rviz2",
@@ -446,6 +452,7 @@ def generate_launch_description():
                 {"ROB_PARAM": CONFIGURATION["rob"]},
                 {"EE_PARAM": CONFIGURATION["ee"]},
                 {"ENV_PARAM": "gazebo"},
+                {"move_group_ns": ""},
                 {"EE_CONTROLLER_NAMES": CONTROLLERS},
                 {"EE_CONTROLLER_ACTION_NAMESPACES": ["gripper_cmd"] * len(CONTROLLERS)},
             ],
@@ -466,7 +473,8 @@ def generate_launch_description():
                 {"use_sim_time": True}, 
                 {"ROB_PARAM": CONFIGURATION["rob"]}, 
                 {"EE_PARAM": "none"}, 
-                {"ENV_PARAM": "gazebo"}
+                {"ENV_PARAM": "gazebo"},
+                {"move_group_ns": ""}
             ],
         )
 
@@ -482,7 +490,8 @@ def generate_launch_description():
             robot_description_kinematics, 
             
             {"use_sim_time": True}, 
-            {"ROB_PARAM": CONFIGURATION["rob"]}
+            {"ROB_PARAM": CONFIGURATION["rob"]},
+            {"move_group_ns": ""}
         ],
     )
     
@@ -497,7 +506,8 @@ def generate_launch_description():
             robot_description_kinematics, 
         
             {"use_sim_time": True}, 
-            {"ROB_PARAM": CONFIGURATION["rob"]}
+            {"ROB_PARAM": CONFIGURATION["rob"]},
+            {"move_group_ns": ""}
         ],
     )
     

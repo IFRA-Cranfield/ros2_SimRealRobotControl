@@ -34,7 +34,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="EE_ros2control" params="" >
+  <xacro:macro name="EE_ros2control" params="prefix" >
 
   <!-- EMPTY URDF, since the VGR does not have any gripper movement in Gazebo. -->
 

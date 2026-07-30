@@ -45,6 +45,9 @@
   <xacro:arg name="EE_name" default="none"/>
   <xacro:property name="EE_name" value="$(arg EE_name)"/>
 
+  <xacro:arg name="prefix" default=""/>
+  <xacro:property name="prefix" value="$(arg prefix)"/>
+
   <!-- Include XACRO-MACRO file of the IRB6640: -->
   <xacro:include filename="$(find ros2srrc_robots)/irb6640/urdf/irb6640_macro.urdf.xacro"/>	
   <xacro:irb6640 
@@ -52,10 +55,10 @@
     robot_ip="${robot_ip}"
     EE="${EE}"
     EE_name="${EE_name}"
-  />
+    prefix="${prefix}" />
 
   <!-- Include: IRB6640/GPP5010NC ADAPTER -->
-  <link name="adapter">
+  <link name="${prefix}adapter">
     <visual>
       <geometry>
         <mesh filename="file://$(find ros2srrc_endeffectors)/gpp5010nc/meshes/gpp5010nc_irb6640_Adapter.dae" />
@@ -72,18 +75,18 @@
       <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
     </inertial>
   </link>
-  <joint name="adapter_joint" type="fixed">
+  <joint name="${prefix}adapter_joint" type="fixed">
     <origin xyz="0.0 0 0.023" rpy="0 ${pi/2} ${pi}" />
-    <parent link="tool0"/>
-    <child link="adapter"/>
+    <parent link="${prefix}tool0"/>
+    <child link="${prefix}adapter"/>
   </joint>
 
   <!-- Include XACRO-MACRO file of the GPP5010NC: -->
   <xacro:include filename="$(find ros2srrc_endeffectors)/gpp5010nc/urdf/gpp5010nc_macro.urdf.xacro"/>	
   <xacro:gpp5010nc 
     bringup="${bringup}"
-    parent_link="adapter"
-  />
+    parent_link="${prefix}adapter"
+    prefix="${prefix}" />
 
   <!-- Load ROS 2 Gazebo Plugin -->
   <xacro:unless value="${bringup}">
@@ -106,7 +109,7 @@
   <link name="world"/>
   
   <!-- Robot Stand: LINK -->
-  <link name='robot_stand'>
+  <link name='${prefix}robot_stand'>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="10000"/>
@@ -127,16 +130,16 @@
   </link>
 
   <!-- Robot Stand: FIXED JOINT -->
-  <joint name="world_joint" type="fixed">
+  <joint name="${prefix}world_joint" type="fixed">
     <parent link="world" />
-    <child link = "robot_stand" />
+    <child link = "${prefix}robot_stand" />
     <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0" />
   </joint>
 
   <!-- Robot Stand: Robot+Stand JOINT -->
-  <joint name="stand_joint" type="fixed">
-    <parent link="robot_stand" />
-    <child link = "base_link" />
+  <joint name="${prefix}stand_joint" type="fixed">
+    <parent link="${prefix}robot_stand" />
+    <child link = "${prefix}base_link" />
     <origin xyz="0.0 0.0 0.255" rpy="0.0 0.0 0.0" /> 
   </joint>
 

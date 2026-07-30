@@ -35,13 +35,13 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- XACRO-MACRO of AR4 GRIPPER: -->
-  <xacro:macro name="ar4gripper" params="bringup parent_link">
+  <xacro:macro name="ar4gripper" params="bringup parent_link prefix">
 
     <xacro:unless value="${bringup}">  
       
       <!-- AR4 GRIPPER TRANSMISSION: -->
       <xacro:include filename="$(find ros2srrc_endeffectors)/ar4gripper/urdf/ar4gripper_transmission.xacro" />
-      <xacro:ar4gripper_transmission />
+      <xacro:ar4gripper_transmission prefix="${prefix}"/>
 
     </xacro:unless>
 
@@ -49,7 +49,7 @@
 
     <!-- GRIPPER BASE -->
 
-    <link name="gripper_base_link">
+    <link name="${prefix}gripper_base_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/ar4gripper/meshes/gripper_base_link.stl" />
@@ -70,15 +70,15 @@
       </inertial>
     </link>
 
-    <joint name="gripper_base_joint" type="fixed">
+    <joint name="${prefix}gripper_base_joint" type="fixed">
       <origin xyz="0.0 0.0 0.0" rpy="0.0 1.5708 -1.5708"/>
       <parent link="${parent_link}"/>
-      <child link="gripper_base_link"/>
+      <child link="${prefix}gripper_base_link"/>
     </joint>
 
     <!-- JAW-1 -->
     
-    <link name="gripper_jaw1_link">
+    <link name="${prefix}gripper_jaw1_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/ar4gripper/meshes/gripper_jaw1_link.stl" />
@@ -99,10 +99,10 @@
       </inertial>
     </link>
     
-    <joint name="gripper_jaw1_joint" type="prismatic">
+    <joint name="${prefix}gripper_jaw1_joint" type="prismatic">
       <origin xyz="0.0 -0.036 0" rpy="0.0 0.0 0.0"/>
-      <parent link="gripper_base_link"/>
-      <child link="gripper_jaw1_link"/>
+      <parent link="${prefix}gripper_base_link"/>
+      <child link="${prefix}gripper_jaw1_link"/>
       <axis xyz="-1 0 0"/>
       <limit lower="-0.0001" upper="0.0141" effort="1000" velocity="1.0"/>
       <dynamics damping="0.2" friction="0.05"/>
@@ -110,7 +110,7 @@
     
     <!-- JAW-2 -->
     
-    <link name="gripper_jaw2_link">
+    <link name="${prefix}gripper_jaw2_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros2srrc_endeffectors)/ar4gripper/meshes/gripper_jaw2_link.stl" />
@@ -131,10 +131,10 @@
       </inertial>
     </link>
     
-    <joint name="gripper_jaw2_joint" type="prismatic">
+    <joint name="${prefix}gripper_jaw2_joint" type="prismatic">
       <origin xyz="0.0 -0.036 0" rpy="0.0 ${-pi} 0.0"/>
-      <parent link="gripper_base_link"/>
-      <child link="gripper_jaw2_link"/>
+      <parent link="${prefix}gripper_base_link"/>
+      <child link="${prefix}gripper_jaw2_link"/>
       <axis xyz="-1 0 0"/>
       <limit lower="-0.0001" upper="0.0141" effort="1000" velocity="1.0"/>
       <dynamics damping="0.2" friction="0.05"/>
@@ -142,7 +142,7 @@
 
     <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
 
-    <link name="EE_ar4gripper">
+    <link name="${prefix}EE_ar4gripper">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <mass value="0.00001" />
@@ -155,13 +155,13 @@
       </visual>
     </link>
 
-    <joint name="EE_ar4gripper_joint" type="fixed" >
+    <joint name="${prefix}EE_ar4gripper_joint" type="fixed" >
       <parent link="${parent_link}" />
-      <child link="EE_ar4gripper" />
+      <child link="${prefix}EE_ar4gripper" />
       <origin xyz="-0.055 0.0 0.0" rpy="0 0 0"/>
     </joint>
 
-    <gazebo reference="EE_ar4gripper_joint">
+    <gazebo reference="${prefix}EE_ar4gripper_joint">
       <preserveFixedJoint>true</preserveFixedJoint>
     </gazebo>
     

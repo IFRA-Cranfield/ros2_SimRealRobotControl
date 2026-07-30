@@ -45,6 +45,9 @@
   <xacro:arg name="EE_name" default="none"/>
   <xacro:property name="EE_name" value="$(arg EE_name)"/>
 
+  <xacro:arg name="prefix" default=""/>
+  <xacro:property name="prefix" value="$(arg prefix)"/>
+
   <!-- UR10e Control ARGUMENTS -->
   <xacro:arg name="script_filename" default="none"/>
   <xacro:property name="script_filename" value="$(arg script_filename)"/>
@@ -64,14 +67,14 @@
     script_filename="${script_filename}"
     input_recipe_filename="${input_recipe_filename}"
     output_recipe_filename="${output_recipe_filename}"
-  />
+    prefix="${prefix}" />
 
   <!-- Include XACRO-MACRO file of the Robotiq 2f-85: -->
   <xacro:include filename="$(find ros2srrc_endeffectors)/robotiq_hande/urdf/robotiq_hande_macro.urdf.xacro"/>	
   <xacro:robotiq_hande
     bringup="${bringup}"
-    parent_link="tool0"
-  />
+    parent_link="${prefix}tool0"
+    prefix="${prefix}" />
 
   <!-- Load ROS 2 Gazebo Plugin -->
   <xacro:unless value="${bringup}">
@@ -94,7 +97,7 @@
   <link name="world"/>
   
   <!-- Robot Stand: LINK -->
-  <link name='robot_stand'>
+  <link name='${prefix}robot_stand'>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="100"/>
@@ -115,16 +118,16 @@
   </link>
 
   <!-- Robot Stand: FIXED JOINT -->
-  <joint name="world_joint" type="fixed">
+  <joint name="${prefix}world_joint" type="fixed">
     <parent link= "world" />
-    <child link = "robot_stand" />
+    <child link = "${prefix}robot_stand" />
     <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0" />
   </joint>
 
   <!-- Robot Stand: Robot+Stand JOINT -->
-  <joint name="stand_joint" type="fixed">
-    <parent link= "robot_stand" />
-    <child link = "base_link" />
+  <joint name="${prefix}stand_joint" type="fixed">
+    <parent link= "${prefix}robot_stand" />
+    <child link = "${prefix}base_link" />
     <origin xyz="0.0 0.0 0.255" rpy="0.0 0.0 0.0" /> 
   </joint>
 

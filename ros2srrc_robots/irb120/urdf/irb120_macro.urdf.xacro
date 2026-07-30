@@ -58,12 +58,13 @@
   <xacro:include filename="$(find ros2srrc_robots)/irb120/urdf/abb_resources/common_materials.xacro"/>
 
   <!-- XACRO-MACRO of ABB-IRB120: -->
-  <xacro:macro name="irb120" params="bringup robot_ip EE EE_name">
+  <xacro:macro name="irb120" params="bringup robot_ip EE EE_name prefix">
 
     <!-- ABB-IRB120 TRANSMISSION: -->
     <xacro:unless value="${bringup}">  
       <xacro:include filename="$(find ros2srrc_robots)/irb120/urdf/irb120_transmission.xacro" />
-      <xacro:irb120_transmission />
+      <xacro:irb120_transmission
+      prefix="${prefix}" />
     </xacro:unless>
 
     <!-- ABB-IRB120 GAZEBO - ROS2_CONTROL: -->
@@ -73,13 +74,13 @@
       robot_ip="${robot_ip}"
       EE="${EE}"
       EE_name="${EE_name}"
-    />
+      prefix="${prefix}" />
 
     <!-- ***** ABB-IRB120 ROBOT .urdf SERIAL CHAIN ***** -->
 
     <!-- Link list: -->
     <!-- base_link -->
-    <link name="base_link">
+    <link name="${prefix}base_link">
       <inertial>
         <mass value="6.215"/>
         <origin xyz="-0.04204 8.01E-05 0.07964" rpy="0 0 0"/>
@@ -101,7 +102,7 @@
     </link>
 
     <!-- link_1 -->
-    <link name="link_1">
+    <link name="${prefix}link_1">
       <inertial>
         <mass value="3.067" />
         <origin xyz="9.77E-05 -0.00012 0.23841" rpy="0 0 0"/>
@@ -123,7 +124,7 @@
     </link>
 
     <!-- link_2 -->
-    <link name="link_2">
+    <link name="${prefix}link_2">
       <inertial>
         <mass value="3.909"/>
         <origin xyz="0.00078 -0.00212 0.10124" rpy="0 0 0"/>
@@ -145,7 +146,7 @@
     </link>
 
     <!-- link_3 -->
-    <link name="link_3">
+    <link name="${prefix}link_3">
       <inertial>
         <mass value="2.944"/>
         <origin xyz="0.02281 0.00106 0.05791" rpy="0 0 0"/>
@@ -167,7 +168,7 @@
     </link>
 
     <!-- link_4 -->
-    <link name="link_4">
+    <link name="${prefix}link_4">
       <inertial>
         <mass value="1.328"/>
         <origin xyz="0.2247 0.00015 0.00041" rpy="0 0 0"/>
@@ -189,7 +190,7 @@
     </link>
 
     <!-- link_5 -->
-    <link name="link_5">
+    <link name="${prefix}link_5">
       <inertial>
         <mass value="0.546"/>
         <origin xyz="-0.00109 3.68E-05 6.22E-05" rpy="0 0 0"/>
@@ -211,7 +212,7 @@
     </link>
 
     <!-- link_6 -->
-    <link name="link_6">
+    <link name="${prefix}link_6">
       <inertial>
         <mass value="0.137"/>
         <origin xyz="-0.00706 -0.00017 -1.32E-06" rpy="0 0 0"/>
@@ -235,60 +236,60 @@
 
     <!-- Joint list: -->
     <!-- joint_1 -->
-    <joint name="joint_1" type="revolute">
+    <joint name="${prefix}joint_1" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0"/>
-      <parent link="base_link"/>
-      <child link="link_1"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}link_1"/>
       <limit effort="1000" lower="-2.87979" upper="2.87979" velocity="4.36332"/>
       <axis xyz="0 0 1"/>
       <dynamics damping="1.0" friction="0.0"/>
     </joint>
 
     <!-- joint_2 -->
-    <joint name="joint_2" type="revolute">
+    <joint name="${prefix}joint_2" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0.29"/>
-      <parent link="link_1"/>
-      <child link="link_2"/>
+      <parent link="${prefix}link_1"/>
+      <child link="${prefix}link_2"/>
       <limit effort="1000" lower="-1.91986" upper="1.91986" velocity="4.36332"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.5" friction="0.0"/>
     </joint>
 
     <!-- joint_3 -->
-    <joint name="joint_3" type="revolute">
+    <joint name="${prefix}joint_3" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0.27"/>
-      <parent link="link_2"/>
-      <child link="link_3"/>
+      <parent link="${prefix}link_2"/>
+      <child link="${prefix}link_3"/>
       <limit effort="1000" lower="-1.91986" upper="1.22173" velocity="4.36332"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.3" friction="0.0"/>
     </joint>
 
     <!-- joint_4 -->
-    <joint name="joint_4" type="revolute">
+    <joint name="${prefix}joint_4" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0.07"/>
-      <parent link="link_3"/>
-      <child link="link_4"/>
+      <parent link="${prefix}link_3"/>
+      <child link="${prefix}link_4"/>
       <limit effort="1000" lower="-2.79253" upper="2.79253" velocity="5.58505"/>
       <axis xyz="1 0 0"/>
       <dynamics damping="0.1" friction="0.0"/>
     </joint>
 
     <!-- joint_5 -->
-    <joint name="joint_5" type="revolute">
+    <joint name="${prefix}joint_5" type="revolute">
       <origin rpy="0 0 0" xyz="0.302 0 0"/>
-      <parent link="link_4"/>
-      <child link="link_5"/>
+      <parent link="${prefix}link_4"/>
+      <child link="${prefix}link_5"/>
       <limit effort="1000" lower="-2.094395" upper="2.094395" velocity="5.58505"/>
       <axis xyz="0 1 0"/>
       <dynamics damping="0.05" friction="0.0"/>
     </joint>
 
     <!-- joint_6 -->
-    <joint name="joint_6" type="revolute">
+    <joint name="${prefix}joint_6" type="revolute">
       <origin rpy="0 0 0" xyz="0.072 0 0"/>
-      <parent link="link_5"/>
-      <child link="link_6"/>
+      <parent link="${prefix}link_5"/>
+      <child link="${prefix}link_6"/>
       <limit effort="1000" lower="-6.98132" upper="6.98132" velocity="7.33038"/>
       <axis xyz="1 0 0"/>
       <dynamics damping="0.01" friction="0.0"/>
@@ -296,27 +297,27 @@
     <!-- end of joint list -->
 
     <!-- ROS-Industrial 'base' frame: base_link to ABB World Coordinates transform -->
-    <link name="base" />
-    <joint name="base_link-base" type="fixed">
+    <link name="${prefix}base" />
+    <joint name="${prefix}base_link-base" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="base_link"/>
-      <child link="base"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base"/>
     </joint>
 
     <!-- ROS-Industrial 'flange' frame: attachment point for EEF models -->
-    <link name="flange"/>
-    <joint type="fixed" name="joint_6-flange">
+    <link name="${prefix}flange"/>
+    <joint type="fixed" name="${prefix}joint_6-flange">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="link_6"/>
-      <child link="flange"/>
+      <parent link="${prefix}link_6"/>
+      <child link="${prefix}flange"/>
     </joint>
 
     <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
-    <link name="tool0" />
-    <joint name="link_6-tool0" type="fixed">
+    <link name="${prefix}tool0" />
+    <joint name="${prefix}link_6-tool0" type="fixed">
       <origin xyz="0 0 0" rpy="0 ${radians(90)} 0" />
-      <parent link="flange" />
-      <child link="tool0" />
+      <parent link="${prefix}flange" />
+      <child link="${prefix}tool0" />
     </joint>
 
   </xacro:macro>

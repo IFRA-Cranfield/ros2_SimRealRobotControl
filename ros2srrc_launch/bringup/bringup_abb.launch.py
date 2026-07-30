@@ -173,6 +173,7 @@ def generate_launch_description():
     xacro.process_doc(doc, mappings={
         "EE": EE,
         "EE_name": CONFIGURATION["ee"],
+        "prefix": "",
 
         "robot_ip": robot_ip,
         "bringup": "true"
@@ -228,9 +229,14 @@ def generate_launch_description():
     # *** PLANNING CONTEXT *** #
     # Robot description, SRDF:
     if EE == "false":
-        robot_description_semantic_config = load_file("ros2srrc_moveit", "config/" + CONFIGURATION["rob"] + ".srdf")
+        srdf_file = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config", CONFIGURATION["rob"] + ".srdf")
     else:
-        robot_description_semantic_config = load_file("ros2srrc_moveit", "config/" + CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".srdf")
+        srdf_file = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config", CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".srdf")
+
+    srdf_doc = xacro.parse(open(srdf_file))
+    xacro.process_doc(srdf_doc, mappings={"prefix": "", "name": CONFIGURATION["rob"]})
+    srdf_doc.documentElement.setAttribute("name", CONFIGURATION["rob"])
+    robot_description_semantic_config = srdf_doc.toxml()
     
     robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config}
 
@@ -302,11 +308,11 @@ def generate_launch_description():
     )
 
     # RVIZ:
-    rviz_base = os.path.join(get_package_share_directory("ros2srrc_moveit"), "config")
-    if EE == "false":
-        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + ".rviz")
-    else:
-        rviz_full_config = os.path.join(rviz_base, CONFIGURATION["rob"] + "_" + CONFIGURATION["ee"] + ".rviz")
+    rviz_full_config = os.path.join(
+        get_package_share_directory("ros2srrc_moveit"),
+        "config",
+        "ros2srrc.rviz",
+    )
 
     rviz_node_full = Node(
         package="rviz2",
@@ -363,7 +369,8 @@ def generate_launch_description():
             
             {"ROB_PARAM": CONFIGURATION["rob"]}, 
             {"EE_PARAM": "none"}, 
-            {"ENV_PARAM": "bringup"}
+            {"ENV_PARAM": "bringup"},
+            {"move_group_ns": ""}
         ],
     )
     # RobMove and RobPose:
@@ -377,7 +384,8 @@ def generate_launch_description():
             robot_description_semantic, 
             kinematics_yaml, 
             
-            {"ROB_PARAM": CONFIGURATION["rob"]}
+            {"ROB_PARAM": CONFIGURATION["rob"]},
+            {"move_group_ns": ""}
         ],
     )
     RobPoseInterface = Node(
@@ -390,7 +398,8 @@ def generate_launch_description():
             robot_description_semantic, 
             kinematics_yaml, 
             
-            {"ROB_PARAM": CONFIGURATION["rob"]}
+            {"ROB_PARAM": CONFIGURATION["rob"]},
+            {"move_group_ns": ""}
         ],
     )
 

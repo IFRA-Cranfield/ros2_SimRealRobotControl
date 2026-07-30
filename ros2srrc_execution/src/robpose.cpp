@@ -50,14 +50,15 @@ using namespace std::chrono_literals;
 // Declaration of GLOBAL VARIABLE --> MoveIt!2 Interface:
 std::unique_ptr<moveit::planning_interface::MoveGroupInterface> move_group_interface_ROB;
 
-// Declaration of GLOBAL VARIABLE --> ROBOT PARAMETER:
+// Declaration of GLOBAL VARIABLES --> ROBOT and PREFIX PARAMETERS:
 std::string param_ROB = "none";
+std::string param_mgNS = "";
 
 // Declaration of GLOBAL VARIABLE --> ROBOT POSE:
 ros2srrc_data::msg::Robpose POSE; 
 
 // =============================================================================== //
-//  PARAM -> ROBOT:
+//  PARAM -> ROBOT, MoveGroup_Namespace:
 
 class ros2_RobotParam : public rclcpp::Node
 {
@@ -71,6 +72,18 @@ public:
 private:
 };
 
+class ros2_mgNSParam : public rclcpp::Node
+{
+public:
+    ros2_mgNSParam() : Node("ros2_mgNSParam")
+    {
+        this->declare_parameter("move_group_ns", "");
+        param_mgNS = this->get_parameter("move_group_ns").get_parameter_value().get<std::string>();
+        RCLCPP_INFO(this->get_logger(), "mgNS_PARAM received -> %s", param_mgNS.c_str());
+    }
+private:
+};
+
 // =============================================================================== //
 //  PUB -> ROBOT POSE:
 
@@ -78,9 +91,9 @@ class RobPose_PUB : public rclcpp::Node
 {
 public:
   RobPose_PUB()
-  : Node("ros2srrc_RobPosePUB"), count_(0)
+  : Node("ros2srrc_RobPosePUB_" + param_mgNS), count_(0)
   {
-    publisher_ = this->create_publisher<ros2srrc_data::msg::Robpose>("Robpose", 10);
+    publisher_ = this->create_publisher<ros2srrc_data::msg::Robpose>(param_mgNS + "/Robpose", 10);
     timer_ = this->create_wall_timer(50ms, std::bind(&RobPose_PUB::timer_callback, this));
   }
 
@@ -117,9 +130,11 @@ int main(int argc, char **argv)
 
     auto node_LOGGER = std::make_shared<rclcpp::Node>("MOVE_INTERFACE_log");
     
-    // Obtain ROBOT parameter:
+    // Obtain ROBOT + MG_NS parameters:
     auto node_PARAM_ROB = std::make_shared<ros2_RobotParam>();
     rclcpp::spin_some(node_PARAM_ROB);
+    auto node_PARAM_mgNS = std::make_shared<ros2_mgNSParam>();
+    rclcpp::spin_some(node_PARAM_mgNS);
 
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
     auto name = "ros2srrc_RobPose";
@@ -132,12 +147,18 @@ int main(int argc, char **argv)
 
     // MoveGroupInterface_ROB:
     using moveit::planning_interface::MoveGroupInterface;
-    auto ROBname = param_ROB + "_arm";
-    move_group_interface_ROB = std::make_unique<MoveGroupInterface>(MoveIt2_NODE, ROBname);
+    std::string prefix = "";
+    if (param_mgNS != ""){
+        prefix = param_mgNS + "_";
+    }
+
+    auto ROBname = prefix + param_ROB + "_arm";
+    MoveGroupInterface::Options opts(ROBname, "robot_description", param_mgNS);
+    move_group_interface_ROB = std::make_unique<MoveGroupInterface>(MoveIt2_NODE, opts);
 
     RCLCPP_INFO(node_LOGGER->get_logger(),
                 "MoveGroupInterface object created for ROBOT: %s",
-                param_ROB.c_str());
+                ROBname.c_str());
 
     // SPIN PUBLISHER:
     rclcpp::spin(std::make_shared<RobPose_PUB>());
