@@ -421,7 +421,9 @@ private:
                     auto controller_names = ee_controller_names;
                     if (!param_mgNS.empty()) {
                         for (auto& controller_name : controller_names) {
-                            controller_name = param_mgNS + "/" + controller_name;
+                            if (controller_name.empty() || controller_name.front() != '/') {
+                                controller_name = param_mgNS + "/" + controller_name;
+                            }
                         }
                     }
 

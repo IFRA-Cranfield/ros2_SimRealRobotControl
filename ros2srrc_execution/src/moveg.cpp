@@ -115,9 +115,15 @@ bool send_gripper_commands(
     }
 
     for (std::size_t i = 0; i < controller_names.size(); ++i){
+        std::string controller_action_name = controller_names[i];
+        if (controller_action_name.empty() || controller_action_name.front() != '/') {
+            controller_action_name = "/" + controller_action_name;
+        }
+        controller_action_name += "/" + action_namespaces[i];
+
         auto client = rclcpp_action::create_client<GripperCommand>(
             node,
-            "/" + controller_names[i] + "/" + action_namespaces[i]);
+            controller_action_name);
 
         if (!client->wait_for_action_server(std::chrono::seconds(2))) {
             RCLCPP_ERROR(node->get_logger(), "Gripper action server not available: %s", controller_names[i].c_str());
