@@ -31,12 +31,17 @@
 #include "ros2srrc_execution/moveg.h"
 
 // Include standard libraries:
+#include <chrono>
+#include <cmath>
+#include <future>
+#include <memory>
 #include <string>
 #include <vector>
 
 // Include RCLCPP and RCLCPP_ACTION:
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
+#include "control_msgs/action/gripper_command.hpp"
 
 // Include MoveIt!2:
 #include <moveit/move_group_interface/move_group_interface.hpp>
@@ -69,7 +74,14 @@ MoveGSTRUCT MoveGAction (double VAL, std::vector<double> JP, ros2srrc_data::msg:
     };
 
     // 2. CONVERT -> VAL to GripperPose value (GP):
-    double GP = (GPMax - GPMin) * (VAL/100.0);
+    double GPRange = GPMax - GPMin;
+    double GPLimitMargin = std::abs(GPRange) * 0.001;
+    double GP = GPMin + GPRange * (VAL/100.0);
+    if (VAL >= 100.0){
+        GP = GPMax - GPLimitMargin;
+    } else if (VAL <= 0.0){
+        GP = GPMin + GPLimitMargin;
+    }
 
     // 3. SET GRIPPER POSE vector:
     for (std::size_t i = 0; i < JP.size(); ++i){
@@ -83,3 +95,84 @@ MoveGSTRUCT MoveGAction (double VAL, std::vector<double> JP, ros2srrc_data::msg:
     return(RESULT);
 
 };
+
+bool send_gripper_commands(
+    rclcpp::Node* node,
+    const std::vector<std::string>& controller_names,
+    const std::vector<std::string>& action_namespaces,
+    const std::vector<double>& positions,
+    double max_effort)
+{
+    using GripperCommand = control_msgs::action::GripperCommand;
+    using GripperGoalHandle = rclcpp_action::ClientGoalHandle<GripperCommand>;
+
+    std::vector<rclcpp_action::Client<GripperCommand>::SharedPtr> clients;
+    std::vector<std::shared_future<typename GripperGoalHandle::SharedPtr>> goal_futures;
+
+    if (controller_names.size() != action_namespaces.size() || controller_names.size() != positions.size()){
+        RCLCPP_ERROR(node->get_logger(), "Gripper command inputs do not have matching sizes.");
+        return false;
+    }
+
+    for (std::size_t i = 0; i < controller_names.size(); ++i){
+        auto client = rclcpp_action::create_client<GripperCommand>(
+            node,
+            "/" + controller_names[i] + "/" + action_namespaces[i]);
+
+        if (!client->wait_for_action_server(std::chrono::seconds(2))) {
+            RCLCPP_ERROR(node->get_logger(), "Gripper action server not available: %s", controller_names[i].c_str());
+            return false;
+        }
+
+        GripperCommand::Goal command_goal;
+        command_goal.command.position = positions[i];
+        command_goal.command.max_effort = max_effort;
+
+        clients.push_back(client);
+        goal_futures.push_back(client->async_send_goal(command_goal));
+    }
+
+    struct AcceptedGoal {
+        rclcpp_action::Client<GripperCommand>::SharedPtr client;
+        typename GripperGoalHandle::SharedPtr goal_handle;
+        std::string controller_name;
+    };
+
+    std::vector<AcceptedGoal> accepted_goals;
+    bool success = true;
+
+    for (std::size_t i = 0; i < goal_futures.size(); ++i){
+        if (goal_futures[i].wait_for(std::chrono::seconds(5)) != std::future_status::ready) {
+            RCLCPP_ERROR(node->get_logger(), "Timed out sending gripper goal: %s", controller_names[i].c_str());
+            success = false;
+            continue;
+        }
+
+        auto goal_handle = goal_futures[i].get();
+        if (!goal_handle) {
+            RCLCPP_ERROR(node->get_logger(), "Gripper goal rejected: %s", controller_names[i].c_str());
+            success = false;
+            continue;
+        }
+
+        accepted_goals.push_back({clients[i], goal_handle, controller_names[i]});
+    }
+
+    std::vector<std::shared_future<typename GripperGoalHandle::WrappedResult>> result_futures;
+    for (const auto& accepted_goal : accepted_goals){
+        result_futures.push_back(accepted_goal.client->async_get_result(accepted_goal.goal_handle));
+    }
+
+    for (std::size_t i = 0; i < result_futures.size(); ++i){
+        if (result_futures[i].wait_for(std::chrono::seconds(10)) != std::future_status::ready) {
+            RCLCPP_ERROR(node->get_logger(), "Timed out waiting for gripper result: %s", accepted_goals[i].controller_name.c_str());
+            accepted_goals[i].client->async_cancel_goal(accepted_goals[i].goal_handle);
+            success = false;
+            continue;
+        }
+
+        success = (result_futures[i].get().code == rclcpp_action::ResultCode::SUCCEEDED) && success;
+    }
+
+    return success;
+}

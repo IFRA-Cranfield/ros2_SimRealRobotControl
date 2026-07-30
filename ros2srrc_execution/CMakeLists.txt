@@ -26,6 +26,13 @@ endif()
 # =========================================================== #
 # REQUIRED TO EXECUTE .cpp scripts -> move.cpp:
 
+# MoveIt 2.12.4 on Jazzy exports some targets that reference tl::expected,
+# while the ROS tl_expected package currently exports tl_expected::tl_expected.
+find_package(tl_expected REQUIRED)
+if(TARGET tl_expected::tl_expected AND NOT TARGET tl::expected)
+  add_library(tl::expected ALIAS tl_expected::tl_expected)
+endif()
+
 # REQUIRED to -> Launch move_group interface:
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -35,6 +42,7 @@ find_package(ros2srrc_data REQUIRED)
 
 # REQUIRED to -> Execute ACTIONS:
 find_package(rclcpp_action REQUIRED)
+find_package(control_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 
 # REQUIRED to -> Read YAML files:
@@ -97,6 +105,7 @@ ament_target_dependencies(
   rclcpp
   moveit_ros_planning_interface
   std_msgs
+  control_msgs
   rclcpp_action
   ros2srrc_data
   abb_robot_msgs

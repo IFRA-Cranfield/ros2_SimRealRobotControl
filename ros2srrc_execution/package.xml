@@ -19,6 +19,7 @@
   <depend>action_msgs</depend>
   <depend>rclcpp</depend>
   <depend>rclcpp_action</depend>
+  <depend>control_msgs</depend>
   <depend>std_msgs</depend>
 
   <depend>ros2srrc_data</depend>

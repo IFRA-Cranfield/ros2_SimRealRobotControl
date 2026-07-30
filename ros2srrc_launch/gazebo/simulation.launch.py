@@ -101,14 +101,22 @@ def GetEEctr(EEName):
     
     RESULT = []
 
-    PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
-    YAML_PATH = PATH + "/controller_moveit2.yaml"
+    YAML_PATH = os.path.join(
+        get_package_share_directory("ros2srrc_endeffectors"),
+        EEName,
+        "config",
+        "controller.yaml"
+    )
     
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
-    for x in cYAML["controller_names"]:
-        RESULT.append(x)
+    ros_parameters = cYAML["controller_manager"]["ros__parameters"]
+    for controller_name, controller_config in ros_parameters.items():
+        if isinstance(controller_config, dict):
+            controller_type = controller_config.get("type", "")
+            if "GripperActionController" in controller_type:
+                RESULT.append(controller_name)
 
     return(RESULT)
 

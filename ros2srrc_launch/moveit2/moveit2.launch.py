@@ -101,14 +101,22 @@ def GetEEctr(EEName):
     
     RESULT = []
 
-    PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
-    YAML_PATH = PATH + "/controller_moveit2.yaml"
+    YAML_PATH = os.path.join(
+        get_package_share_directory("ros2srrc_endeffectors"),
+        EEName,
+        "config",
+        "controller.yaml"
+    )
     
     with open(YAML_PATH, 'r') as YAML:
         cYAML = yaml.safe_load(YAML)
 
-    for x in cYAML["controller_names"]:
-        RESULT.append(x)
+    ros_parameters = cYAML["controller_manager"]["ros__parameters"]
+    for controller_name, controller_config in ros_parameters.items():
+        if isinstance(controller_config, dict):
+            controller_type = controller_config.get("type", "")
+            if "GripperActionController" in controller_type:
+                RESULT.append(controller_name)
 
     return(RESULT)
 
@@ -311,13 +319,7 @@ def generate_launch_description():
     robot_description_kinematics = {"robot_description_kinematics": kinematics_yaml}
 
     # joint_limits.yaml file & pilz_cartesian_limits.yaml file:
-    if (EE == "false") or (EE == "true-NOctr"):
-        joint_limits_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/joint_limits.yaml")
-    else:
-        YAML_ROB = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/joint_limits.yaml")["joint_limits"]
-        YAML_EE = load_yaml("ros2srrc_endeffectors", CONFIGURATION["ee"] + "/config/joint_limits.yaml")["joint_limits"]
-        joint_limits_yaml = {}
-        joint_limits_yaml["joint_limits"] = YAML_ROB | YAML_EE
+    joint_limits_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/joint_limits.yaml")
     
     pilz_cartesian_limits_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/pilz_cartesian_limits.yaml")
 
@@ -345,14 +347,7 @@ def generate_launch_description():
     }
 
     # MoveIt!2 Controllers:
-    if (EE == "false") or (EE == "true-NOctr"):
-        moveit_simple_controllers_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/controller_moveit2.yaml")
-    else:
-        YAML_ROB = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/controller_moveit2.yaml")
-        YAML_EE = load_yaml("ros2srrc_endeffectors", CONFIGURATION["ee"] + "/config/controller_moveit2.yaml")
-        for x in YAML_ROB["controller_names"]:
-            YAML_EE["controller_names"].append(x)
-        moveit_simple_controllers_yaml = YAML_ROB | YAML_EE
+    moveit_simple_controllers_yaml = load_yaml("ros2srrc_robots", CONFIGURATION["rob"] + "/config/controller_moveit2.yaml")
 
     # MoveIt!2 Parameters:
     moveit_controllers = {
@@ -442,7 +437,18 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, robot_description_kinematics, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": CONFIGURATION["ee"]}, {"ENV_PARAM": "gazebo"}],
+            parameters=[
+                robot_description,
+                robot_description_semantic,
+                robot_description_kinematics,
+                
+                {"use_sim_time": True},
+                {"ROB_PARAM": CONFIGURATION["rob"]},
+                {"EE_PARAM": CONFIGURATION["ee"]},
+                {"ENV_PARAM": "gazebo"},
+                {"EE_CONTROLLER_NAMES": CONTROLLERS},
+                {"EE_CONTROLLER_ACTION_NAMESPACES": ["gripper_cmd"] * len(CONTROLLERS)},
+            ],
         )
 
     else:
@@ -452,7 +458,16 @@ def generate_launch_description():
             package="ros2srrc_execution",
             executable="move",
             output="screen",
-            parameters=[robot_description, robot_description_semantic, robot_description_kinematics, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": "none"}, {"ENV_PARAM": "gazebo"}],
+            parameters=[
+                robot_description, 
+                robot_description_semantic, 
+                robot_description_kinematics, 
+                
+                {"use_sim_time": True}, 
+                {"ROB_PARAM": CONFIGURATION["rob"]}, 
+                {"EE_PARAM": "none"}, 
+                {"ENV_PARAM": "gazebo"}
+            ],
         )
 
     # RobMove and RobPose:
@@ -461,14 +476,29 @@ def generate_launch_description():
         package="ros2srrc_execution",
         executable="robmove",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, robot_description_kinematics, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}],
+        parameters=[
+            robot_description, 
+            robot_description_semantic, 
+            robot_description_kinematics, 
+            
+            {"use_sim_time": True}, 
+            {"ROB_PARAM": CONFIGURATION["rob"]}
+        ],
     )
+    
     RobPoseInterface = Node(
         name="robpose",
         package="ros2srrc_execution",
         executable="robpose",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, robot_description_kinematics, {"use_sim_time": True}, {"ROB_PARAM": CONFIGURATION["rob"]}],
+        parameters=[
+            robot_description, 
+            robot_description_semantic, 
+            robot_description_kinematics, 
+        
+            {"use_sim_time": True}, 
+            {"ROB_PARAM": CONFIGURATION["rob"]}
+        ],
     )
     
     # =============================================== #

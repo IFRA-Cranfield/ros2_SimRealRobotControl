@@ -76,11 +76,9 @@ std::string param_ENV = "none";
 
 // Declaration of GLOBAL VARIABLES --> MoveIt!2 Interface:
 std::unique_ptr<moveit::planning_interface::MoveGroupInterface> move_group_interface_ROB;
-std::unique_ptr<moveit::planning_interface::MoveGroupInterface> move_group_interface_EE;
 
 // Declaration of GLOBAL VARIABLES --> JointModelGroup:
 const moveit::core::JointModelGroup* joint_model_group_ROB;
-const moveit::core::JointModelGroup* joint_model_group_EE;
 
 // Declaration of GLOBAL VARIABLE --> RES:
 std::string RES = "none";
@@ -88,6 +86,8 @@ std::string RES = "none";
 // Declaration of GLOBAL VARIABLES --> robotSPECS and eeSPECS:
 ros2srrc_data::msg::Specs robotSPECS;
 ros2srrc_data::msg::Specs eeSPECS;
+std::vector<std::string> ee_controller_names;
+std::vector<std::string> ee_controller_action_namespaces;
 
 // ======================================================================================================================== //
 // ==================== PARAM: ROBOT + END-EFFECTOR ==================== //
@@ -109,8 +109,16 @@ class ros2_EEParam : public rclcpp::Node
 public:
     ros2_EEParam() : Node("ros2_EEParam") 
     {
+        const std::vector<std::string> empty_string_vector;
         this->declare_parameter("EE_PARAM", "none");
+        this->declare_parameter("EE_CONTROLLER_NAMES", empty_string_vector);
+        this->declare_parameter("EE_CONTROLLER_ACTION_NAMESPACES", empty_string_vector);
         param_EE = this->get_parameter("EE_PARAM").get_parameter_value().get<std::string>();
+        ee_controller_names = this->get_parameter("EE_CONTROLLER_NAMES").get_parameter_value().get<std::vector<std::string>>();
+        ee_controller_action_namespaces = this->get_parameter("EE_CONTROLLER_ACTION_NAMESPACES").get_parameter_value().get<std::vector<std::string>>();
+        if (ee_controller_action_namespaces.empty() && !ee_controller_names.empty()){
+            ee_controller_action_namespaces.assign(ee_controller_names.size(), "gripper_cmd");
+        }
         RCLCPP_INFO(this->get_logger(), "EE_PARAM received -> %s", param_EE.c_str());
     }
 private:
@@ -140,26 +148,6 @@ moveit::planning_interface::MoveGroupInterface::Plan plan_ROB() {
     }
 
 };
-// END-EFFECTOR:
-moveit::planning_interface::MoveGroupInterface::Plan plan_EE() {
-    
-    moveit::planning_interface::MoveGroupInterface::Plan my_plan;
-    bool success = (move_group_interface_EE->plan(my_plan) == moveit_msgs::msg::MoveItErrorCodes::SUCCESS);
-
-    // Execute the plan
-    if (success)
-    {
-        RES = "PLANNING: OK";
-        return(my_plan);
-    }
-    else
-    {
-        RES = "PLANNING: ERROR (EE)";
-        return(my_plan);
-    }
-    
-};
-
 
 // ======================================================================================================================== //
 // ==================== ACTION SERVER CLASS ==================== //
@@ -191,6 +179,8 @@ private:
         const rclcpp_action::GoalUUID & uuid,
         std::shared_ptr<const Move::Goal> goal)
     {
+        (void)uuid;
+
         // 1. Obtain ACTION type + speed:
         std::string action;
         action = goal->action;
@@ -199,9 +189,68 @@ private:
         // 2. Assign VARIABLE TYPE accordingly, and notify:
         if (action == "MoveJ"){
             auto MoveJGoal = goal->movej;
-            RCLCPP_INFO(this->get_logger(), "Received a GOAL REQUEST: MoveJ Action -> (%.2f,%.2f,%.2f,%.2f,%.2f,%.2f)",MoveJGoal.joint1,MoveJGoal.joint2,MoveJGoal.joint3,MoveJGoal.joint4,MoveJGoal.joint5,MoveJGoal.joint6);
+            RCLCPP_INFO(
+                this->get_logger(),
+                "Received a GOAL REQUEST: MoveJ Action -> speed: %.2f, joints: (%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f)",
+                speed,
+                MoveJGoal.joint1,
+                MoveJGoal.joint2,
+                MoveJGoal.joint3,
+                MoveJGoal.joint4,
+                MoveJGoal.joint5,
+                MoveJGoal.joint6,
+                MoveJGoal.joint7);
+        } else if (action == "MoveL"){
+            auto MoveLGoal = goal->movel;
+            RCLCPP_INFO(
+                this->get_logger(),
+                "Received a GOAL REQUEST: MoveL Action -> speed: %.2f, xyz: (%.2f, %.2f, %.2f)",
+                speed,
+                MoveLGoal.x,
+                MoveLGoal.y,
+                MoveLGoal.z);
+        } else if (action == "MoveR"){
+            auto MoveRGoal = goal->mover;
+            RCLCPP_INFO(
+                this->get_logger(),
+                "Received a GOAL REQUEST: MoveR Action -> speed: %.2f, joint: %s, value: %.2f",
+                speed,
+                MoveRGoal.joint.c_str(),
+                MoveRGoal.value);
+        } else if (action == "MoveROT"){
+            auto MoveROTGoal = goal->moverot;
+            RCLCPP_INFO(
+                this->get_logger(),
+                "Received a GOAL REQUEST: MoveROT Action -> speed: %.2f, ypr: (%.2f, %.2f, %.2f)",
+                speed,
+                MoveROTGoal.yaw,
+                MoveROTGoal.pitch,
+                MoveROTGoal.roll);
+        } else if (action == "MoveRP"){
+            auto MoveRPGoal = goal->moverp;
+            RCLCPP_INFO(
+                this->get_logger(),
+                "Received a GOAL REQUEST: MoveRP Action -> speed: %.2f, xyzypr: (%.2f, %.2f, %.2f, %.2f, %.2f, %.2f)",
+                speed,
+                MoveRPGoal.x,
+                MoveRPGoal.y,
+                MoveRPGoal.z,
+                MoveRPGoal.yaw,
+                MoveRPGoal.pitch,
+                MoveRPGoal.roll);
+        } else if (action == "MoveG"){
+            RCLCPP_INFO(
+                this->get_logger(),
+                "Received a GOAL REQUEST: MoveG Action -> speed: %.2f, value: %.2f",
+                speed,
+                goal->moveg);
+        } else {
+            RCLCPP_INFO(
+                this->get_logger(),
+                "Received a GOAL REQUEST: %s Action -> speed: %.2f",
+                action.c_str(),
+                speed);
         }
-        // *** REST OF THE ACTIONS HERE *** //
 
         return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE; 
     }
@@ -227,9 +276,6 @@ private:
         // which stops any trajectory execution, if one is active.
         if (param_ROB != "none"){
             move_group_interface_ROB->stop();
-        }
-        if (param_EE != "none" && param_ENV != "bringup"){
-            move_group_interface_EE->stop();
         }
 
         (void)goal_handle;
@@ -347,22 +393,38 @@ private:
         } else if (action == "MoveG" && param_EE != "none"){
             
             // 1. Define JP VECTOR:
-            std::vector<double> JP;
-            moveit::core::RobotStatePtr current_state = move_group_interface_EE->getCurrentState(10);
-            current_state->copyJointGroupPositions(joint_model_group_EE, JP);
+            std::vector<double> JP(eeSPECS.ee_vector.size(), 0.0);
 
             // 2. CALL MoveGAction for CALCULATIONS:
             MoveGSTRUCT MoveGRES = MoveGAction(goal->moveg, JP, eeSPECS);
             JP = MoveGRES.JP;
-            move_group_interface_EE->setJointValueTarget(JP);
-            
-            // 3. Assign SPEED and PLANNING METHOD (PTP, LIN, CIRC):
-            move_group_interface_EE->setMaxVelocityScalingFactor(goal->speed);
-            move_group_interface_EE->setPlannerId("PTP");
 
-            // 4. PLAN:
             if (MoveGRES.RES == "LIMITS: OK"){
-                MyPlan = plan_EE();
+                if (ee_controller_names.empty()) {
+                    RES = "MoveG direct gripper control is not configured for this end-effector.";
+                } else if (ee_controller_action_namespaces.size() != ee_controller_names.size()) {
+                    RES = "MoveG controller action namespace count does not match controller count.";
+                } else if (ee_controller_names.size() != JP.size()) {
+                    RES = "MoveG controller count does not match end-effector joint specification count.";
+                } else {
+                    bool ExecSUCCESS = send_gripper_commands(
+                        this,
+                        ee_controller_names,
+                        ee_controller_action_namespaces,
+                        JP,
+                        0.0);
+
+                    if (ExecSUCCESS) {
+                        RCLCPP_INFO(this->get_logger(), "%s - %s: Movement executed!", param_EE.c_str(), action.c_str());
+                        result->result = action + ":SUCCESS";
+                    } else {
+                        RCLCPP_INFO(this->get_logger(), "%s - %s: Movement execution failed!", param_EE.c_str(), action.c_str());
+                        result->result = action + ":FAILED. Reason -> Gripper action execution error.";
+                    }
+                    goal_handle->succeed(result);
+                    RES = "none";
+                    return;
+                }
             } else {
                 RES = MoveGRES.RES;
             }
@@ -391,26 +453,8 @@ private:
                 goal_handle->succeed(result);
             }
 
-        } else if (RES == "PLANNING: OK (EE)"){
-            move_group_interface_EE->execute(MyPlan);
-
-            if (goal_handle->is_canceling()) {
-                RCLCPP_INFO(this->get_logger(), "Goal canceled.");
-                result->result = action + ":CANCELED";
-                goal_handle->canceled(result);
-                return;
-            } else {
-                RCLCPP_INFO(this->get_logger(), "%s - %s: Movement executed!", param_EE.c_str(), action.c_str());
-                result->result = action + ":SUCCESS";
-                goal_handle->succeed(result);
-            }
-            
         } else if (RES == "PLANNING: ERROR"){
             RCLCPP_INFO(this->get_logger(), "%s - %s: Planning failed!", param_ROB.c_str(), action.c_str());
-            result->result = action + ":FAILED. Reason -> Planning failed.";
-            goal_handle->succeed(result);
-        } else if (RES == "PLANNING: ERROR (EE)"){
-            RCLCPP_INFO(this->get_logger(), "%s - %s: Planning failed!", param_EE.c_str(), action.c_str());
             result->result = action + ":FAILED. Reason -> Planning failed.";
             goal_handle->succeed(result);
 
@@ -462,6 +506,7 @@ int main(int argc, char ** argv)
         eeSPECS.ee_max = SPECIFICATIONS["Limits"]["Max"].as<double>();
         eeSPECS.ee_min = SPECIFICATIONS["Limits"]["Min"].as<double>();
         eeSPECS.ee_vector =  SPECIFICATIONS["JointsVector"].as<std::vector<double>>();
+
     };
 
     // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
@@ -486,16 +531,7 @@ int main(int argc, char ** argv)
         joint_model_group_ROB = move_group_interface_ROB->getCurrentState()->getJointModelGroup(name);
         RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for ROBOT: %s", param_ROB.c_str());
     }
-    // 2. END-EFFECTOR:
-    if (param_EE != "none"){
-        move_group_interface_EE = std::make_unique<MoveGroupInterface>(node2, param_EE);
-        move_group_interface_EE->setPlanningPipelineId("pilz_industrial_motion_planner");
-        move_group_interface_EE->setMaxVelocityScalingFactor(1.0);
-        move_group_interface_EE->setMaxAccelerationScalingFactor(1.0);
-        joint_model_group_EE = move_group_interface_EE->getCurrentState()->getJointModelGroup(param_EE);
-        RCLCPP_INFO(node_LOGGER->get_logger(), "MoveGroupInterface object created for END-EFFECTOR: %s", param_EE.c_str());
-    }
-
+    
     // CREATE -> PlanningSceneInterface:
     using moveit::planning_interface::PlanningSceneInterface;
     auto planning_scene_interface = PlanningSceneInterface();

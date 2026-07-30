@@ -38,17 +38,6 @@
     <chain base_link="base_link" tip_link="EE_robotiq_hande"/>
   </group>
 
-  <group name="robotiq_hande">
-  
-    <!-- <joint name="robotiq_bracket_joint" /> -->
-    <joint name="robotiq_coupler_joint" />
-    <joint name="robotiq_hande_base_joint" />
-
-    <joint name="robotiq_hande_left_finger_joint" />
-    <joint name="robotiq_hande_right_finger_joint" />
-    
-  </group>
-
   <group_state group="ur3e_arm" name="home">
     <joint name="elbow_joint" value="0" />
     <joint name="shoulder_lift_joint" value="-1.5707" />
@@ -65,21 +54,6 @@
     <joint name="wrist_1_joint" value="-1.5707" />
     <joint name="wrist_2_joint" value="0" />
     <joint name="wrist_3_joint" value="0" />
-  </group_state>
-
-  <group_state name="GripperOpen" group="robotiq_hande">
-    <joint name="robotiq_hande_left_finger_joint" value="0" />
-    <joint name="robotiq_hande_right_finger_joint" value="0" />
-  </group_state>
-
-  <group_state name="GripperCloseHALF" group="robotiq_hande">
-    <joint name="robotiq_hande_left_finger_joint" value="0.0125" />
-    <joint name="robotiq_hande_right_finger_joint" value="0.0125" />
-  </group_state>
-
-  <group_state name="GripperCloseFULL" group="robotiq_hande">
-    <joint name="robotiq_hande_left_finger_joint" value="0.025" />
-    <joint name="robotiq_hande_right_finger_joint" value="0.025" />
   </group_state>
 
   <virtual_joint child_link="base_link" name="virtual_joint" parent_frame="world" type="fixed"/>

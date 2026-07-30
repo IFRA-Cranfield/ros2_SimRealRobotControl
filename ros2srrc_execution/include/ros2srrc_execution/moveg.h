@@ -56,4 +56,11 @@ struct MoveGSTRUCT {
 
 MoveGSTRUCT MoveGAction(double VAL, std::vector<double> JP, ros2srrc_data::msg::Specs SPECIFICATIONS);
 
+bool send_gripper_commands(
+    rclcpp::Node* node,
+    const std::vector<std::string>& controller_names,
+    const std::vector<std::string>& action_namespaces,
+    const std::vector<double>& positions,
+    double max_effort);
+
 #endif /* MOVEG_H */

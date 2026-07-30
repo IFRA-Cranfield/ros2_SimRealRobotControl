@@ -2,4 +2,4 @@
 Limits:
   Max: 0.80
   Min: 0.00
-JointsVector: [1.0, -1.0, 1.0, 1.0, -1.0, 1.0]
+JointsVector: [1.0, 1.0, 1.0, 1.0, -1.0, -1.0]

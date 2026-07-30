@@ -95,22 +95,6 @@ def GetCONFIG(CONFIGURATION, PKG_PATH):
 
     return(RESULT)
 
-# GET EE-Controllers LIST:
-def GetEEctr(EEName):
-    
-    RESULT = []
-
-    PATH = os.path.join(os.path.expanduser('~'), 'dev_ws', 'src', 'ros2_SimRealRobotControl', 'ros2srrc_endeffectors', EEName, 'config')
-    YAML_PATH = PATH + "/controller_moveit2.yaml"
-    
-    with open(YAML_PATH, 'r') as YAML:
-        cYAML = yaml.safe_load(YAML)
-
-    for x in cYAML["controller_names"]:
-        RESULT.append(x)
-
-    return(RESULT)
-
 # ========== **GENERATE LAUNCH DESCRIPTION** ========== #
 def generate_launch_description():
 
@@ -372,7 +356,15 @@ def generate_launch_description():
         package="ros2srrc_execution",
         executable="move",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}, {"EE_PARAM": "none"}, {"ENV_PARAM": "bringup"}],
+        parameters=[
+            robot_description, 
+            robot_description_semantic, 
+            kinematics_yaml, 
+            
+            {"ROB_PARAM": CONFIGURATION["rob"]}, 
+            {"EE_PARAM": "none"}, 
+            {"ENV_PARAM": "bringup"}
+        ],
     )
     # RobMove and RobPose:
     RobMoveInterface = Node(
@@ -380,14 +372,26 @@ def generate_launch_description():
         package="ros2srrc_execution",
         executable="robmove",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}],
+        parameters=[
+            robot_description, 
+            robot_description_semantic, 
+            kinematics_yaml, 
+            
+            {"ROB_PARAM": CONFIGURATION["rob"]}
+        ],
     )
     RobPoseInterface = Node(
         name="robpose",
         package="ros2srrc_execution",
         executable="robpose",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": CONFIGURATION["rob"]}],
+        parameters=[
+            robot_description, 
+            robot_description_semantic, 
+            kinematics_yaml, 
+            
+            {"ROB_PARAM": CONFIGURATION["rob"]}
+        ],
     )
 
     # =============================================== #

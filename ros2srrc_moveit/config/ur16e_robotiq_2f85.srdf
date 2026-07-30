@@ -38,25 +38,6 @@
     <chain base_link="base_link" tip_link="EE_robotiq_2f85"/>
   </group>
 
-  <group name="robotiq_2f85">
-  
-    <joint name="robotiq_coupler_joint" />
-    <joint name="robotiq_85_base_joint" />
-
-    <joint name="robotiq_85_left_knuckle_joint" />
-    <joint name="robotiq_85_right_knuckle_joint" />
-
-    <joint name="robotiq_85_left_finger_joint" />
-    <joint name="robotiq_85_right_finger_joint" />
-
-    <joint name="robotiq_85_left_inner_knuckle_joint" />
-    <joint name="robotiq_85_right_inner_knuckle_joint" />
-
-    <joint name="robotiq_85_left_finger_tip_joint" />
-    <joint name="robotiq_85_right_finger_tip_joint" />
-    
-  </group>
-
   <group_state group="ur16e_arm" name="home">
     <joint name="elbow_joint" value="0" />
     <joint name="shoulder_lift_joint" value="-1.5707" />
@@ -73,33 +54,6 @@
     <joint name="wrist_1_joint" value="-1.5707" />
     <joint name="wrist_2_joint" value="0" />
     <joint name="wrist_3_joint" value="0" />
-  </group_state>
-
-  <group_state name="GripperOpen" group="robotiq_2f85">
-    <joint name="robotiq_85_left_knuckle_joint" value="0" />
-    <joint name="robotiq_85_right_knuckle_joint" value="0" />
-    <joint name="robotiq_85_left_inner_knuckle_joint" value="0" />
-    <joint name="robotiq_85_right_inner_knuckle_joint" value="0" />
-    <joint name="robotiq_85_left_finger_tip_joint" value="0" />
-    <joint name="robotiq_85_right_finger_tip_joint" value="0" />
-  </group_state>
-
-  <group_state name="GripperCloseHALF" group="robotiq_2f85">
-    <joint name="robotiq_85_left_knuckle_joint" value="0.5" />
-    <joint name="robotiq_85_right_knuckle_joint" value="0.5" />
-    <joint name="robotiq_85_left_inner_knuckle_joint" value="0.5" />
-    <joint name="robotiq_85_right_inner_knuckle_joint" value="0.5" />
-    <joint name="robotiq_85_left_finger_tip_joint" value="-0.5" />
-    <joint name="robotiq_85_right_finger_tip_joint" value="-0.5" />
-  </group_state>
-
-  <group_state name="GripperCloseFULL" group="robotiq_2f85">
-    <joint name="robotiq_85_left_knuckle_joint" value="0.8" />
-    <joint name="robotiq_85_right_knuckle_joint" value="0.8" />
-    <joint name="robotiq_85_left_inner_knuckle_joint" value="0.8" />
-    <joint name="robotiq_85_right_inner_knuckle_joint" value="0.8" />
-    <joint name="robotiq_85_left_finger_tip_joint" value="-0.8" />
-    <joint name="robotiq_85_right_finger_tip_joint" value="-0.8" />
   </group_state>
 
   <virtual_joint child_link="base_link" name="virtual_joint" parent_frame="world" type="fixed"/>
