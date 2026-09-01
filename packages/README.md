@@ -1,4 +1,4 @@
-# IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
+# IFRA-Cranfield: ROS 2 Sim-to-Real Robot Control
 
 ## Robot Simulation & Control: Standard ROS 2 Packages for different Robot Manipulators
 

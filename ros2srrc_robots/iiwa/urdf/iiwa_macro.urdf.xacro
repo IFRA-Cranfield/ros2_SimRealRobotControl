@@ -290,7 +290,7 @@
       <child link="${prefix}link_4"/>
       <axis xyz="0 -1 0"/>
       <limit effort="176" lower="-2.0942" upper="2.0942" velocity="1.3089"/>
-      <dynamics damping="10.0" friction="1.0"/> <!-- High values of damping + friction were added, to avoid bac joint behaviour in GzFortress. -->
+      <dynamics damping="10.0" friction="1.0"/> <!-- High values of damping + friction were added to avoid bad joint behaviour in Gz Harmonic. -->
     </joint>
     <joint name="${prefix}joint_5" type="revolute">
       <origin rpy="0 0 0" xyz="0 0 0"/>

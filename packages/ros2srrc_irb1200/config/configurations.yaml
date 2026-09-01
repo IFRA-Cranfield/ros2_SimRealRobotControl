@@ -1,4 +1,4 @@
-# ROS 2 Sim-to-Real Robot Control: ABB IRB-120 Robot.
+# ROS 2 Sim-to-Real Robot Control: ABB IRB-1200 Robot.
 Configurations:
 
   - ID: "irb1200_1"

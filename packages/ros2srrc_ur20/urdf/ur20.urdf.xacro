@@ -56,7 +56,7 @@
   <xacro:arg name="output_recipe_filename" default="none"/>
   <xacro:property name="output_recipe_filename" value="$(arg output_recipe_filename)"/>
 
-  <!-- Include XACRO-MACRO file of the ur20: -->
+  <!-- Include XACRO-MACRO file of the UR20: -->
   <xacro:include filename="$(find ros2srrc_robots)/ur20/urdf/ur20_macro.urdf.xacro"/>	
   <xacro:ur20 
     bringup="${bringup}"
@@ -75,7 +75,7 @@
     <gazebo>
       <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
 
-        <!-- ur20 Controller -->
+        <!-- UR20 Controller -->
         <parameters>$(find ros2srrc_robots)/ur20/config/controller.yaml</parameters>
 
       </plugin>

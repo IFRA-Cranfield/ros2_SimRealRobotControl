@@ -124,7 +124,7 @@ class GzEntitySpawner(Node):
 
 def main():
 
-    parser = argparse.ArgumentParser(description='Spawn an SDF model into a Gazebo (Gz Fortress) world.')
+    parser = argparse.ArgumentParser(description='Spawn an SDF model into a Gazebo (Gz Harmonic) world.')
 
     parser.add_argument('--package', type=str, required=True, help='Package where the SDF file is installed.')
     parser.add_argument('--sdf', type=str, default='box.sdf', help='SDF filename (relative to the package share/sdf or absolute path).')

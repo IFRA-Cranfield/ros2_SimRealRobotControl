@@ -90,7 +90,7 @@
       output_recipe_filename="${output_recipe_filename}"
       prefix="${prefix}" />
 
-    <!-- ***** ur20 ROBOT .urdf SERIAL CHAIN ***** -->
+    <!-- ***** UR20 ROBOT .urdf SERIAL CHAIN ***** -->
 
     <!-- Links: -->
     <link name="${prefix}base_link"/>

@@ -1,4 +1,4 @@
-# IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
+# IFRA-Cranfield: ROS 2 Sim-to-Real Robot Control
 
 ## Program Execution: Instructions
 
@@ -199,7 +199,7 @@ _End-Effector in Gazebo Simulator:_
       Value: 0.0
       Delay: 0.0
     ```
-- Vacuum Gripper (not implemented in Gz Fortress yet): These templates manage the vacuum gripper in a Gazebo simulation. The ACTIVATE action turns on the vacuum, allowing the gripper to attach to an object, while the DEACTIVATE action releases it.
+- Vacuum Gripper (not implemented in Gz Harmonic yet): These templates manage the vacuum gripper in a Gazebo simulation. The ACTIVATE action turns on the vacuum, allowing the gripper to attach to an object, while the DEACTIVATE action releases it.
 
     ```sh
     - Step: 0
@@ -251,4 +251,4 @@ _End-Effector in Real Robot (UR):_
       Type: "RobotiqHandE/UR"
       Action: "OPEN"
       Delay: 0.0
-    ``` 
+    ```

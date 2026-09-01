@@ -1,18 +1,18 @@
-# IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
+# IFRA-Cranfield: ROS 2 Sim-to-Real Robot Control
 
 ## Robot Operation: Instructions
 
-This document provides detailed instructions for operating a robot in the ROS2 Sim-to-Real Robot Control framework. It also provides information about the usage of additional features and tools for both Gazebo Simulation and Real Robot Control.
+This document provides detailed instructions for operating a robot in the ROS 2 Sim-to-Real Robot Control framework. It also provides information about the usage of additional features and tools for both Gazebo Simulation and Real Robot Control.
 
 ### ROBOT MOVEMENT
 
-Robot movements in the ROS2 Sim-to-Real Robot Control framework are controlled via specific ROS2 Actions. The two main ROS2 actions for movement are __/Move__ and __/RobMove__.
+Robot movements in the ROS 2 Sim-to-Real Robot Control framework are controlled via specific ROS 2 Actions. The two main ROS 2 actions for movement are __/Move__ and __/RobMove__.
 
 __/Move ROS 2 Action__
 
 The /Move action allows you to execute various robot motion commands based on specific movement types and parameters such as speed, joint positions, Cartesian paths, and rotations.
 
-Robot Movements are executed from a single ROS 2 Node in ros2_SimRealRobotControl. A Robot Motion request consists of a simple ROS2 Action (/Move) call, where the following parameters must be specified:
+Robot Movements are executed from a single ROS 2 Node in ros2_SimRealRobotControl. A Robot Motion request consists of a simple ROS 2 Action (/Move) call, where the following parameters must be specified:
 - The ACTION that is going to be executed.
 - The speed at which the robot will execute the action.
 - The value of the action to be executed.
@@ -45,7 +45,7 @@ Actions can be executed by running the following commands in the Ubuntu Terminal
   ```sh
   ros2 action send_goal -f /Move ros2srrc_data/action/Move "{action: 'MoveG', moveg: 0.0, speed: 1.0}"
   ```
-* NOTE: The Robot JOINT SPEED is controlled by the "speed" parameter when executing the specific ROS2.0 action. The value must be (0,1]. being 1 the maximum velocity and 0 the null velocity (which is not valid -> A small value must be defined, e.g.: 0.01 represents a very slow movement).
+* NOTE: The Robot JOINT SPEED is controlled by the "speed" parameter when executing the specific ROS 2 action. The value must be (0,1]. being 1 the maximum velocity and 0 the null velocity (which is not valid -> A small value must be defined, e.g.: 0.01 represents a very slow movement).
 
 __/RobMove ROS 2 Action__
 

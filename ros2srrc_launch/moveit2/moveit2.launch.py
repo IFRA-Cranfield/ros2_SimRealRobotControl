@@ -29,7 +29,7 @@
 # IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
 
 # moveit2.launch.py:
-# Launch file for the Robot's GAZEBO SIMULATION + MoveIt!2 Framework in ROS2 Humble:
+# Launch file for the Robot's GAZEBO SIMULATION + MoveIt!2 Framework in ROS 2 Jazzy:
 
 # Import libraries:
 import os, sys, xacro, yaml

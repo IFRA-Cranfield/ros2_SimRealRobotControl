@@ -1,4 +1,4 @@
-# IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
+# IFRA-Cranfield: ROS 2 Sim-to-Real Robot Control
 
 ## ROS 2 Environment Launch: Instructions
 
@@ -22,7 +22,7 @@ ros2 launch ros2srrc_launch moveit2.launch.py package:=<PACKAGE_NAME> config:=<C
 
 __Real Robot Bringup + MoveIt!2 Framework (bringup.launch.py)__
 
-This launches the ROS 2 driver for controlling a physical robot using the MoveIt!2 framework, along with the ROS 2tools (/Move, /RobMove, /RobPose). The IP address of the robot is required to connect to it. The specific launch file varies depending on the type of robot (e.g., ABB or UR).
+This launches the ROS 2 driver for controlling a physical robot using the MoveIt!2 framework, along with the ROS 2 tools (/Move, /RobMove, /RobPose). The IP address of the robot is required to connect to it. The specific launch file varies depending on the type of robot (e.g., ABB or UR).
 
 ```sh
 ros2 launch ros2srrc_launch bringup.launch.py package:=<PACKAGE_NAME> config:=<CONFIG_NAME> robot_ip:=<ROBOT_IP>
@@ -35,7 +35,7 @@ ros2 launch ros2srrc_launch bringup.launch.py package:=<PACKAGE_NAME> config:=<C
 ros2 launch ros2srrc_launch simulation.launch.py package:=ros2srrc_irb120 config:=irb120_1
 
 # ABB IRB-1200 Robot w/Schunk EGP-64 Parallel Gripper (moveit2):
-ros2 launch ros2srrc_launch moveit2.launch.py package:=ros2srrc_irb1200 config:=irb120_2
+ros2 launch ros2srrc_launch moveit2.launch.py package:=ros2srrc_irb1200 config:=irb1200_2
 
 # UR3 Robot w/Robotiq Hand-E Gripper (bringup):
 ros2 launch ros2srrc_launch bringup.launch.py package:=ros2srrc_ur3 config:=ur3_3 robot_ip:=0.0.0.0

@@ -1,10 +1,10 @@
-# IFRA-Cranfield: ROS2 Sim-to-Real Robot Control
+# IFRA-Cranfield: ROS 2 Sim-to-Real Robot Control
 
 ## Installation Steps
 
 The steps below must be followed in order to properly set-up a ROS 2 Jazzy machine which is needed for the usage of the ROS 2 Packages in the _ROS 2 Sim-to-Real Robot Control_ repository. It is recommended to install Ubuntu 24.04 Desktop on your PC for an optimal performance, but a VM could be used for simple simulations and executions.
 
-__PC Set-Up for Robot Simulation and Control in ROS2__
+__PC Set-Up for Robot Simulation and Control in ROS 2__
 
 1. Install Ubuntu 24.04: https://ubuntu.com/desktop
 
@@ -22,42 +22,42 @@ __PC Set-Up for Robot Simulation and Control in ROS2__
     git config --global credential.helper store
     ```
 
-3. Install ROS2 Jazzy:
-    - Follow instructions in: [ROS2 Jazzy Tutorials - Installation](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html).
-    - Source the ROS2.0 Jazzy installation in the .bashrc file (hidden file in /home):
+3. Install ROS 2 Jazzy:
+    - Follow instructions in: [ROS 2 Jazzy Tutorials - Installation](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html).
+    - Source the ROS 2 Jazzy installation in the .bashrc file (hidden file in /home):
         ```sh
         source /opt/ros/jazzy/setup.bash
         ```
 
-4. Install MoveIt!2 for ROS2 Jazzy ([REF: MoveIt!2 Website](https://moveit.ai/install-moveit2/binary/)):
+4. Install MoveIt!2 for ROS 2 Jazzy ([REF: MoveIt!2 Website](https://moveit.ai/install-moveit2/binary/)):
 
     ```sh
     # Command for BINARY INSTALL (recommended):
     sudo apt install ros-jazzy-moveit
     ```
 
-5. Modify the move_group_interface.h script: A small improvement of the move_group_interface.h file has been developed in order to execute the Robot/Gripper triggers in this repository. Both the upgraded file and the instructions of how to implement it can be found here: [move_group_interface_improved.h](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/humble-gzfortress/include)
+5. Modify the move_group_interface.h script: A small improvement of the move_group_interface.h file has been developed in order to execute the Robot/Gripper triggers in this repository. Both the upgraded file and the instructions of how to implement it can be found here: [move_group_interface_improved.h](https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl/tree/jazzy/include)
 
-6. Create and configure the ROS2.0 Jazzy ~/dev_ws environment/workspace:
-    - Follow instructions in: [ROS2 Jazzy Tutorials - Create a ROS2 Workspace](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html).
+6. Create and configure the ROS 2 Jazzy ~/dev_ws environment/workspace:
+    - Follow instructions in: [ROS 2 Jazzy Tutorials - Create a ROS2 Workspace](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html).
     - Source the ~/dev_ws workspace in .bashrc file:
         ```sh
         source ~/dev_ws/install/local_setup.bash
         ```
 
-7. Install ROS2 packages, which are required for ROS2-based Robot Simulation and Control:
+7. Install ROS 2 packages, which are required for ROS 2-based Robot Simulation and Control:
 
     ```sh
     # Install ROS 2 Development Tools:
     sudo apt install ros-dev-tools
     sudo apt install ros-jazzy-xacro
 
-    # ROS2 Control + ROS2 Controllers:
+    # ROS 2 Control + ROS 2 Controllers:
     sudo apt install ros-jazzy-ros2-control
     sudo apt install ros-jazzy-ros2-controllers
     sudo apt install ros-jazzy-gripper-controllers
 
-    # Gz Harmonic for ROS2 Jazzy:
+    # Gz Harmonic for ROS 2 Jazzy:
     sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] https://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
     sudo apt-get update
@@ -75,7 +75,7 @@ __PC Set-Up for Robot Simulation and Control in ROS2__
 
 __Download and install the required ROS 2 Packages for the Simulation and Control of Robot Arms__
 
-1. __ABB DRIVER for ROS2__: The installation of the [abb_ros2](https://github.com/PickNikRobotics/abb_ros2) driver is required for the control of any real ABB robot using ROS 2.
+1. __ABB DRIVER for ROS 2__: The installation of the [abb_ros2](https://github.com/PickNikRobotics/abb_ros2) driver is required for the control of any real ABB robot using ROS 2.
 
     ```sh
     mkdir -p ~/dev_ws/src/ABBDriver
@@ -89,13 +89,13 @@ __Download and install the required ROS 2 Packages for the Simulation and Contro
     colcon build
     ```
 
-2. __Universal Robots ROS2 Driver__: The installation of the [ur-robot-driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver) is required for the control of any real UR robot using ROS 2. Binary install, for ROS2 Jazzy:
+2. __Universal Robots ROS 2 Driver__: The installation of the [ur-robot-driver](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver) is required for the control of any real UR robot using ROS 2. Binary install, for ROS 2 Jazzy:
 
     ```sh
     sudo apt-get install ros-jazzy-ur
     ```
 
-3. Import and install the following ROS2 Packages developed by IFRA-Cranfield:
+3. Import and install the following ROS 2 Packages developed by IFRA-Cranfield:
 
     ```sh
     # IFRA-Cranfield/IFRA_ObjectPose:
@@ -103,7 +103,7 @@ __Download and install the required ROS 2 Packages for the Simulation and Contro
     git clone -b jazzy https://github.com/IFRA-Cranfield/IFRA_ObjectPose.git
 
     # IFRA-Cranfield/ros2_RobotiqGripper:
-    git clone https://github.com/IFRA-Cranfield/ros2_RobotiqGripper.git
+    git clone -b jazzy https://github.com/IFRA-Cranfield/ros2_RobotiqGripper.git
     
     # Build the workspace:
     cd ~/dev_ws
@@ -114,7 +114,7 @@ __Download and install ros2_SimRealRobotControl__
 
 ```sh
 cd ~/dev_ws/src
-git clone -b humble-gzfortress https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl 
+git clone -b jazzy https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl
 cd ~/dev_ws
 colcon build
-```   
+```

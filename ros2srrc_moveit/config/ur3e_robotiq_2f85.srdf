@@ -32,7 +32,7 @@
 
 -->
 
-<robot name="name" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="$(arg name)" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- Input parameter: NAME -->
   <xacro:arg name="name" default="ur3e" />
