@@ -346,9 +346,21 @@ def generate_launch_description():
     pilz_planning_pipeline_config = {
         "pilz_industrial_motion_planner": {
             "planning_plugins": ["pilz_industrial_motion_planner/CommandPlanner"],
+            
             "default_planner_config": "PTP",
             "start_state_max_bounds_error": 0.1,
-            # "request_adapters": [],  # optional
+            
+            "request_adapters": [
+            "default_planning_request_adapters/ResolveConstraintFrames",
+            "default_planning_request_adapters/ValidateWorkspaceBounds",
+            "default_planning_request_adapters/CheckStartStateBounds",
+            "default_planning_request_adapters/CheckStartStateCollision",
+            ], 
+
+            "response_adapters": [
+            "default_planning_response_adapters/ValidateSolution",
+            "default_planning_response_adapters/DisplayMotionPath",
+            ], 
         }
     }
 
