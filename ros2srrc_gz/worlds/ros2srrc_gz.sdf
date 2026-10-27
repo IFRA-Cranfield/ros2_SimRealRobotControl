@@ -45,6 +45,9 @@
       name="gz::sim::systems::SceneBroadcaster">
     </plugin>
 
+    <!-- Link Attacher Plugin -->
+    <plugin filename="gz_link_attacher_plugin" name="gz::sim::systems::GzLinkAttacher"/>
+
     <!-- Physics -->
     <physics type="ignored">
       <max_step_size>0.004</max_step_size>
