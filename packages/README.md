@@ -121,6 +121,7 @@ Configurations:
 - ur3_1: UR3 on top of Robot Stand.
 - ur3_2: UR3 + Robotiq 2f-85 gripper on top of Robot Stand.
 - ur3_3: UR3 + Robotiq HandE gripper on top of Robot Stand.
+- ur3_4: UR3 + Robotiq E-Pick vacuum gripper on top of Robot Stand.
 
 __Universal Robots UR3e__
 

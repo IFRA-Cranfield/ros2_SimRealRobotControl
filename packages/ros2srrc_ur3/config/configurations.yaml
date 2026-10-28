@@ -18,3 +18,9 @@ Configurations:
     urdf: "ur3_robotiq_hande.urdf.xacro"
     rob: "ur3"
     ee: "robotiq_hande"
+
+  - ID: "ur3_4"
+    Name: "UR3 + Robotiq E-Pick vacuum gripper on top of Robot Stand."
+    urdf: "ur3_robotiq_epick.urdf.xacro"
+    rob: "ur3"
+    ee: "robotiq_epick"

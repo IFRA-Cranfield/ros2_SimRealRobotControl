@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Dr. Seemal Asif  - s.asif@cranfield.ac.uk                                   #
+#           Prof. Phil Webb  - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: October, 2026.                                                                 #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA-Cranfield (2023) ROS 2 Sim-to-Real Robot Control. URL: https://github.com/IFRA-Cranfield/ros2_SimRealRobotControl.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- XACRO-MACRO of Robotiq E-Pick: -->
+  <xacro:macro name="robotiq_epick" params="bringup parent_link prefix">
+
+    <xacro:unless value="${bringup}">  
+      
+      <!-- Robotiq E-Pick TRANSMISSION: -->
+      <xacro:include filename="$(find ros2srrc_endeffectors)/robotiq_epick/urdf/robotiq_epick_transmission.xacro" />
+      <xacro:robotiq_epick_transmission prefix="${prefix}" />
+
+    </xacro:unless>
+
+    <!-- ***** Robotiq E-Pick GRIPPER .urdf SERIAL CHAIN ***** -->
+    
+    <!-- Robotiq: coupler -->
+    <link name="${prefix}robotiq_coupler">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_epick/meshes/robotiq_coupler.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_epick/meshes/robotiq_coupler.dae" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="2.073e-05   1.45286e-03  -1.1049e-03" rpy="0 0 0" />
+        <mass value="0.25" />
+        <inertia ixx="6.69695624e-05" ixy="5.21511788e-09" ixz="-2.74383009e-08" 
+                iyy="7.85088161e-05" iyz="5.41105193e-07" izz="1.41819717e-04"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_coupler_joint" type="fixed">
+      <origin xyz="0 0 -0.008" rpy="0 0 0" />
+      <parent link="${parent_link}"/>
+      <child link="${prefix}robotiq_coupler"/>
+    </joint>
+
+    <!-- Robotiq: base_link -->
+    <link name="${prefix}robotiq_epick_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_epick/meshes/robotiq_epick.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find ros2srrc_endeffectors)/robotiq_epick/meshes/robotiq_epick.dae"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.86387" />
+        <origin xyz="0.0 0.0 0.0" />
+        <inertia ixx="1017560E-9" ixy="0" ixz="2235E-9" iyy="1028041E-9" iyz="0" izz="489810E-9"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_epick_joint" type="fixed">
+      <origin xyz="0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+      <parent link="${prefix}robotiq_coupler"/>
+      <child link="${prefix}robotiq_epick_link"/>
+    </joint>
+
+    <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
+
+    <link name="${prefix}EE_robotiq_epick">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.00001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <box size= "0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="${prefix}EE_robotiq_epick_joint" type="fixed" >
+      <parent link="${prefix}robotiq_epick_link" />
+      <child link="${prefix}EE_robotiq_epick" />
+      <origin xyz="0.0 0.0 0.13" rpy="0 0 0"/>
+    </joint>
+
+    <gazebo reference="${prefix}EE_robotiq_epick_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+    
+  </xacro:macro>
+</robot>

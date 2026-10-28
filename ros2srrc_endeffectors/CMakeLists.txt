@@ -45,6 +45,7 @@ install(
     
     robotiq_2f85
     robotiq_hande
+    robotiq_epick
 
     ar4gripper
     

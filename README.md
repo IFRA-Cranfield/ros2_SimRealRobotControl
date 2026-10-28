@@ -169,6 +169,7 @@ The following end-effectors are supported in ros2srrc:
 - Robotiq HandE Parallel Gripper.
 - Robotiq 2f-85 Parallel Gripper.
 - Robotiq 2f-140 Parallel Gripper.
+- Robotiq E-Pick Vacuum Gripper.
 - Custom Vacuum Gripper (Cranfield University).
 - Custom Vacuum Gripper (AMRC-Sheffield).
 - Annin Robotics AR4 Parallel Gripper.
